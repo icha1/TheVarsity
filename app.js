@@ -11,12 +11,12 @@ var routes = require('./routes/index')
 var api = require('./routes/api')
 var scrape = require('./routes/scrape')
 
-mongoose.connect(process.env.DB_URL, function(err, res){
+mongoose.connect(process.env.MONGODB_URI, function(err, res){
   if (err){
     console.log('DB CONNECTION ERROR: '+err)
   }
   else {
-    console.log('DB CONNECTION SUCCESS: '+process.env.DB_URL)
+    console.log('DB CONNECTION SUCCESS: '+process.env.MONGODB_URI)
   }
 })
 
