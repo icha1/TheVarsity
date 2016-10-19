@@ -27863,6 +27863,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _styles = __webpack_require__(329);
+	
+	var _styles2 = _interopRequireDefault(_styles);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27886,7 +27890,7 @@
 				var post = this.props.post;
 				return _react2.default.createElement(
 					'div',
-					{ className: 'comment-wrap clearfix', style: { background: '#fff' } },
+					{ className: _styles2.default.post.container.className, style: _styles2.default.post.container },
 					_react2.default.createElement(
 						'div',
 						{ className: 'comment-meta' },
@@ -27902,13 +27906,13 @@
 					),
 					_react2.default.createElement(
 						'div',
-						{ className: 'comment-content clearfix', style: { textAlign: 'left' } },
+						{ className: _styles2.default.post.content.className, style: _styles2.default.post.content },
 						_react2.default.createElement(
 							'h2',
-							{ style: { marginBottom: 0 } },
+							{ style: _styles2.default.post.header },
 							_react2.default.createElement(
 								'a',
-								{ href: '#', style: { color: '#333', fontFamily: 'Pathway Gothic One' } },
+								{ href: '#', style: _styles2.default.post.title },
 								post.title
 							)
 						),
@@ -27927,17 +27931,17 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'col-md-4' },
-								_react2.default.createElement('img', { style: { width: 180, marginTop: 12 }, src: post.image })
+								_react2.default.createElement('img', { style: _styles2.default.postImage, src: post.image })
 							)
 						)
 					),
 					_react2.default.createElement('hr', null),
 					_react2.default.createElement(
 						'h4',
-						{ style: { marginBottom: 0 } },
+						{ style: _styles2.default.post.header },
 						_react2.default.createElement(
 							'a',
-							{ href: '#', style: { color: '#333', fontFamily: 'Pathway Gothic One' } },
+							{ href: '#', style: _styles2.default.post.title },
 							post.title
 						)
 					),
@@ -35655,6 +35659,60 @@
 	};
 	
 	// }
+
+/***/ },
+/* 329 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.default = {
+	
+		post: {
+			container: {
+				background: '#fff',
+				className: 'comment-wrap clearfix'
+			},
+			content: {
+				textAlign: 'left',
+				className: 'comment-content clearfix'
+			},
+			header: {
+				marginBottom: 0
+			},
+			title: {
+				color: '#333',
+				fontFamily: 'Pathway Gothic One'
+			},
+			postImage: {
+				width: 180,
+				marginTop: 12
+			}
+	
+		},
+		loader: {
+			lines: 13,
+			length: 20,
+			width: 10,
+			radius: 30,
+			corners: 1,
+			rotate: 0,
+			direction: 1,
+			color: '#fff',
+			speed: 1,
+			trail: 60,
+			shadow: false,
+			hwaccel: false,
+			zIndex: 2e9,
+			top: '50%',
+			left: '50%',
+			scale: 1.00
+		}
+	
+	};
 
 /***/ }
 /******/ ]);

@@ -13,6 +13,8 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
+var styles = _interopRequire(require("./styles"));
+
 var Post = (function (Component) {
 	function Post() {
 		_classCallCheck(this, Post);
@@ -30,7 +32,7 @@ var Post = (function (Component) {
 				var post = this.props.post;
 				return React.createElement(
 					"div",
-					{ className: "comment-wrap clearfix", style: { background: "#fff" } },
+					{ className: styles.post.container.className, style: styles.post.container },
 					React.createElement(
 						"div",
 						{ className: "comment-meta" },
@@ -46,13 +48,13 @@ var Post = (function (Component) {
 					),
 					React.createElement(
 						"div",
-						{ className: "comment-content clearfix", style: { textAlign: "left" } },
+						{ className: styles.post.content.className, style: styles.post.content },
 						React.createElement(
 							"h2",
-							{ style: { marginBottom: 0 } },
+							{ style: styles.post.header },
 							React.createElement(
 								"a",
-								{ href: "#", style: { color: "#333", fontFamily: "Pathway Gothic One" } },
+								{ href: "#", style: styles.post.title },
 								post.title
 							)
 						),
@@ -71,17 +73,17 @@ var Post = (function (Component) {
 							React.createElement(
 								"div",
 								{ className: "col-md-4" },
-								React.createElement("img", { style: { width: 180, marginTop: 12 }, src: post.image })
+								React.createElement("img", { style: styles.postImage, src: post.image })
 							)
 						)
 					),
 					React.createElement("hr", null),
 					React.createElement(
 						"h4",
-						{ style: { marginBottom: 0 } },
+						{ style: styles.post.header },
 						React.createElement(
 							"a",
-							{ href: "#", style: { color: "#333", fontFamily: "Pathway Gothic One" } },
+							{ href: "#", style: styles.post.title },
 							post.title
 						)
 					),
