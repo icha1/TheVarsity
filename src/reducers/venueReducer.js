@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 
 		case constants.VENUES_RECEIVED:
-			console.log('VENUES_RECEIVED')
+//			console.log('VENUES_RECEIVED')
 			return update(state, action.venues)
 
 		default:

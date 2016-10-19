@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps' // https://github.com/tomchentw/react-google-maps
-
+import { GoogleMapLoader, GoogleMap, Marker, Circle } from 'react-google-maps' // https://github.com/tomchentw/react-google-maps
+import { browserHistory } from 'react-router'
 
 class Map extends Component {
 	constructor(props, context){
@@ -17,6 +17,8 @@ class Map extends Component {
 	}
 
 	handleMarkerClick(marker){
+		console.log('MarkerClick: '+JSON.stringify(marker))
+		browserHistory.push('/venue/'+marker.slug)
 
 	}
 

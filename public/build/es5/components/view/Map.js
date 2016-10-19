@@ -22,9 +22,9 @@ var _reactGoogleMaps = require("react-google-maps");
 var GoogleMapLoader = _reactGoogleMaps.GoogleMapLoader;
 var GoogleMap = _reactGoogleMaps.GoogleMap;
 var Marker = _reactGoogleMaps.Marker;
+var Circle = _reactGoogleMaps.Circle;
 // https://github.com/tomchentw/react-google-maps
-
-
+var browserHistory = require("react-router").browserHistory;
 var Map = (function (Component) {
 	function Map(props, context) {
 		_classCallCheck(this, Map);
@@ -47,7 +47,10 @@ var Map = (function (Component) {
 			configurable: true
 		},
 		handleMarkerClick: {
-			value: function handleMarkerClick(marker) {},
+			value: function handleMarkerClick(marker) {
+				console.log("MarkerClick: " + JSON.stringify(marker));
+				browserHistory.push("/venue/" + marker.slug);
+			},
 			writable: true,
 			configurable: true
 		},

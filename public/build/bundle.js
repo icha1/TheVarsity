@@ -23315,7 +23315,7 @@
 		switch (action.type) {
 	
 			case _constants2.default.VENUES_RECEIVED:
-				console.log('VENUES_RECEIVED');
+				//			console.log('VENUES_RECEIVED')
 				return update(state, action.venues);
 	
 			default:
@@ -23430,15 +23430,15 @@
 	
 	var _reactGoogleMaps = __webpack_require__(206);
 	
+	var _reactRouter = __webpack_require__(270);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	// https://github.com/tomchentw/react-google-maps
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // https://github.com/tomchentw/react-google-maps
 	
 	
 	var Map = function (_Component) {
@@ -23463,7 +23463,10 @@
 			}
 		}, {
 			key: 'handleMarkerClick',
-			value: function handleMarkerClick(marker) {}
+			value: function handleMarkerClick(marker) {
+				console.log('MarkerClick: ' + JSON.stringify(marker));
+				_reactRouter.browserHistory.push('/venue/' + marker.slug);
+			}
 		}, {
 			key: 'render',
 			value: function render() {
