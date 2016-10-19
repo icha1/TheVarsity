@@ -44,6 +44,7 @@ router.get('/', function(req, res, next){
 		postInfo['venue'] = {
 			id: venue.id,
 			name: venue.name,
+			slug: venue.slug,
 			image: venue.image,
 			address: venue.address.street
 		}
