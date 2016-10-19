@@ -3,25 +3,41 @@ import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps' // https:
 
 
 class Map extends Component {
+	constructor(props, context){
+		super(props, context)
+		this.state = {
+			map: null
+		}
+	}
+
+	mapDragged(){
+		var latLng = this.state.map.getCenter().toJSON()
+		if (this.props.mapMoved != null)
+			this.props.mapMoved(latLng)
+	}
 
 	render(){
 		const mapContainer = <div style={{height: '100%', width:'100%'}}></div>
-		const ctr = {
-			lat: 40.7359745,
-			lng: -73.9879513
-		}
 
 		return (
 		    <GoogleMapLoader
 		        containerElement = { mapContainer }
 		        googleMapElement = {
 			        <GoogleMap
-			            defaultZoom={16}
-			            defaultCenter={ctr}
+			            ref={ (map) => {
+				            	if (this.state.map != null)
+				            		return
+				            	
+			            		this.setState({map: map})
+			             	} 
+			         	}
+
+			            onDragend={this.mapDragged.bind(this)}
+			            defaultZoom={this.props.zoom}
+			            defaultCenter={this.props.center}
 			            options={{streetViewControl: false, mapTypeControl: false}}>
 			        </GoogleMap>
 		    	} />
-
 		)
 	}
 }

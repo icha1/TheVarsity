@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Posts } from '../containers'
-import { Map } from '../view'
+import { Posts, Venues } from '../containers'
 import styles from './styles'
 
 class Home extends Component {
@@ -11,7 +10,7 @@ class Home extends Component {
 
 				<header id="header" className="no-sticky">
 		            <div id="header-wrap">
-						<Map />
+						<Venues />
 		            </div>
 				</header>
 

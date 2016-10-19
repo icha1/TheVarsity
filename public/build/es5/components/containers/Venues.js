@@ -13,52 +13,53 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
-var _containers = require("../containers");
+var APIManager = require("../../utils").APIManager;
+var store = _interopRequire(require("../../stores/store"));
 
-var Posts = _containers.Posts;
-var Venues = _containers.Venues;
-var styles = _interopRequire(require("./styles"));
+var actions = _interopRequire(require("../../actions/actions"));
 
-var Home = (function (Component) {
-	function Home() {
-		_classCallCheck(this, Home);
+var connect = require("react-redux").connect;
+var Map = require("../view").Map;
+var Venues = (function (Component) {
+	function Venues() {
+		_classCallCheck(this, Venues);
 
 		if (Component != null) {
 			Component.apply(this, arguments);
 		}
 	}
 
-	_inherits(Home, Component);
+	_inherits(Venues, Component);
 
-	_prototypeProperties(Home, null, {
+	_prototypeProperties(Venues, null, {
+		componentDidMount: {
+			value: function componentDidMount() {},
+			writable: true,
+			configurable: true
+		},
+		locationChanged: {
+			value: function locationChanged(location) {
+				console.log("locationChanged");
+			},
+			writable: true,
+			configurable: true
+		},
 		render: {
 			value: function render() {
-				var style = styles.home;
-				return React.createElement(
-					"div",
-					{ className: "clearfix" },
-					React.createElement(
-						"header",
-						{ id: "header", className: "no-sticky" },
-						React.createElement(
-							"div",
-							{ id: "header-wrap" },
-							React.createElement(Venues, null)
-						)
-					),
-					React.createElement(
-						"section",
-						{ id: "content", style: style.content },
-						React.createElement(Posts, null)
-					)
-				);
+				return React.createElement(Map, { center: this.props.location, zoom: 16, mapMoved: this.locationChanged.bind(this) });
 			},
 			writable: true,
 			configurable: true
 		}
 	});
 
-	return Home;
+	return Venues;
 })(Component);
 
-module.exports = Home;
+var stateToProps = function (state) {
+	return {
+		location: state.locationReducer.currentLocation
+	};
+};
+
+module.exports = connect(stateToProps)(Venues);

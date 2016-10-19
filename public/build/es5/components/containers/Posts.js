@@ -35,7 +35,7 @@ var Posts = (function (Component) {
 	_prototypeProperties(Posts, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				APIManager.handleGet("/api/post", {}, function (err, response) {
+				APIManager.handleGet("/api/post", this.props.currentLocation, function (err, response) {
 					if (err) {
 						alert(err);
 						return;
@@ -57,9 +57,6 @@ var Posts = (function (Component) {
 						React.createElement(Post, { post: post })
 					);
 				});
-
-
-
 
 				return React.createElement(
 					"div",
@@ -85,7 +82,8 @@ var Posts = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		posts: state.postReducer.postsArray
+		posts: state.postReducer.postsArray,
+		location: state.locationReducer.currentLocation
 	};
 };
 

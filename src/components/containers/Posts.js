@@ -14,7 +14,7 @@ class Posts extends Component {
 	}
 
 	componentDidMount(){
-		APIManager.handleGet('/api/post', {}, (err, response) => {
+		APIManager.handleGet('/api/post', this.props.currentLocation, (err, response) => {
 			if (err){
 				alert(err)
 				return
@@ -34,9 +34,6 @@ class Posts extends Component {
 			)
 		})
 
-
-
-
 		return (
 			<div className="content-wrap container clearfix">
 
@@ -54,7 +51,8 @@ class Posts extends Component {
 
 const stateToProps = (state) => {
 	return {
-		posts: state.postReducer.postsArray
+		posts: state.postReducer.postsArray,
+		location: state.locationReducer.currentLocation
 	}
 }
 
