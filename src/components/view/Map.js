@@ -16,6 +16,10 @@ class Map extends Component {
 			this.props.mapMoved(latLng)
 	}
 
+	handleMarkerClick(marker){
+
+	}
+
 	render(){
 		var markers = null
 		if (this.props.markers != null){
@@ -28,7 +32,14 @@ class Map extends Component {
 				}
 				
 		        return (
-		            <Marker key={i} onClick={this.handleMarkerClick.bind(this, marker)} clickable={true} icon={marker.icon} label={marker.title} title={marker.key} {...marker} />
+		            <Marker 
+		            	key={i} 
+		            	clickable={true} 
+		            	icon={marker.icon} 
+		            	label={marker.title} 
+		            	title={marker.key} 
+		            	onClick={this.handleMarkerClick.bind(this, marker)} 
+		            	{...marker} />
 		        )
 			})
 		}

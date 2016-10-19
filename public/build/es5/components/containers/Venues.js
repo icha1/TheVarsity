@@ -57,7 +57,8 @@ var Venues = (function (Component) {
 						return;
 					}
 
-					console.log("Venues: " + JSON.stringify(response.results));
+					//			console.log('Venues: '+JSON.stringify(response.results))
+					store.currentStore().dispatch(actions.venuesReceived(response.results));
 				});
 			},
 			writable: true,
@@ -65,7 +66,11 @@ var Venues = (function (Component) {
 		},
 		render: {
 			value: function render() {
-				return React.createElement(Map, { center: this.props.location, zoom: 16, mapMoved: this.locationChanged.bind(this) });
+				return React.createElement(Map, {
+					center: this.props.location,
+					zoom: 16,
+					markers: this.props.venues,
+					mapMoved: this.locationChanged.bind(this) });
 			},
 			writable: true,
 			configurable: true
@@ -77,7 +82,8 @@ var Venues = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		location: state.locationReducer.currentLocation
+		location: state.locationReducer.currentLocation,
+		venues: state.venueReducer.venuesArray
 	};
 };
 

@@ -46,6 +46,11 @@ var Map = (function (Component) {
 			writable: true,
 			configurable: true
 		},
+		handleMarkerClick: {
+			value: function handleMarkerClick(marker) {},
+			writable: true,
+			configurable: true
+		},
 		render: {
 			value: function render() {
 				var _this = this;
@@ -59,7 +64,14 @@ var Map = (function (Component) {
 							lng: marker.geo[1]
 						};
 
-						return React.createElement(Marker, _extends({ key: i, onClick: _this.handleMarkerClick.bind(_this, marker), clickable: true, icon: marker.icon, label: marker.title, title: marker.key }, marker));
+						return React.createElement(Marker, _extends({
+							key: i,
+							clickable: true,
+							icon: marker.icon,
+							label: marker.title,
+							title: marker.key,
+							onClick: _this.handleMarkerClick.bind(_this, marker)
+						}, marker));
 					});
 				}
 

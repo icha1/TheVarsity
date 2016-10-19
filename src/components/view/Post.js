@@ -16,7 +16,14 @@ class Post extends Component {
 					<h2 style={{marginBottom:0}}>
 						<a href='#' style={{color:'#333', fontFamily:'Pathway Gothic One'}}>{ post.title }</a>
 					</h2>
-					<p style={{marginTop:0}}>{ post.text }</p>
+					<div className="row">
+						<div className="col-md-8">
+							<p style={{marginTop:0}}>{ post.text }</p>
+						</div>
+						<div className="col-md-4">
+							<img style={{width:180, marginTop:12}} src={post.image} />
+						</div>
+					</div>
 				</div>
 				<div className="clear"></div>
 			</div>			

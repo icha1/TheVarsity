@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 
 		case constants.POSTS_RECEIVED:
-			console.log('POSTS_RECEIVED')
+//			console.log('POSTS_RECEIVED')
 			return update(state, action.posts)
 
 		default:

@@ -7,8 +7,14 @@ export default {
 			type: constants.POSTS_RECEIVED,
 			posts: posts
 		}
-	}
+	},
 
+	venuesReceived: (venues) => {
+		return {
+			type: constants.VENUES_RECEIVED,
+			venues: venues
+		}
+	}
 	
 
 }

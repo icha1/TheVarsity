@@ -11,8 +11,14 @@ module.exports = {
 			type: constants.POSTS_RECEIVED,
 			posts: posts
 		};
-	}
+	},
 
+	venuesReceived: function (venues) {
+		return {
+			type: constants.VENUES_RECEIVED,
+			venues: venues
+		};
+	}
 
 
 };

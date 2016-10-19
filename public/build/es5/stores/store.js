@@ -13,6 +13,7 @@ var _reducers = require("../reducers");
 
 var postReducer = _reducers.postReducer;
 var locationReducer = _reducers.locationReducer;
+var venueReducer = _reducers.venueReducer;
 
 
 var store;
@@ -22,6 +23,7 @@ module.exports = {
 	configureStore: function (initial) {
 		var reducers = combineReducers({
 			postReducer: postReducer,
+			venueReducer: venueReducer,
 			locationReducer: locationReducer
 		});
 

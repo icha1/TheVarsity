@@ -30,13 +30,18 @@ class Venues extends Component {
 				return
 			}
 
-			console.log('Venues: '+JSON.stringify(response.results))
+//			console.log('Venues: '+JSON.stringify(response.results))
+			store.currentStore().dispatch(actions.venuesReceived(response.results))
 		})
 	}
 
 	render(){
 		return (
-			<Map center={this.props.location} zoom={16} mapMoved={this.locationChanged.bind(this)} />
+			<Map 
+				center={this.props.location} 
+				zoom={16} 
+				markers={this.props.venues}
+				mapMoved={this.locationChanged.bind(this)} />
 
 		)
 	}
@@ -45,7 +50,8 @@ class Venues extends Component {
 
 const stateToProps = (state) => {
 	return {
-		location: state.locationReducer.currentLocation
+		location: state.locationReducer.currentLocation,
+		venues: state.venueReducer.venuesArray
 	}
 }
 
