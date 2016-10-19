@@ -23080,9 +23080,9 @@
 	
 		configureStore: function configureStore(initial) {
 			var reducers = (0, _redux.combineReducers)({
-				postReducer: _reducers.postReducer,
-				venueReducer: _reducers.venueReducer,
-				locationReducer: _reducers.locationReducer
+				post: _reducers.postReducer,
+				venue: _reducers.venueReducer,
+				location: _reducers.locationReducer
 			});
 	
 			store = (0, _redux.createStore)(reducers, initial, (0, _redux.applyMiddleware)(_reduxThunk2.default));
@@ -28294,8 +28294,8 @@
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			posts: state.postReducer.postsArray,
-			location: state.locationReducer.currentLocation
+			posts: state.post.postsArray,
+			location: state.location.currentLocation
 		};
 	};
 	
@@ -30201,7 +30201,7 @@
 		}, {
 			key: 'locationChanged',
 			value: function locationChanged(location) {
-				console.log('locationChanged: ' + JSON.stringify(location));
+				//		console.log('locationChanged: '+JSON.stringify(location))
 				this.fetchVenues(location);
 			}
 		}, {
@@ -30233,8 +30233,8 @@
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			location: state.locationReducer.currentLocation,
-			venues: state.venueReducer.venuesArray
+			location: state.location.currentLocation,
+			venues: state.venue.venuesArray
 		};
 	};
 	
@@ -35929,7 +35929,7 @@
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			venues: state.venueReducer.venues
+			venues: state.venue.venues
 		};
 	};
 	

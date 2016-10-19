@@ -43,7 +43,7 @@ var Venues = (function (Component) {
 		},
 		locationChanged: {
 			value: function locationChanged(location) {
-				console.log("locationChanged: " + JSON.stringify(location));
+				//		console.log('locationChanged: '+JSON.stringify(location))
 				this.fetchVenues(location);
 			},
 			writable: true,
@@ -82,8 +82,8 @@ var Venues = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		location: state.locationReducer.currentLocation,
-		venues: state.venueReducer.venuesArray
+		location: state.location.currentLocation,
+		venues: state.venue.venuesArray
 	};
 };
 

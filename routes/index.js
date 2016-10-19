@@ -8,6 +8,7 @@ var ReactDOMServer = require('react-dom/server')
 var ServerApp = require('../public/build/es5/serverapp')
 var store = require('../public/build/es5/stores/store')
 var Home = require('../public/build/es5/components/layout/Home')
+var Detail = require('../public/build/es5/components/layout/Detail')
 var controllers = require('../controllers')
 
 
@@ -32,7 +33,6 @@ router.get('/', function(req, res, next) {
 	var initialStore = null
 	var reducers = {}
 	var tags = {}
-
 
 	initialStore = store.configureStore(reducers)
 
@@ -66,8 +66,65 @@ router.get('/:page', function(req, res, next) {
 		next()
 		return
 	}
-	
+
     res.render(page, { title: 'Express' })
+})
+
+router.get('/:page/:slug', function(req, res, next) {
+	var page = req.params.page
+	var slug = req.params.slug
+	
+	if (page == 'api'){
+		next()
+		return
+	}
+
+
+	var initialStore = null
+	var reducers = {}
+	var tags = {}
+
+	var controller = controllers[page]
+	controller
+	.get({slug:slug}, false)
+	.then(function(results){
+		console.log('RESULTS: '+JSON.stringify(results))
+
+		var map = {}
+		results.forEach(function(entity){
+			map[entity.slug] = entity
+		})
+
+		reducers[page] = {
+			venues: map,
+			venuesArray: results
+		}		
+
+		initialStore = store.configureStore(reducers)
+
+		var routes = {
+			path: '/:page/:slug',
+			component: ServerApp,
+			initial: initialStore,
+			indexRoute: {
+				component: Detail
+			}
+		}
+
+		return matchRoutes(req, routes, initialStore)
+	})
+	.then(function(renderProps){
+		var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))
+	    res.render('index', {
+	    	react: html,
+	    	tags: tags,
+	    	preloadedState:JSON.stringify(initialStore.getState())
+	    })		
+	})
+	.catch(function(err){
+	    res.render('error', err)
+	})
+
 })
 
 

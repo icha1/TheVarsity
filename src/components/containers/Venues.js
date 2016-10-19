@@ -20,7 +20,7 @@ class Venues extends Component {
 	}
 
 	locationChanged(location){
-		console.log('locationChanged: '+JSON.stringify(location))
+//		console.log('locationChanged: '+JSON.stringify(location))
 		this.fetchVenues(location)
 	}
 
@@ -50,8 +50,8 @@ class Venues extends Component {
 
 const stateToProps = (state) => {
 	return {
-		location: state.locationReducer.currentLocation,
-		venues: state.venueReducer.venuesArray
+		location: state.location.currentLocation,
+		venues: state.venue.venuesArray
 	}
 }
 

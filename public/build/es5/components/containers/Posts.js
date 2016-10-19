@@ -82,8 +82,8 @@ var Posts = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		posts: state.postReducer.postsArray,
-		location: state.locationReducer.currentLocation
+		posts: state.post.postsArray,
+		location: state.location.currentLocation
 	};
 };
 

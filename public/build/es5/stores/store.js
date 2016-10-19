@@ -22,9 +22,9 @@ module.exports = {
 
 	configureStore: function (initial) {
 		var reducers = combineReducers({
-			postReducer: postReducer,
-			venueReducer: venueReducer,
-			locationReducer: locationReducer
+			post: postReducer,
+			venue: venueReducer,
+			location: locationReducer
 		});
 
 		store = createStore(reducers, initial, applyMiddleware(thunk));

@@ -8,9 +8,9 @@ export default {
 
 	configureStore: (initial) => {
 		const reducers = combineReducers({
-			postReducer: postReducer,
-			venueReducer: venueReducer,
-			locationReducer: locationReducer
+			post: postReducer,
+			venue: venueReducer,
+			location: locationReducer
 		})
 
 		store = createStore(

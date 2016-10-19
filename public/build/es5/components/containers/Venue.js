@@ -125,7 +125,7 @@ var Venue = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		venues: state.venueReducer.venues
+		venues: state.venue.venues
 	};
 };
 
