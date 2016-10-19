@@ -1,5 +1,7 @@
 import postReducer from './postReducer'
+import locationReducer from './locationReducer'
 
 export {
-	postReducer
+	postReducer,
+	locationReducer
 }

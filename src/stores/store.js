@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import { postReducer } from '../reducers'
+import { postReducer, locationReducer } from '../reducers'
 
 var store;
 
@@ -8,7 +8,8 @@ export default {
 
 	configureStore: (initial) => {
 		const reducers = combineReducers({
-			postReducer: postReducer
+			postReducer: postReducer,
+			locationReducer: locationReducer
 		})
 
 		store = createStore(

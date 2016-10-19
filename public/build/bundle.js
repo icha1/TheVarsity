@@ -23079,7 +23079,8 @@
 	
 		configureStore: function configureStore(initial) {
 			var reducers = (0, _redux.combineReducers)({
-				postReducer: _reducers.postReducer
+				postReducer: _reducers.postReducer,
+				locationReducer: _reducers.locationReducer
 			});
 	
 			store = (0, _redux.createStore)(reducers, initial, (0, _redux.applyMiddleware)(_reduxThunk2.default));
@@ -23129,15 +23130,20 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.postReducer = undefined;
+	exports.locationReducer = exports.postReducer = undefined;
 	
 	var _postReducer = __webpack_require__(199);
 	
 	var _postReducer2 = _interopRequireDefault(_postReducer);
 	
+	var _locationReducer = __webpack_require__(326);
+	
+	var _locationReducer2 = _interopRequireDefault(_locationReducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.postReducer = _postReducer2.default;
+	exports.locationReducer = _locationReducer2.default;
 
 /***/ },
 /* 199 */
@@ -23208,7 +23214,9 @@
 	});
 	exports.default = {
 	
-		POSTS_RECEIVED: 'POSTS_RECEIVED'
+		POSTS_RECEIVED: 'POSTS_RECEIVED',
+	
+		LOCATION_CHANGED: 'LOCATION_CHANGED'
 	
 	};
 
@@ -35361,6 +35369,48 @@
 	
 	exports.default = (0, _createRouterHistory2.default)(_createHashHistory2.default);
 	module.exports = exports['default'];
+
+/***/ },
+/* 326 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _constants = __webpack_require__(200);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var initialState = {
+		currentLocation: { // default to nyc
+			lat: 40.7359745,
+			lng: -73.9879513
+		}
+	};
+	
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+		var action = arguments[1];
+	
+	
+		switch (action.type) {
+	
+			case _constants2.default.LOCATION_CHANGED:
+				console.log('LOCATION_CHANGED');
+				var newState = Object.assign({}, state);
+				newState['currentLocation'] = action.location;
+	
+				return newState;
+	
+			default:
+				return state;
+		}
+	};
 
 /***/ }
 /******/ ]);
