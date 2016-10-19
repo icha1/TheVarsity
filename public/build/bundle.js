@@ -23245,8 +23245,9 @@
 	
 	var initialState = {
 		currentLocation: { // default to nyc
-			lat: 40.7359745,
-			lng: -73.9879513
+			lat: 40.731226699890954,
+			lng: -73.99580480799563
+	
 		}
 	};
 	
@@ -30200,7 +30201,7 @@
 		}, {
 			key: 'locationChanged',
 			value: function locationChanged(location) {
-				//		console.log('locationChanged: '+JSON.stringify(location))
+				console.log('locationChanged: ' + JSON.stringify(location));
 				this.fetchVenues(location);
 			}
 		}, {
@@ -30221,7 +30222,7 @@
 			value: function render() {
 				return _react2.default.createElement(_view.Map, {
 					center: this.props.location,
-					zoom: 16,
+					zoom: 15,
 					markers: this.props.venues,
 					mapMoved: this.locationChanged.bind(this) });
 			}

@@ -2,8 +2,9 @@ import constants from '../constants/constants'
 
 var initialState = {
 	currentLocation: { // default to nyc
-		lat: 40.7359745,
-		lng: -73.9879513
+		lat: 40.731226699890954,
+		lng: -73.99580480799563
+
 	}
 }
 
