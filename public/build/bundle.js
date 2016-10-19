@@ -27959,7 +27959,7 @@
 							_react2.default.createElement(
 								'span',
 								{ className: 'comment-avatar clearfix' },
-								_react2.default.createElement('img', { alt: 'The Varsity', src: post.venue.image + '=s120', className: 'avatar avatar-60 photo', height: '60', width: '60' })
+								_react2.default.createElement('img', { alt: 'The Varsity', src: post.venue.image + '=s120-c', className: 'avatar avatar-60 photo', height: '60', width: '60' })
 							)
 						)
 					),

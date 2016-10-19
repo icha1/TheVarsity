@@ -43,7 +43,7 @@ var Post = (function (Component) {
 							React.createElement(
 								"span",
 								{ className: "comment-avatar clearfix" },
-								React.createElement("img", { alt: "The Varsity", src: post.venue.image + "=s120", className: "avatar avatar-60 photo", height: "60", width: "60" })
+								React.createElement("img", { alt: "The Varsity", src: post.venue.image + "=s120-c", className: "avatar avatar-60 photo", height: "60", width: "60" })
 							)
 						)
 					),
