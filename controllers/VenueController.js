@@ -9,8 +9,26 @@ module.exports = {
 		return new Promise(function(resolve, reject){
 			var sortOrder = (params.sort == 'asc') ? 1 : -1
 			delete params['sort']
+
+			if (params.lat!=null && params.lng!=null){
+				var distance = 1000/6371 // 6371 is radius of earth in KM
+				params['geo'] = {
+				  	$near: [params.lat, params.lng],
+			  		$maxDistance: distance
+				}
+
+				delete params['lat']
+				delete params['lng']
+			}
+
+			/* Query by filters passed into parameter string: */
+			var limit = params.limit
+			if (limit == null)
+				limit = 0
 			
-			Venue.find(params, null, {sort:{timestamp: sortOrder}}, function(err, venues){
+			delete params['limit']
+
+			Venue.find(params, null, {limit:limit, sort:{timestamp: sortOrder}}, function(err, venues){
 				if (err){
 					reject(err)
 					return
