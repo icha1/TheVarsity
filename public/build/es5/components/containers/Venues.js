@@ -36,7 +36,7 @@ var Venues = (function (Component) {
 	_prototypeProperties(Venues, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				this.fetchVenues(this.props.currentLocation);
+				if (this.props.venues.length == 0) this.fetchVenues(this.props.currentLocation);
 			},
 			writable: true,
 			configurable: true

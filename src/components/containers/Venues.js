@@ -15,7 +15,8 @@ class Venues extends Component {
 	}
 
 	componentDidMount(){
-		this.fetchVenues(this.props.currentLocation)
+		if (this.props.venues.length == 0)
+			this.fetchVenues(this.props.currentLocation)
 	}
 
 	locationChanged(location){
@@ -42,7 +43,6 @@ class Venues extends Component {
 				zoom={16} 
 				markers={this.props.venues}
 				mapMoved={this.locationChanged.bind(this)} />
-
 		)
 	}
 

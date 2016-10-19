@@ -16,8 +16,8 @@ var update = function (state, venues) {
 	var venuesMap = Object.assign({}, newState.venues);
 
 	venues.forEach(function (venue) {
-		if (venuesMap[venue.id] == null) {
-			venuesMap[venue.id] = venue;
+		if (venuesMap[venue.slug] == null) {
+			venuesMap[venue.slug] = venue;
 			array.push(venue);
 		}
 	});
