@@ -58,7 +58,7 @@ var Map = (function (Component) {
 				if (this.props.markers != null) {
 					markers = this.props.markers.map(function (marker, i) {
 						marker.defaultAnimation = 2;
-						marker.icon = "/images/icons/map-icon.png";
+						marker.icon = "http://1.gravatar.com/avatar/30110f1f3a4238c619bcceb10f4c4484?s=60&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D60&amp;r=G";
 						marker.position = {
 							lat: marker.geo[0],
 							lng: marker.geo[1]
