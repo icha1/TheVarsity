@@ -15,14 +15,12 @@ var update = function (state, posts) {
 	var array = Object.assign([], newState.postsArray);
 	var postsMap = Object.assign({}, newState.posts);
 
-	for (var i = 0; i < posts.length; i++) {
-		var post = posts[i];
-		if (postsMap[post.id] != null) // already there
-			continue;
-
-		postsMap[post.id] = post;
-		array.push(post);
-	}
+	posts.forEach(function (post) {
+		if (postsMap[post.id] == null) {
+			postsMap[post.id] = post;
+			array.push(post);
+		}
+	});
 
 	newState.postsArray = array;
 	newState.posts = postsMap;

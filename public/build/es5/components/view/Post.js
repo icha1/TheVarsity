@@ -57,10 +57,38 @@ var Post = (function (Component) {
 							)
 						),
 						React.createElement(
-							"p",
-							{ style: { marginTop: 0 } },
-							post.text
+							"div",
+							{ className: "row" },
+							React.createElement(
+								"div",
+								{ className: "col-md-8" },
+								React.createElement(
+									"p",
+									{ style: { marginTop: 0 } },
+									post.text
+								)
+							),
+							React.createElement(
+								"div",
+								{ className: "col-md-4" },
+								React.createElement("img", { style: { width: 180, marginTop: 12 }, src: post.image })
+							)
 						)
+					),
+					React.createElement("hr", null),
+					React.createElement(
+						"h3",
+						{ style: { marginBottom: 0 } },
+						React.createElement(
+							"a",
+							{ href: "#", style: { color: "#333", fontFamily: "Pathway Gothic One" } },
+							post.title
+						)
+					),
+					React.createElement(
+						"span",
+						null,
+						post.venue.address
 					),
 					React.createElement("div", { className: "clear" })
 				);

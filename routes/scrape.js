@@ -44,7 +44,8 @@ router.get('/', function(req, res, next){
 		postInfo['venue'] = {
 			id: venue.id,
 			name: venue.name,
-			image: venue.image
+			image: venue.image,
+			address: venue.address.street
 		}
 
 		postInfo['text'] = mostRecent.caption.text

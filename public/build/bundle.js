@@ -23177,14 +23177,12 @@
 		var array = Object.assign([], newState.postsArray);
 		var postsMap = Object.assign({}, newState.posts);
 	
-		for (var i = 0; i < posts.length; i++) {
-			var post = posts[i];
-			if (postsMap[post.id] != null) // already there
-				continue;
-	
-			postsMap[post.id] = post;
-			array.push(post);
-		}
+		posts.forEach(function (post) {
+			if (postsMap[post.id] == null) {
+				postsMap[post.id] = post;
+				array.push(post);
+			}
+		});
 	
 		newState['postsArray'] = array;
 		newState['posts'] = postsMap;
@@ -27932,6 +27930,21 @@
 								_react2.default.createElement('img', { style: { width: 180, marginTop: 12 }, src: post.image })
 							)
 						)
+					),
+					_react2.default.createElement('hr', null),
+					_react2.default.createElement(
+						'h3',
+						{ style: { marginBottom: 0 } },
+						_react2.default.createElement(
+							'a',
+							{ href: '#', style: { color: '#333', fontFamily: 'Pathway Gothic One' } },
+							post.title
+						)
+					),
+					_react2.default.createElement(
+						'span',
+						null,
+						post.venue.address
 					),
 					_react2.default.createElement('div', { className: 'clear' })
 				);
@@ -35613,14 +35626,12 @@
 		var array = Object.assign([], newState.venuesArray);
 		var venuesMap = Object.assign({}, newState.venues);
 	
-		for (var i = 0; i < venues.length; i++) {
-			var venue = venues[i];
-			if (venuesMap[venue.id] != null) // already there
-				continue;
-	
-			venuesMap[venue.id] = venue;
-			array.push(venue);
-		}
+		venues.forEach(function (venue) {
+			if (venuesMap[venue.id] == null) {
+				venuesMap[venue.id] = venue;
+				array.push(venue);
+			}
+		});
 	
 		newState['venuesArray'] = array;
 		newState['venues'] = venuesMap;
