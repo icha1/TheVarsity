@@ -4,10 +4,10 @@ var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["defau
 
 var Home = _interopRequire(require("../layout/Home"));
 
-var Venue = _interopRequire(require("../layout/Venue"));
+var Detail = _interopRequire(require("../layout/Detail"));
 
 exports.Home = Home;
-exports.Venue = Venue;
+exports.Detail = Detail;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });

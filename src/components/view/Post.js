@@ -11,7 +11,7 @@ class Post extends Component {
 				<div className="comment-meta">
 					<div className="comment-author vcard">
 						<span className="comment-avatar clearfix">
-						<img alt='The Varsity' src='http://1.gravatar.com/avatar/30110f1f3a4238c619bcceb10f4c4484?s=60&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D60&amp;r=G' className='avatar avatar-60 photo' height='60' width='60' /></span>
+						<img alt='The Varsity' src={post.venue.image+'=s120'} className='avatar avatar-60 photo' height='60' width='60' /></span>
 					</div>
 				</div>
 				<div className={styles.post.content.className} style={styles.post.content}>

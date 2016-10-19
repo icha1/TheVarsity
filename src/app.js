@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux' 
 import store from './stores/store'
 import Main from './components/Main'
-import { Home, Venue } from './components/layout'
+import { Home, Detail } from './components/layout'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
 const initialState = window.__PRELOADED_STATE__
@@ -13,7 +13,7 @@ const app = (
 		<Router history={browserHistory}>
 			<Route path="/" component={Main}>
 				<IndexRoute component={Home}></IndexRoute>
-				<Route path="/venue/:slug" component={Venue}></Route>
+				<Route path="/venue/:slug" component={Detail}></Route>
 			</Route>
 		</Router>
 	</Provider>

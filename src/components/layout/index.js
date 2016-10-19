@@ -1,8 +1,8 @@
 import Home from '../layout/Home'
-import Venue from '../layout/Venue'
+import Detail from '../layout/Detail'
 
 export {
 	Home,
-	Venue
+	Detail
 
 }

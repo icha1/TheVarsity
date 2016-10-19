@@ -43,7 +43,7 @@ var Post = (function (Component) {
 							React.createElement(
 								"span",
 								{ className: "comment-avatar clearfix" },
-								React.createElement("img", { alt: "The Varsity", src: "http://1.gravatar.com/avatar/30110f1f3a4238c619bcceb10f4c4484?s=60&d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D60&r=G", className: "avatar avatar-60 photo", height: "60", width: "60" })
+								React.createElement("img", { alt: "The Varsity", src: post.venue.image + "=s120", className: "avatar avatar-60 photo", height: "60", width: "60" })
 							)
 						)
 					),
