@@ -27933,7 +27933,7 @@
 					),
 					_react2.default.createElement('hr', null),
 					_react2.default.createElement(
-						'h3',
+						'h4',
 						{ style: { marginBottom: 0 } },
 						_react2.default.createElement(
 							'a',

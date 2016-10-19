@@ -26,9 +26,9 @@ class Post extends Component {
 					</div>
 				</div>
 				<hr />
-				<h3 style={{marginBottom:0}}>
+				<h4 style={{marginBottom:0}}>
 					<a href='#' style={{color:'#333', fontFamily:'Pathway Gothic One'}}>{ post.title }</a>
-				</h3>
+				</h4>
 				<span>{ post.venue.address }</span>
 
 				<div className="clear"></div>

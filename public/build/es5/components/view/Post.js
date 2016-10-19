@@ -77,7 +77,7 @@ var Post = (function (Component) {
 					),
 					React.createElement("hr", null),
 					React.createElement(
-						"h3",
+						"h4",
 						{ style: { marginBottom: 0 } },
 						React.createElement(
 							"a",
