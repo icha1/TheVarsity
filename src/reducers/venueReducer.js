@@ -11,14 +11,12 @@ const update = (state, venues) => {
 	var array = Object.assign([], newState.venuesArray)
 	var venuesMap = Object.assign({}, newState.venues)
 
-	for (var i=0; i<venues.length; i++){
-		var venue = venues[i]
-		if (venuesMap[venue.id] != null) // already there
-			continue
-
-		venuesMap[venue.id] = venue
-		array.push(venue)
-	}
+	venues.forEach(venue => {
+		if (venuesMap[venue.id] == null){
+			venuesMap[venue.id] = venue
+			array.push(venue)
+		}
+	})
 
 	newState['venuesArray'] = array
 	newState['venues'] = venuesMap
