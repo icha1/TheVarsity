@@ -10,6 +10,8 @@ var _inherits = function (subClass, superClass) { if (typeof superClass !== "fun
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = require("react");
 
 var React = _interopRequire(_react);
@@ -47,21 +49,38 @@ var Map = (function (Component) {
 		render: {
 			value: function render() {
 				var _this = this;
-				var mapContainer = React.createElement("div", { style: { height: "100%", width: "100%" } });
+				var markers = null;
+				if (this.props.markers != null) {
+					markers = this.props.markers.map(function (marker, i) {
+						marker.defaultAnimation = 2;
+						marker.icon = "/images/icons/map-icon.png";
+						marker.position = {
+							lat: marker.geo[0],
+							lng: marker.geo[1]
+						};
 
+						return React.createElement(Marker, _extends({ key: i, onClick: _this.handleMarkerClick.bind(_this, marker), clickable: true, icon: marker.icon, label: marker.title, title: marker.key }, marker));
+					});
+				}
+
+				var mapContainer = React.createElement("div", { style: { height: "100%", width: "100%" } });
 				return React.createElement(GoogleMapLoader, {
 					containerElement: mapContainer,
-					googleMapElement: React.createElement(GoogleMap, {
-						ref: function (map) {
-							if (_this.state.map != null) return;
+					googleMapElement: React.createElement(
+						GoogleMap,
+						{
+							ref: function (map) {
+								if (_this.state.map != null) return;
 
-							_this.setState({ map: map });
-						},
+								_this.setState({ map: map });
+							},
 
-						onDragend: this.mapDragged.bind(this),
-						defaultZoom: this.props.zoom,
-						defaultCenter: this.props.center,
-						options: { streetViewControl: false, mapTypeControl: false } }) });
+							onDragend: this.mapDragged.bind(this),
+							defaultZoom: this.props.zoom,
+							defaultCenter: this.props.center,
+							options: { streetViewControl: false, mapTypeControl: false } },
+						markers
+					) });
 			},
 			writable: true,
 			configurable: true

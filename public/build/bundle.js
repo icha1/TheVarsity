@@ -23315,6 +23315,8 @@
 		value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
@@ -23359,21 +23361,38 @@
 			value: function render() {
 				var _this2 = this;
 	
-				var mapContainer = _react2.default.createElement('div', { style: { height: '100%', width: '100%' } });
+				var markers = null;
+				if (this.props.markers != null) {
+					markers = this.props.markers.map(function (marker, i) {
+						marker['defaultAnimation'] = 2;
+						marker['icon'] = '/images/icons/map-icon.png';
+						marker['position'] = {
+							lat: marker.geo[0],
+							lng: marker.geo[1]
+						};
 	
+						return _react2.default.createElement(_reactGoogleMaps.Marker, _extends({ key: i, onClick: _this2.handleMarkerClick.bind(_this2, marker), clickable: true, icon: marker.icon, label: marker.title, title: marker.key }, marker));
+					});
+				}
+	
+				var mapContainer = _react2.default.createElement('div', { style: { height: '100%', width: '100%' } });
 				return _react2.default.createElement(_reactGoogleMaps.GoogleMapLoader, {
 					containerElement: mapContainer,
-					googleMapElement: _react2.default.createElement(_reactGoogleMaps.GoogleMap, {
-						ref: function ref(map) {
-							if (_this2.state.map != null) return;
+					googleMapElement: _react2.default.createElement(
+						_reactGoogleMaps.GoogleMap,
+						{
+							ref: function ref(map) {
+								if (_this2.state.map != null) return;
 	
-							_this2.setState({ map: map });
-						},
+								_this2.setState({ map: map });
+							},
 	
-						onDragend: this.mapDragged.bind(this),
-						defaultZoom: this.props.zoom,
-						defaultCenter: this.props.center,
-						options: { streetViewControl: false, mapTypeControl: false } }) });
+							onDragend: this.mapDragged.bind(this),
+							defaultZoom: this.props.zoom,
+							defaultCenter: this.props.center,
+							options: { streetViewControl: false, mapTypeControl: false } },
+						markers
+					) });
 			}
 		}]);
 	
@@ -35476,16 +35495,35 @@
 		function Venues() {
 			_classCallCheck(this, Venues);
 	
-			return _possibleConstructorReturn(this, (Venues.__proto__ || Object.getPrototypeOf(Venues)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (Venues.__proto__ || Object.getPrototypeOf(Venues)).call(this));
+	
+			_this.fetchVenues = _this.fetchVenues.bind(_this);
+			_this.state = {};
+			return _this;
 		}
 	
 		_createClass(Venues, [{
 			key: 'componentDidMount',
-			value: function componentDidMount() {}
+			value: function componentDidMount() {
+				this.fetchVenues(this.props.currentLocation);
+			}
 		}, {
 			key: 'locationChanged',
 			value: function locationChanged(location) {
-				console.log('locationChanged: ' + JSON.stringify(location));
+				//		console.log('locationChanged: '+JSON.stringify(location))
+				this.fetchVenues(location);
+			}
+		}, {
+			key: 'fetchVenues',
+			value: function fetchVenues(loc) {
+				_utils.APIManager.handleGet('/api/venue', loc, function (err, response) {
+					if (err) {
+						alert(err);
+						return;
+					}
+	
+					console.log('Venues: ' + JSON.stringify(response.results));
+				});
 			}
 		}, {
 			key: 'render',

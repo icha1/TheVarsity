@@ -17,8 +17,23 @@ class Map extends Component {
 	}
 
 	render(){
-		const mapContainer = <div style={{height: '100%', width:'100%'}}></div>
+		var markers = null
+		if (this.props.markers != null){
+			markers = this.props.markers.map((marker, i) => {
+				marker['defaultAnimation'] = 2
+				marker['icon'] = '/images/icons/map-icon.png'
+				marker['position'] = {
+					lat: marker.geo[0],
+					lng: marker.geo[1]
+				}
+				
+		        return (
+		            <Marker key={i} onClick={this.handleMarkerClick.bind(this, marker)} clickable={true} icon={marker.icon} label={marker.title} title={marker.key} {...marker} />
+		        )
+			})
+		}
 
+		const mapContainer = <div style={{height: '100%', width:'100%'}}></div>
 		return (
 		    <GoogleMapLoader
 		        containerElement = { mapContainer }
@@ -36,6 +51,7 @@ class Map extends Component {
 			            defaultZoom={this.props.zoom}
 			            defaultCenter={this.props.center}
 			            options={{streetViewControl: false, mapTypeControl: false}}>
+			            { markers }
 			        </GoogleMap>
 		    	} />
 		)

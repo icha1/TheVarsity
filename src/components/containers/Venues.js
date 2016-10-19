@@ -6,14 +6,32 @@ import { connect } from 'react-redux'
 import { Map } from '../view'
 
 class Venues extends Component {
+	constructor(){
+		super()
+		this.fetchVenues = this.fetchVenues.bind(this)
+		this.state = {
+
+		}
+	}
 
 	componentDidMount(){
-
+		this.fetchVenues(this.props.currentLocation)
 	}
 
 	locationChanged(location){
-		console.log('locationChanged: '+JSON.stringify(location))
-		
+//		console.log('locationChanged: '+JSON.stringify(location))
+		this.fetchVenues(location)
+	}
+
+	fetchVenues(loc){
+		APIManager.handleGet('/api/venue', loc, (err, response) => {
+			if (err){
+				alert(err)
+				return
+			}
+
+			console.log('Venues: '+JSON.stringify(response.results))
+		})
 	}
 
 	render(){
