@@ -23245,9 +23245,8 @@
 	
 	var initialState = {
 		currentLocation: { // default to nyc
-			lat: 40.731226699890954,
-			lng: -73.99580480799563
-	
+			lat: 40.73008847828741,
+			lng: -73.99769308314211
 		}
 	};
 	
@@ -35672,7 +35671,7 @@
 		}, {
 			key: 'locationChanged',
 			value: function locationChanged(location) {
-				//		console.log('locationChanged: '+JSON.stringify(location))
+				console.log('locationChanged: ' + JSON.stringify(location));
 				this.fetchVenues(location);
 			}
 		}, {
@@ -35693,7 +35692,7 @@
 			value: function render() {
 				return _react2.default.createElement(_view.Map, {
 					center: this.props.location,
-					zoom: 15,
+					zoom: 16,
 					markers: this.props.venues,
 					mapMoved: this.locationChanged.bind(this) });
 			}
@@ -35815,7 +35814,7 @@
 						_react2.default.createElement(
 							'div',
 							{ id: 'header-wrap' },
-							_react2.default.createElement(_view.Map, { center: center, zoom: 16, markers: [venue] })
+							_react2.default.createElement(_view.Map, { center: center, zoom: 17, markers: [venue] })
 						)
 					),
 					_react2.default.createElement(

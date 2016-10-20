@@ -43,7 +43,7 @@ var Venues = (function (Component) {
 		},
 		locationChanged: {
 			value: function locationChanged(location) {
-				//		console.log('locationChanged: '+JSON.stringify(location))
+				console.log("locationChanged: " + JSON.stringify(location));
 				this.fetchVenues(location);
 			},
 			writable: true,
@@ -68,7 +68,7 @@ var Venues = (function (Component) {
 			value: function render() {
 				return React.createElement(Map, {
 					center: this.props.location,
-					zoom: 15,
+					zoom: 16,
 					markers: this.props.venues,
 					mapMoved: this.locationChanged.bind(this) });
 			},

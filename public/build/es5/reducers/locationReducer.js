@@ -6,9 +6,8 @@ var constants = _interopRequire(require("../constants/constants"));
 
 var initialState = {
 	currentLocation: { // default to nyc
-		lat: 40.731226699890954,
-		lng: -73.99580480799563
-
+		lat: 40.73008847828741,
+		lng: -73.99769308314211
 	}
 };
 

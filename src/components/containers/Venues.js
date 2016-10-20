@@ -20,7 +20,7 @@ class Venues extends Component {
 	}
 
 	locationChanged(location){
-//		console.log('locationChanged: '+JSON.stringify(location))
+		console.log('locationChanged: '+JSON.stringify(location))
 		this.fetchVenues(location)
 	}
 
@@ -40,7 +40,7 @@ class Venues extends Component {
 		return (
 			<Map 
 				center={this.props.location} 
-				zoom={15} 
+				zoom={16} 
 				markers={this.props.venues}
 				mapMoved={this.locationChanged.bind(this)} />
 		)
