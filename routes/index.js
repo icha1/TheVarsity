@@ -32,7 +32,9 @@ matchRoutes = function(req, routes, initialStore){
 router.get('/', function(req, res, next) {
 	var initialStore = null
 	var reducers = {}
-	var tags = {}
+	var tags = {
+		title: 'Home'
+	}
 
 	initialStore = store.configureStore(reducers)
 
@@ -88,11 +90,12 @@ router.get('/:page/:slug', function(req, res, next) {
 	controller
 	.get({slug:slug}, false)
 	.then(function(results){
-		console.log('RESULTS: '+JSON.stringify(results))
+//		console.log('RESULTS: '+JSON.stringify(results))
 
 		var map = {}
 		results.forEach(function(entity){
 			map[entity.slug] = entity
+			tags['title'] = (entity.name == null) ? entity.title : entity.name
 		})
 
 		reducers[page] = {
