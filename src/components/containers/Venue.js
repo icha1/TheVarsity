@@ -89,7 +89,7 @@ class Venue extends Component {
 
 const stateToProps = (state) => {
 	return {
-		venues: state.venue.venues
+		venues: state.venue.map
 	}
 }
 

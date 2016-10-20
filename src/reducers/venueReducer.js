@@ -1,15 +1,15 @@
 import constants from '../constants/constants'
 
 var initialState = {
-	venues: {}, // organized by slug
-	venuesArray: []
+	map: {}, // organized by slug
+	list: []
 }
 
 
 const update = (state, venues) => {
 	var newState = Object.assign({}, state)
-	var array = Object.assign([], newState.venuesArray)
-	var venuesMap = Object.assign({}, newState.venues)
+	var array = Object.assign([], newState.list)
+	var venuesMap = Object.assign({}, newState.map)
 
 	venues.forEach(venue => {
 		if (venuesMap[venue.slug] == null){
@@ -18,8 +18,8 @@ const update = (state, venues) => {
 		}
 	})
 
-	newState['venuesArray'] = array
-	newState['venues'] = venuesMap
+	newState['list'] = array
+	newState['map'] = venuesMap
 	return newState
 }
 

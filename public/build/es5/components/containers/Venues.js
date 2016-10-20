@@ -83,7 +83,7 @@ var Venues = (function (Component) {
 var stateToProps = function (state) {
 	return {
 		location: state.location.currentLocation,
-		venues: state.venue.venuesArray
+		venues: state.venue.list
 	};
 };
 

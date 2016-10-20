@@ -51,7 +51,7 @@ class Posts extends Component {
 
 const stateToProps = (state) => {
 	return {
-		posts: state.post.postsArray,
+		posts: state.post.list,
 		location: state.location.currentLocation
 	}
 }

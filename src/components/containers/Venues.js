@@ -51,7 +51,7 @@ class Venues extends Component {
 const stateToProps = (state) => {
 	return {
 		location: state.location.currentLocation,
-		venues: state.venue.venuesArray
+		venues: state.venue.list
 	}
 }
 

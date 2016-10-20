@@ -5,15 +5,15 @@ var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["defau
 var constants = _interopRequire(require("../constants/constants"));
 
 var initialState = {
-	venues: {}, // organized by slug
-	venuesArray: []
+	map: {}, // organized by slug
+	list: []
 };
 
 
 var update = function (state, venues) {
 	var newState = Object.assign({}, state);
-	var array = Object.assign([], newState.venuesArray);
-	var venuesMap = Object.assign({}, newState.venues);
+	var array = Object.assign([], newState.list);
+	var venuesMap = Object.assign({}, newState.map);
 
 	venues.forEach(function (venue) {
 		if (venuesMap[venue.slug] == null) {
@@ -22,8 +22,8 @@ var update = function (state, venues) {
 		}
 	});
 
-	newState.venuesArray = array;
-	newState.venues = venuesMap;
+	newState.list = array;
+	newState.map = venuesMap;
 	return newState;
 };
 

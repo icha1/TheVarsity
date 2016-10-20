@@ -23169,14 +23169,14 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var initialState = {
-		posts: {}, // organized by slug
-		postsArray: []
+		map: {}, // organized by slug
+		list: []
 	};
 	
 	var update = function update(state, posts) {
 		var newState = Object.assign({}, state);
-		var array = Object.assign([], newState.postsArray);
-		var postsMap = Object.assign({}, newState.posts);
+		var array = Object.assign([], newState.list);
+		var postsMap = Object.assign({}, newState.map);
 	
 		posts.forEach(function (post) {
 			if (postsMap[post.id] == null) {
@@ -23185,8 +23185,8 @@
 			}
 		});
 	
-		newState['postsArray'] = array;
-		newState['posts'] = postsMap;
+		newState['list'] = array;
+		newState['map'] = postsMap;
 		return newState;
 	};
 	
@@ -23287,14 +23287,14 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var initialState = {
-		venues: {}, // organized by slug
-		venuesArray: []
+		map: {}, // organized by slug
+		list: []
 	};
 	
 	var update = function update(state, venues) {
 		var newState = Object.assign({}, state);
-		var array = Object.assign([], newState.venuesArray);
-		var venuesMap = Object.assign({}, newState.venues);
+		var array = Object.assign([], newState.list);
+		var venuesMap = Object.assign({}, newState.map);
 	
 		venues.forEach(function (venue) {
 			if (venuesMap[venue.slug] == null) {
@@ -23303,8 +23303,8 @@
 			}
 		});
 	
-		newState['venuesArray'] = array;
-		newState['venues'] = venuesMap;
+		newState['list'] = array;
+		newState['map'] = venuesMap;
 		return newState;
 	};
 	
@@ -33765,7 +33765,7 @@
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			posts: state.post.postsArray,
+			posts: state.post.list,
 			location: state.location.currentLocation
 		};
 	};
@@ -35705,7 +35705,7 @@
 	var stateToProps = function stateToProps(state) {
 		return {
 			location: state.location.currentLocation,
-			venues: state.venue.venuesArray
+			venues: state.venue.list
 		};
 	};
 	
@@ -35850,7 +35850,7 @@
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			venues: state.venue.venues
+			venues: state.venue.map
 		};
 	};
 	

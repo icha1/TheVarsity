@@ -99,9 +99,9 @@ router.get('/:page/:slug', function(req, res, next) {
 		})
 
 		reducers[page] = {
-			venues: map,
-			venuesArray: results
-		}		
+			map: map,
+			list: results
+		}
 
 		initialStore = store.configureStore(reducers)
 
