@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
+import { DateUtils } from '../../utils'
 import styles from './styles'
 
 class Post extends Component {
@@ -15,6 +16,7 @@ class Post extends Component {
 					</div>
 				</div>
 				<div className={styles.post.content.className} style={styles.post.content}>
+					<span style={{float:'right'}}>{DateUtils.formattedDate(post.timestamp)}</span>
 					<h2 style={styles.post.header}>
 						<Link to={'/venue/'+post.venue.slug} style={styles.post.title}>{ post.title }</Link>
 					</h2>

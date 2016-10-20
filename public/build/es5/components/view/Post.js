@@ -14,6 +14,7 @@ var React = _interopRequire(_react);
 
 var Component = _react.Component;
 var Link = require("react-router").Link;
+var DateUtils = require("../../utils").DateUtils;
 var styles = _interopRequire(require("./styles"));
 
 var Post = (function (Component) {
@@ -50,6 +51,11 @@ var Post = (function (Component) {
 					React.createElement(
 						"div",
 						{ className: styles.post.content.className, style: styles.post.content },
+						React.createElement(
+							"span",
+							{ style: { float: "right" } },
+							DateUtils.formattedDate(post.timestamp)
+						),
 						React.createElement(
 							"h2",
 							{ style: styles.post.header },
