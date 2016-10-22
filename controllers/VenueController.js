@@ -24,11 +24,11 @@ module.exports = {
 			/* Query by filters passed into parameter string: */
 			var limit = params.limit
 			if (limit == null)
-				limit = 0
+				limit = '0'
 			
 			delete params['limit']
 
-			Venue.find(params, null, {limit:limit, sort:{timestamp: sortOrder}}, function(err, venues){
+			Venue.find(params, null, {limit:parseInt(limit), sort:{timestamp: sortOrder}}, function(err, venues){
 				if (err){
 					reject(err)
 					return

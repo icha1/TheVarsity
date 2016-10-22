@@ -23,11 +23,11 @@ module.exports = {
 			/* Query by filters passed into parameter string: */
 			var limit = params.limit
 			if (limit == null)
-				limit = 0
+				limit = '0'
 			
 			delete params['limit']
 			
-			Post.find(params, null, {limit:limit, sort:{timestamp: sortOrder}}, function(err, posts){
+			Post.find(params, null, {limit:parseInt(limit), sort:{timestamp: sortOrder}}, function(err, posts){
 				if (err){
 					reject(err)
 					return
