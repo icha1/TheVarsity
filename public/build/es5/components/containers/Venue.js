@@ -101,6 +101,12 @@ var Venue = (function (Component) {
 								{ className: "col_full col_last" },
 								venue.name,
 								React.createElement("br", null),
+								React.createElement(
+									"a",
+									{ href: "/scrape?venue=" + venue.id },
+									"Scrape"
+								),
+								React.createElement("br", null),
 								React.createElement("img", { src: venue.image + "=s220" }),
 								React.createElement("br", null),
 								React.createElement("br", null),

@@ -69,7 +69,7 @@ router.get('/:page', function(req, res, next) {
 		return
 	}
 
-    res.render(page, { title: 'Express' })
+    res.render(page, { title: page })
 })
 
 router.get('/:page/:slug', function(req, res, next) {

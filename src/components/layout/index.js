@@ -1,8 +1,7 @@
-import Home from '../layout/Home'
-import Detail from '../layout/Detail'
+import Home from './Home'
+import Detail from './Detail'
 
 export {
 	Home,
-	Detail
-
+	Detail,
 }

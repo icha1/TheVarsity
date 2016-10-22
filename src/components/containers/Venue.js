@@ -69,6 +69,8 @@ class Venue extends Component {
 						<div className="col_full col_last">
 							{ venue.name }
 							<br />
+							<a href={'/scrape?venue='+venue.id}>Scrape</a>
+							<br />
 							<img src={venue.image+'=s220'} />
 							<br /><br />
 

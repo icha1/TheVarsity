@@ -2,9 +2,9 @@
 
 var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-var Home = _interopRequire(require("../layout/Home"));
+var Home = _interopRequire(require("./Home"));
 
-var Detail = _interopRequire(require("../layout/Detail"));
+var Detail = _interopRequire(require("./Detail"));
 
 exports.Home = Home;
 exports.Detail = Detail;
