@@ -55,7 +55,9 @@ router.get('/', function(req, res, next){
 
 		var images = mostRecent.images
 		var standard_resolution = images['standard_resolution']['url']
-		postInfo['image'] = standard_resolution.split('?')[0]
+		var image = standard_resolution.split('?')[0]
+		image = image.replace('e35/', 'e35/c150.150.600.600/')
+		postInfo['image'] = image
 		return controllers.post.post(postInfo)
 	})
 	.then(function(post){
