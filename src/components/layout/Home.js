@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Posts, Venues } from '../containers'
+import { Posts, Venues, District } from '../containers'
 import styles from './styles'
 
 class Home extends Component {
@@ -21,71 +21,10 @@ class Home extends Component {
 						</div>
 
 						<div className="col_one_third col_last">
-							<div className="feature-box center media-box fbox-bg">
-								<div className="fbox-desc">
-									<div style={{padding:25, borderTop:'1px solid #ddd'}}>
-										<h3>District</h3>
-									</div>
-
-									<div style={{borderTop:'1px solid #ddd', minHeight:140}}>
-										<div style={style.body}>
-											<span style={style.header}>NYU</span><br />
-											<ul style={{listStyleType:'none'}}>
-												<li><a href="#">Events</a></li>
-												<li>Services</li>
-												<li>Jobs</li>
-												<li>News</li>
-												<li>Chat</li>
-											</ul>
-										</div>
-									</div>
-
-									<div style={style.container}>
-										<div style={style.dateBox}>
-											line 1<br />
-											username
-										</div>
-										<div style={style.body}>
-											<span style={style.header}>Title</span><br />
-										</div>
-									</div>
-
-									<div style={style.container}>
-										<div style={style.dateBox}>
-											line 1<br />
-											username
-										</div>
-										<div style={style.body}>
-											<span style={style.header}>Title</span><br />
-										</div>
-									</div>
-
-									<div style={style.container}>
-										<div style={style.dateBox}>
-											line 1<br />
-											username
-										</div>
-										<div style={style.body}>
-											<span style={style.header}>Title</span><br />
-										</div>
-									</div>
-
-									<div style={style.container}>
-										<div style={style.dateBox}>
-											line 1<br />
-											username
-										</div>
-										<div style={style.body}>
-											<span style={style.header}>Title</span><br />
-										</div>
-									</div>
-
-								</div>
-							</div>
+							<District />
 						</div>
 
 					</div>
-
 				</section>
 			</div>
 		)

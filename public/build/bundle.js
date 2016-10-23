@@ -50056,154 +50056,7 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'col_one_third col_last' },
-								_react2.default.createElement(
-									'div',
-									{ className: 'feature-box center media-box fbox-bg' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'fbox-desc' },
-										_react2.default.createElement(
-											'div',
-											{ style: { padding: 25, borderTop: '1px solid #ddd' } },
-											_react2.default.createElement(
-												'h3',
-												null,
-												'District'
-											)
-										),
-										_react2.default.createElement(
-											'div',
-											{ style: { borderTop: '1px solid #ddd', minHeight: 140 } },
-											_react2.default.createElement(
-												'div',
-												{ style: style.body },
-												_react2.default.createElement(
-													'span',
-													{ style: style.header },
-													'NYU'
-												),
-												_react2.default.createElement('br', null),
-												_react2.default.createElement(
-													'ul',
-													{ style: { listStyleType: 'none' } },
-													_react2.default.createElement(
-														'li',
-														null,
-														_react2.default.createElement(
-															'a',
-															{ href: '#' },
-															'Events'
-														)
-													),
-													_react2.default.createElement(
-														'li',
-														null,
-														'Services'
-													),
-													_react2.default.createElement(
-														'li',
-														null,
-														'Jobs'
-													),
-													_react2.default.createElement(
-														'li',
-														null,
-														'News'
-													),
-													_react2.default.createElement(
-														'li',
-														null,
-														'Chat'
-													)
-												)
-											)
-										),
-										_react2.default.createElement(
-											'div',
-											{ style: style.container },
-											_react2.default.createElement(
-												'div',
-												{ style: style.dateBox },
-												'line 1',
-												_react2.default.createElement('br', null),
-												'username'
-											),
-											_react2.default.createElement(
-												'div',
-												{ style: style.body },
-												_react2.default.createElement(
-													'span',
-													{ style: style.header },
-													'Title'
-												),
-												_react2.default.createElement('br', null)
-											)
-										),
-										_react2.default.createElement(
-											'div',
-											{ style: style.container },
-											_react2.default.createElement(
-												'div',
-												{ style: style.dateBox },
-												'line 1',
-												_react2.default.createElement('br', null),
-												'username'
-											),
-											_react2.default.createElement(
-												'div',
-												{ style: style.body },
-												_react2.default.createElement(
-													'span',
-													{ style: style.header },
-													'Title'
-												),
-												_react2.default.createElement('br', null)
-											)
-										),
-										_react2.default.createElement(
-											'div',
-											{ style: style.container },
-											_react2.default.createElement(
-												'div',
-												{ style: style.dateBox },
-												'line 1',
-												_react2.default.createElement('br', null),
-												'username'
-											),
-											_react2.default.createElement(
-												'div',
-												{ style: style.body },
-												_react2.default.createElement(
-													'span',
-													{ style: style.header },
-													'Title'
-												),
-												_react2.default.createElement('br', null)
-											)
-										),
-										_react2.default.createElement(
-											'div',
-											{ style: style.container },
-											_react2.default.createElement(
-												'div',
-												{ style: style.dateBox },
-												'line 1',
-												_react2.default.createElement('br', null),
-												'username'
-											),
-											_react2.default.createElement(
-												'div',
-												{ style: style.body },
-												_react2.default.createElement(
-													'span',
-													{ style: style.header },
-													'Title'
-												),
-												_react2.default.createElement('br', null)
-											)
-										)
-									)
-								)
+								_react2.default.createElement(_containers.District, null)
 							)
 						)
 					)
@@ -50225,7 +50078,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.Venue = exports.Venues = exports.Posts = undefined;
+	exports.District = exports.Venue = exports.Venues = exports.Posts = undefined;
 	
 	var _Posts = __webpack_require__(435);
 	
@@ -50239,11 +50092,16 @@
 	
 	var _Venue2 = _interopRequireDefault(_Venue);
 	
+	var _District = __webpack_require__(442);
+	
+	var _District2 = _interopRequireDefault(_District);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.Posts = _Posts2.default;
 	exports.Venues = _Venues2.default;
 	exports.Venue = _Venue2.default;
+	exports.District = _District2.default;
 
 /***/ },
 /* 435 */
@@ -51159,6 +51017,286 @@
 	}(_react.Component);
 	
 	exports.default = Detail;
+
+/***/ },
+/* 442 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDropzone = __webpack_require__(439);
+	
+	var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
+	
+	var _reactRedux = __webpack_require__(172);
+	
+	var _utils = __webpack_require__(314);
+	
+	var _store = __webpack_require__(196);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _actions = __webpack_require__(436);
+	
+	var _actions2 = _interopRequireDefault(_actions);
+	
+	var _styles = __webpack_require__(443);
+	
+	var _styles2 = _interopRequireDefault(_styles);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var District = function (_Component) {
+		_inherits(District, _Component);
+	
+		function District() {
+			_classCallCheck(this, District);
+	
+			return _possibleConstructorReturn(this, (District.__proto__ || Object.getPrototypeOf(District)).apply(this, arguments));
+		}
+	
+		_createClass(District, [{
+			key: 'render',
+			value: function render() {
+				var style = _styles2.default.district;
+	
+				return _react2.default.createElement(
+					'div',
+					{ className: 'feature-box center media-box fbox-bg' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'fbox-desc' },
+						_react2.default.createElement(
+							'div',
+							{ style: style.title },
+							_react2.default.createElement(
+								'h3',
+								null,
+								'District'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ style: { borderTop: '1px solid #ddd', minHeight: 140 } },
+							_react2.default.createElement(
+								'div',
+								{ style: style.body },
+								_react2.default.createElement(
+									'span',
+									{ style: style.header },
+									'NYU'
+								),
+								_react2.default.createElement('br', null),
+								_react2.default.createElement(
+									'ul',
+									{ style: style.list },
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: '#' },
+											'Events'
+										)
+									),
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: '#' },
+											'Services'
+										)
+									),
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: '#' },
+											'Jobs'
+										)
+									),
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: '#' },
+											'News'
+										)
+									),
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: '#' },
+											'Chat'
+										)
+									)
+								)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ style: style.container },
+							_react2.default.createElement(
+								'div',
+								{ style: style.rightBox },
+								'line 1',
+								_react2.default.createElement('br', null),
+								'username'
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: style.body },
+								_react2.default.createElement(
+									'span',
+									{ style: style.header },
+									'Title'
+								),
+								_react2.default.createElement('br', null)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ style: style.container },
+							_react2.default.createElement(
+								'div',
+								{ style: style.rightBox },
+								'line 1',
+								_react2.default.createElement('br', null),
+								'username'
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: style.body },
+								_react2.default.createElement(
+									'span',
+									{ style: style.header },
+									'Title'
+								),
+								_react2.default.createElement('br', null)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ style: style.container },
+							_react2.default.createElement(
+								'div',
+								{ style: style.rightBox },
+								'line 1',
+								_react2.default.createElement('br', null),
+								'username'
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: style.body },
+								_react2.default.createElement(
+									'span',
+									{ style: style.header },
+									'Title'
+								),
+								_react2.default.createElement('br', null)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ style: style.container },
+							_react2.default.createElement(
+								'div',
+								{ style: style.rightBox },
+								'line 1',
+								_react2.default.createElement('br', null),
+								'username'
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: style.body },
+								_react2.default.createElement(
+									'span',
+									{ style: style.header },
+									'Title'
+								),
+								_react2.default.createElement('br', null)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return District;
+	}(_react.Component);
+	
+	exports.default = District;
+
+/***/ },
+/* 443 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.default = {
+	
+		district: {
+			content: {
+				background: '#f9f9f9',
+				minHeight: 800
+			},
+			container: {
+				borderTop: '1px solid #ddd', height: 140
+			},
+			rightBox: {
+				float: 'right',
+				background: '#eee',
+				textAlign: 'left',
+				width: 80,
+				height: 139,
+				padding: 12,
+				paddingTop: 40,
+				marginLeft: 10,
+				fontWeight: 100,
+				lineHeight: 16 + 'px'
+			},
+			title: {
+				padding: 25,
+				borderTop: '1px solid #ddd'
+			},
+			header: {
+				fontFamily: 'Pathway Gothic One',
+				fontSize: 22
+			},
+			body: {
+				padding: 16,
+				textAlign: 'left'
+			},
+			list: {
+				listStyleType: 'none'
+			}
+		}
+	
+	};
 
 /***/ }
 /******/ ]);
