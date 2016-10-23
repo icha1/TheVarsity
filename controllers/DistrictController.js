@@ -60,6 +60,13 @@ module.exports = {
 	post: function(params){
 		return new Promise(function(resolve, reject){
 			params['slug'] = TextUtils.slugVersion(params.name)
+			params['zips'] = params.zips.split(',')
+
+			var geoParts = params.geo.split(',')
+			params['geo'] = [
+				parseFloat(geoParts[0]),
+				parseFloat(geoParts[1])			
+			]
 
 			District.create(params, function(err, district){
 				if (err){
