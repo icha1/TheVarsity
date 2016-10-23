@@ -60,9 +60,9 @@ module.exports = {
 	post: function(params){
 		return new Promise(function(resolve, reject){
 			params['slug'] = TextUtils.slugVersion(params.name)
-			params['zips'] = params.zips.split(',')
+			params['zips'] = params.zipCodes.split(',')
 
-			var geoParts = params.geo.split(',')
+			var geoParts = params.latlng.split(',')
 			params['geo'] = [
 				parseFloat(geoParts[0]),
 				parseFloat(geoParts[1])			
