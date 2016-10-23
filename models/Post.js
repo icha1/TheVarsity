@@ -3,10 +3,11 @@ var mongoose = require('mongoose')
 var PostSchema = new mongoose.Schema({
 	title: {type:String, trim:true, default:''},
 	slug: {type:String, trim:true, lowercase:true, default:''},
-	code: {type:String, trim:true, default:''},
+	code: {type:String, trim:true, default:''}, // this is a unique identifier from instagram
 	image: {type:String, trim:true, default:''},
 	video: {type:String, trim:true, default:''},
 	text: {type:String, trim:true, default:''},
+	type: {type:String, trim:true, default:'event'}, // event, news, job, general
 	venue: {type:mongoose.Schema.Types.Mixed, default:{}},
 	profile: {type:mongoose.Schema.Types.Mixed, default:{}},
 	geo: {
@@ -24,6 +25,7 @@ PostSchema.methods.summary = function(){
 		image: this.image,
 		video: this.video,
 		text: this.text,
+		type: this.type,
 		venue: this.venue,
 		profile: this.profile,
 		geo: this.geo,
