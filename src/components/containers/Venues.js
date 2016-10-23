@@ -9,6 +9,7 @@ class Venues extends Component {
 	constructor(){
 		super()
 		this.fetchVenues = this.fetchVenues.bind(this)
+		this.calculateDistance = this.calculateDistance.bind(this)
 		this.state = {
 
 		}
@@ -16,16 +17,32 @@ class Venues extends Component {
 
 	componentDidMount(){
 		if (this.props.venues.length == 0)
-			this.fetchVenues(this.props.currentLocation)
+			this.fetchVenues(this.props.location)
+	}
+
+	calculateDistance(location){
+		const currentLocation = this.props.location
+		const deltaX = currentLocation.lat-location.lat
+		const deltaY = currentLocation.lng-location.lng
+		var cSquared = (deltaY*deltaY) + (deltaX*deltaX)
+		var dist = Math.sqrt(cSquared)
+		return dist
 	}
 
 	locationChanged(location){
 		console.log('locationChanged: '+JSON.stringify(location))
+		console.log('currentLocation: '+JSON.stringify(this.props.location))
+		const distance = this.calculateDistance(location)
+		console.log('Distance: '+JSON.stringify(distance))
+
+		if (distance < 0.01)
+			return		
+
 		this.fetchVenues(location)
 	}
 
-	fetchVenues(loc){
-		APIManager.handleGet('/api/venue', loc, (err, response) => {
+	fetchVenues(location){
+		APIManager.handleGet('/api/venue', location, (err, response) => {
 			if (err){
 				alert(err)
 				return

@@ -50050,12 +50050,12 @@
 							{ className: 'content-wrap container clearfix' },
 							_react2.default.createElement(
 								'div',
-								{ className: 'col_half' },
+								{ className: 'col_two_third' },
 								_react2.default.createElement(_containers.Posts, null)
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'col_half col_last' },
+								{ className: 'col_one_third col_last' },
 								_react2.default.createElement(
 									'div',
 									{ className: 'feature-box center media-box fbox-bg' },
@@ -50068,49 +50068,54 @@
 											_react2.default.createElement(
 												'h3',
 												null,
-												'Chat'
+												'District'
 											)
 										),
 										_react2.default.createElement(
 											'div',
-											{ style: style.container },
-											_react2.default.createElement(
-												'div',
-												{ style: style.dateBox },
-												'line 1',
-												_react2.default.createElement('br', null),
-												'username'
-											),
+											{ style: { borderTop: '1px solid #ddd', minHeight: 140 } },
 											_react2.default.createElement(
 												'div',
 												{ style: style.body },
 												_react2.default.createElement(
 													'span',
 													{ style: style.header },
-													'Title'
+													'NYU'
 												),
-												_react2.default.createElement('br', null)
-											)
-										),
-										_react2.default.createElement(
-											'div',
-											{ style: style.container },
-											_react2.default.createElement(
-												'div',
-												{ style: style.dateBox },
-												'line 1',
 												_react2.default.createElement('br', null),
-												'username'
-											),
-											_react2.default.createElement(
-												'div',
-												{ style: style.body },
 												_react2.default.createElement(
-													'span',
-													{ style: style.header },
-													'Title'
-												),
-												_react2.default.createElement('br', null)
+													'ul',
+													{ style: { listStyleType: 'none' } },
+													_react2.default.createElement(
+														'li',
+														null,
+														_react2.default.createElement(
+															'a',
+															{ href: '#' },
+															'Events'
+														)
+													),
+													_react2.default.createElement(
+														'li',
+														null,
+														'Services'
+													),
+													_react2.default.createElement(
+														'li',
+														null,
+														'Jobs'
+													),
+													_react2.default.createElement(
+														'li',
+														null,
+														'News'
+													),
+													_react2.default.createElement(
+														'li',
+														null,
+														'Chat'
+													)
+												)
 											)
 										),
 										_react2.default.createElement(
@@ -50422,6 +50427,7 @@
 			var _this = _possibleConstructorReturn(this, (Venues.__proto__ || Object.getPrototypeOf(Venues)).call(this));
 	
 			_this.fetchVenues = _this.fetchVenues.bind(_this);
+			_this.calculateDistance = _this.calculateDistance.bind(_this);
 			_this.state = {};
 			return _this;
 		}
@@ -50429,18 +50435,34 @@
 		_createClass(Venues, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				if (this.props.venues.length == 0) this.fetchVenues(this.props.currentLocation);
+				if (this.props.venues.length == 0) this.fetchVenues(this.props.location);
+			}
+		}, {
+			key: 'calculateDistance',
+			value: function calculateDistance(location) {
+				var currentLocation = this.props.location;
+				var deltaX = currentLocation.lat - location.lat;
+				var deltaY = currentLocation.lng - location.lng;
+				var cSquared = deltaY * deltaY + deltaX * deltaX;
+				var dist = Math.sqrt(cSquared);
+				return dist;
 			}
 		}, {
 			key: 'locationChanged',
 			value: function locationChanged(location) {
 				console.log('locationChanged: ' + JSON.stringify(location));
+				console.log('currentLocation: ' + JSON.stringify(this.props.location));
+				var distance = this.calculateDistance(location);
+				console.log('Distance: ' + JSON.stringify(distance));
+	
+				if (distance < 0.01) return;
+	
 				this.fetchVenues(location);
 			}
 		}, {
 			key: 'fetchVenues',
-			value: function fetchVenues(loc) {
-				_utils.APIManager.handleGet('/api/venue', loc, function (err, response) {
+			value: function fetchVenues(location) {
+				_utils.APIManager.handleGet('/api/venue', location, function (err, response) {
 					if (err) {
 						alert(err);
 						return;

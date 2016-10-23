@@ -16,16 +16,28 @@ class Home extends Component {
 
 				<section id="content" style={style.content}>
 					<div className="content-wrap container clearfix">
-
-						<div className="col_half">
+						<div className="col_two_third">
 							<Posts />
 						</div>
 
-						<div className="col_half col_last">
+						<div className="col_one_third col_last">
 							<div className="feature-box center media-box fbox-bg">
 								<div className="fbox-desc">
 									<div style={{padding:25, borderTop:'1px solid #ddd'}}>
-										<h3>Chat</h3>
+										<h3>District</h3>
+									</div>
+
+									<div style={{borderTop:'1px solid #ddd', minHeight:140}}>
+										<div style={style.body}>
+											<span style={style.header}>NYU</span><br />
+											<ul style={{listStyleType:'none'}}>
+												<li><a href="#">Events</a></li>
+												<li>Services</li>
+												<li>Jobs</li>
+												<li>News</li>
+												<li>Chat</li>
+											</ul>
+										</div>
 									</div>
 
 									<div style={style.container}>
@@ -67,27 +79,6 @@ class Home extends Component {
 											<span style={style.header}>Title</span><br />
 										</div>
 									</div>
-
-									<div style={style.container}>
-										<div style={style.dateBox}>
-											line 1<br />
-											username
-										</div>
-										<div style={style.body}>
-											<span style={style.header}>Title</span><br />
-										</div>
-									</div>
-
-									<div style={style.container}>
-										<div style={style.dateBox}>
-											line 1<br />
-											username
-										</div>
-										<div style={style.body}>
-											<span style={style.header}>Title</span><br />
-										</div>
-									</div>
-
 
 								</div>
 							</div>

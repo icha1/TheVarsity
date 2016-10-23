@@ -28,6 +28,7 @@ var Venues = (function (Component) {
 
 		_get(Object.getPrototypeOf(Venues.prototype), "constructor", this).call(this);
 		this.fetchVenues = this.fetchVenues.bind(this);
+		this.calculateDistance = this.calculateDistance.bind(this);
 		this.state = {};
 	}
 
@@ -36,7 +37,19 @@ var Venues = (function (Component) {
 	_prototypeProperties(Venues, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				if (this.props.venues.length == 0) this.fetchVenues(this.props.currentLocation);
+				if (this.props.venues.length == 0) this.fetchVenues(this.props.location);
+			},
+			writable: true,
+			configurable: true
+		},
+		calculateDistance: {
+			value: function calculateDistance(location) {
+				var currentLocation = this.props.location;
+				var deltaX = currentLocation.lat - location.lat;
+				var deltaY = currentLocation.lng - location.lng;
+				var cSquared = deltaY * deltaY + deltaX * deltaX;
+				var dist = Math.sqrt(cSquared);
+				return dist;
 			},
 			writable: true,
 			configurable: true
@@ -44,14 +57,20 @@ var Venues = (function (Component) {
 		locationChanged: {
 			value: function locationChanged(location) {
 				console.log("locationChanged: " + JSON.stringify(location));
-				this.fetchVenues(location);
+				console.log("currentLocation: " + JSON.stringify(this.props.location));
+				var distance = this.calculateDistance(location);
+				console.log("Distance: " + JSON.stringify(distance));
+
+				if (distance < 0.01) {
+					return;
+				}this.fetchVenues(location);
 			},
 			writable: true,
 			configurable: true
 		},
 		fetchVenues: {
-			value: function fetchVenues(loc) {
-				APIManager.handleGet("/api/venue", loc, function (err, response) {
+			value: function fetchVenues(location) {
+				APIManager.handleGet("/api/venue", location, function (err, response) {
 					if (err) {
 						alert(err);
 						return;

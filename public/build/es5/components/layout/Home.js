@@ -54,12 +54,12 @@ var Home = (function (Component) {
 							{ className: "content-wrap container clearfix" },
 							React.createElement(
 								"div",
-								{ className: "col_half" },
+								{ className: "col_two_third" },
 								React.createElement(Posts, null)
 							),
 							React.createElement(
 								"div",
-								{ className: "col_half col_last" },
+								{ className: "col_one_third col_last" },
 								React.createElement(
 									"div",
 									{ className: "feature-box center media-box fbox-bg" },
@@ -72,49 +72,54 @@ var Home = (function (Component) {
 											React.createElement(
 												"h3",
 												null,
-												"Chat"
+												"District"
 											)
 										),
 										React.createElement(
 											"div",
-											{ style: style.container },
-											React.createElement(
-												"div",
-												{ style: style.dateBox },
-												"line 1",
-												React.createElement("br", null),
-												"username"
-											),
+											{ style: { borderTop: "1px solid #ddd", minHeight: 140 } },
 											React.createElement(
 												"div",
 												{ style: style.body },
 												React.createElement(
 													"span",
 													{ style: style.header },
-													"Title"
+													"NYU"
 												),
-												React.createElement("br", null)
-											)
-										),
-										React.createElement(
-											"div",
-											{ style: style.container },
-											React.createElement(
-												"div",
-												{ style: style.dateBox },
-												"line 1",
 												React.createElement("br", null),
-												"username"
-											),
-											React.createElement(
-												"div",
-												{ style: style.body },
 												React.createElement(
-													"span",
-													{ style: style.header },
-													"Title"
-												),
-												React.createElement("br", null)
+													"ul",
+													{ style: { listStyleType: "none" } },
+													React.createElement(
+														"li",
+														null,
+														React.createElement(
+															"a",
+															{ href: "#" },
+															"Events"
+														)
+													),
+													React.createElement(
+														"li",
+														null,
+														"Services"
+													),
+													React.createElement(
+														"li",
+														null,
+														"Jobs"
+													),
+													React.createElement(
+														"li",
+														null,
+														"News"
+													),
+													React.createElement(
+														"li",
+														null,
+														"Chat"
+													)
+												)
 											)
 										),
 										React.createElement(
