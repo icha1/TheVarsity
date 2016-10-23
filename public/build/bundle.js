@@ -50050,12 +50050,12 @@
 							{ className: 'content-wrap container clearfix' },
 							_react2.default.createElement(
 								'div',
-								{ className: 'col_two_third' },
+								{ className: 'col_half' },
 								_react2.default.createElement(_containers.Posts, null)
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'col_one_third col_last' },
+								{ className: 'col_half col_last' },
 								_react2.default.createElement(
 									'div',
 									{ className: 'feature-box center media-box fbox-bg' },
@@ -50069,6 +50069,69 @@
 												'h3',
 												null,
 												'Chat'
+											)
+										),
+										_react2.default.createElement(
+											'div',
+											{ style: style.container },
+											_react2.default.createElement(
+												'div',
+												{ style: style.dateBox },
+												'line 1',
+												_react2.default.createElement('br', null),
+												'username'
+											),
+											_react2.default.createElement(
+												'div',
+												{ style: style.body },
+												_react2.default.createElement(
+													'span',
+													{ style: style.header },
+													'Title'
+												),
+												_react2.default.createElement('br', null)
+											)
+										),
+										_react2.default.createElement(
+											'div',
+											{ style: style.container },
+											_react2.default.createElement(
+												'div',
+												{ style: style.dateBox },
+												'line 1',
+												_react2.default.createElement('br', null),
+												'username'
+											),
+											_react2.default.createElement(
+												'div',
+												{ style: style.body },
+												_react2.default.createElement(
+													'span',
+													{ style: style.header },
+													'Title'
+												),
+												_react2.default.createElement('br', null)
+											)
+										),
+										_react2.default.createElement(
+											'div',
+											{ style: style.container },
+											_react2.default.createElement(
+												'div',
+												{ style: style.dateBox },
+												'line 1',
+												_react2.default.createElement('br', null),
+												'username'
+											),
+											_react2.default.createElement(
+												'div',
+												{ style: style.body },
+												_react2.default.createElement(
+													'span',
+													{ style: style.header },
+													'Title'
+												),
+												_react2.default.createElement('br', null)
 											)
 										),
 										_react2.default.createElement(

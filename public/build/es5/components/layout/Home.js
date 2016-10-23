@@ -54,12 +54,12 @@ var Home = (function (Component) {
 							{ className: "content-wrap container clearfix" },
 							React.createElement(
 								"div",
-								{ className: "col_two_third" },
+								{ className: "col_half" },
 								React.createElement(Posts, null)
 							),
 							React.createElement(
 								"div",
-								{ className: "col_one_third col_last" },
+								{ className: "col_half col_last" },
 								React.createElement(
 									"div",
 									{ className: "feature-box center media-box fbox-bg" },
@@ -73,6 +73,69 @@ var Home = (function (Component) {
 												"h3",
 												null,
 												"Chat"
+											)
+										),
+										React.createElement(
+											"div",
+											{ style: style.container },
+											React.createElement(
+												"div",
+												{ style: style.dateBox },
+												"line 1",
+												React.createElement("br", null),
+												"username"
+											),
+											React.createElement(
+												"div",
+												{ style: style.body },
+												React.createElement(
+													"span",
+													{ style: style.header },
+													"Title"
+												),
+												React.createElement("br", null)
+											)
+										),
+										React.createElement(
+											"div",
+											{ style: style.container },
+											React.createElement(
+												"div",
+												{ style: style.dateBox },
+												"line 1",
+												React.createElement("br", null),
+												"username"
+											),
+											React.createElement(
+												"div",
+												{ style: style.body },
+												React.createElement(
+													"span",
+													{ style: style.header },
+													"Title"
+												),
+												React.createElement("br", null)
+											)
+										),
+										React.createElement(
+											"div",
+											{ style: style.container },
+											React.createElement(
+												"div",
+												{ style: style.dateBox },
+												"line 1",
+												React.createElement("br", null),
+												"username"
+											),
+											React.createElement(
+												"div",
+												{ style: style.body },
+												React.createElement(
+													"span",
+													{ style: style.header },
+													"Title"
+												),
+												React.createElement("br", null)
 											)
 										),
 										React.createElement(

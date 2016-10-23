@@ -17,12 +17,11 @@ class Home extends Component {
 				<section id="content" style={style.content}>
 					<div className="content-wrap container clearfix">
 
-						<div className="col_two_third">
+						<div className="col_half">
 							<Posts />
 						</div>
 
-						<div className="col_one_third col_last">
-
+						<div className="col_half col_last">
 							<div className="feature-box center media-box fbox-bg">
 								<div className="fbox-desc">
 									<div style={{padding:25, borderTop:'1px solid #ddd'}}>
@@ -58,6 +57,37 @@ class Home extends Component {
 											<span style={style.header}>Title</span><br />
 										</div>
 									</div>
+
+									<div style={style.container}>
+										<div style={style.dateBox}>
+											line 1<br />
+											username
+										</div>
+										<div style={style.body}>
+											<span style={style.header}>Title</span><br />
+										</div>
+									</div>
+
+									<div style={style.container}>
+										<div style={style.dateBox}>
+											line 1<br />
+											username
+										</div>
+										<div style={style.body}>
+											<span style={style.header}>Title</span><br />
+										</div>
+									</div>
+
+									<div style={style.container}>
+										<div style={style.dateBox}>
+											line 1<br />
+											username
+										</div>
+										<div style={style.body}>
+											<span style={style.header}>Title</span><br />
+										</div>
+									</div>
+
 
 								</div>
 							</div>
