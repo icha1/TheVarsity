@@ -22,7 +22,35 @@ class Home extends Component {
 						</div>
 
 						<div className="col_half col_last">
-							District Info
+
+							<div className="feature-box center media-box fbox-bg">
+								<div className="fbox-desc">
+									<div style={{padding:25, borderTop:'1px solid #ddd'}}>
+										<h3>Chat</h3>
+									</div>
+
+									<div style={style.container}>
+										<div style={style.dateBox}>
+											line 1<br />
+											username
+										</div>
+										<div style={style.body}>
+											<span style={style.header}>Title</span><br />
+										</div>
+									</div>
+
+									<div style={style.container}>
+										<div style={style.dateBox}>
+											line 1<br />
+											username
+										</div>
+										<div style={style.body}>
+											<span style={style.header}>Title</span><br />
+										</div>
+									</div>
+
+								</div>
+							</div>
 						</div>
 
 					</div>

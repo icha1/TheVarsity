@@ -7736,7 +7736,7 @@ body:not(.device-touch) .button.button-full strong {
   margin: 0;
 }
 .feature-box.media-box.fbox-bg .fbox-desc {
-  padding: 25px;
+  padding: 0px;
   background-color: #FFF;
   border: 1px solid #E5E5E5;
   border-top: 0;

@@ -50056,7 +50056,65 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'col_half col_last' },
-								'District Info'
+								_react2.default.createElement(
+									'div',
+									{ className: 'feature-box center media-box fbox-bg' },
+									_react2.default.createElement(
+										'div',
+										{ className: 'fbox-desc' },
+										_react2.default.createElement(
+											'div',
+											{ style: { padding: 25, borderTop: '1px solid #ddd' } },
+											_react2.default.createElement(
+												'h3',
+												null,
+												'Chat'
+											)
+										),
+										_react2.default.createElement(
+											'div',
+											{ style: style.container },
+											_react2.default.createElement(
+												'div',
+												{ style: style.dateBox },
+												'line 1',
+												_react2.default.createElement('br', null),
+												'username'
+											),
+											_react2.default.createElement(
+												'div',
+												{ style: style.body },
+												_react2.default.createElement(
+													'span',
+													{ style: style.header },
+													'Title'
+												),
+												_react2.default.createElement('br', null)
+											)
+										),
+										_react2.default.createElement(
+											'div',
+											{ style: style.container },
+											_react2.default.createElement(
+												'div',
+												{ style: style.dateBox },
+												'line 1',
+												_react2.default.createElement('br', null),
+												'username'
+											),
+											_react2.default.createElement(
+												'div',
+												{ style: style.body },
+												_react2.default.createElement(
+													'span',
+													{ style: style.header },
+													'Title'
+												),
+												_react2.default.createElement('br', null)
+											)
+										)
+									)
+								)
 							)
 						)
 					)
@@ -50902,7 +50960,31 @@
 			content: {
 				background: '#f9f9f9',
 				minHeight: 800
+			},
+			container: {
+				borderTop: '1px solid #ddd', height: 140
+			},
+			dateBox: {
+				float: 'right',
+				background: '#eee',
+				textAlign: 'left',
+				width: 80,
+				height: 139,
+				padding: 12,
+				paddingTop: 40,
+				marginLeft: 10,
+				fontWeight: 100,
+				lineHeight: 16 + 'px'
+			},
+			header: {
+				fontFamily: 'Pathway Gothic One',
+				fontSize: 22
+			},
+			body: {
+				padding: 16,
+				textAlign: 'left'
 			}
+	
 		}
 	
 	};

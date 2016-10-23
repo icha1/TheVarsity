@@ -60,7 +60,65 @@ var Home = (function (Component) {
 							React.createElement(
 								"div",
 								{ className: "col_half col_last" },
-								"District Info"
+								React.createElement(
+									"div",
+									{ className: "feature-box center media-box fbox-bg" },
+									React.createElement(
+										"div",
+										{ className: "fbox-desc" },
+										React.createElement(
+											"div",
+											{ style: { padding: 25, borderTop: "1px solid #ddd" } },
+											React.createElement(
+												"h3",
+												null,
+												"Chat"
+											)
+										),
+										React.createElement(
+											"div",
+											{ style: style.container },
+											React.createElement(
+												"div",
+												{ style: style.dateBox },
+												"line 1",
+												React.createElement("br", null),
+												"username"
+											),
+											React.createElement(
+												"div",
+												{ style: style.body },
+												React.createElement(
+													"span",
+													{ style: style.header },
+													"Title"
+												),
+												React.createElement("br", null)
+											)
+										),
+										React.createElement(
+											"div",
+											{ style: style.container },
+											React.createElement(
+												"div",
+												{ style: style.dateBox },
+												"line 1",
+												React.createElement("br", null),
+												"username"
+											),
+											React.createElement(
+												"div",
+												{ style: style.body },
+												React.createElement(
+													"span",
+													{ style: style.header },
+													"Title"
+												),
+												React.createElement("br", null)
+											)
+										)
+									)
+								)
 							)
 						)
 					)
