@@ -16,7 +16,6 @@ class Post extends Component {
 					</div>
 				</div>
 				<div className={styles.post.content.className} style={styles.post.content}>
-					<span style={{float:'right'}}>{DateUtils.formattedDate(post.timestamp)}</span>
 					<h2 style={styles.post.header}>
 						<Link to={'/venue/'+post.venue.slug} style={styles.post.title}>{ post.title }</Link>
 					</h2>
@@ -28,7 +27,7 @@ class Post extends Component {
 					<Link to={'/venue/'+post.venue.slug} style={styles.post.title}>{ post.title }</Link>
 				</h4>
 				<span>{ post.venue.address }</span>
-
+				<span style={{float:'right'}}>{DateUtils.formattedDate(post.timestamp)}</span>
 				<div className="clear"></div>
 			</div>
 		)

@@ -33443,11 +33443,6 @@
 						'div',
 						{ className: _styles2.default.post.content.className, style: _styles2.default.post.content },
 						_react2.default.createElement(
-							'span',
-							{ style: { float: 'right' } },
-							_utils.DateUtils.formattedDate(post.timestamp)
-						),
-						_react2.default.createElement(
 							'h2',
 							{ style: _styles2.default.post.header },
 							_react2.default.createElement(
@@ -33477,6 +33472,11 @@
 						'span',
 						null,
 						post.venue.address
+					),
+					_react2.default.createElement(
+						'span',
+						{ style: { float: 'right' } },
+						_utils.DateUtils.formattedDate(post.timestamp)
 					),
 					_react2.default.createElement('div', { className: 'clear' })
 				);
@@ -50050,12 +50050,12 @@
 							{ className: 'content-wrap container clearfix' },
 							_react2.default.createElement(
 								'div',
-								{ className: 'col_half' },
+								{ className: 'col_two_third' },
 								_react2.default.createElement(_containers.Posts, null)
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'col_half col_last' },
+								{ className: 'col_one_third col_last' },
 								_react2.default.createElement(
 									'div',
 									{ className: 'feature-box center media-box fbox-bg' },
@@ -50069,6 +50069,27 @@
 												'h3',
 												null,
 												'Chat'
+											)
+										),
+										_react2.default.createElement(
+											'div',
+											{ style: style.container },
+											_react2.default.createElement(
+												'div',
+												{ style: style.dateBox },
+												'line 1',
+												_react2.default.createElement('br', null),
+												'username'
+											),
+											_react2.default.createElement(
+												'div',
+												{ style: style.body },
+												_react2.default.createElement(
+													'span',
+													{ style: style.header },
+													'Title'
+												),
+												_react2.default.createElement('br', null)
 											)
 										),
 										_react2.default.createElement(

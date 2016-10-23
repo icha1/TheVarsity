@@ -52,11 +52,6 @@ var Post = (function (Component) {
 						"div",
 						{ className: styles.post.content.className, style: styles.post.content },
 						React.createElement(
-							"span",
-							{ style: { float: "right" } },
-							DateUtils.formattedDate(post.timestamp)
-						),
-						React.createElement(
 							"h2",
 							{ style: styles.post.header },
 							React.createElement(
@@ -86,6 +81,11 @@ var Post = (function (Component) {
 						"span",
 						null,
 						post.venue.address
+					),
+					React.createElement(
+						"span",
+						{ style: { float: "right" } },
+						DateUtils.formattedDate(post.timestamp)
 					),
 					React.createElement("div", { className: "clear" })
 				);
