@@ -19,8 +19,10 @@ module.exports = {
 			fontFamily: "Pathway Gothic One"
 		},
 		postImage: {
-			maxWidth: 180
+			maxWidth: 180,
+			marginTop: 12
 		}
+
 	},
 	loader: {
 		lines: 13,
