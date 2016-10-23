@@ -37,7 +37,7 @@ class Posts extends Component {
 		return (
 			<div className="content-wrap container clearfix">
 
-				<div className="col_full col_last">
+				<div className="col_half">
 					<ol className="commentlist noborder nomargin nopadding clearfix">
 
 						{ currentPosts }

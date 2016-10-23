@@ -63,7 +63,7 @@ var Posts = (function (Component) {
 					{ className: "content-wrap container clearfix" },
 					React.createElement(
 						"div",
-						{ className: "col_full col_last" },
+						{ className: "col_half" },
 						React.createElement(
 							"ol",
 							{ className: "commentlist noborder nomargin nopadding clearfix" },
