@@ -7,9 +7,6 @@ var Promise = require('bluebird')
 module.exports = {
 	get: function(params, isRaw){
 		return new Promise(function(resolve, reject){
-			var sortOrder = (params.sort == 'asc') ? 1 : -1
-			delete params['sort']
-
 			if (params.lat!=null && params.lng!=null){
 				var distance = 1000/6371 // 6371 is radius of earth in KM
 				params['geo'] = {
@@ -28,7 +25,17 @@ module.exports = {
 			
 			delete params['limit']
 
-			District.find(params, null, {limit:parseInt(limit), sort:{timestamp: sortOrder}}, function(err, districts){
+			var sortOrder = (params.sort == 'asc') ? 1 : -1 // default to reverse chronological
+			delete params['sort']
+
+			var filters = {
+				limit: parseInt(limit),
+				sort: {
+					timestamp: sortOrder
+				}
+			}
+
+			District.find(params, null, filters, function(err, districts){
 				if (err){
 					reject(err)
 					return
