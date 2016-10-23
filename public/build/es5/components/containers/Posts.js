@@ -35,7 +35,14 @@ var Posts = (function (Component) {
 	_prototypeProperties(Posts, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				APIManager.handleGet("/api/post", this.props.currentLocation, function (err, response) {
+				//		console.log('LAT/LNG: '+JSON.stringify(this.props.location))
+				var params = {
+					limit: 10,
+					lat: this.props.location.lat,
+					lng: this.props.location.lng
+				};
+
+				APIManager.handleGet("/api/post", params, function (err, response) {
 					if (err) {
 						alert(err);
 						return;

@@ -14,7 +14,14 @@ class Posts extends Component {
 	}
 
 	componentDidMount(){
-		APIManager.handleGet('/api/post', this.props.currentLocation, (err, response) => {
+//		console.log('LAT/LNG: '+JSON.stringify(this.props.location))
+		const params = {
+			limit: 10,
+			lat: this.props.location.lat,
+			lng: this.props.location.lng
+		}
+
+		APIManager.handleGet('/api/post', params, (err, response) => {
 			if (err){
 				alert(err)
 				return
