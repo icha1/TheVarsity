@@ -67,7 +67,7 @@ var Post = (function (Component) {
 						),
 						React.createElement(
 							"p",
-							{ style: { marginTop: 0 } },
+							{ style: { marginTop: 0, marginBottom: 12 } },
 							post.text
 						),
 						React.createElement("img", { style: styles.postImage, src: post.image })

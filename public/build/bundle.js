@@ -33458,7 +33458,7 @@
 						),
 						_react2.default.createElement(
 							'p',
-							{ style: { marginTop: 0 } },
+							{ style: { marginTop: 0, marginBottom: 12 } },
 							post.text
 						),
 						_react2.default.createElement('img', { style: _styles2.default.postImage, src: post.image })
