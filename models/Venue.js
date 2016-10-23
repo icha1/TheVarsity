@@ -4,6 +4,7 @@ var VenueSchema = new mongoose.Schema({
 	name: {type:String, trim:true, default:''},
 	slug: {type:String, trim:true, lowercase:true, default:''},
 	image: {type:String, trim:true, default:''},
+	district: {type:String, trim:true, default:''},
 	description: {type:String, trim:true, default:''},
 	social: {type:mongoose.Schema.Types.Mixed, default:{}},
 	address: {type:mongoose.Schema.Types.Mixed, default:{}}, // city, state, zip
@@ -19,6 +20,7 @@ VenueSchema.methods.summary = function(){
 		name: this.name,
 		slug: this.slug,
 		image: this.image,
+		district: this.district,
 		description: this.description,
 		social: this.social,
 		address: this.address,
