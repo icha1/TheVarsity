@@ -66,23 +66,11 @@ var Post = (function (Component) {
 							)
 						),
 						React.createElement(
-							"div",
-							{ className: "row" },
-							React.createElement(
-								"div",
-								{ className: "col-md-8" },
-								React.createElement(
-									"p",
-									{ style: { marginTop: 0 } },
-									post.text
-								)
-							),
-							React.createElement(
-								"div",
-								{ className: "col-md-4" },
-								React.createElement("img", { style: styles.postImage, src: post.image })
-							)
-						)
+							"p",
+							{ style: { marginTop: 0 } },
+							post.text
+						),
+						React.createElement("img", { style: styles.postImage, src: post.image })
 					),
 					React.createElement("hr", null),
 					React.createElement(

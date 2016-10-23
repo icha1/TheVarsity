@@ -49,7 +49,20 @@ var Home = (function (Component) {
 					React.createElement(
 						"section",
 						{ id: "content", style: style.content },
-						React.createElement(Posts, null)
+						React.createElement(
+							"div",
+							{ className: "content-wrap container clearfix" },
+							React.createElement(
+								"div",
+								{ className: "col_half" },
+								React.createElement(Posts, null)
+							),
+							React.createElement(
+								"div",
+								{ className: "col_half col_last" },
+								"District Info"
+							)
+						)
 					)
 				);
 			},

@@ -35,16 +35,10 @@ class Posts extends Component {
 		})
 
 		return (
-			<div className="content-wrap container clearfix">
+			<ol className="commentlist noborder nomargin nopadding clearfix">
+				{ currentPosts }
+			</ol>
 
-				<div className="col_half">
-					<ol className="commentlist noborder nomargin nopadding clearfix">
-
-						{ currentPosts }
-					</ol>
-
-				</div>
-			</div>
 		)
 	}
 }

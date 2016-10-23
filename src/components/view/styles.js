@@ -17,10 +17,8 @@ export default {
 			fontFamily:'Pathway Gothic One'
 		},
 		postImage: {
-			width:180,
-			marginTop:12
+			maxWidth: 180
 		}
-
 	},
 	loader: {
 	    lines: 13,

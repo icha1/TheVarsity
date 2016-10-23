@@ -5363,7 +5363,7 @@ body:not(.device-touch) .entry-link {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  padding: 20px 20px 20px 35px;
+  padding: 20px 30px 20px 35px;
 }
 .commentlist > li:first-child,
 #reviews .commentlist > li:first-child {

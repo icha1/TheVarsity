@@ -15,7 +15,18 @@ class Home extends Component {
 				</header>
 
 				<section id="content" style={style.content}>
-					<Posts />
+					<div className="content-wrap container clearfix">
+
+						<div className="col_half">
+							<Posts />
+						</div>
+
+						<div className="col_half col_last">
+							District Info
+						</div>
+
+					</div>
+
 				</section>
 			</div>
 		)

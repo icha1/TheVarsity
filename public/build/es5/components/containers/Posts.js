@@ -59,17 +59,9 @@ var Posts = (function (Component) {
 				});
 
 				return React.createElement(
-					"div",
-					{ className: "content-wrap container clearfix" },
-					React.createElement(
-						"div",
-						{ className: "col_half" },
-						React.createElement(
-							"ol",
-							{ className: "commentlist noborder nomargin nopadding clearfix" },
-							currentPosts
-						)
-					)
+					"ol",
+					{ className: "commentlist noborder nomargin nopadding clearfix" },
+					currentPosts
 				);
 			},
 			writable: true,

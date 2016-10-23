@@ -20,14 +20,8 @@ class Post extends Component {
 					<h2 style={styles.post.header}>
 						<Link to={'/venue/'+post.venue.slug} style={styles.post.title}>{ post.title }</Link>
 					</h2>
-					<div className="row">
-						<div className="col-md-8">
 							<p style={{marginTop:0}}>{ post.text }</p>
-						</div>
-						<div className="col-md-4">
 							<img style={styles.postImage} src={post.image} />
-						</div>
-					</div>
 				</div>
 				<hr />
 				<h4 style={styles.post.header}>
