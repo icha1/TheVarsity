@@ -2,7 +2,7 @@
 
 module.exports = {
 
-	home: {
+	district: {
 		content: {
 			background: "#f9f9f9",
 			minHeight: 800
@@ -10,7 +10,7 @@ module.exports = {
 		container: {
 			borderTop: "1px solid #ddd", height: 140
 		},
-		dateBox: {
+		rightBox: {
 			float: "right",
 			background: "#eee",
 			textAlign: "left",
@@ -22,6 +22,10 @@ module.exports = {
 			fontWeight: 100,
 			lineHeight: 16 + "px"
 		},
+		title: {
+			padding: 25,
+			borderTop: "1px solid #ddd"
+		},
 		header: {
 			fontFamily: "Pathway Gothic One",
 			fontSize: 22
@@ -29,9 +33,10 @@ module.exports = {
 		body: {
 			padding: 16,
 			textAlign: "left"
+		},
+		list: {
+			listStyleType: "none"
 		}
-
-
 	}
 
 };

@@ -9,6 +9,7 @@ class Venues extends Component {
 	constructor(){
 		super()
 		this.fetchVenues = this.fetchVenues.bind(this)
+		this.fetchDistrict = this.fetchDistrict.bind(this)
 		this.calculateDistance = this.calculateDistance.bind(this)
 		this.state = {
 
@@ -48,9 +49,29 @@ class Venues extends Component {
 				return
 			}
 
-//			console.log('Venues: '+JSON.stringify(response.results))
 			store.currentStore().dispatch(actions.venuesReceived(response.results))
+			this.fetchDistrict()
 		})
+	}
+
+	fetchDistrict(){
+		console.log('fetchDistrict')
+
+		const params = {
+			limit: 1,
+			lat: this.props.location.lat,
+			lng: this.props.location.lng
+		}
+
+		APIManager.handleGet('/api/district', params, (err, response) => {
+			if (err){
+				alert(err)
+				return
+			}
+
+			console.log(JSON.stringify(response))
+		})
+
 	}
 
 	render(){

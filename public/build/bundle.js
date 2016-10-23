@@ -50285,6 +50285,7 @@
 			var _this = _possibleConstructorReturn(this, (Venues.__proto__ || Object.getPrototypeOf(Venues)).call(this));
 	
 			_this.fetchVenues = _this.fetchVenues.bind(_this);
+			_this.fetchDistrict = _this.fetchDistrict.bind(_this);
 			_this.calculateDistance = _this.calculateDistance.bind(_this);
 			_this.state = {};
 			return _this;
@@ -50320,14 +50321,36 @@
 		}, {
 			key: 'fetchVenues',
 			value: function fetchVenues(location) {
+				var _this2 = this;
+	
 				_utils.APIManager.handleGet('/api/venue', location, function (err, response) {
 					if (err) {
 						alert(err);
 						return;
 					}
 	
-					//			console.log('Venues: '+JSON.stringify(response.results))
 					_store2.default.currentStore().dispatch(_actions2.default.venuesReceived(response.results));
+					_this2.fetchDistrict();
+				});
+			}
+		}, {
+			key: 'fetchDistrict',
+			value: function fetchDistrict() {
+				console.log('fetchDistrict');
+	
+				var params = {
+					limit: 1,
+					lat: this.props.location.lat,
+					lng: this.props.location.lng
+				};
+	
+				_utils.APIManager.handleGet('/api/district', params, function (err, response) {
+					if (err) {
+						alert(err);
+						return;
+					}
+	
+					console.log(JSON.stringify(response));
 				});
 			}
 		}, {

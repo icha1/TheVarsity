@@ -37,7 +37,7 @@ var District = (function (Component) {
 	_prototypeProperties(District, null, {
 		render: {
 			value: function render() {
-				var style = styles.home;
+				var style = styles.district;
 
 				return React.createElement(
 					"div",
@@ -47,7 +47,7 @@ var District = (function (Component) {
 						{ className: "fbox-desc" },
 						React.createElement(
 							"div",
-							{ style: { padding: 25, borderTop: "1px solid #ddd" } },
+							{ style: style.title },
 							React.createElement(
 								"h3",
 								null,
@@ -68,7 +68,7 @@ var District = (function (Component) {
 								React.createElement("br", null),
 								React.createElement(
 									"ul",
-									{ style: { listStyleType: "none" } },
+									{ style: style.list },
 									React.createElement(
 										"li",
 										null,
@@ -122,7 +122,7 @@ var District = (function (Component) {
 							{ style: style.container },
 							React.createElement(
 								"div",
-								{ style: style.dateBox },
+								{ style: style.rightBox },
 								"line 1",
 								React.createElement("br", null),
 								"username"
@@ -143,7 +143,7 @@ var District = (function (Component) {
 							{ style: style.container },
 							React.createElement(
 								"div",
-								{ style: style.dateBox },
+								{ style: style.rightBox },
 								"line 1",
 								React.createElement("br", null),
 								"username"
@@ -164,7 +164,7 @@ var District = (function (Component) {
 							{ style: style.container },
 							React.createElement(
 								"div",
-								{ style: style.dateBox },
+								{ style: style.rightBox },
 								"line 1",
 								React.createElement("br", null),
 								"username"
@@ -185,7 +185,7 @@ var District = (function (Component) {
 							{ style: style.container },
 							React.createElement(
 								"div",
-								{ style: style.dateBox },
+								{ style: style.rightBox },
 								"line 1",
 								React.createElement("br", null),
 								"username"

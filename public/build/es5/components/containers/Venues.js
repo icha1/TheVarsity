@@ -28,6 +28,7 @@ var Venues = (function (Component) {
 
 		_get(Object.getPrototypeOf(Venues.prototype), "constructor", this).call(this);
 		this.fetchVenues = this.fetchVenues.bind(this);
+		this.fetchDistrict = this.fetchDistrict.bind(this);
 		this.calculateDistance = this.calculateDistance.bind(this);
 		this.state = {};
 	}
@@ -70,14 +71,37 @@ var Venues = (function (Component) {
 		},
 		fetchVenues: {
 			value: function fetchVenues(location) {
+				var _this = this;
 				APIManager.handleGet("/api/venue", location, function (err, response) {
 					if (err) {
 						alert(err);
 						return;
 					}
 
-					//			console.log('Venues: '+JSON.stringify(response.results))
 					store.currentStore().dispatch(actions.venuesReceived(response.results));
+					_this.fetchDistrict();
+				});
+			},
+			writable: true,
+			configurable: true
+		},
+		fetchDistrict: {
+			value: function fetchDistrict() {
+				console.log("fetchDistrict");
+
+				var params = {
+					limit: 1,
+					lat: this.props.location.lat,
+					lng: this.props.location.lng
+				};
+
+				APIManager.handleGet("/api/district", params, function (err, response) {
+					if (err) {
+						alert(err);
+						return;
+					}
+
+					console.log(JSON.stringify(response));
 				});
 			},
 			writable: true,
