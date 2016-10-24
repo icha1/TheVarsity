@@ -60,7 +60,7 @@ var Map = (function (Component) {
 				var markers = null;
 				if (this.props.markers != null) {
 					markers = this.props.markers.map(function (marker, i) {
-						marker.defaultAnimation = 2;
+						marker.defaultAnimation = _this.props.animation;
 						marker.icon = marker.image + "=s60-c";
 						marker.position = {
 							lat: marker.geo[0],

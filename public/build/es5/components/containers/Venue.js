@@ -87,7 +87,7 @@ var Venue = (function (Component) {
 						React.createElement(
 							"div",
 							{ id: "header-wrap" },
-							React.createElement(Map, { center: center, zoom: 17, markers: [venue] })
+							React.createElement(Map, { center: center, zoom: 17, animation: 2, markers: [venue] })
 						)
 					),
 					React.createElement(

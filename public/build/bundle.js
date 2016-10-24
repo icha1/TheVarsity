@@ -23535,7 +23535,7 @@
 				var markers = null;
 				if (this.props.markers != null) {
 					markers = this.props.markers.map(function (marker, i) {
-						marker['defaultAnimation'] = 2;
+						marker['defaultAnimation'] = _this2.props.animation;
 						marker['icon'] = marker.image + '=s60-c';
 						marker['position'] = {
 							lat: marker.geo[0],
@@ -33503,20 +33503,28 @@
 						'div',
 						{ className: _styles2.default.post.content.className, style: _styles2.default.post.content },
 						_react2.default.createElement(
-							'h2',
-							{ style: _styles2.default.post.header },
+							'div',
+							{ className: 'col_two_third' },
 							_react2.default.createElement(
-								_reactRouter.Link,
-								{ to: '/venue/' + post.venue.slug, style: _styles2.default.post.title },
-								post.title
+								'h2',
+								{ style: _styles2.default.post.header },
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/venue/' + post.venue.slug, style: _styles2.default.post.title },
+									post.title
+								)
+							),
+							_react2.default.createElement(
+								'p',
+								{ style: { marginTop: 0, marginBottom: 12 } },
+								post.text
 							)
 						),
 						_react2.default.createElement(
-							'p',
-							{ style: { marginTop: 0, marginBottom: 12 } },
-							post.text
-						),
-						_react2.default.createElement('img', { style: _styles2.default.postImage, src: post.image })
+							'div',
+							{ className: 'col_one_third col_last' },
+							_react2.default.createElement('img', { style: _styles2.default.postImage, src: post.image })
+						)
 					),
 					_react2.default.createElement('hr', null),
 					_react2.default.createElement(
@@ -50419,7 +50427,6 @@
 				};
 	
 				console.log('fetchDistrict: ' + JSON.stringify(params));
-	
 				_utils.APIManager.handleGet('/api/district', params, function (err, response) {
 					if (err) {
 						alert(err);
@@ -50436,6 +50443,7 @@
 				return _react2.default.createElement(_view.Map, {
 					center: this.props.location,
 					zoom: 16,
+					animation: 2,
 					markers: this.props.venues,
 					mapMoved: this.locationChanged.bind(this) });
 			}
@@ -50557,7 +50565,7 @@
 						_react2.default.createElement(
 							'div',
 							{ id: 'header-wrap' },
-							_react2.default.createElement(_view.Map, { center: center, zoom: 17, markers: [venue] })
+							_react2.default.createElement(_view.Map, { center: center, zoom: 17, animation: 2, markers: [venue] })
 						)
 					),
 					_react2.default.createElement(

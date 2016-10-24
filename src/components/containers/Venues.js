@@ -63,7 +63,6 @@ class Venues extends Component {
 		}
 
 		console.log('fetchDistrict: '+JSON.stringify(params))
-
 		APIManager.handleGet('/api/district', params, (err, response) => {
 			if (err){
 				alert(err)
@@ -73,7 +72,6 @@ class Venues extends Component {
 //			console.log(JSON.stringify(response))
 			store.currentStore().dispatch(actions.districtChanged(response.results))
 		})
-
 	}
 
 	render(){
@@ -81,6 +79,7 @@ class Venues extends Component {
 			<Map 
 				center={this.props.location} 
 				zoom={16} 
+				animation={2}
 				markers={this.props.venues}
 				mapMoved={this.locationChanged.bind(this)} />
 		)

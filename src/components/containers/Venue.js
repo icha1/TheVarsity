@@ -59,7 +59,7 @@ class Venue extends Component {
 
 				<header id="header" className="no-sticky">
 		            <div id="header-wrap">
-						<Map center={center} zoom={17} markers={[venue]} />
+						<Map center={center} zoom={17} animation={2} markers={[venue]} />
 		            </div>
 				</header>
 

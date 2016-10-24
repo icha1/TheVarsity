@@ -26,7 +26,7 @@ class Map extends Component {
 		var markers = null
 		if (this.props.markers != null){
 			markers = this.props.markers.map((marker, i) => {
-				marker['defaultAnimation'] = 2
+				marker['defaultAnimation'] = this.props.animation
 				marker['icon'] = marker.image+'=s60-c'
 				marker['position'] = {
 					lat: marker.geo[0],

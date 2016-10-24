@@ -95,7 +95,6 @@ var Venues = (function (Component) {
 				};
 
 				console.log("fetchDistrict: " + JSON.stringify(params));
-
 				APIManager.handleGet("/api/district", params, function (err, response) {
 					if (err) {
 						alert(err);
@@ -114,6 +113,7 @@ var Venues = (function (Component) {
 				return React.createElement(Map, {
 					center: this.props.location,
 					zoom: 16,
+					animation: 2,
 					markers: this.props.venues,
 					mapMoved: this.locationChanged.bind(this) });
 			},

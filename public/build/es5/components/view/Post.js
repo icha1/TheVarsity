@@ -52,20 +52,28 @@ var Post = (function (Component) {
 						"div",
 						{ className: styles.post.content.className, style: styles.post.content },
 						React.createElement(
-							"h2",
-							{ style: styles.post.header },
+							"div",
+							{ className: "col_two_third" },
 							React.createElement(
-								Link,
-								{ to: "/venue/" + post.venue.slug, style: styles.post.title },
-								post.title
+								"h2",
+								{ style: styles.post.header },
+								React.createElement(
+									Link,
+									{ to: "/venue/" + post.venue.slug, style: styles.post.title },
+									post.title
+								)
+							),
+							React.createElement(
+								"p",
+								{ style: { marginTop: 0, marginBottom: 12 } },
+								post.text
 							)
 						),
 						React.createElement(
-							"p",
-							{ style: { marginTop: 0, marginBottom: 12 } },
-							post.text
-						),
-						React.createElement("img", { style: styles.postImage, src: post.image })
+							"div",
+							{ className: "col_one_third col_last" },
+							React.createElement("img", { style: styles.postImage, src: post.image })
+						)
 					),
 					React.createElement("hr", null),
 					React.createElement(
