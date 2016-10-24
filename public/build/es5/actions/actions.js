@@ -18,6 +18,14 @@ module.exports = {
 			type: constants.VENUES_RECEIVED,
 			venues: venues
 		};
+	},
+
+	districtChanged: function (districts) {
+		// this returns as an arry
+		return {
+			type: constants.DISTRICT_CHANGED,
+			districts: districts
+		};
 	}
 
 

@@ -10,6 +10,7 @@ import styles from './styles'
 class District extends Component {
 	render(){
 		const style = styles.district
+		const district = this.props.district
 
 		return (
 			<div className="feature-box center media-box fbox-bg">
@@ -21,7 +22,7 @@ class District extends Component {
 
 					<div style={{borderTop:'1px solid #ddd', minHeight:140}}>
 						<div style={style.body}>
-							<span style={style.header}>NYU</span><br />
+							<span style={style.header}>{district.name}</span><br />
 							<ul style={style.list}>
 								<li><a href="#">Events</a></li>
 								<li><a href="#">Services</a></li>
@@ -79,4 +80,11 @@ class District extends Component {
 	}
 }
 
-export default District
+const stateToProps = (state) => {
+	return {
+		location: state.location.currentLocation,
+		district: state.district.currentDistrict
+	}
+}
+
+export default connect(stateToProps)(District)

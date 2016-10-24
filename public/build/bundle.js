@@ -23082,7 +23082,8 @@
 			var reducers = (0, _redux.combineReducers)({
 				post: _reducers.postReducer,
 				venue: _reducers.venueReducer,
-				location: _reducers.locationReducer
+				location: _reducers.locationReducer,
+				district: _reducers.districtReducer
 			});
 	
 			store = (0, _redux.createStore)(reducers, initial, (0, _redux.applyMiddleware)(_reduxThunk2.default));
@@ -23132,7 +23133,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.venueReducer = exports.locationReducer = exports.postReducer = undefined;
+	exports.districtReducer = exports.venueReducer = exports.locationReducer = exports.postReducer = undefined;
 	
 	var _postReducer = __webpack_require__(199);
 	
@@ -23146,11 +23147,16 @@
 	
 	var _venueReducer2 = _interopRequireDefault(_venueReducer);
 	
+	var _districtReducer = __webpack_require__(444);
+	
+	var _districtReducer2 = _interopRequireDefault(_districtReducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.postReducer = _postReducer2.default;
 	exports.locationReducer = _locationReducer2.default;
 	exports.venueReducer = _venueReducer2.default;
+	exports.districtReducer = _districtReducer2.default;
 
 /***/ },
 /* 199 */
@@ -23223,7 +23229,8 @@
 	
 		VENUES_RECEIVED: 'VENUES_RECEIVED',
 	
-		LOCATION_CHANGED: 'LOCATION_CHANGED'
+		LOCATION_CHANGED: 'LOCATION_CHANGED',
+		DISTRICT_CHANGED: 'DISTRICT_CHANGED'
 	
 	};
 
@@ -50234,6 +50241,14 @@
 				type: _constants2.default.VENUES_RECEIVED,
 				venues: venues
 			};
+		},
+	
+		districtChanged: function districtChanged(districts) {
+			// this returns as an arry
+			return {
+				type: _constants2.default.DISTRICT_CHANGED,
+				districts: districts
+			};
 		}
 	
 	};
@@ -50350,7 +50365,8 @@
 						return;
 					}
 	
-					console.log(JSON.stringify(response));
+					//			console.log(JSON.stringify(response))
+					_store2.default.currentStore().dispatch(_actions2.default.districtChanged(response.results));
 				});
 			}
 		}, {
@@ -51098,6 +51114,7 @@
 			key: 'render',
 			value: function render() {
 				var style = _styles2.default.district;
+				var district = this.props.district;
 	
 				return _react2.default.createElement(
 					'div',
@@ -51123,7 +51140,7 @@
 								_react2.default.createElement(
 									'span',
 									{ style: style.header },
-									'NYU'
+									district.name
 								),
 								_react2.default.createElement('br', null),
 								_react2.default.createElement(
@@ -51269,7 +51286,14 @@
 		return District;
 	}(_react.Component);
 	
-	exports.default = District;
+	var stateToProps = function stateToProps(state) {
+		return {
+			location: state.location.currentLocation,
+			district: state.district.currentDistrict
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps)(District);
 
 /***/ },
 /* 443 */
@@ -51319,6 +51343,51 @@
 			}
 		}
 	
+	};
+
+/***/ },
+/* 444 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _constants = __webpack_require__(200);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var initialState = {
+		currentDistrict: {
+			id: null,
+			name: ''
+		}
+	};
+	
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+		var action = arguments[1];
+	
+	
+		switch (action.type) {
+	
+			case _constants2.default.DISTRICT_CHANGED:
+				console.log('DISTRICT_CHANGED');
+				var newState = Object.assign({}, state);
+				var list = action.districts;
+				if (list.length == 0) return newState;
+	
+				var district = list[0];
+				newState['currentDistrict'] = district;
+				return newState;
+	
+			default:
+				return state;
+		}
 	};
 
 /***/ }

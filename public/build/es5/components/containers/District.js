@@ -38,6 +38,7 @@ var District = (function (Component) {
 		render: {
 			value: function render() {
 				var style = styles.district;
+				var district = this.props.district;
 
 				return React.createElement(
 					"div",
@@ -63,7 +64,7 @@ var District = (function (Component) {
 								React.createElement(
 									"span",
 									{ style: style.header },
-									"NYU"
+									district.name
 								),
 								React.createElement("br", null),
 								React.createElement(
@@ -212,4 +213,11 @@ var District = (function (Component) {
 	return District;
 })(Component);
 
-module.exports = District;
+var stateToProps = function (state) {
+	return {
+		location: state.location.currentLocation,
+		district: state.district.currentDistrict
+	};
+};
+
+module.exports = connect(stateToProps)(District);

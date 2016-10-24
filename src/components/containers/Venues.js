@@ -69,7 +69,8 @@ class Venues extends Component {
 				return
 			}
 
-			console.log(JSON.stringify(response))
+//			console.log(JSON.stringify(response))
+			store.currentStore().dispatch(actions.districtChanged(response.results))
 		})
 
 	}

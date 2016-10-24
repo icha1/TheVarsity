@@ -14,6 +14,7 @@ var _reducers = require("../reducers");
 var postReducer = _reducers.postReducer;
 var locationReducer = _reducers.locationReducer;
 var venueReducer = _reducers.venueReducer;
+var districtReducer = _reducers.districtReducer;
 
 
 var store;
@@ -24,7 +25,8 @@ module.exports = {
 		var reducers = combineReducers({
 			post: postReducer,
 			venue: venueReducer,
-			location: locationReducer
+			location: locationReducer,
+			district: districtReducer
 		});
 
 		store = createStore(reducers, initial, applyMiddleware(thunk));
