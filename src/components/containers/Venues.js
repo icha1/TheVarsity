@@ -39,6 +39,7 @@ class Venues extends Component {
 		if (distance < 0.01)
 			return		
 
+		store.currentStore().dispatch(actions.locationChanged(location))
 		this.fetchVenues(location)
 	}
 
@@ -55,13 +56,13 @@ class Venues extends Component {
 	}
 
 	fetchDistrict(){
-		console.log('fetchDistrict')
-
 		const params = {
 			limit: 1,
 			lat: this.props.location.lat,
 			lng: this.props.location.lng
 		}
+
+		console.log('fetchDistrict: '+JSON.stringify(params))
 
 		APIManager.handleGet('/api/district', params, (err, response) => {
 			if (err){

@@ -8,7 +8,7 @@ module.exports = {
 	get: function(params, isRaw){
 		return new Promise(function(resolve, reject){
 			if (params.lat!=null && params.lng!=null){
-				var distance = 1000/6371 // 6371 is radius of earth in KM
+				var distance = 50/6371 // 6371 is radius of earth in KM
 				params['geo'] = {
 				  	$near: [params.lat, params.lng],
 			  		$maxDistance: distance

@@ -64,7 +64,8 @@ var Venues = (function (Component) {
 
 				if (distance < 0.01) {
 					return;
-				}this.fetchVenues(location);
+				}store.currentStore().dispatch(actions.locationChanged(location));
+				this.fetchVenues(location);
 			},
 			writable: true,
 			configurable: true
@@ -87,13 +88,13 @@ var Venues = (function (Component) {
 		},
 		fetchDistrict: {
 			value: function fetchDistrict() {
-				console.log("fetchDistrict");
-
 				var params = {
 					limit: 1,
 					lat: this.props.location.lat,
 					lng: this.props.location.lng
 				};
+
+				console.log("fetchDistrict: " + JSON.stringify(params));
 
 				APIManager.handleGet("/api/district", params, function (err, response) {
 					if (err) {

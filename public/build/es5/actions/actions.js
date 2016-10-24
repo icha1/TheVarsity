@@ -26,6 +26,13 @@ module.exports = {
 			type: constants.DISTRICT_CHANGED,
 			districts: districts
 		};
+	},
+
+	locationChanged: function (location) {
+		return {
+			type: constants.LOCATION_CHANGED,
+			location: location
+		};
 	}
 
 
