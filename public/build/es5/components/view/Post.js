@@ -53,7 +53,7 @@ var Post = (function (Component) {
 						{ className: styles.post.content.className, style: styles.post.content },
 						React.createElement(
 							"div",
-							{ className: "col_two_third" },
+							{ className: "col_two_third", style: { marginBottom: 4 } },
 							React.createElement(
 								"h2",
 								{ style: styles.post.header },
@@ -65,13 +65,13 @@ var Post = (function (Component) {
 							),
 							React.createElement(
 								"p",
-								{ style: { marginTop: 0, marginBottom: 12 } },
+								{ style: { marginTop: 0 } },
 								post.text
 							)
 						),
 						React.createElement(
 							"div",
-							{ className: "col_one_third col_last" },
+							{ className: "col_one_third col_last", style: { marginBottom: 4 } },
 							React.createElement("img", { style: styles.postImage, src: post.image })
 						)
 					),

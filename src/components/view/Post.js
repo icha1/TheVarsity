@@ -16,13 +16,13 @@ class Post extends Component {
 					</div>
 				</div>
 				<div className={styles.post.content.className} style={styles.post.content}>
-					<div className="col_two_third">
+					<div className="col_two_third" style={{marginBottom:4}}>
 						<h2 style={styles.post.header}>
 							<Link to={'/venue/'+post.venue.slug} style={styles.post.title}>{ post.title }</Link>
 						</h2>
-						<p style={{marginTop:0, marginBottom:12}}>{ post.text }</p>
+						<p style={{marginTop:0}}>{ post.text }</p>
 					</div>
-					<div className="col_one_third col_last">
+					<div className="col_one_third col_last" style={{marginBottom:4}}>
 						<img style={styles.postImage} src={post.image} />
 					</div>
 				</div>

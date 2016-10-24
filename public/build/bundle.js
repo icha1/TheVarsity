@@ -33504,7 +33504,7 @@
 						{ className: _styles2.default.post.content.className, style: _styles2.default.post.content },
 						_react2.default.createElement(
 							'div',
-							{ className: 'col_two_third' },
+							{ className: 'col_two_third', style: { marginBottom: 4 } },
 							_react2.default.createElement(
 								'h2',
 								{ style: _styles2.default.post.header },
@@ -33516,13 +33516,13 @@
 							),
 							_react2.default.createElement(
 								'p',
-								{ style: { marginTop: 0, marginBottom: 12 } },
+								{ style: { marginTop: 0 } },
 								post.text
 							)
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: 'col_one_third col_last' },
+							{ className: 'col_one_third col_last', style: { marginBottom: 4 } },
 							_react2.default.createElement('img', { style: _styles2.default.postImage, src: post.image })
 						)
 					),
