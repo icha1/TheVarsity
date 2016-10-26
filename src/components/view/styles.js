@@ -20,7 +20,14 @@ export default {
 			maxWidth: 180,
 			marginTop: 12
 		}
-
+	},
+	nav: {
+		ul: {
+			fontWeight: 100
+		},
+		title: {
+			color:'#fff'
+		}
 	},
 	loader: {
 	    lines: 13,
