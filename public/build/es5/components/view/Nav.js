@@ -28,6 +28,7 @@ var Nav = (function (Component) {
 			showRegister: false,
 			credentials: {
 				email: "",
+				username: "",
 				password: ""
 			}
 		};
@@ -48,7 +49,7 @@ var Nav = (function (Component) {
 			configurable: true
 		},
 		toggleRegister: {
-			value: function toggleRegister() {
+			value: function toggleRegister(event) {
 				if (event) event.preventDefault();
 
 				this.setState({
@@ -73,6 +74,15 @@ var Nav = (function (Component) {
 		login: {
 			value: function login(event) {
 				if (event) event.preventDefault();
+			},
+			writable: true,
+			configurable: true
+		},
+		register: {
+			value: function register(event) {
+				if (event) event.preventDefault();
+
+				console.log("Register: " + JSON.stringify(this.state.credentials));
 			},
 			writable: true,
 			configurable: true
@@ -220,7 +230,7 @@ var Nav = (function (Component) {
 									{ style: style.btnLoginContainer },
 									React.createElement(
 										"a",
-										{ onClick: this.login.bind(this), href: "#", className: style.btnLogin.className },
+										{ onClick: this.register.bind(this), href: "#", className: style.btnLogin.className },
 										React.createElement("i", { className: "icon-lock3" }),
 										"Join"
 									)
