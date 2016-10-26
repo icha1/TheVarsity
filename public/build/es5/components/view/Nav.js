@@ -13,6 +13,8 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
+var styles = _interopRequire(require("./styles"));
+
 var Nav = (function (Component) {
 	function Nav() {
 		_classCallCheck(this, Nav);
@@ -25,8 +27,18 @@ var Nav = (function (Component) {
 	_inherits(Nav, Component);
 
 	_prototypeProperties(Nav, null, {
+		showLogin: {
+			value: function showLogin(event) {
+				event.preventDefault();
+				console.log("showLogin");
+			},
+			writable: true,
+			configurable: true
+		},
 		render: {
 			value: function render() {
+				var style = styles.nav;
+
 				return React.createElement(
 					"div",
 					{ id: "page-menu" },
@@ -41,7 +53,7 @@ var Nav = (function (Component) {
 								{ className: "menu-title" },
 								React.createElement(
 									"a",
-									{ style: { color: "#fff" }, href: "/" },
+									{ style: style.title, href: "/" },
 									"The Varsity"
 								)
 							),
@@ -50,17 +62,17 @@ var Nav = (function (Component) {
 								{ className: "one-page-menu" },
 								React.createElement(
 									"ul",
-									null,
+									{ style: style.ul },
 									React.createElement(
 										"li",
 										null,
 										React.createElement(
 											"a",
-											{ href: "#", "data-href": "#header" },
+											{ href: "#" },
 											React.createElement(
 												"div",
 												null,
-												"Start"
+												"About"
 											)
 										)
 									),
@@ -69,11 +81,24 @@ var Nav = (function (Component) {
 										null,
 										React.createElement(
 											"a",
-											{ href: "#", "data-href": "#section-about" },
+											{ href: "#" },
 											React.createElement(
 												"div",
 												null,
-												"About"
+												"Join"
+											)
+										)
+									),
+									React.createElement(
+										"li",
+										null,
+										React.createElement(
+											"a",
+											{ onClick: this.showLogin.bind(this), href: "#" },
+											React.createElement(
+												"div",
+												null,
+												"Login"
 											)
 										)
 									)
