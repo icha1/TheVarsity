@@ -25,6 +25,7 @@ var Nav = (function (Component) {
 		_get(Object.getPrototypeOf(Nav.prototype), "constructor", this).call(this, props, context);
 		this.state = {
 			showLogin: false,
+			showRegister: false,
 			credentials: {
 				email: "",
 				password: ""
@@ -41,6 +42,17 @@ var Nav = (function (Component) {
 
 				this.setState({
 					showLogin: !this.state.showLogin
+				});
+			},
+			writable: true,
+			configurable: true
+		},
+		toggleRegister: {
+			value: function toggleRegister() {
+				if (event) event.preventDefault();
+
+				this.setState({
+					showRegister: !this.state.showRegister
 				});
 			},
 			writable: true,
@@ -111,7 +123,7 @@ var Nav = (function (Component) {
 										null,
 										React.createElement(
 											"a",
-											{ href: "#" },
+											{ onClick: this.toggleRegister.bind(this), href: "#" },
 											React.createElement(
 												"div",
 												null,
@@ -165,7 +177,53 @@ var Nav = (function (Component) {
 								React.createElement(
 									"a",
 									{ onClick: this.login.bind(this), href: "#", className: style.btnLogin.className },
+									React.createElement("i", { className: "icon-lock3" }),
 									"Log In"
+								)
+							)
+						)
+					),
+					React.createElement(
+						Modal,
+						{ bsSize: "medium", show: this.state.showRegister, onHide: this.toggleRegister.bind(this) },
+						React.createElement(
+							Modal.Body,
+							{ style: style.modal },
+							React.createElement(
+								"div",
+								{ style: { textAlign: "center" } },
+								React.createElement("img", { style: style.logo, src: "/images/logo_round_blue_260.png" }),
+								React.createElement(
+									"h4",
+									null,
+									"Sign Up"
+								)
+							),
+							React.createElement("hr", null),
+							React.createElement(
+								"div",
+								{ className: "col_half" },
+								React.createElement(
+									"div",
+									{ style: { padding: 16, background: "#fff", border: "1px solid #ddd" } },
+									"Sign Up"
+								)
+							),
+							React.createElement(
+								"div",
+								{ className: "col_half col_last" },
+								React.createElement("input", { onChange: this.updateCredentials.bind(this), id: "email", className: style.textField.className, style: style.textField, type: "text", placeholder: "Email" }),
+								React.createElement("input", { onChange: this.updateCredentials.bind(this), id: "username", className: style.textField.className, style: style.textField, type: "text", placeholder: "Username" }),
+								React.createElement("input", { onChange: this.updateCredentials.bind(this), id: "password", className: style.textField.className, style: style.textField, type: "password", placeholder: "Password" }),
+								React.createElement(
+									"div",
+									{ style: style.btnLoginContainer },
+									React.createElement(
+										"a",
+										{ onClick: this.login.bind(this), href: "#", className: style.btnLogin.className },
+										React.createElement("i", { className: "icon-lock3" }),
+										"Join"
+									)
 								)
 							)
 						)

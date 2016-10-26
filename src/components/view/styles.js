@@ -31,7 +31,8 @@ export default {
 		modal: {
 			background:'#f9f9f9',
 			padding:24,
-			borderRadius:3
+			borderRadius:3,
+			minHeight: 370
 		},
 		textField: {
 			marginBottom:12,
@@ -42,7 +43,7 @@ export default {
 			marginTop:24
 		},
 		btnLogin: {
-			className: 'button button-border button-dark button-rounded button-large noleftmargin'
+			className: 'button button-xlarge button-circle button-blue'
 		}		
 	},
 	loader: {

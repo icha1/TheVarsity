@@ -33374,8 +33374,10 @@
 	
 			_this.state = {
 				showLogin: false,
+				showRegister: false,
 				credentials: {
 					email: '',
+					username: '',
 					password: ''
 				}
 			};
@@ -33392,6 +33394,15 @@
 				});
 			}
 		}, {
+			key: 'toggleRegister',
+			value: function toggleRegister(event) {
+				if (event) event.preventDefault();
+	
+				this.setState({
+					showRegister: !this.state.showRegister
+				});
+			}
+		}, {
 			key: 'updateCredentials',
 			value: function updateCredentials(event) {
 				var updatedCredentials = Object.assign({}, this.state.credentials);
@@ -33405,6 +33416,13 @@
 			key: 'login',
 			value: function login(event) {
 				if (event) event.preventDefault();
+			}
+		}, {
+			key: 'register',
+			value: function register(event) {
+				if (event) event.preventDefault();
+	
+				console.log('Register: ' + JSON.stringify(this.state.credentials));
 			}
 		}, {
 			key: 'render',
@@ -33453,7 +33471,7 @@
 										null,
 										_react2.default.createElement(
 											'a',
-											{ href: '#' },
+											{ onClick: this.toggleRegister.bind(this), href: '#' },
 											_react2.default.createElement(
 												'div',
 												null,
@@ -33507,7 +33525,53 @@
 								_react2.default.createElement(
 									'a',
 									{ onClick: this.login.bind(this), href: '#', className: style.btnLogin.className },
+									_react2.default.createElement('i', { className: 'icon-lock3' }),
 									'Log In'
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						_reactBootstrap.Modal,
+						{ bsSize: 'medium', show: this.state.showRegister, onHide: this.toggleRegister.bind(this) },
+						_react2.default.createElement(
+							_reactBootstrap.Modal.Body,
+							{ style: style.modal },
+							_react2.default.createElement(
+								'div',
+								{ style: { textAlign: 'center' } },
+								_react2.default.createElement('img', { style: style.logo, src: '/images/logo_round_blue_260.png' }),
+								_react2.default.createElement(
+									'h4',
+									null,
+									'Sign Up'
+								)
+							),
+							_react2.default.createElement('hr', null),
+							_react2.default.createElement(
+								'div',
+								{ className: 'col_half' },
+								_react2.default.createElement(
+									'div',
+									{ style: { padding: 16, background: '#fff', border: '1px solid #ddd' } },
+									'Sign Up'
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'col_half col_last' },
+								_react2.default.createElement('input', { onChange: this.updateCredentials.bind(this), id: 'email', className: style.textField.className, style: style.textField, type: 'text', placeholder: 'Email' }),
+								_react2.default.createElement('input', { onChange: this.updateCredentials.bind(this), id: 'username', className: style.textField.className, style: style.textField, type: 'text', placeholder: 'Username' }),
+								_react2.default.createElement('input', { onChange: this.updateCredentials.bind(this), id: 'password', className: style.textField.className, style: style.textField, type: 'password', placeholder: 'Password' }),
+								_react2.default.createElement(
+									'div',
+									{ style: style.btnLoginContainer },
+									_react2.default.createElement(
+										'a',
+										{ onClick: this.register.bind(this), href: '#', className: style.btnLogin.className },
+										_react2.default.createElement('i', { className: 'icon-lock3' }),
+										'Join'
+									)
 								)
 							)
 						)
@@ -50102,7 +50166,8 @@
 			modal: {
 				background: '#f9f9f9',
 				padding: 24,
-				borderRadius: 3
+				borderRadius: 3,
+				minHeight: 370
 			},
 			textField: {
 				marginBottom: 12,
@@ -50113,7 +50178,7 @@
 				marginTop: 24
 			},
 			btnLogin: {
-				className: 'button button-border button-dark button-rounded button-large noleftmargin'
+				className: 'button button-xlarge button-circle button-blue'
 			}
 		},
 		loader: {
