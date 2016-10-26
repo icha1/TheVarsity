@@ -27,7 +27,23 @@ export default {
 		},
 		title: {
 			color:'#fff'
-		}
+		},
+		modal: {
+			background:'#f9f9f9',
+			padding:24,
+			borderRadius:3
+		},
+		textField: {
+			marginBottom:12,
+			className: 'form-control'
+		},
+		btnLoginContainer: {
+			textAlign:'center',
+			marginTop:24
+		},
+		btnLogin: {
+			className: 'button button-border button-dark button-rounded button-large noleftmargin'
+		}		
 	},
 	loader: {
 	    lines: 13,

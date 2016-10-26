@@ -1,12 +1,41 @@
 import React, { Component } from 'react'
 import styles from './styles'
+import { Modal } from 'react-bootstrap'
+
 
 class Nav extends Component {
+	constructor(props, context){
+		super(props, context)
+		this.state = {
+			showLogin: false,
+			credentials: {
+				email: '',
+				password: ''
+			}
+		}
+	}
 
-	showLogin(event){
-		event.preventDefault()
-		console.log('showLogin')
+	toggleLogin(event){
+		if (event)
+			event.preventDefault()
+		
+		this.setState({
+			showLogin: !this.state.showLogin
+		})
+	}	
 
+	updateCredentials(event){
+		var updatedCredentials = Object.assign({}, this.state.credentials)
+		updatedCredentials[event.target.id] = event.target.value
+
+		this.setState({
+			credentials: updatedCredentials
+		})
+	}
+
+	login(event){
+		if (event)
+			event.preventDefault()
 	}
 
 	render(){
@@ -23,16 +52,30 @@ class Nav extends Component {
 							<ul style={style.ul}>
 								<li><a href="#"><div>About</div></a></li>
 								<li><a href="#"><div>Join</div></a></li>
-								<li><a onClick={this.showLogin.bind(this)} href="#"><div>Login</div></a></li>
+								<li><a onClick={this.toggleLogin.bind(this)} href="#"><div>Login</div></a></li>
 							</ul>
 						</nav>
 						<div id="page-submenu-trigger"><i className="icon-reorder"></i></div>
 					</div>
 				</div>
+
+		        <Modal bsSize="sm" show={this.state.showLogin} onHide={this.toggleLogin.bind(this)}>
+			        <Modal.Body style={style.modal}>
+			        	<div style={{textAlign:'center'}}>
+				        	<img style={style.logo} src='/images/logo_round_blue_260.png' />
+				        	<h4>Log In</h4>
+			        	</div>
+
+			        	<input onChange={this.updateCredentials.bind(this)} id="email" className={style.textField.className} style={style.textField} type="text" placeholder="Email" />
+			        	<input onChange={this.updateCredentials.bind(this)} id="password" className={style.textField.className} style={style.textField} type="password" placeholder="Password" />
+						<div style={style.btnLoginContainer}>
+							<a onClick={this.login.bind(this)} href="#" className={style.btnLogin.className}>Log In</a>
+						</div>
+			        </Modal.Body>
+		        </Modal>
 			</div>
 		)
 	}
 }
-
 
 export default Nav
