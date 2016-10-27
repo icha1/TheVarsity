@@ -82,7 +82,8 @@
 				_reactRouter.Route,
 				{ path: '/', component: _Main2.default },
 				_react2.default.createElement(_reactRouter.IndexRoute, { component: _layout.Home }),
-				_react2.default.createElement(_reactRouter.Route, { path: '/venue/:slug', component: _layout.Detail })
+				_react2.default.createElement(_reactRouter.Route, { path: '/venue/:slug', component: _layout.Detail }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/post/:slug', component: _layout.Detail })
 			)
 		)
 	);
@@ -52534,7 +52535,7 @@
 								{ style: _styles2.default.post.header },
 								_react2.default.createElement(
 									_reactRouter.Link,
-									{ to: '/venue/' + post.venue.slug, style: _styles2.default.post.title },
+									{ to: '/post/' + post.slug, style: _styles2.default.post.title },
 									post.title
 								)
 							),

@@ -1,5 +1,6 @@
 var Post = require('../models/Post')
 var Resource = require('../utils/Resource')
+var TextUtils = require('../utils/TextUtils')
 var Promise = require('bluebird')
 
 module.exports = {
@@ -58,6 +59,7 @@ module.exports = {
 
 	post: function(params){
 		return new Promise(function(resolve, reject){
+			params['slug'] = TextUtils.slugVersion(params.title)
 			Post.create(params, function(err, post){
 				if (err){
 					reject(err)
