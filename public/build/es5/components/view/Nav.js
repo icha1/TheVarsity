@@ -18,6 +18,7 @@ var Component = _react.Component;
 var styles = _interopRequire(require("./styles"));
 
 var Modal = require("react-bootstrap").Modal;
+var APIManager = require("../../utils").APIManager;
 var Nav = (function (Component) {
 	function Nav(props, context) {
 		_classCallCheck(this, Nav);
@@ -83,6 +84,15 @@ var Nav = (function (Component) {
 				if (event) event.preventDefault();
 
 				console.log("Register: " + JSON.stringify(this.state.credentials));
+				var url = "/api/profile";
+				APIManager.handlePost(url, this.state.credentials, function (err, response) {
+					if (err) {
+						alert(err);
+						return;
+					}
+
+					console.log(JSON.stringify(response));
+				});
 			},
 			writable: true,
 			configurable: true

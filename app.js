@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var compression = require('compression')
+var sessions = require('client-sessions')
 require('dotenv').config()
 
 var routes = require('./routes/index')
@@ -36,6 +37,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(compression())
+app.use(sessions({
+  cookieName: 'session',
+  secret: process.env.SESSION_SECRET,
+  duration: 24*60*60*1000, // 1 day
+  activeDuration:30*60*1000
+}))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', routes)

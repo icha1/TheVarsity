@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styles from './styles'
 import { Modal } from 'react-bootstrap'
-
+import { APIManager } from '../../utils'
 
 class Nav extends Component {
 	constructor(props, context){
@@ -54,6 +54,15 @@ class Nav extends Component {
 			event.preventDefault()
 
 		console.log('Register: '+JSON.stringify(this.state.credentials))
+		let url = '/api/profile'
+		APIManager.handlePost(url, this.state.credentials, (err, response) => {
+			if (err){
+				alert(err)
+				return
+			}
+
+			console.log(JSON.stringify(response))
+		})
 	}
 
 	render(){
