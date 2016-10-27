@@ -13,6 +13,7 @@ var routes = require('./routes/index')
 var api = require('./routes/api')
 var geo = require('./routes/geo')
 var scrape = require('./routes/scrape')
+var account = require('./routes/account')
 
 mongoose.connect(process.env.MONGODB_URI, function(err, res){
   if (err){
@@ -49,6 +50,7 @@ app.use('/', routes)
 app.use('/scrape', scrape)
 app.use('/geo', geo)
 app.use('/api', api)
+app.use('/account', account)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

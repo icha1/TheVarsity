@@ -33425,7 +33425,7 @@
 				if (event) event.preventDefault();
 	
 				console.log('Register: ' + JSON.stringify(this.state.credentials));
-				var url = '/api/profile';
+				var url = '/account/register';
 				_utils.APIManager.handlePost(url, this.state.credentials, function (err, response) {
 					if (err) {
 						alert(err);

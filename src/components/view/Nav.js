@@ -54,7 +54,7 @@ class Nav extends Component {
 			event.preventDefault()
 
 		console.log('Register: '+JSON.stringify(this.state.credentials))
-		let url = '/api/profile'
+		let url = '/account/register'
 		APIManager.handlePost(url, this.state.credentials, (err, response) => {
 			if (err){
 				alert(err)
