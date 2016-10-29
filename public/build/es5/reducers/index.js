@@ -8,13 +8,10 @@ var locationReducer = _interopRequire(require("./locationReducer"));
 
 var districtReducer = _interopRequire(require("./districtReducer"));
 
-var venueReducer = _interopRequire(require("./venueReducer"));
-
 var teamReducer = _interopRequire(require("./teamReducer"));
 
 exports.postReducer = postReducer;
 exports.locationReducer = locationReducer;
-exports.venueReducer = venueReducer;
 exports.teamReducer = teamReducer;
 exports.districtReducer = districtReducer;
 Object.defineProperty(exports, "__esModule", {

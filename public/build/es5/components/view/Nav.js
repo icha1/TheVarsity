@@ -219,7 +219,7 @@ var Nav = (function (Component) {
 					),
 					React.createElement(
 						Modal,
-						{ bsSize: "medium", show: this.state.showRegister, onHide: this.toggleRegister.bind(this) },
+						{ show: this.state.showRegister, onHide: this.toggleRegister.bind(this) },
 						React.createElement(
 							Modal.Body,
 							{ style: style.modal },

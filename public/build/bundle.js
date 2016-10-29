@@ -23083,7 +23083,6 @@
 		configureStore: function configureStore(initial) {
 			var reducers = (0, _redux.combineReducers)({
 				post: _reducers.postReducer,
-				venue: _reducers.venueReducer,
 				team: _reducers.teamReducer,
 				location: _reducers.locationReducer,
 				district: _reducers.districtReducer
@@ -23136,7 +23135,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.districtReducer = exports.teamReducer = exports.venueReducer = exports.locationReducer = exports.postReducer = undefined;
+	exports.districtReducer = exports.teamReducer = exports.locationReducer = exports.postReducer = undefined;
 	
 	var _postReducer = __webpack_require__(199);
 	
@@ -23150,10 +23149,6 @@
 	
 	var _districtReducer2 = _interopRequireDefault(_districtReducer);
 	
-	var _venueReducer = __webpack_require__(203);
-	
-	var _venueReducer2 = _interopRequireDefault(_venueReducer);
-	
 	var _teamReducer = __webpack_require__(204);
 	
 	var _teamReducer2 = _interopRequireDefault(_teamReducer);
@@ -23162,7 +23157,6 @@
 	
 	exports.postReducer = _postReducer2.default;
 	exports.locationReducer = _locationReducer2.default;
-	exports.venueReducer = _venueReducer2.default;
 	exports.teamReducer = _teamReducer2.default;
 	exports.districtReducer = _districtReducer2.default;
 
@@ -23339,62 +23333,7 @@
 	};
 
 /***/ },
-/* 203 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _constants = __webpack_require__(200);
-	
-	var _constants2 = _interopRequireDefault(_constants);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var initialState = {
-		map: {}, // organized by slug
-		list: []
-	};
-	
-	var update = function update(state, venues) {
-		var newState = Object.assign({}, state);
-		var array = Object.assign([], newState.list);
-		var venuesMap = Object.assign({}, newState.map);
-	
-		venues.forEach(function (venue) {
-			if (venuesMap[venue.slug] == null) {
-				venuesMap[venue.slug] = venue;
-				array.push(venue);
-			}
-		});
-	
-		newState['list'] = array;
-		newState['map'] = venuesMap;
-		return newState;
-	};
-	
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-		var action = arguments[1];
-	
-	
-		switch (action.type) {
-	
-			case _constants2.default.VENUES_RECEIVED:
-				//			console.log('VENUES_RECEIVED')
-				return update(state, action.venues);
-	
-			default:
-				return state;
-		}
-	};
-	
-	// }
-
-/***/ },
+/* 203 */,
 /* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -33622,7 +33561,7 @@
 					),
 					_react2.default.createElement(
 						_reactBootstrap.Modal,
-						{ bsSize: 'medium', show: this.state.showRegister, onHide: this.toggleRegister.bind(this) },
+						{ show: this.state.showRegister, onHide: this.toggleRegister.bind(this) },
 						_react2.default.createElement(
 							_reactBootstrap.Modal.Body,
 							{ style: style.modal },

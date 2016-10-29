@@ -103,7 +103,7 @@ class Nav extends Component {
 			        </Modal.Body>
 		        </Modal>
 
-		        <Modal bsSize="medium" show={this.state.showRegister} onHide={this.toggleRegister.bind(this)}>
+		        <Modal show={this.state.showRegister} onHide={this.toggleRegister.bind(this)}>
 			        <Modal.Body style={style.modal}>
 			        	<div style={{textAlign:'center'}}>
 				        	<img style={style.logo} src='/images/logo_round_blue_260.png' />
@@ -124,7 +124,8 @@ class Nav extends Component {
 								<a onClick={this.register.bind(this)} href="#" className={style.btnLogin.className}><i className="icon-lock3"></i>Join</a>
 							</div>
 			        	</div>
-			        </Modal.Body>
+			        </Modal.Body>		        	
+
 		        </Modal>		        
 			</div>
 		)
