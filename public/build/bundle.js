@@ -23085,7 +23085,8 @@
 				post: _reducers.postReducer,
 				team: _reducers.teamReducer,
 				location: _reducers.locationReducer,
-				district: _reducers.districtReducer
+				district: _reducers.districtReducer,
+				account: _reducers.accountReducer
 			});
 	
 			store = (0, _redux.createStore)(reducers, initial, (0, _redux.applyMiddleware)(_reduxThunk2.default));
@@ -23135,7 +23136,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.districtReducer = exports.teamReducer = exports.locationReducer = exports.postReducer = undefined;
+	exports.accountReducer = exports.districtReducer = exports.teamReducer = exports.locationReducer = exports.postReducer = undefined;
 	
 	var _postReducer = __webpack_require__(199);
 	
@@ -23153,12 +23154,17 @@
 	
 	var _teamReducer2 = _interopRequireDefault(_teamReducer);
 	
+	var _accountReducer = __webpack_require__(699);
+	
+	var _accountReducer2 = _interopRequireDefault(_accountReducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.postReducer = _postReducer2.default;
 	exports.locationReducer = _locationReducer2.default;
 	exports.teamReducer = _teamReducer2.default;
 	exports.districtReducer = _districtReducer2.default;
+	exports.accountReducer = _accountReducer2.default;
 
 /***/ },
 /* 199 */
@@ -23226,6 +23232,7 @@
 		value: true
 	});
 	exports.default = {
+		CURRENT_USER_RECIEVED: 'CURRENT_USER_RECIEVED',
 	
 		POSTS_RECEIVED: 'POSTS_RECEIVED',
 	
@@ -69282,6 +69289,13 @@
 	
 	exports.default = {
 	
+		currentUserReceived: function currentUserReceived(user) {
+			return {
+				type: _constants2.default.CURRENT_USER_RECIEVED,
+				user: user
+			};
+		},
+	
 		postsReceived: function postsReceived(posts) {
 			return {
 				type: _constants2.default.POSTS_RECEIVED,
@@ -70557,6 +70571,46 @@
 	}(_react.Component);
 	
 	exports.default = Account;
+
+/***/ },
+/* 699 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _constants = __webpack_require__(200);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var initialState = {
+		currentUser: {
+			id: null
+		}
+	};
+	
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+		var action = arguments[1];
+	
+	
+		switch (action.type) {
+	
+			case _constants2.default.CURRENT_USER_RECIEVED:
+				console.log('CURRENT_USER_RECIEVED' + JSON.stringify(action.user));
+				var newState = Object.assign({}, state);
+				newState['currentUser'] = action.user;
+				return newState;
+	
+			default:
+				return state;
+		}
+	};
 
 /***/ }
 /******/ ]);

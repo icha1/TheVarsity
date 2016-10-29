@@ -6,6 +6,13 @@ var constants = _interopRequire(require("../constants/constants"));
 
 module.exports = {
 
+	currentUserReceived: function (user) {
+		return {
+			type: constants.CURRENT_USER_RECIEVED,
+			user: user
+		};
+	},
+
 	postsReceived: function (posts) {
 		return {
 			type: constants.POSTS_RECEIVED,

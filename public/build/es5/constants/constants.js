@@ -1,6 +1,7 @@
 "use strict";
 
 module.exports = {
+	CURRENT_USER_RECIEVED: "CURRENT_USER_RECIEVED",
 
 	POSTS_RECEIVED: "POSTS_RECEIVED",
 

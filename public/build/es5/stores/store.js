@@ -15,6 +15,7 @@ var postReducer = _reducers.postReducer;
 var locationReducer = _reducers.locationReducer;
 var districtReducer = _reducers.districtReducer;
 var teamReducer = _reducers.teamReducer;
+var accountReducer = _reducers.accountReducer;
 
 
 var store;
@@ -26,7 +27,8 @@ module.exports = {
 			post: postReducer,
 			team: teamReducer,
 			location: locationReducer,
-			district: districtReducer
+			district: districtReducer,
+			account: accountReducer
 		});
 
 		store = createStore(reducers, initial, applyMiddleware(thunk));

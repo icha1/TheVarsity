@@ -10,10 +10,13 @@ var districtReducer = _interopRequire(require("./districtReducer"));
 
 var teamReducer = _interopRequire(require("./teamReducer"));
 
+var accountReducer = _interopRequire(require("./accountReducer"));
+
 exports.postReducer = postReducer;
 exports.locationReducer = locationReducer;
 exports.teamReducer = teamReducer;
 exports.districtReducer = districtReducer;
+exports.accountReducer = accountReducer;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });

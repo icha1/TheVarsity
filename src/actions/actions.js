@@ -2,6 +2,13 @@ import constants from '../constants/constants'
 
 export default {
 
+	currentUserReceived: (user) => {
+		return {
+			type: constants.CURRENT_USER_RECIEVED,
+			user: user
+		}
+	},
+
 	postsReceived: (posts) => {
 		return {
 			type: constants.POSTS_RECEIVED,
