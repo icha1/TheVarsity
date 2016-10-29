@@ -69002,7 +69002,7 @@
 							_react2.default.createElement(
 								'span',
 								{ className: 'comment-avatar clearfix' },
-								_react2.default.createElement('img', { alt: 'The Varsity', src: post.venue.image + '=s120-c', className: 'avatar avatar-60 photo', height: '60', width: '60' })
+								_react2.default.createElement('img', { alt: 'The Varsity', src: post.team.image + '=s120-c', className: 'avatar avatar-60 photo', height: '60', width: '60' })
 							)
 						)
 					),
@@ -69039,14 +69039,14 @@
 						{ style: _styles2.default.post.header },
 						_react2.default.createElement(
 							_reactRouter.Link,
-							{ to: '/team/' + post.venue.slug, style: _styles2.default.post.title },
+							{ to: '/team/' + post.team.slug, style: _styles2.default.post.title },
 							post.title
 						)
 					),
 					_react2.default.createElement(
 						'span',
 						null,
-						post.venue.address
+						post.team.address
 					),
 					_react2.default.createElement(
 						'span',
