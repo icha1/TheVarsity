@@ -81,7 +81,7 @@ var Post = (function (Component) {
 						{ style: styles.post.header },
 						React.createElement(
 							Link,
-							{ to: "/venue/" + post.venue.slug, style: styles.post.title },
+							{ to: "/team/" + post.venue.slug, style: styles.post.title },
 							post.title
 						)
 					),

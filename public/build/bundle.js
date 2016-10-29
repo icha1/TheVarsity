@@ -69039,7 +69039,7 @@
 						{ style: _styles2.default.post.header },
 						_react2.default.createElement(
 							_reactRouter.Link,
-							{ to: '/venue/' + post.venue.slug, style: _styles2.default.post.title },
+							{ to: '/team/' + post.venue.slug, style: _styles2.default.post.title },
 							post.title
 						)
 					),

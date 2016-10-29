@@ -28,7 +28,7 @@ class Post extends Component {
 				</div>
 				<hr />
 				<h4 style={styles.post.header}>
-					<Link to={'/venue/'+post.venue.slug} style={styles.post.title}>{ post.title }</Link>
+					<Link to={'/team/'+post.venue.slug} style={styles.post.title}>{ post.title }</Link>
 				</h4>
 				<span>{ post.venue.address }</span>
 				<span style={{float:'right'}}>{DateUtils.formattedDate(post.timestamp)}</span>
