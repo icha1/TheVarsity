@@ -67,7 +67,7 @@ class Team extends Component {
 						<div className="col_full col_last">
 							{ team.name }
 							<br />
-							<a href={'/scrape?venue='+team.id}>Scrape</a>
+							<a href={'/scrape?team='+team.id}>Scrape</a>
 							<br />
 							<img src={team.image+'=s220'} />
 							<br /><br />

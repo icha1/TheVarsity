@@ -69620,7 +69620,7 @@
 								_react2.default.createElement('br', null),
 								_react2.default.createElement(
 									'a',
-									{ href: '/scrape?venue=' + team.id },
+									{ href: '/scrape?team=' + team.id },
 									'Scrape'
 								),
 								_react2.default.createElement('br', null),

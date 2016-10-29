@@ -7,24 +7,24 @@ var TextUtils = require('../utils/TextUtils')
 
 router.get('/', function(req, res, next){
 
-	var venueId = req.query.venue // id of venue
-	if (venueId == null){
+	var teamId = req.query.team // id of team
+	if (teamId == null){
 		res.json({
 			confirmation: 'fail',
-			message: 'missing venue parameter'
+			message: 'missing team parameter'
 		})
 		return
 	}
 
-	var venue = null
+	var team = null
 	var mostRecent = null
 	var postInfo = {}
 
-	controllers.venue
-	.getById(venueId)
+	controllers.team
+	.getById(teamId)
 	.then(function(result){
-		venue = result
-		var instagram = venue.social.instagram
+		team = result
+		var instagram = team.social.instagram
 		var url = 'https://www.instagram.com/'+instagram+'/media/'
 		return Request.get(url, null)
 	})
@@ -40,15 +40,15 @@ router.get('/', function(req, res, next){
 		}
 
 		// create post:
-		postInfo['title'] = venue.name
-		postInfo['slug'] = TextUtils.slugVersion(venue.name)
-		postInfo['geo'] = venue.geo
-		postInfo['venue'] = {
-			id: venue.id,
-			name: venue.name,
-			slug: venue.slug,
-			image: venue.image,
-			address: venue.address.street
+		postInfo['title'] = team.name
+		postInfo['slug'] = TextUtils.slugVersion(team.name)
+		postInfo['geo'] = team.geo
+		postInfo['team'] = {
+			id: team.id,
+			name: team.name,
+			slug: team.slug,
+			image: team.image,
+			address: team.address.street
 		}
 
 		postInfo['text'] = mostRecent.caption.text

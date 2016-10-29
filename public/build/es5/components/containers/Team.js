@@ -102,7 +102,7 @@ var Team = (function (Component) {
 								React.createElement("br", null),
 								React.createElement(
 									"a",
-									{ href: "/scrape?venue=" + team.id },
+									{ href: "/scrape?team=" + team.id },
 									"Scrape"
 								),
 								React.createElement("br", null),
