@@ -8,6 +8,7 @@ var ReactDOMServer = require('react-dom/server')
 var ServerApp = require('../public/build/es5/serverapp')
 var store = require('../public/build/es5/stores/store')
 var Home = require('../public/build/es5/components/layout/Home')
+var Account = require('../public/build/es5/components/layout/Account')
 var Detail = require('../public/build/es5/components/layout/Detail')
 var controllers = require('../controllers')
 
@@ -69,7 +70,44 @@ router.get('/:page', function(req, res, next) {
 		return
 	}
 
-    res.render(page, { title: page })
+	var initialStore = null
+	var reducers = {}
+	var tags = {}
+
+	var controller = controllers['account']
+	controller.checkCurrentUser(req)
+	.then(function(user){
+		console.log('CurrentUser: '+JSON.stringify(user)) // can be null
+
+		// reducers['account'] = {
+		// 	map: map,
+		// 	list: results
+		// }
+
+		initialStore = store.configureStore(reducers)
+
+		var routes = {
+			path: '/'+page,
+			component: ServerApp,
+			initial: initialStore,
+			indexRoute: {
+				component: Account // temporary
+			}
+		}
+
+		return matchRoutes(req, routes, initialStore)
+	})
+	.then(function(renderProps){
+		var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))
+	    res.render('index', {
+	    	react: html,
+	    	tags: tags,
+	    	preloadedState:JSON.stringify(initialStore.getState())
+	    })		
+	})	
+	.catch(function(err){
+	    res.render('error', err)
+	})
 })
 
 router.get('/:page/:slug', function(req, res, next) {
@@ -126,7 +164,6 @@ router.get('/:page/:slug', function(req, res, next) {
 	.catch(function(err){
 	    res.render('error', err)
 	})
-
 })
 
 

@@ -82,6 +82,7 @@
 				_reactRouter.Route,
 				{ path: '/', component: _Main2.default },
 				_react2.default.createElement(_reactRouter.IndexRoute, { component: _layout.Home }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/account', component: _layout.Account }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/team/:slug', component: _layout.Detail }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/post/:slug', component: _layout.Detail })
 			)
@@ -33420,6 +33421,8 @@
 	
 	var _utils = __webpack_require__(568);
 	
+	var _reactRouter = __webpack_require__(254);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33562,6 +33565,19 @@
 												'div',
 												null,
 												'Login'
+											)
+										)
+									),
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											_reactRouter.Link,
+											{ to: '/account' },
+											_react2.default.createElement(
+												'div',
+												null,
+												'Account'
 											)
 										)
 									)
@@ -69072,7 +69088,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.Detail = exports.Home = undefined;
+	exports.Account = exports.Detail = exports.Home = undefined;
 	
 	var _Home = __webpack_require__(687);
 	
@@ -69082,10 +69098,15 @@
 	
 	var _Detail2 = _interopRequireDefault(_Detail);
 	
+	var _Account = __webpack_require__(698);
+	
+	var _Account2 = _interopRequireDefault(_Account);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.Home = _Home2.default;
 	exports.Detail = _Detail2.default;
+	exports.Account = _Account2.default;
 
 /***/ },
 /* 687 */
@@ -70390,7 +70411,25 @@
 				padding: 16,
 				textAlign: 'left'
 			}
+		},
 	
+		account: {
+			content: {
+				background: '#f9f9f9',
+				minHeight: 800
+			},
+			container: {
+				borderTop: '1px solid #ddd', height: 140
+			},
+			selected: {
+				padding: 8,
+				background: '#f9f9f9',
+				borderRadius: 2
+			},
+			menuItem: {
+				padding: 8,
+				background: '#fff'
+			}
 		}
 	
 	};
@@ -70452,6 +70491,133 @@
 	}(_react.Component);
 	
 	exports.default = Detail;
+
+/***/ },
+/* 698 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _styles = __webpack_require__(696);
+	
+	var _styles2 = _interopRequireDefault(_styles);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Account = function (_Component) {
+		_inherits(Account, _Component);
+	
+		function Account() {
+			_classCallCheck(this, Account);
+	
+			var _this = _possibleConstructorReturn(this, (Account.__proto__ || Object.getPrototypeOf(Account)).call(this));
+	
+			_this.state = {
+				selected: 0,
+				menuItems: [{ name: 'Listings', component: 'Posts' }, { name: 'Submit Listing', component: 'CreatePost' }, { name: 'Manage Notifications', component: 'ManageNotifications' }]
+			};
+			return _this;
+		}
+	
+		_createClass(Account, [{
+			key: 'selectItem',
+			value: function selectItem(index, event) {
+				event.preventDefault();
+	
+				var item = this.state.menuItems;
+				this.setState({
+					selected: index
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
+	
+				var style = _styles2.default.account;
+	
+				var sideMenu = this.state.menuItems.map(function (item, i) {
+					var itemStyle = i == _this2.state.selected ? style.selected : style.menuItem;
+					return _react2.default.createElement(
+						'li',
+						{ key: i },
+						_react2.default.createElement(
+							'div',
+							{ style: itemStyle },
+							_react2.default.createElement(
+								'a',
+								{ onClick: _this2.selectItem.bind(_this2, i), href: '#' },
+								_react2.default.createElement(
+									'div',
+									null,
+									item.name
+								)
+							)
+						)
+					);
+				});
+	
+				return _react2.default.createElement(
+					'div',
+					{ className: 'clearfix' },
+					_react2.default.createElement(
+						'header',
+						{ id: 'header', className: 'no-sticky' },
+						_react2.default.createElement(
+							'div',
+							{ id: 'header-wrap' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'container clearfix' },
+								_react2.default.createElement(
+									'nav',
+									{ id: 'primary-menu', style: { paddingTop: 96 } },
+									_react2.default.createElement(
+										'ul',
+										null,
+										sideMenu
+									)
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						'section',
+						{ id: 'content', style: style.content },
+						_react2.default.createElement(
+							'div',
+							{ className: 'content-wrap container clearfix' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'col_two_third' },
+								'Account Page'
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return Account;
+	}(_react.Component);
+	
+	exports.default = Account;
 
 /***/ }
 /******/ ]);

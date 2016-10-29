@@ -33,33 +33,63 @@ module.exports = {
 		})
 	},
 
-	checkCurrentUser: function(req, completion){
-		if (req.session == null){
-			completion({message:'User not logged in.'}, null)
-			return
-		}
-
-		if (req.session.user == null){
-			completion({message:'User not logged in.'}, null)
-			return
-		}
-		
-		var userId = req.session.user
-		Profile.findById(userId, function(err, profile){
-			if (err){
-				req.session.reset()
-				completion({message:'Profile '+userId+' not found'}, null)
-				return
-			}
-			
-			if (profile == null){
-				req.session.reset()
-				completion({message:'Profile '+userId+' not found'}, null)
+	checkCurrentUser: function(req){
+		return new Promise(function(resolve, reject){
+			if (req.session == null){
+				resolve(null)
 				return
 			}
 
-			completion(null, profile.summary())
+			if (req.session.user == null){
+				resolve(null)
+				return
+			}
+
+			var userId = req.session.user
+			Profile.findById(userId, function(err, profile){
+				if (err){
+					req.session.reset()
+					resolve(null)
+					return
+				}
+				
+				if (profile == null){
+					req.session.reset()
+					resolve(null)
+					return
+				}
+
+				resolve(profile.summary())
+			})
 		})
+
+
+		// if (req.session == null){
+		// 	completion({message:'User not logged in.'}, null)
+		// 	return
+		// }
+
+		// if (req.session.user == null){
+		// 	completion({message:'User not logged in.'}, null)
+		// 	return
+		// }
+		
+		// var userId = req.session.user
+		// Profile.findById(userId, function(err, profile){
+		// 	if (err){
+		// 		req.session.reset()
+		// 		completion({message:'Profile '+userId+' not found'}, null)
+		// 		return
+		// 	}
+			
+		// 	if (profile == null){
+		// 		req.session.reset()
+		// 		completion({message:'Profile '+userId+' not found'}, null)
+		// 		return
+		// 	}
+
+		// 	completion(null, profile.summary())
+		// })
 	}, 
 
 	currentUser: function(req){
