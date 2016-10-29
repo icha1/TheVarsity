@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Venue } from '../containers'
+import { Team } from '../containers'
 import styles from './styles'
 
 class Detail extends Component {
@@ -11,7 +11,7 @@ class Detail extends Component {
 	render(){
 		const style = styles.home
 		return ( 
-			<Venue slug={this.props.params.slug} />
+			<Team slug={this.props.params.slug} />
 		)
 	}
 }

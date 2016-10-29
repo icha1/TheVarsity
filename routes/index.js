@@ -81,7 +81,6 @@ router.get('/:page/:slug', function(req, res, next) {
 		return
 	}
 
-
 	var initialStore = null
 	var reducers = {}
 	var tags = {}

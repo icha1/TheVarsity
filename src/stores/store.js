@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import { postReducer, locationReducer, venueReducer, districtReducer } from '../reducers'
+import { postReducer, locationReducer, venueReducer, districtReducer, teamReducer } from '../reducers'
 
 var store;
 
@@ -10,6 +10,7 @@ export default {
 		const reducers = combineReducers({
 			post: postReducer,
 			venue: venueReducer,
+			team: teamReducer,
 			location: locationReducer,
 			district: districtReducer
 		})

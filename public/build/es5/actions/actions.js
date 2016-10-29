@@ -20,6 +20,13 @@ module.exports = {
 		};
 	},
 
+	teamsReceived: function (teams) {
+		return {
+			type: constants.TEAMS_RECEIVED,
+			teams: teams
+		};
+	},
+
 	districtChanged: function (districts) {
 		// this returns as an arry
 		return {

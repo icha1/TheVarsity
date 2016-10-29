@@ -13,7 +13,7 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
-var Venue = require("../containers").Venue;
+var Team = require("../containers").Team;
 var styles = _interopRequire(require("./styles"));
 
 var Detail = (function (Component) {
@@ -39,7 +39,7 @@ var Detail = (function (Component) {
 		render: {
 			value: function render() {
 				var style = styles.home;
-				return React.createElement(Venue, { slug: this.props.params.slug });
+				return React.createElement(Team, { slug: this.props.params.slug });
 			},
 			writable: true,
 			configurable: true

@@ -15,6 +15,7 @@ var postReducer = _reducers.postReducer;
 var locationReducer = _reducers.locationReducer;
 var venueReducer = _reducers.venueReducer;
 var districtReducer = _reducers.districtReducer;
+var teamReducer = _reducers.teamReducer;
 
 
 var store;
@@ -25,6 +26,7 @@ module.exports = {
 		var reducers = combineReducers({
 			post: postReducer,
 			venue: venueReducer,
+			team: teamReducer,
 			location: locationReducer,
 			district: districtReducer
 		});

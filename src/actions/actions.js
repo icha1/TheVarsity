@@ -16,6 +16,13 @@ export default {
 		}
 	},
 
+	teamsReceived: (teams) => {
+		return {
+			type: constants.TEAMS_RECEIVED,
+			teams: teams
+		}
+	},
+
 	districtChanged: (districts) => { // this returns as an arry
 		return {
 			type: constants.DISTRICT_CHANGED,

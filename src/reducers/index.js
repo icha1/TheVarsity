@@ -8,5 +8,6 @@ export {
 	postReducer,
 	locationReducer,
 	venueReducer,
+	teamReducer,
 	districtReducer
 }
