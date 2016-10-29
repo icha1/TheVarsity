@@ -105,7 +105,7 @@ router.post('/:action', function(req, res, next){
 			req.session.user = profile._id
 			res.json({
 				confirmation: 'success',
-				profile: profile.summary()
+				user: profile.summary()
 			})
 		})
 		.catch(function(err){

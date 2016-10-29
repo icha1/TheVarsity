@@ -19,12 +19,20 @@ var styles = _interopRequire(require("./styles"));
 
 var Modal = require("react-bootstrap").Modal;
 var APIManager = require("../../utils").APIManager;
-var Link = require("react-router").Link;
+var _reactRouter = require("react-router");
+
+var Link = _reactRouter.Link;
+var browserHistory = _reactRouter.browserHistory;
+var actions = _interopRequire(require("../../actions/actions"));
+
+var store = _interopRequire(require("../../stores/store"));
+
 var Nav = (function (Component) {
 	function Nav(props, context) {
 		_classCallCheck(this, Nav);
 
 		_get(Object.getPrototypeOf(Nav.prototype), "constructor", this).call(this, props, context);
+		this.sendCredentials = this.sendCredentials.bind(this);
 		this.state = {
 			showLogin: false,
 			showRegister: false,
@@ -76,6 +84,8 @@ var Nav = (function (Component) {
 		login: {
 			value: function login(event) {
 				if (event) event.preventDefault();
+
+				this.sendCredentials("/account/login");
 			},
 			writable: true,
 			configurable: true
@@ -84,15 +94,27 @@ var Nav = (function (Component) {
 			value: function register(event) {
 				if (event) event.preventDefault();
 
-				console.log("Register: " + JSON.stringify(this.state.credentials));
-				var url = "/account/register";
-				APIManager.handlePost(url, this.state.credentials, function (err, response) {
+				this.sendCredentials("/account/register");
+			},
+			writable: true,
+			configurable: true
+		},
+		sendCredentials: {
+			value: function sendCredentials(endpoint) {
+				var _this = this;
+				APIManager.handlePost(endpoint, this.state.credentials, function (err, response) {
 					if (err) {
-						alert(err);
+						alert(err.message);
 						return;
 					}
 
-					console.log(JSON.stringify(response));
+					_this.setState({
+						showRegister: false,
+						showLogin: false
+					});
+
+					store.currentStore().dispatch(actions.currentUserReceived(response.user));
+					browserHistory.push("/account");
 				});
 			},
 			writable: true,

@@ -33369,6 +33369,14 @@
 	
 	var _reactRouter = __webpack_require__(254);
 	
+	var _actions = __webpack_require__(690);
+	
+	var _actions2 = _interopRequireDefault(_actions);
+	
+	var _store = __webpack_require__(196);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33385,6 +33393,7 @@
 	
 			var _this = _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this, props, context));
 	
+			_this.sendCredentials = _this.sendCredentials.bind(_this);
 			_this.state = {
 				showLogin: false,
 				showRegister: false,
@@ -33429,21 +33438,34 @@
 			key: 'login',
 			value: function login(event) {
 				if (event) event.preventDefault();
+	
+				this.sendCredentials('/account/login');
 			}
 		}, {
 			key: 'register',
 			value: function register(event) {
 				if (event) event.preventDefault();
 	
-				console.log('Register: ' + JSON.stringify(this.state.credentials));
-				var url = '/account/register';
-				_utils.APIManager.handlePost(url, this.state.credentials, function (err, response) {
+				this.sendCredentials('/account/register');
+			}
+		}, {
+			key: 'sendCredentials',
+			value: function sendCredentials(endpoint) {
+				var _this2 = this;
+	
+				_utils.APIManager.handlePost(endpoint, this.state.credentials, function (err, response) {
 					if (err) {
-						alert(err);
+						alert(err.message);
 						return;
 					}
 	
-					console.log(JSON.stringify(response));
+					_this2.setState({
+						showRegister: false,
+						showLogin: false
+					});
+	
+					_store2.default.currentStore().dispatch(_actions2.default.currentUserReceived(response.user));
+					_reactRouter.browserHistory.push('/account');
 				});
 			}
 		}, {
@@ -70602,7 +70624,7 @@
 		switch (action.type) {
 	
 			case _constants2.default.CURRENT_USER_RECIEVED:
-				console.log('CURRENT_USER_RECIEVED' + JSON.stringify(action.user));
+				console.log('CURRENT_USER_RECIEVED: ' + JSON.stringify(action.user));
 				var newState = Object.assign({}, state);
 				newState['currentUser'] = action.user;
 				return newState;

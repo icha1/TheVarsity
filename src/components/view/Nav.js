@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import styles from './styles'
 import { Modal } from 'react-bootstrap'
 import { APIManager } from '../../utils'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
+import actions from '../../actions/actions'
+import store from '../../stores/store'
 
 class Nav extends Component {
 	constructor(props, context){
 		super(props, context)
+		this.sendCredentials = this.sendCredentials.bind(this)
 		this.state = {
 			showLogin: false,
 			showRegister: false,
@@ -48,21 +51,31 @@ class Nav extends Component {
 	login(event){
 		if (event)
 			event.preventDefault()
+
+		this.sendCredentials('/account/login')
 	}
 
 	register(event){
 		if (event)
 			event.preventDefault()
 
-		console.log('Register: '+JSON.stringify(this.state.credentials))
-		let url = '/account/register'
-		APIManager.handlePost(url, this.state.credentials, (err, response) => {
+		this.sendCredentials('/account/register')
+	}
+
+	sendCredentials(endpoint){
+		APIManager.handlePost(endpoint, this.state.credentials, (err, response) => {
 			if (err){
-				alert(err)
+				alert(err.message)
 				return
 			}
 
-			console.log(JSON.stringify(response))
+			this.setState({
+				showRegister: false,
+				showLogin: false
+			})
+
+			store.currentStore().dispatch(actions.currentUserReceived(response.user))
+			browserHistory.push('/account')
 		})
 	}
 
