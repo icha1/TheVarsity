@@ -18,7 +18,7 @@ class Map extends Component {
 
 	handleMarkerClick(marker){
 		console.log('MarkerClick: '+JSON.stringify(marker))
-		browserHistory.push('/venue/'+marker.slug)
+		browserHistory.push('/team/'+marker.slug)
 
 	}
 

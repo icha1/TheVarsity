@@ -13,8 +13,8 @@ const update = (state, teams) => {
 
 	teams.forEach(team => {
 		if (teamsMap[team.slug] == null){
-			teamsMap[team.slug] = teams
-			array.push(teams)
+			teamsMap[team.slug] = team
+			array.push(team)
 		}
 	})
 
@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
 
 	switch (action.type) {
 
-		case constants.VENUES_RECEIVED:
+		case constants.TEAMS_RECEIVED:
 //			console.log('VENUES_RECEIVED')
 			return update(state, action.teams)
 

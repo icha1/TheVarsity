@@ -40,7 +40,7 @@ class Teams extends Component {
 			return		
 
 		store.currentStore().dispatch(actions.locationChanged(location))
-		this.fetchVenues(location)
+		this.fetchTeams(location)
 	}
 
 	fetchTeams(location){

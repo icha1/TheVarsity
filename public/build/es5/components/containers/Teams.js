@@ -65,7 +65,7 @@ var Teams = (function (Component) {
 				if (distance < 0.01) {
 					return;
 				}store.currentStore().dispatch(actions.locationChanged(location));
-				this.fetchVenues(location);
+				this.fetchTeams(location);
 			},
 			writable: true,
 			configurable: true

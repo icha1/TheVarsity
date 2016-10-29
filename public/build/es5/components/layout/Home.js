@@ -16,7 +16,7 @@ var Component = _react.Component;
 var _containers = require("../containers");
 
 var Posts = _containers.Posts;
-var Venues = _containers.Venues;
+var Teams = _containers.Teams;
 var District = _containers.District;
 var styles = _interopRequire(require("./styles"));
 
@@ -44,7 +44,7 @@ var Home = (function (Component) {
 						React.createElement(
 							"div",
 							{ id: "header-wrap" },
-							React.createElement(Venues, null)
+							React.createElement(Teams, null)
 						)
 					),
 					React.createElement(

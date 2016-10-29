@@ -49,7 +49,7 @@ var Map = (function (Component) {
 		handleMarkerClick: {
 			value: function handleMarkerClick(marker) {
 				console.log("MarkerClick: " + JSON.stringify(marker));
-				browserHistory.push("/venue/" + marker.slug);
+				browserHistory.push("/team/" + marker.slug);
 			},
 			writable: true,
 			configurable: true

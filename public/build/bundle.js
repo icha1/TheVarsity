@@ -23421,8 +23421,8 @@
 	
 		teams.forEach(function (team) {
 			if (teamsMap[team.slug] == null) {
-				teamsMap[team.slug] = teams;
-				array.push(teams);
+				teamsMap[team.slug] = team;
+				array.push(team);
 			}
 		});
 	
@@ -23438,7 +23438,7 @@
 	
 		switch (action.type) {
 	
-			case _constants2.default.VENUES_RECEIVED:
+			case _constants2.default.TEAMS_RECEIVED:
 				//			console.log('VENUES_RECEIVED')
 				return update(state, action.teams);
 	
@@ -23587,7 +23587,7 @@
 			key: 'handleMarkerClick',
 			value: function handleMarkerClick(marker) {
 				console.log('MarkerClick: ' + JSON.stringify(marker));
-				_reactRouter.browserHistory.push('/venue/' + marker.slug);
+				_reactRouter.browserHistory.push('/team/' + marker.slug);
 			}
 		}, {
 			key: 'render',
@@ -69139,7 +69139,7 @@
 						_react2.default.createElement(
 							'div',
 							{ id: 'header-wrap' },
-							_react2.default.createElement(_containers.Venues, null)
+							_react2.default.createElement(_containers.Teams, null)
 						)
 					),
 					_react2.default.createElement(
@@ -69178,25 +69178,17 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.District = exports.Team = exports.Teams = exports.Venue = exports.Venues = exports.Posts = undefined;
+	exports.District = exports.Team = exports.Teams = exports.Posts = undefined;
 	
 	var _Posts = __webpack_require__(689);
 	
 	var _Posts2 = _interopRequireDefault(_Posts);
 	
-	var _Venues = __webpack_require__(691);
-	
-	var _Venues2 = _interopRequireDefault(_Venues);
-	
-	var _Venue = __webpack_require__(692);
-	
-	var _Venue2 = _interopRequireDefault(_Venue);
-	
-	var _Teams = __webpack_require__(698);
+	var _Teams = __webpack_require__(691);
 	
 	var _Teams2 = _interopRequireDefault(_Teams);
 	
-	var _Team = __webpack_require__(699);
+	var _Team = __webpack_require__(692);
 	
 	var _Team2 = _interopRequireDefault(_Team);
 	
@@ -69207,8 +69199,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.Posts = _Posts2.default;
-	exports.Venues = _Venues2.default;
-	exports.Venue = _Venue2.default;
 	exports.Teams = _Teams2.default;
 	exports.Team = _Team2.default;
 	exports.District = _District2.default;
@@ -69408,25 +69398,25 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Venues = function (_Component) {
-		_inherits(Venues, _Component);
+	var Teams = function (_Component) {
+		_inherits(Teams, _Component);
 	
-		function Venues() {
-			_classCallCheck(this, Venues);
+		function Teams() {
+			_classCallCheck(this, Teams);
 	
-			var _this = _possibleConstructorReturn(this, (Venues.__proto__ || Object.getPrototypeOf(Venues)).call(this));
+			var _this = _possibleConstructorReturn(this, (Teams.__proto__ || Object.getPrototypeOf(Teams)).call(this));
 	
-			_this.fetchVenues = _this.fetchVenues.bind(_this);
+			_this.fetchTeams = _this.fetchTeams.bind(_this);
 			_this.fetchDistrict = _this.fetchDistrict.bind(_this);
 			_this.calculateDistance = _this.calculateDistance.bind(_this);
 			_this.state = {};
 			return _this;
 		}
 	
-		_createClass(Venues, [{
+		_createClass(Teams, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				if (this.props.venues.length == 0) this.fetchVenues(this.props.location);
+				if (this.props.teams.length == 0) this.fetchTeams(this.props.location);
 			}
 		}, {
 			key: 'calculateDistance',
@@ -69449,20 +69439,20 @@
 				if (distance < 0.01) return;
 	
 				_store2.default.currentStore().dispatch(_actions2.default.locationChanged(location));
-				this.fetchVenues(location);
+				this.fetchTeams(location);
 			}
 		}, {
-			key: 'fetchVenues',
-			value: function fetchVenues(location) {
+			key: 'fetchTeams',
+			value: function fetchTeams(location) {
 				var _this2 = this;
 	
-				_utils.APIManager.handleGet('/api/venue', location, function (err, response) {
+				_utils.APIManager.handleGet('/api/team', location, function (err, response) {
 					if (err) {
 						alert(err);
 						return;
 					}
 	
-					_store2.default.currentStore().dispatch(_actions2.default.venuesReceived(response.results));
+					_store2.default.currentStore().dispatch(_actions2.default.teamsReceived(response.results));
 					_this2.fetchDistrict();
 				});
 			}
@@ -69493,22 +69483,22 @@
 					center: this.props.location,
 					zoom: 16,
 					animation: 2,
-					markers: this.props.venues,
+					markers: this.props.teams,
 					mapMoved: this.locationChanged.bind(this) });
 			}
 		}]);
 	
-		return Venues;
+		return Teams;
 	}(_react.Component);
 	
 	var stateToProps = function stateToProps(state) {
 		return {
 			location: state.location.currentLocation,
-			venues: state.venue.list
+			teams: state.team.list
 		};
 	};
 	
-	exports.default = (0, _reactRedux.connect)(stateToProps)(Venues);
+	exports.default = (0, _reactRedux.connect)(stateToProps)(Teams);
 
 /***/ },
 /* 692 */
@@ -69552,19 +69542,19 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Venue = function (_Component) {
-		_inherits(Venue, _Component);
+	var Team = function (_Component) {
+		_inherits(Team, _Component);
 	
-		function Venue() {
-			_classCallCheck(this, Venue);
+		function Team() {
+			_classCallCheck(this, Team);
 	
-			var _this = _possibleConstructorReturn(this, (Venue.__proto__ || Object.getPrototypeOf(Venue)).call(this));
+			var _this = _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).call(this));
 	
 			_this.state = {};
 			return _this;
 		}
 	
-		_createClass(Venue, [{
+		_createClass(Team, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {}
 		}, {
@@ -69584,12 +69574,12 @@
 					// "name":"apple.png",
 					// "key":"AMIfv970_ybaBPO2Thty_bUCOyltTed9RWxww-2OYwQVeMtSLpbxxqH2ilWMiLvwODbCUSGgmASD02YIlkMKG7WYtqPcJqX58RyRigRchcOursW482o54uta75kkqFTxCwgpl9clcEhGTiMG-Qkf5pLZ_1GaXz4BWGKI4tlvM0cpCWhfah0GA-4"}			
 	
-					var venue = _this2.props.venues[_this2.props.slug];
-					var updated = Object.assign({}, venue);
+					var team = _this2.props.teams[_this2.props.slug];
+					var updated = Object.assign({}, team);
 					updated['image'] = image.address;
 					//			console.log(JSON.stringify(updated))
 	
-					var url = '/api/venue/' + updated.id;
+					var url = '/api/team/' + updated.id;
 					_utils.APIManager.handlePut(url, updated, function (error, response) {
 	
 						console.log(JSON.stringify(response));
@@ -69599,10 +69589,10 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				var venue = this.props.venues[this.props.slug];
+				var team = this.props.teams[this.props.slug];
 				var center = {
-					lat: venue.geo[0],
-					lng: venue.geo[1]
+					lat: team.geo[0],
+					lng: team.geo[1]
 				};
 	
 				return _react2.default.createElement(
@@ -69614,7 +69604,7 @@
 						_react2.default.createElement(
 							'div',
 							{ id: 'header-wrap' },
-							_react2.default.createElement(_view.Map, { center: center, zoom: 17, animation: 2, markers: [venue] })
+							_react2.default.createElement(_view.Map, { center: center, zoom: 17, animation: 2, markers: [team] })
 						)
 					),
 					_react2.default.createElement(
@@ -69626,15 +69616,15 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'col_full col_last' },
-								venue.name,
+								team.name,
 								_react2.default.createElement('br', null),
 								_react2.default.createElement(
 									'a',
-									{ href: '/scrape?venue=' + venue.id },
+									{ href: '/scrape?venue=' + team.id },
 									'Scrape'
 								),
 								_react2.default.createElement('br', null),
-								_react2.default.createElement('img', { src: venue.image + '=s220' }),
+								_react2.default.createElement('img', { src: team.image + '=s220' }),
 								_react2.default.createElement('br', null),
 								_react2.default.createElement('br', null),
 								_react2.default.createElement(
@@ -69650,16 +69640,16 @@
 			}
 		}]);
 	
-		return Venue;
+		return Team;
 	}(_react.Component);
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			venues: state.venue.map
+			teams: state.team.map
 		};
 	};
 	
-	exports.default = (0, _reactRedux.connect)(stateToProps)(Venue);
+	exports.default = (0, _reactRedux.connect)(stateToProps)(Team);
 
 /***/ },
 /* 693 */
@@ -70462,297 +70452,6 @@
 	}(_react.Component);
 	
 	exports.default = Detail;
-
-/***/ },
-/* 698 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _utils = __webpack_require__(568);
-	
-	var _store = __webpack_require__(196);
-	
-	var _store2 = _interopRequireDefault(_store);
-	
-	var _actions = __webpack_require__(690);
-	
-	var _actions2 = _interopRequireDefault(_actions);
-	
-	var _reactRedux = __webpack_require__(172);
-	
-	var _view = __webpack_require__(206);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Teams = function (_Component) {
-		_inherits(Teams, _Component);
-	
-		function Teams() {
-			_classCallCheck(this, Teams);
-	
-			var _this = _possibleConstructorReturn(this, (Teams.__proto__ || Object.getPrototypeOf(Teams)).call(this));
-	
-			_this.fetchTeams = _this.fetchTeams.bind(_this);
-			_this.fetchDistrict = _this.fetchDistrict.bind(_this);
-			_this.calculateDistance = _this.calculateDistance.bind(_this);
-			_this.state = {};
-			return _this;
-		}
-	
-		_createClass(Teams, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				if (this.props.teams.length == 0) this.fetchTeams(this.props.location);
-			}
-		}, {
-			key: 'calculateDistance',
-			value: function calculateDistance(location) {
-				var currentLocation = this.props.location;
-				var deltaX = currentLocation.lat - location.lat;
-				var deltaY = currentLocation.lng - location.lng;
-				var cSquared = deltaY * deltaY + deltaX * deltaX;
-				var dist = Math.sqrt(cSquared);
-				return dist;
-			}
-		}, {
-			key: 'locationChanged',
-			value: function locationChanged(location) {
-				console.log('locationChanged: ' + JSON.stringify(location));
-				console.log('currentLocation: ' + JSON.stringify(this.props.location));
-				var distance = this.calculateDistance(location);
-				console.log('Distance: ' + JSON.stringify(distance));
-	
-				if (distance < 0.01) return;
-	
-				_store2.default.currentStore().dispatch(_actions2.default.locationChanged(location));
-				this.fetchVenues(location);
-			}
-		}, {
-			key: 'fetchTeams',
-			value: function fetchTeams(location) {
-				var _this2 = this;
-	
-				_utils.APIManager.handleGet('/api/team', location, function (err, response) {
-					if (err) {
-						alert(err);
-						return;
-					}
-	
-					_store2.default.currentStore().dispatch(_actions2.default.teamsReceived(response.results));
-					_this2.fetchDistrict();
-				});
-			}
-		}, {
-			key: 'fetchDistrict',
-			value: function fetchDistrict() {
-				var params = {
-					limit: 1,
-					lat: this.props.location.lat,
-					lng: this.props.location.lng
-				};
-	
-				console.log('fetchDistrict: ' + JSON.stringify(params));
-				_utils.APIManager.handleGet('/api/district', params, function (err, response) {
-					if (err) {
-						alert(err);
-						return;
-					}
-	
-					//			console.log(JSON.stringify(response))
-					_store2.default.currentStore().dispatch(_actions2.default.districtChanged(response.results));
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(_view.Map, {
-					center: this.props.location,
-					zoom: 16,
-					animation: 2,
-					markers: this.props.teams,
-					mapMoved: this.locationChanged.bind(this) });
-			}
-		}]);
-	
-		return Teams;
-	}(_react.Component);
-	
-	var stateToProps = function stateToProps(state) {
-		return {
-			location: state.location.currentLocation,
-			teams: state.team.list
-		};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(stateToProps)(Teams);
-
-/***/ },
-/* 699 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDropzone = __webpack_require__(693);
-	
-	var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
-	
-	var _reactRedux = __webpack_require__(172);
-	
-	var _utils = __webpack_require__(568);
-	
-	var _store = __webpack_require__(196);
-	
-	var _store2 = _interopRequireDefault(_store);
-	
-	var _actions = __webpack_require__(690);
-	
-	var _actions2 = _interopRequireDefault(_actions);
-	
-	var _view = __webpack_require__(206);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Team = function (_Component) {
-		_inherits(Team, _Component);
-	
-		function Team() {
-			_classCallCheck(this, Team);
-	
-			var _this = _possibleConstructorReturn(this, (Team.__proto__ || Object.getPrototypeOf(Team)).call(this));
-	
-			_this.state = {};
-			return _this;
-		}
-	
-		_createClass(Team, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {}
-		}, {
-			key: 'uploadImage',
-			value: function uploadImage(files) {
-				var _this2 = this;
-	
-				console.log('uploadImage');
-				_utils.APIManager.upload(files[0], function (err, image) {
-					if (err) {
-						alert(err);
-						return;
-					}
-	
-					// {"id":"fah0GA-4",
-					// "address":"https://lh3.googleusercontent.com/BdHyl0Uzoq-MHbMLYx_n8IAKGrbRz2XhIdXBu3DjGd8rJLJRecVuBajNzOrhdI6BUe9njw3CqvthbzQQsHUjkupkMA",
-					// "name":"apple.png",
-					// "key":"AMIfv970_ybaBPO2Thty_bUCOyltTed9RWxww-2OYwQVeMtSLpbxxqH2ilWMiLvwODbCUSGgmASD02YIlkMKG7WYtqPcJqX58RyRigRchcOursW482o54uta75kkqFTxCwgpl9clcEhGTiMG-Qkf5pLZ_1GaXz4BWGKI4tlvM0cpCWhfah0GA-4"}			
-	
-					var team = _this2.props.teams[_this2.props.slug];
-					var updated = Object.assign({}, team);
-					updated['image'] = image.address;
-					//			console.log(JSON.stringify(updated))
-	
-					var url = '/api/team/' + updated.id;
-					_utils.APIManager.handlePut(url, updated, function (error, response) {
-	
-						console.log(JSON.stringify(response));
-					});
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				var team = this.props.teams[this.props.slug];
-				var center = {
-					lat: team.geo[0],
-					lng: team.geo[1]
-				};
-	
-				return _react2.default.createElement(
-					'div',
-					{ className: 'clearfix' },
-					_react2.default.createElement(
-						'header',
-						{ id: 'header', className: 'no-sticky' },
-						_react2.default.createElement(
-							'div',
-							{ id: 'header-wrap' },
-							_react2.default.createElement(_view.Map, { center: center, zoom: 17, animation: 2, markers: [team] })
-						)
-					),
-					_react2.default.createElement(
-						'section',
-						{ id: 'content', style: { background: '#f9f9f9', minHeight: 800 } },
-						_react2.default.createElement(
-							'div',
-							{ className: 'content-wrap container clearfix' },
-							_react2.default.createElement(
-								'div',
-								{ className: 'col_full col_last' },
-								team.name,
-								_react2.default.createElement('br', null),
-								_react2.default.createElement(
-									'a',
-									{ href: '/scrape?venue=' + team.id },
-									'Scrape'
-								),
-								_react2.default.createElement('br', null),
-								_react2.default.createElement('img', { src: team.image + '=s220' }),
-								_react2.default.createElement('br', null),
-								_react2.default.createElement('br', null),
-								_react2.default.createElement(
-									_reactDropzone2.default,
-									{ onDrop: this.uploadImage.bind(this) },
-									'Upload Image Here',
-									_react2.default.createElement('br', null)
-								)
-							)
-						)
-					)
-				);
-			}
-		}]);
-	
-		return Team;
-	}(_react.Component);
-	
-	var stateToProps = function stateToProps(state) {
-		return {
-			teams: state.team.map
-		};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(stateToProps)(Team);
 
 /***/ }
 /******/ ]);
