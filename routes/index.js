@@ -72,7 +72,9 @@ router.get('/:page', function(req, res, next) {
 
 	var initialStore = null
 	var reducers = {}
-	var tags = {}
+	var tags = {
+		title: page
+	}
 
 	var controller = controllers['account']
 	controller.checkCurrentUser(req)
