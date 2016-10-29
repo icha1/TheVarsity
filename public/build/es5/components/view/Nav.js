@@ -19,6 +19,7 @@ var styles = _interopRequire(require("./styles"));
 
 var Modal = require("react-bootstrap").Modal;
 var APIManager = require("../../utils").APIManager;
+var Link = require("react-router").Link;
 var Nav = (function (Component) {
 	function Nav(props, context) {
 		_classCallCheck(this, Nav);
@@ -161,6 +162,19 @@ var Nav = (function (Component) {
 												"div",
 												null,
 												"Login"
+											)
+										)
+									),
+									React.createElement(
+										"li",
+										null,
+										React.createElement(
+											Link,
+											{ to: "/account" },
+											React.createElement(
+												"div",
+												null,
+												"Account"
 											)
 										)
 									)

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styles from './styles'
 import { Modal } from 'react-bootstrap'
 import { APIManager } from '../../utils'
+import { Link } from 'react-router'
 
 class Nav extends Component {
 	constructor(props, context){
@@ -80,6 +81,7 @@ class Nav extends Component {
 								<li><a href="#"><div>About</div></a></li>
 								<li><a onClick={this.toggleRegister.bind(this)} href="#"><div>Join</div></a></li>
 								<li><a onClick={this.toggleLogin.bind(this)} href="#"><div>Login</div></a></li>
+								<li><Link to="/account"><div>Account</div></Link></li>
 							</ul>
 						</nav>
 						<div id="page-submenu-trigger"><i className="icon-reorder"></i></div>
