@@ -37,8 +37,7 @@ router.get('/', function(req, res, next) {
 
 	controllers.account.checkCurrentUser(req)
 	.then(function(user){
-		if (user != null)
-			reducers['account'] = {currentUser: user}
+		reducers['account'] = {currentUser: user} // can be null
 		
 		initialStore = store.configureStore(reducers)
 		var routes = {
@@ -79,9 +78,7 @@ router.get('/:page', function(req, res, next) {
 
 	controllers.account.checkCurrentUser(req)
 	.then(function(user){
-		if (user != null)
-			reducers['account'] = {currentUser: user}
-		
+		reducers['account'] = {currentUser: user} // can be null		
 		initialStore = store.configureStore(reducers)
 		var routes = {
 			path: '/'+page,

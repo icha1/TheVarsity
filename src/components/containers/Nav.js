@@ -5,6 +5,7 @@ import { APIManager } from '../../utils'
 import { Link, browserHistory } from 'react-router'
 import actions from '../../actions/actions'
 import store from '../../stores/store'
+import { connect } from 'react-redux'
 
 class Nav extends Component {
 	constructor(props, context){
@@ -82,6 +83,15 @@ class Nav extends Component {
 	render(){
 		const style = styles.nav
 
+		let accountLink, joinLink, loginLink = null
+		if (this.props.user == null){
+			joinLink = <li><a onClick={this.toggleRegister.bind(this)} href="#"><div>Join</div></a></li>
+			loginLink = <li><a onClick={this.toggleLogin.bind(this)} href="#"><div>Login</div></a></li>
+		}
+		else {
+			accountLink = <li><Link to="/account"><div>{this.props.user.username}</div></Link></li>
+		}
+
 		return (
 			<div id="page-menu">
 				<div id="page-menu-wrap">
@@ -92,9 +102,9 @@ class Nav extends Component {
 						<nav className="one-page-menu">
 							<ul style={style.ul}>
 								<li><a href="#"><div>About</div></a></li>
-								<li><a onClick={this.toggleRegister.bind(this)} href="#"><div>Join</div></a></li>
-								<li><a onClick={this.toggleLogin.bind(this)} href="#"><div>Login</div></a></li>
-								<li><Link to="/account"><div>Account</div></Link></li>
+								{ joinLink }
+								{ loginLink }
+								{ accountLink }
 							</ul>
 						</nav>
 						<div id="page-submenu-trigger"><i className="icon-reorder"></i></div>
@@ -145,4 +155,10 @@ class Nav extends Component {
 	}
 }
 
-export default Nav
+const stateToProps = (state) => {
+	return {
+		user: state.account.currentUser
+	}
+}
+
+export default connect(stateToProps)(Nav)

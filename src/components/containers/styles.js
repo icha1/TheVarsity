@@ -1,5 +1,29 @@
 export default {
-
+	nav: {
+		ul: {
+			fontWeight: 100
+		},
+		title: {
+			color:'#fff'
+		},
+		modal: {
+			background:'#f9f9f9',
+			padding:24,
+			borderRadius:3,
+			minHeight: 370
+		},
+		textField: {
+			marginBottom:12,
+			className: 'form-control'
+		},
+		btnLoginContainer: {
+			textAlign:'center',
+			marginTop:24
+		},
+		btnLogin: {
+			className: 'button button-xlarge button-circle button-blue'
+		}		
+	},
 	district: {
 		content: {
 			background:'#f9f9f9',

@@ -13,7 +13,7 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
-var Nav = require("./view").Nav;
+var Nav = require("./containers").Nav;
 var Main = (function (Component) {
 	function Main() {
 		_classCallCheck(this, Main);

@@ -5,9 +5,7 @@ var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["defau
 var constants = _interopRequire(require("../constants/constants"));
 
 var initialState = {
-	currentUser: {
-		id: null
-	}
+	currentUser: null
 };
 
 module.exports = function (_x, action) {
