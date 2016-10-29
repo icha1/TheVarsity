@@ -33,22 +33,25 @@ matchRoutes = function(req, routes, initialStore){
 router.get('/', function(req, res, next) {
 	var initialStore = null
 	var reducers = {}
-	var tags = {
-		title: 'Home'
-	}
+	var tags = {title: 'Home'}
 
-	initialStore = store.configureStore(reducers)
-
-	var routes = {
-		path: '/',
-		component: ServerApp,
-		initial: initialStore,
-		indexRoute: {
-			component: Home
+	controllers.account.checkCurrentUser(req)
+	.then(function(user){
+		if (user != null)
+			reducers['account'] = {currentUser: user}
+		
+		initialStore = store.configureStore(reducers)
+		var routes = {
+			path: '/',
+			component: ServerApp,
+			initial: initialStore,
+			indexRoute: {
+				component: Home // temporary
+			}
 		}
-	}
 
-	matchRoutes(req, routes, initialStore)
+		return matchRoutes(req, routes, initialStore)
+	})
 	.then(function(renderProps){
 		var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))
 	    res.render('index', {
@@ -72,22 +75,14 @@ router.get('/:page', function(req, res, next) {
 
 	var initialStore = null
 	var reducers = {}
-	var tags = {
-		title: page
-	}
+	var tags = {title: page}
 
-	var controller = controllers['account']
-	controller.checkCurrentUser(req)
+	controllers.account.checkCurrentUser(req)
 	.then(function(user){
-		console.log('CurrentUser: '+JSON.stringify(user)) // can be null
-
-		// reducers['account'] = {
-		// 	map: map,
-		// 	list: results
-		// }
-
+		if (user != null)
+			reducers['account'] = {currentUser: user}
+		
 		initialStore = store.configureStore(reducers)
-
 		var routes = {
 			path: '/'+page,
 			component: ServerApp,
