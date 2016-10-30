@@ -18,7 +18,9 @@ class Posts extends Component {
 				title: '',
 				text: '',
 				type: '',
-				image: ''
+				image: '',
+				profile: {},
+				team: {}
 			}
 		}
 	}
@@ -64,8 +66,31 @@ class Posts extends Component {
 		})		
 	}
 
-	uploadImage(files){
+	updatePost(event){
+		event.preventDefault()
+		let updated = Object.assign({}, this.state.post)
+		updated[event.target.id] = event.target.value
+		this.setState({
+			post: updated
+		})
+	}
 
+	submitPost(event){
+		event.preventDefault()
+		console.log('submitPost: '+JSON.stringify(this.state.post))
+	}
+
+	uploadImage(files){
+		APIManager.upload(files[0], (err, image) => {
+			if (err){
+				alert(err)
+				return
+			}
+
+			let updated = Object.assign({}, this.state.post)
+			updated['image'] = image.address
+			this.setState({post: updated})
+		})
 	}
 
 	render(){
@@ -81,6 +106,7 @@ class Posts extends Component {
 			})
 		}
 
+		const image = (this.state.post.image.length == 0) ? '/images/image-placeholder.png' : this.state.post.image
 		let createPost = (
 			<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
 				<div className={styles.post.container.className} style={styles.post.container}>
@@ -93,17 +119,22 @@ class Posts extends Component {
 
 					<div className={styles.post.content.className} style={styles.post.content}>
 						<div className="col_two_third" style={{marginBottom:4}}>
-							<input type="text" placeholder="Title" style={styles.post.input} /><br />
-							<textarea placeholder="Text:" style={styles.post.textarea}></textarea><br />					
+							<input id="title" onChange={this.updatePost.bind(this)} type="text" placeholder="Title" style={styles.post.input} /><br />
+							<textarea id="text" onChange={this.updatePost.bind(this)} placeholder="Text:" style={styles.post.textarea}></textarea><br />					
 						</div>
 
 						<Dropzone onDrop={this.uploadImage.bind(this)} className="col_one_third col_last" style={{marginBottom:4}}>
-							<img style={styles.post.postImage} src={'/images/image-placeholder.png'} />
+							<img style={styles.post.postImage} src={image} />
 						</Dropzone>
 					</div>
-
 					<hr />
-					<a href="#" onClick={this.toggleCreatePost.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create</a>
+					<a href="#" onClick={this.submitPost.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create</a>
+					<select className="form-control" style={{width:50+'%'}}>
+						<option>Mustard</option>
+						<option>Ketchup</option>
+						<option>Relish</option>
+					</select>
+
 				</div>
 			</li>
 		)

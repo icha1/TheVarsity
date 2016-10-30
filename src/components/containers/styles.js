@@ -98,6 +98,7 @@ export default {
 		},
 		btnAdd: {
 			float: 'right',
+			marginTop: 0,
 			className: 'button button-medium button-circle button-blue'
 		}		
 

@@ -23974,6 +23974,7 @@
 			},
 			btnAdd: {
 				float: 'right',
+				marginTop: 0,
 				className: 'button button-medium button-circle button-blue'
 			}
 	
@@ -64860,7 +64861,9 @@
 					title: '',
 					text: '',
 					type: '',
-					image: ''
+					image: '',
+					profile: {},
+					team: {}
 				}
 			};
 			return _this;
@@ -64914,8 +64917,37 @@
 				});
 			}
 		}, {
+			key: 'updatePost',
+			value: function updatePost(event) {
+				event.preventDefault();
+				var updated = Object.assign({}, this.state.post);
+				updated[event.target.id] = event.target.value;
+				this.setState({
+					post: updated
+				});
+			}
+		}, {
+			key: 'submitPost',
+			value: function submitPost(event) {
+				event.preventDefault();
+				console.log('submitPost: ' + JSON.stringify(this.state.post));
+			}
+		}, {
 			key: 'uploadImage',
-			value: function uploadImage(files) {}
+			value: function uploadImage(files) {
+				var _this4 = this;
+	
+				_utils.APIManager.upload(files[0], function (err, image) {
+					if (err) {
+						alert(err);
+						return;
+					}
+	
+					var updated = Object.assign({}, _this4.state.post);
+					updated['image'] = image.address;
+					_this4.setState({ post: updated });
+				});
+			}
 		}, {
 			key: 'render',
 			value: function render() {
@@ -64931,6 +64963,7 @@
 					});
 				}
 	
+				var image = this.state.post.image.length == 0 ? '/images/image-placeholder.png' : this.state.post.image;
 				var createPost = _react2.default.createElement(
 					'li',
 					{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
@@ -64956,22 +64989,41 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'col_two_third', style: { marginBottom: 4 } },
-								_react2.default.createElement('input', { type: 'text', placeholder: 'Title', style: _styles2.default.post.input }),
+								_react2.default.createElement('input', { id: 'title', onChange: this.updatePost.bind(this), type: 'text', placeholder: 'Title', style: _styles2.default.post.input }),
 								_react2.default.createElement('br', null),
-								_react2.default.createElement('textarea', { placeholder: 'Text:', style: _styles2.default.post.textarea }),
+								_react2.default.createElement('textarea', { id: 'text', onChange: this.updatePost.bind(this), placeholder: 'Text:', style: _styles2.default.post.textarea }),
 								_react2.default.createElement('br', null)
 							),
 							_react2.default.createElement(
 								_reactDropzone2.default,
 								{ onDrop: this.uploadImage.bind(this), className: 'col_one_third col_last', style: { marginBottom: 4 } },
-								_react2.default.createElement('img', { style: _styles2.default.post.postImage, src: '/images/image-placeholder.png' })
+								_react2.default.createElement('img', { style: _styles2.default.post.postImage, src: image })
 							)
 						),
 						_react2.default.createElement('hr', null),
 						_react2.default.createElement(
 							'a',
-							{ href: '#', onClick: this.toggleCreatePost.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
+							{ href: '#', onClick: this.submitPost.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
 							'Create'
+						),
+						_react2.default.createElement(
+							'select',
+							{ className: 'form-control', style: { width: 50 + '%' } },
+							_react2.default.createElement(
+								'option',
+								null,
+								'Mustard'
+							),
+							_react2.default.createElement(
+								'option',
+								null,
+								'Ketchup'
+							),
+							_react2.default.createElement(
+								'option',
+								null,
+								'Relish'
+							)
 						)
 					)
 				);

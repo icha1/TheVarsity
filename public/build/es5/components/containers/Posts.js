@@ -39,7 +39,9 @@ var Posts = (function (Component) {
 				title: "",
 				text: "",
 				type: "",
-				image: ""
+				image: "",
+				profile: {},
+				team: {}
 			}
 		};
 	}
@@ -98,8 +100,40 @@ var Posts = (function (Component) {
 			writable: true,
 			configurable: true
 		},
+		updatePost: {
+			value: function updatePost(event) {
+				event.preventDefault();
+				var updated = Object.assign({}, this.state.post);
+				updated[event.target.id] = event.target.value;
+				this.setState({
+					post: updated
+				});
+			},
+			writable: true,
+			configurable: true
+		},
+		submitPost: {
+			value: function submitPost(event) {
+				event.preventDefault();
+				console.log("submitPost: " + JSON.stringify(this.state.post));
+			},
+			writable: true,
+			configurable: true
+		},
 		uploadImage: {
-			value: function uploadImage(files) {},
+			value: function uploadImage(files) {
+				var _this = this;
+				APIManager.upload(files[0], function (err, image) {
+					if (err) {
+						alert(err);
+						return;
+					}
+
+					var updated = Object.assign({}, _this.state.post);
+					updated.image = image.address;
+					_this.setState({ post: updated });
+				});
+			},
 			writable: true,
 			configurable: true
 		},
@@ -117,6 +151,7 @@ var Posts = (function (Component) {
 					});
 				}
 
+				var image = this.state.post.image.length == 0 ? "/images/image-placeholder.png" : this.state.post.image;
 				var createPost = React.createElement(
 					"li",
 					{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
@@ -142,22 +177,41 @@ var Posts = (function (Component) {
 							React.createElement(
 								"div",
 								{ className: "col_two_third", style: { marginBottom: 4 } },
-								React.createElement("input", { type: "text", placeholder: "Title", style: styles.post.input }),
+								React.createElement("input", { id: "title", onChange: this.updatePost.bind(this), type: "text", placeholder: "Title", style: styles.post.input }),
 								React.createElement("br", null),
-								React.createElement("textarea", { placeholder: "Text:", style: styles.post.textarea }),
+								React.createElement("textarea", { id: "text", onChange: this.updatePost.bind(this), placeholder: "Text:", style: styles.post.textarea }),
 								React.createElement("br", null)
 							),
 							React.createElement(
 								Dropzone,
 								{ onDrop: this.uploadImage.bind(this), className: "col_one_third col_last", style: { marginBottom: 4 } },
-								React.createElement("img", { style: styles.post.postImage, src: "/images/image-placeholder.png" })
+								React.createElement("img", { style: styles.post.postImage, src: image })
 							)
 						),
 						React.createElement("hr", null),
 						React.createElement(
 							"a",
-							{ href: "#", onClick: this.toggleCreatePost.bind(this), style: styles.post.btnAdd, className: styles.post.btnAdd.className },
+							{ href: "#", onClick: this.submitPost.bind(this), style: styles.post.btnAdd, className: styles.post.btnAdd.className },
 							"Create"
+						),
+						React.createElement(
+							"select",
+							{ className: "form-control", style: { width: 50 + "%" } },
+							React.createElement(
+								"option",
+								null,
+								"Mustard"
+							),
+							React.createElement(
+								"option",
+								null,
+								"Ketchup"
+							),
+							React.createElement(
+								"option",
+								null,
+								"Relish"
+							)
 						)
 					)
 				);
