@@ -14,33 +14,22 @@ class Team extends Component {
 		}
 	}
 
-	componentDidMount(){
-
-	}
-
 	uploadImage(files){
-		console.log('uploadImage')
 		APIManager.upload(files[0], (err, image) => {
 			if (err){
 				alert(err)
 				return
 			}
 
-			// {"id":"fah0GA-4",
-			// "address":"https://lh3.googleusercontent.com/BdHyl0Uzoq-MHbMLYx_n8IAKGrbRz2XhIdXBu3DjGd8rJLJRecVuBajNzOrhdI6BUe9njw3CqvthbzQQsHUjkupkMA",
-			// "name":"apple.png",
-			// "key":"AMIfv970_ybaBPO2Thty_bUCOyltTed9RWxww-2OYwQVeMtSLpbxxqH2ilWMiLvwODbCUSGgmASD02YIlkMKG7WYtqPcJqX58RyRigRchcOursW482o54uta75kkqFTxCwgpl9clcEhGTiMG-Qkf5pLZ_1GaXz4BWGKI4tlvM0cpCWhfah0GA-4"}			
-
 			const team = this.props.teams[this.props.slug]
 			let updated = Object.assign({}, team)
 			updated['image'] = image.address
-//			console.log(JSON.stringify(updated))
 
 			const url = '/api/team/'+updated.id
 			APIManager.handlePut(url, updated, (error, response) => {
-
 				console.log(JSON.stringify(response))
-
+				const result = response.result
+				store.currentStore().dispatch(actions.teamsReceived([result]))
 			})
 		})
 	}
@@ -78,10 +67,8 @@ class Team extends Component {
 
 						</div>
 					</div>
-
 				</section>
 			</div>
-
 		)
 	}
 
