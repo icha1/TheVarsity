@@ -12,6 +12,9 @@ var Account = require('../public/build/es5/components/layout/Account')
 var Detail = require('../public/build/es5/components/layout/Detail')
 var controllers = require('../controllers')
 
+var staticPages = {
+	create: 'create'
+}
 
 matchRoutes = function(req, routes, initialStore){
 	return new Promise(function(resolve, reject){
@@ -69,6 +72,12 @@ router.get('/:page', function(req, res, next) {
 	var page = req.params.page
 	if (page == 'scrape' || page == 'geo'){
 		next()
+		return
+	}
+
+	var staticPage = staticPages[page]
+	if (staticPage != null){
+		res.render(staticPage, null)
 		return
 	}
 
