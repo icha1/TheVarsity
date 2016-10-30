@@ -30,7 +30,7 @@ var Detail = (function (Component) {
 	_prototypeProperties(Detail, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				console.log("componentDidMount: " + this.props.params.slug);
+				console.log("componentDidMount: " + this.props.params.page);
 				window.scrollTo(0, 0);
 			},
 			writable: true,
@@ -38,8 +38,24 @@ var Detail = (function (Component) {
 		},
 		render: {
 			value: function render() {
+				var component = null;
+				switch (this.props.params.page) {
+					case "team":
+						return component = React.createElement(Team, { slug: this.props.params.slug });
+
+					case "post":
+						return component = React.createElement(
+							"div",
+							null,
+							"POST PAGE"
+						);
+
+					default:
+						return component = null;
+				}
+
 				var style = styles.home;
-				return React.createElement(Team, { slug: this.props.params.slug });
+				return { component: component };
 			},
 			writable: true,
 			configurable: true

@@ -83,8 +83,7 @@
 				{ path: '/', component: _Main2.default },
 				_react2.default.createElement(_reactRouter.IndexRoute, { component: _layout.Home }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/account', component: _layout.Account }),
-				_react2.default.createElement(_reactRouter.Route, { path: '/team/:slug', component: _layout.Detail }),
-				_react2.default.createElement(_reactRouter.Route, { path: '/post/:slug', component: _layout.Detail })
+				_react2.default.createElement(_reactRouter.Route, { path: '/:page/:slug', component: _layout.Detail })
 			)
 		)
 	);
@@ -70562,14 +70561,30 @@
 		_createClass(Detail, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				console.log('componentDidMount: ' + this.props.params.slug);
+				console.log('componentDidMount: ' + this.props.params.page);
 				window.scrollTo(0, 0);
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var component = null;
+				switch (this.props.params.page) {
+					case 'team':
+						return component = _react2.default.createElement(_containers.Team, { slug: this.props.params.slug });
+	
+					case 'post':
+						return component = _react2.default.createElement(
+							'div',
+							null,
+							'POST PAGE'
+						);
+	
+					default:
+						return component = null;
+				}
+	
 				var style = _styles2.default.home;
-				return _react2.default.createElement(_containers.Team, { slug: this.props.params.slug });
+				return { component: component };
 			}
 		}]);
 	

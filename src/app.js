@@ -14,8 +14,7 @@ const app = (
 			<Route path="/" component={Main}>
 				<IndexRoute component={Home}></IndexRoute>
 				<Route path="/account" component={Account}></Route>
-				<Route path="/team/:slug" component={Detail}></Route>
-				<Route path="/post/:slug" component={Detail}></Route>
+				<Route path="/:page/:slug" component={Detail}></Route>
 			</Route>
 		</Router>
 	</Provider>
