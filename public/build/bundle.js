@@ -23141,19 +23141,19 @@
 	
 	var _postReducer2 = _interopRequireDefault(_postReducer);
 	
-	var _districtReducer = __webpack_require__(202);
+	var _districtReducer = __webpack_require__(201);
 	
 	var _districtReducer2 = _interopRequireDefault(_districtReducer);
 	
-	var _teamReducer = __webpack_require__(203);
+	var _teamReducer = __webpack_require__(202);
 	
 	var _teamReducer2 = _interopRequireDefault(_teamReducer);
 	
-	var _accountReducer = __webpack_require__(204);
+	var _accountReducer = __webpack_require__(203);
 	
 	var _accountReducer2 = _interopRequireDefault(_accountReducer);
 	
-	var _sessionReducer = __webpack_require__(699);
+	var _sessionReducer = __webpack_require__(204);
 	
 	var _sessionReducer2 = _interopRequireDefault(_sessionReducer);
 	
@@ -23183,6 +23183,7 @@
 	
 	var initialState = {
 		map: {}, // organized by slug
+		feed: {}, // organized by type (event, article, etc)
 		list: []
 	};
 	
@@ -23190,16 +23191,22 @@
 		var newState = Object.assign({}, state);
 		var array = Object.assign([], newState.list);
 		var postsMap = Object.assign({}, newState.map);
+		var postsFeed = Object.assign({}, newState.feed);
 	
 		posts.forEach(function (post) {
 			if (postsMap[post.id] == null) {
 				postsMap[post.id] = post;
 				array.push(post);
+	
+				var feedArray = postsFeed[post.type] == null ? [] : postsFeed[post.type];
+				feedArray.push(post);
+				postsFeed[post.type] = feedArray;
 			}
 		});
 	
 		newState['list'] = array;
 		newState['map'] = postsMap;
+		newState['feed'] = postsFeed;
 		return newState;
 	};
 	
@@ -23218,8 +23225,6 @@
 				return state;
 		}
 	};
-	
-	// }
 
 /***/ },
 /* 200 */
@@ -23239,13 +23244,13 @@
 		TEAMS_RECEIVED: 'TEAMS_RECEIVED',
 	
 		LOCATION_CHANGED: 'LOCATION_CHANGED',
-		DISTRICT_CHANGED: 'DISTRICT_CHANGED'
+		DISTRICT_CHANGED: 'DISTRICT_CHANGED',
+		SELECTED_FEED_CHANGED: 'SELECTED_FEED_CHANGED'
 	
 	};
 
 /***/ },
-/* 201 */,
-/* 202 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23298,7 +23303,7 @@
 	};
 
 /***/ },
-/* 203 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23352,7 +23357,7 @@
 	};
 
 /***/ },
-/* 204 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23382,6 +23387,64 @@
 				console.log('CURRENT_USER_RECIEVED: ' + JSON.stringify(action.user));
 				var newState = Object.assign({}, state);
 				newState['currentUser'] = action.user;
+				return newState;
+	
+			default:
+				return state;
+		}
+	};
+
+/***/ },
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _constants = __webpack_require__(200);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var initialState = {
+		selectedFeed: 'event',
+		reload: false,
+		currentLocation: { // default to nyc
+			lat: 40.73008847828741,
+			lng: -73.99769308314211
+		}
+	};
+	
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+		var action = arguments[1];
+	
+	
+		switch (action.type) {
+	
+			case _constants2.default.LOCATION_CHANGED:
+				console.log('LOCATION_CHANGED');
+				var newState = Object.assign({}, state);
+				newState['currentLocation'] = action.location;
+	
+				return newState;
+	
+			case _constants2.default.SELECTED_FEED_CHANGED:
+				console.log('SELECTED_FEED_CHANGED: ' + action.feed);
+				var newState = Object.assign({}, state);
+				newState['reload'] = action.feed != newState.selectedFeed;
+				newState['selectedFeed'] = action.feed;
+	
+				return newState;
+	
+			case _constants2.default.POSTS_RECEIVED:
+				// reset realod boolean to false
+				var newState = Object.assign({}, state);
+				newState['reload'] = false;
 				return newState;
 	
 			default:
@@ -64681,6 +64744,13 @@
 				type: _constants2.default.LOCATION_CHANGED,
 				location: location
 			};
+		},
+	
+		selectedFeedChanged: function selectedFeedChanged(feed) {
+			return {
+				type: _constants2.default.SELECTED_FEED_CHANGED,
+				feed: feed
+			};
 		}
 	
 	};
@@ -64731,6 +64801,7 @@
 	
 			var _this = _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).call(this));
 	
+			_this.fetchPosts = _this.fetchPosts.bind(_this);
 			_this.state = {};
 			return _this;
 		}
@@ -64738,34 +64809,54 @@
 		_createClass(Posts, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				//		console.log('LAT/LNG: '+JSON.stringify(this.props.location))
+				var _this2 = this;
+	
+				_store2.default.currentStore().subscribe(function () {
+					setTimeout(function () {
+						// this is a sloppy workaround
+						//				console.log('STORE CHANGED: ' + this.props.selectedFeed)
+						console.log('RELOAD: ' + _this2.props.selectedFeed + ', ' + _this2.props.reload);
+						if (_this2.props.reload) _this2.fetchPosts();
+					}, 5);
+				});
+	
+				this.fetchPosts();
+			}
+		}, {
+			key: 'fetchPosts',
+			value: function fetchPosts() {
 				var params = {
 					limit: 10,
-					type: 'event',
+					type: this.props.selectedFeed,
 					lat: this.props.location.lat,
 					lng: this.props.location.lng
 				};
 	
+				//		console.log('PARAMS: '+JSON.stringify(params))
 				_utils.APIManager.handleGet('/api/post', params, function (err, response) {
 					if (err) {
 						alert(err);
 						return;
 					}
 	
-					//			console.log(JSON.stringify(response.results))
+					//			console.log(JSON.stringify(response))
 					_store2.default.currentStore().dispatch(_actions2.default.postsReceived(response.results));
 				});
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var currentPosts = this.props.posts.map(function (post, i) {
-					return _react2.default.createElement(
-						'li',
-						{ key: post.id, className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
-						_react2.default.createElement(_view.Post, { post: post })
-					);
-				});
+				var list = this.props.posts[this.props.selectedFeed];
+				var currentPosts = null;
+				if (list != null) {
+					currentPosts = list.map(function (post, i) {
+						return _react2.default.createElement(
+							'li',
+							{ key: post.id, className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
+							_react2.default.createElement(_view.Post, { post: post })
+						);
+					});
+				}
 	
 				return _react2.default.createElement(
 					'ol',
@@ -64780,8 +64871,10 @@
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			posts: state.post.list,
-			location: state.session.currentLocation
+			posts: state.post.feed,
+			location: state.session.currentLocation,
+			selectedFeed: state.session.selectedFeed,
+			reload: state.session.reload
 		};
 	};
 	
@@ -70113,6 +70206,12 @@
 		}
 	
 		_createClass(District, [{
+			key: 'selectFeed',
+			value: function selectFeed(event) {
+				event.preventDefault();
+				_store2.default.currentStore().dispatch(_actions2.default.selectedFeedChanged(event.target.id));
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var style = _styles2.default.district;
@@ -70153,7 +70252,7 @@
 										null,
 										_react2.default.createElement(
 											'a',
-											{ href: '#' },
+											{ id: 'event', onClick: this.selectFeed.bind(this), href: '#' },
 											'Events'
 										)
 									),
@@ -70162,25 +70261,7 @@
 										null,
 										_react2.default.createElement(
 											'a',
-											{ href: '#' },
-											'Services'
-										)
-									),
-									_react2.default.createElement(
-										'li',
-										null,
-										_react2.default.createElement(
-											'a',
-											{ href: '#' },
-											'Jobs'
-										)
-									),
-									_react2.default.createElement(
-										'li',
-										null,
-										_react2.default.createElement(
-											'a',
-											{ href: '#' },
+											{ id: 'article', onClick: this.selectFeed.bind(this), href: '#' },
 											'News'
 										)
 									),
@@ -70189,7 +70270,25 @@
 										null,
 										_react2.default.createElement(
 											'a',
-											{ href: '#' },
+											{ id: 'service', onClick: this.selectFeed.bind(this), href: '#' },
+											'Services'
+										)
+									),
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ id: 'job', onClick: this.selectFeed.bind(this), href: '#' },
+											'Jobs'
+										)
+									),
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ id: 'chat', onClick: this.selectFeed.bind(this), href: '#' },
 											'Chat'
 										)
 									)
@@ -70670,49 +70769,6 @@
 	}(_react.Component);
 	
 	exports.default = Account;
-
-/***/ },
-/* 699 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _constants = __webpack_require__(200);
-	
-	var _constants2 = _interopRequireDefault(_constants);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var initialState = {
-		selectedFeed: 'event',
-		currentLocation: { // default to nyc
-			lat: 40.73008847828741,
-			lng: -73.99769308314211
-		}
-	};
-	
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-		var action = arguments[1];
-	
-	
-		switch (action.type) {
-	
-			case _constants2.default.LOCATION_CHANGED:
-				console.log('LOCATION_CHANGED');
-				var newState = Object.assign({}, state);
-				newState['currentLocation'] = action.location;
-	
-				return newState;
-	
-			default:
-				return state;
-		}
-	};
 
 /***/ }
 /******/ ]);

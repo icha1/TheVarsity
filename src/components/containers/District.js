@@ -6,8 +6,12 @@ import store from '../../stores/store'
 import actions from '../../actions/actions'
 import styles from './styles'
 
-
 class District extends Component {
+	selectFeed(event){
+		event.preventDefault()
+		store.currentStore().dispatch(actions.selectedFeedChanged(event.target.id))
+	}
+
 	render(){
 		const style = styles.district
 		const district = this.props.district
@@ -24,11 +28,11 @@ class District extends Component {
 						<div style={style.body}>
 							<span style={style.header}>{district.name}</span><br />
 							<ul style={style.list}>
-								<li><a href="#">Events</a></li>
-								<li><a href="#">Services</a></li>
-								<li><a href="#">Jobs</a></li>
-								<li><a href="#">News</a></li>
-								<li><a href="#">Chat</a></li>
+								<li><a id="event" onClick={this.selectFeed.bind(this)} href="#">Events</a></li>
+								<li><a id="article" onClick={this.selectFeed.bind(this)} href="#">News</a></li>
+								<li><a id="service" onClick={this.selectFeed.bind(this)} href="#">Services</a></li>
+								<li><a id="job" onClick={this.selectFeed.bind(this)} href="#">Jobs</a></li>
+								<li><a id="chat" onClick={this.selectFeed.bind(this)} href="#">Chat</a></li>
 							</ul>
 						</div>
 					</div>

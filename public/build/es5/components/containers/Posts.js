@@ -27,6 +27,7 @@ var Posts = (function (Component) {
 		_classCallCheck(this, Posts);
 
 		_get(Object.getPrototypeOf(Posts.prototype), "constructor", this).call(this);
+		this.fetchPosts = this.fetchPosts.bind(this);
 		this.state = {};
 	}
 
@@ -35,21 +36,38 @@ var Posts = (function (Component) {
 	_prototypeProperties(Posts, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				//		console.log('LAT/LNG: '+JSON.stringify(this.props.location))
+				var _this = this;
+				store.currentStore().subscribe(function () {
+					setTimeout(function () {
+						// this is a sloppy workaround
+						//				console.log('STORE CHANGED: ' + this.props.selectedFeed)
+						console.log("RELOAD: " + _this.props.selectedFeed + ", " + _this.props.reload);
+						if (_this.props.reload) _this.fetchPosts();
+					}, 5);
+				});
+
+				this.fetchPosts();
+			},
+			writable: true,
+			configurable: true
+		},
+		fetchPosts: {
+			value: function fetchPosts() {
 				var params = {
 					limit: 10,
-					type: "event",
+					type: this.props.selectedFeed,
 					lat: this.props.location.lat,
 					lng: this.props.location.lng
 				};
 
+				//		console.log('PARAMS: '+JSON.stringify(params))
 				APIManager.handleGet("/api/post", params, function (err, response) {
 					if (err) {
 						alert(err);
 						return;
 					}
 
-					//			console.log(JSON.stringify(response.results))
+					//			console.log(JSON.stringify(response))
 					store.currentStore().dispatch(actions.postsReceived(response.results));
 				});
 			},
@@ -58,13 +76,18 @@ var Posts = (function (Component) {
 		},
 		render: {
 			value: function render() {
-				var currentPosts = this.props.posts.map(function (post, i) {
-					return React.createElement(
-						"li",
-						{ key: post.id, className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
-						React.createElement(Post, { post: post })
-					);
-				});
+				var list = this.props.posts[this.props.selectedFeed];
+				var currentPosts = null;
+				if (list != null) {
+					currentPosts = list.map(function (post, i) {
+						return React.createElement(
+							"li",
+							{ key: post.id, className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
+							React.createElement(Post, { post: post })
+						);
+					});
+				}
+
 
 				return React.createElement(
 					"ol",
@@ -82,8 +105,10 @@ var Posts = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		posts: state.post.list,
-		location: state.session.currentLocation
+		posts: state.post.feed,
+		location: state.session.currentLocation,
+		selectedFeed: state.session.selectedFeed,
+		reload: state.session.reload
 	};
 };
 

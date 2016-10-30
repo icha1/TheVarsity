@@ -47,6 +47,13 @@ module.exports = {
 			type: constants.LOCATION_CHANGED,
 			location: location
 		};
+	},
+
+	selectedFeedChanged: function (feed) {
+		return {
+			type: constants.SELECTED_FEED_CHANGED,
+			feed: feed
+		};
 	}
 
 

@@ -42,6 +42,13 @@ export default {
 			type: constants.LOCATION_CHANGED,
 			location: location
 		}		
+	},
+
+	selectedFeedChanged: (feed) => {
+		return {
+			type: constants.SELECTED_FEED_CHANGED,
+			feed: feed
+		}		
 	}
 	
 

@@ -35,6 +35,14 @@ var District = (function (Component) {
 	_inherits(District, Component);
 
 	_prototypeProperties(District, null, {
+		selectFeed: {
+			value: function selectFeed(event) {
+				event.preventDefault();
+				store.currentStore().dispatch(actions.selectedFeedChanged(event.target.id));
+			},
+			writable: true,
+			configurable: true
+		},
 		render: {
 			value: function render() {
 				var style = styles.district;
@@ -75,7 +83,7 @@ var District = (function (Component) {
 										null,
 										React.createElement(
 											"a",
-											{ href: "#" },
+											{ id: "event", onClick: this.selectFeed.bind(this), href: "#" },
 											"Events"
 										)
 									),
@@ -84,25 +92,7 @@ var District = (function (Component) {
 										null,
 										React.createElement(
 											"a",
-											{ href: "#" },
-											"Services"
-										)
-									),
-									React.createElement(
-										"li",
-										null,
-										React.createElement(
-											"a",
-											{ href: "#" },
-											"Jobs"
-										)
-									),
-									React.createElement(
-										"li",
-										null,
-										React.createElement(
-											"a",
-											{ href: "#" },
+											{ id: "article", onClick: this.selectFeed.bind(this), href: "#" },
 											"News"
 										)
 									),
@@ -111,7 +101,25 @@ var District = (function (Component) {
 										null,
 										React.createElement(
 											"a",
-											{ href: "#" },
+											{ id: "service", onClick: this.selectFeed.bind(this), href: "#" },
+											"Services"
+										)
+									),
+									React.createElement(
+										"li",
+										null,
+										React.createElement(
+											"a",
+											{ id: "job", onClick: this.selectFeed.bind(this), href: "#" },
+											"Jobs"
+										)
+									),
+									React.createElement(
+										"li",
+										null,
+										React.createElement(
+											"a",
+											{ id: "chat", onClick: this.selectFeed.bind(this), href: "#" },
 											"Chat"
 										)
 									)
