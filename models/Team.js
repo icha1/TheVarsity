@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
 
 var TeamSchema = new mongoose.Schema({
 	name: {type:String, trim:true, default:''},
+	members: {type:Array, default:[]},
 	type: {type:String, trim:true, default:''},
 	slug: {type:String, trim:true, lowercase:true, default:''},
 	image: {type:String, trim:true, default:''},
@@ -19,6 +20,7 @@ var TeamSchema = new mongoose.Schema({
 TeamSchema.methods.summary = function(){
 	var summary = {
 		name: this.name,
+		members: this.members,
 		type: this.type,
 		slug: this.slug,
 		image: this.image,
