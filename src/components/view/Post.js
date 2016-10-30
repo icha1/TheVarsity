@@ -27,12 +27,25 @@ class Post extends Component {
 					</div>
 				</div>
 				<hr />
+
 				<h4 style={styles.post.header}>
 					<Link to={'/team/'+post.team.slug} style={styles.post.title}>{ post.title }</Link>
 				</h4>
-				<span>{ post.team.address }</span>
-				<span style={{float:'right'}}>{DateUtils.formattedDate(post.timestamp)}</span>
-				<div className="clear"></div>
+				<span>{ post.team.address }</span><br />
+				<span>{DateUtils.formattedDate(post.timestamp)}</span>
+
+				<div style={{float:'right'}} className="dropdown">
+					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<img style={{width:32, float:'right'}} src="/images/dots.png" />
+					</a>
+					<ul className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+						<li><a href="#">Profile</a></li>
+						<li><a href="#">Messages <span className="badge">5</span></a></li>
+						<li><a href="#">Settings</a></li>
+						<li role="separator" className="divider"></li>
+						<li><a href="#">Logout <i className="icon-signout"></i></a></li>
+					</ul>
+				</div>				
 			</div>
 		)
 	}

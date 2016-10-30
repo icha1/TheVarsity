@@ -69281,12 +69281,68 @@
 						null,
 						post.team.address
 					),
+					_react2.default.createElement('br', null),
 					_react2.default.createElement(
 						'span',
-						{ style: { float: 'right' } },
+						null,
 						_utils.DateUtils.formattedDate(post.timestamp)
 					),
-					_react2.default.createElement('div', { className: 'clear' })
+					_react2.default.createElement(
+						'div',
+						{ style: { float: 'right' }, className: 'dropdown' },
+						_react2.default.createElement(
+							'a',
+							{ href: '#', style: { border: 'none' }, className: 'btn btn-default dropdown-toggle', 'data-toggle': 'dropdown', 'aria-haspopup': 'true', 'aria-expanded': 'true' },
+							_react2.default.createElement('img', { style: { width: 32, float: 'right' }, src: '/images/dots.png' })
+						),
+						_react2.default.createElement(
+							'ul',
+							{ className: 'dropdown-menu dropdown-menu-right', 'aria-labelledby': 'dropdownMenu1' },
+							_react2.default.createElement(
+								'li',
+								null,
+								_react2.default.createElement(
+									'a',
+									{ href: '#' },
+									'Profile'
+								)
+							),
+							_react2.default.createElement(
+								'li',
+								null,
+								_react2.default.createElement(
+									'a',
+									{ href: '#' },
+									'Messages ',
+									_react2.default.createElement(
+										'span',
+										{ className: 'badge' },
+										'5'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'li',
+								null,
+								_react2.default.createElement(
+									'a',
+									{ href: '#' },
+									'Settings'
+								)
+							),
+							_react2.default.createElement('li', { role: 'separator', className: 'divider' }),
+							_react2.default.createElement(
+								'li',
+								null,
+								_react2.default.createElement(
+									'a',
+									{ href: '#' },
+									'Logout ',
+									_react2.default.createElement('i', { className: 'icon-signout' })
+								)
+							)
+						)
+					)
 				);
 			}
 		}]);
@@ -70560,7 +70616,7 @@
 	
 			_this.state = {
 				selected: 0,
-				menuItems: [{ name: 'Listings', component: 'Posts' }, { name: 'Submit Listing', component: 'CreatePost' }, { name: 'Manage Notifications', component: 'ManageNotifications' }]
+				menuItems: [{ name: 'Listings', component: 'Posts' }, { name: 'Teams', component: 'CreatePost' }, { name: 'Posts', component: 'ManageNotifications' }]
 			};
 			return _this;
 		}

@@ -90,12 +90,68 @@ var Post = (function (Component) {
 						null,
 						post.team.address
 					),
+					React.createElement("br", null),
 					React.createElement(
 						"span",
-						{ style: { float: "right" } },
+						null,
 						DateUtils.formattedDate(post.timestamp)
 					),
-					React.createElement("div", { className: "clear" })
+					React.createElement(
+						"div",
+						{ style: { float: "right" }, className: "dropdown" },
+						React.createElement(
+							"a",
+							{ href: "#", style: { border: "none" }, className: "btn btn-default dropdown-toggle", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "true" },
+							React.createElement("img", { style: { width: 32, float: "right" }, src: "/images/dots.png" })
+						),
+						React.createElement(
+							"ul",
+							{ className: "dropdown-menu dropdown-menu-right", "aria-labelledby": "dropdownMenu1" },
+							React.createElement(
+								"li",
+								null,
+								React.createElement(
+									"a",
+									{ href: "#" },
+									"Profile"
+								)
+							),
+							React.createElement(
+								"li",
+								null,
+								React.createElement(
+									"a",
+									{ href: "#" },
+									"Messages ",
+									React.createElement(
+										"span",
+										{ className: "badge" },
+										"5"
+									)
+								)
+							),
+							React.createElement(
+								"li",
+								null,
+								React.createElement(
+									"a",
+									{ href: "#" },
+									"Settings"
+								)
+							),
+							React.createElement("li", { role: "separator", className: "divider" }),
+							React.createElement(
+								"li",
+								null,
+								React.createElement(
+									"a",
+									{ href: "#" },
+									"Logout ",
+									React.createElement("i", { className: "icon-signout" })
+								)
+							)
+						)
+					)
 				);
 			},
 			writable: true,

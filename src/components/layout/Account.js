@@ -8,8 +8,8 @@ class Account extends Component {
 			selected: 0,
 			menuItems: [
 				{name:'Listings', component:'Posts'},
-				{name:'Submit Listing', component:'CreatePost'},
-				{name:'Manage Notifications', component:'ManageNotifications'}
+				{name:'Teams', component:'CreatePost'},
+				{name:'Posts', component:'ManageNotifications'}
 			]
 		}
 	}
