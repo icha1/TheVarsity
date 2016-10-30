@@ -66,7 +66,8 @@ module.exports = {
 		container: {
 			background: "#fff",
 			className: "comment-wrap clearfix",
-			marginBottom: 24
+			marginBottom: 24,
+			border: "none"
 		},
 		content: {
 			textAlign: "left",
@@ -100,7 +101,7 @@ module.exports = {
 		},
 		btnAdd: {
 			float: "right",
-			className: "button button-small button-circle button-blue"
+			className: "button button-medium button-circle button-blue"
 		}
 
 	}

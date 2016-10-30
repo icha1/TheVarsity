@@ -147,9 +147,9 @@ class Nav extends Component {
 								<a onClick={this.register.bind(this)} href="#" className={style.btnLogin.className}><i className="icon-lock3"></i>Join</a>
 							</div>
 			        	</div>
-			        </Modal.Body>		        	
+			        </Modal.Body>
 
-		        </Modal>		        
+		        </Modal>
 			</div>
 		)
 	}
