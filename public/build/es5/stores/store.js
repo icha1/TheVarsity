@@ -12,10 +12,10 @@ var thunk = _interopRequire(require("redux-thunk"));
 var _reducers = require("../reducers");
 
 var postReducer = _reducers.postReducer;
-var locationReducer = _reducers.locationReducer;
 var districtReducer = _reducers.districtReducer;
 var teamReducer = _reducers.teamReducer;
 var accountReducer = _reducers.accountReducer;
+var sessionReducer = _reducers.sessionReducer;
 
 
 var store;
@@ -26,7 +26,7 @@ module.exports = {
 		var reducers = combineReducers({
 			post: postReducer,
 			team: teamReducer,
-			location: locationReducer,
+			session: sessionReducer,
 			district: districtReducer,
 			account: accountReducer
 		});

@@ -1,13 +1,13 @@
 import postReducer from './postReducer'
-import locationReducer from './locationReducer'
 import districtReducer from './districtReducer'
 import teamReducer from './teamReducer'
 import accountReducer from './accountReducer'
+import sessionReducer from './sessionReducer'
 
 export {
 	postReducer,
-	locationReducer,
 	teamReducer,
 	districtReducer,
+	sessionReducer,
 	accountReducer
 }

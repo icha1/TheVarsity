@@ -38,6 +38,7 @@ var Posts = (function (Component) {
 				//		console.log('LAT/LNG: '+JSON.stringify(this.props.location))
 				var params = {
 					limit: 10,
+					type: "event",
 					lat: this.props.location.lat,
 					lng: this.props.location.lng
 				};
@@ -82,7 +83,7 @@ var Posts = (function (Component) {
 var stateToProps = function (state) {
 	return {
 		posts: state.post.list,
-		location: state.location.currentLocation
+		location: state.session.currentLocation
 	};
 };
 

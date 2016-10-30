@@ -23083,7 +23083,7 @@
 			var reducers = (0, _redux.combineReducers)({
 				post: _reducers.postReducer,
 				team: _reducers.teamReducer,
-				location: _reducers.locationReducer,
+				session: _reducers.sessionReducer,
 				district: _reducers.districtReducer,
 				account: _reducers.accountReducer
 			});
@@ -23135,15 +23135,11 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.accountReducer = exports.districtReducer = exports.teamReducer = exports.locationReducer = exports.postReducer = undefined;
+	exports.accountReducer = exports.sessionReducer = exports.districtReducer = exports.teamReducer = exports.postReducer = undefined;
 	
 	var _postReducer = __webpack_require__(199);
 	
 	var _postReducer2 = _interopRequireDefault(_postReducer);
-	
-	var _locationReducer = __webpack_require__(201);
-	
-	var _locationReducer2 = _interopRequireDefault(_locationReducer);
 	
 	var _districtReducer = __webpack_require__(202);
 	
@@ -23157,12 +23153,16 @@
 	
 	var _accountReducer2 = _interopRequireDefault(_accountReducer);
 	
+	var _sessionReducer = __webpack_require__(699);
+	
+	var _sessionReducer2 = _interopRequireDefault(_sessionReducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.postReducer = _postReducer2.default;
-	exports.locationReducer = _locationReducer2.default;
 	exports.teamReducer = _teamReducer2.default;
 	exports.districtReducer = _districtReducer2.default;
+	exports.sessionReducer = _sessionReducer2.default;
 	exports.accountReducer = _accountReducer2.default;
 
 /***/ },
@@ -23244,48 +23244,7 @@
 	};
 
 /***/ },
-/* 201 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _constants = __webpack_require__(200);
-	
-	var _constants2 = _interopRequireDefault(_constants);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var initialState = {
-		currentLocation: { // default to nyc
-			lat: 40.73008847828741,
-			lng: -73.99769308314211
-		}
-	};
-	
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-		var action = arguments[1];
-	
-	
-		switch (action.type) {
-	
-			case _constants2.default.LOCATION_CHANGED:
-				console.log('LOCATION_CHANGED');
-				var newState = Object.assign({}, state);
-				newState['currentLocation'] = action.location;
-	
-				return newState;
-	
-			default:
-				return state;
-		}
-	};
-
-/***/ },
+/* 201 */,
 /* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -64782,6 +64741,7 @@
 				//		console.log('LAT/LNG: '+JSON.stringify(this.props.location))
 				var params = {
 					limit: 10,
+					type: 'event',
 					lat: this.props.location.lat,
 					lng: this.props.location.lng
 				};
@@ -64821,7 +64781,7 @@
 	var stateToProps = function stateToProps(state) {
 		return {
 			posts: state.post.list,
-			location: state.location.currentLocation
+			location: state.session.currentLocation
 		};
 	};
 	
@@ -69538,7 +69498,7 @@
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			location: state.location.currentLocation,
+			location: state.session.currentLocation,
 			teams: state.team.list
 		};
 	};
@@ -70330,7 +70290,7 @@
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			location: state.location.currentLocation,
+			location: state.session.currentLocation,
 			district: state.district.currentDistrict
 		};
 	};
@@ -70710,6 +70670,49 @@
 	}(_react.Component);
 	
 	exports.default = Account;
+
+/***/ },
+/* 699 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _constants = __webpack_require__(200);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var initialState = {
+		selectedFeed: 'event',
+		currentLocation: { // default to nyc
+			lat: 40.73008847828741,
+			lng: -73.99769308314211
+		}
+	};
+	
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+		var action = arguments[1];
+	
+	
+		switch (action.type) {
+	
+			case _constants2.default.LOCATION_CHANGED:
+				console.log('LOCATION_CHANGED');
+				var newState = Object.assign({}, state);
+				newState['currentLocation'] = action.location;
+	
+				return newState;
+	
+			default:
+				return state;
+		}
+	};
 
 /***/ }
 /******/ ]);

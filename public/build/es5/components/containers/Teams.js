@@ -127,7 +127,7 @@ var Teams = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		location: state.location.currentLocation,
+		location: state.session.currentLocation,
 		teams: state.team.list
 	};
 };

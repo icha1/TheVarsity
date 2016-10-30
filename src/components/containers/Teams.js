@@ -89,7 +89,7 @@ class Teams extends Component {
 
 const stateToProps = (state) => {
 	return {
-		location: state.location.currentLocation,
+		location: state.session.currentLocation,
 		teams: state.team.list
 	}
 }

@@ -17,6 +17,7 @@ class Posts extends Component {
 //		console.log('LAT/LNG: '+JSON.stringify(this.props.location))
 		const params = {
 			limit: 10,
+			type: 'event',
 			lat: this.props.location.lat,
 			lng: this.props.location.lng
 		}
@@ -53,7 +54,7 @@ class Posts extends Component {
 const stateToProps = (state) => {
 	return {
 		posts: state.post.list,
-		location: state.location.currentLocation
+		location: state.session.currentLocation
 	}
 }
 
