@@ -66,8 +66,7 @@ module.exports = {
 		container: {
 			background: "#fff",
 			className: "comment-wrap clearfix",
-			marginBottom: 24,
-			border: "none"
+			marginBottom: 24
 		},
 		content: {
 			textAlign: "left",
@@ -81,7 +80,6 @@ module.exports = {
 			fontFamily: "Pathway Gothic One"
 		},
 		postImage: {
-			maxWidth: 180,
 			marginTop: 12
 		},
 		input: {
@@ -97,6 +95,7 @@ module.exports = {
 		textarea: {
 			border: "none",
 			width: 100 + "%",
+			minHeight: 100,
 			resize: "none"
 		},
 		btnAdd: {

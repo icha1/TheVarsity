@@ -23939,8 +23939,7 @@
 			container: {
 				background: '#fff',
 				className: 'comment-wrap clearfix',
-				marginBottom: 24,
-				border: 'none'
+				marginBottom: 24
 			},
 			content: {
 				textAlign: 'left',
@@ -23954,7 +23953,6 @@
 				fontFamily: 'Pathway Gothic One'
 			},
 			postImage: {
-				maxWidth: 180,
 				marginTop: 12
 			},
 			input: {
@@ -23970,6 +23968,7 @@
 			textarea: {
 				border: 'none',
 				width: 100 + '%',
+				minHeight: 100,
 				resize: 'none'
 			},
 			btnAdd: {
@@ -64817,6 +64816,10 @@
 	
 	var _reactRedux = __webpack_require__(172);
 	
+	var _reactDropzone = __webpack_require__(692);
+	
+	var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
+	
 	var _utils = __webpack_require__(461);
 	
 	var _view = __webpack_require__(641);
@@ -64851,7 +64854,13 @@
 	
 			_this.fetchPosts = _this.fetchPosts.bind(_this);
 			_this.state = {
-				showModal: false
+				showCreatePost: false,
+				post: {
+					title: '',
+					text: '',
+					type: '',
+					image: ''
+				}
 			};
 			return _this;
 		}
@@ -64872,17 +64881,20 @@
 				this.fetchPosts();
 			}
 		}, {
-			key: 'toggleModal',
-			value: function toggleModal(event) {
+			key: 'toggleCreatePost',
+			value: function toggleCreatePost(event) {
 				if (event != null) event.preventDefault();
 	
+				window.scrollTo(0, 0);
 				this.setState({
-					showModal: !this.state.showModal
+					showCreatePost: !this.state.showCreatePost
 				});
 			}
 		}, {
 			key: 'fetchPosts',
 			value: function fetchPosts() {
+				var _this3 = this;
+	
 				var params = {
 					limit: 10,
 					type: this.props.selectedFeed,
@@ -64897,8 +64909,12 @@
 					}
 	
 					_store2.default.currentStore().dispatch(_actions2.default.postsReceived(response.results));
+					_this3.setState({ showCreatePost: false });
 				});
 			}
+		}, {
+			key: 'uploadImage',
+			value: function uploadImage(files) {}
 		}, {
 			key: 'render',
 			value: function render() {
@@ -64914,70 +64930,63 @@
 					});
 				}
 	
+				var createPost = _react2.default.createElement(
+					'li',
+					{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
+					_react2.default.createElement(
+						'div',
+						{ className: _styles2.default.post.container.className, style: _styles2.default.post.container },
+						_react2.default.createElement(
+							'div',
+							{ className: 'comment-meta' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'comment-author vcard' },
+								_react2.default.createElement(
+									'span',
+									{ className: 'comment-avatar clearfix' },
+									_react2.default.createElement('img', { alt: 'The Varsity', src: 'https://lh3.googleusercontent.com/OfmWs4W8_286PjOrshncso1VYO6iAvVBmrr9Kgr6lISSz-5uWo_tF7Fl-KtKrPeylWmFEkt9k0j9xmFlEPR6XGEO8P8=s120-c', className: 'avatar avatar-60 photo', height: '60', width: '60' })
+								)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: _styles2.default.post.content.className, style: _styles2.default.post.content },
+							_react2.default.createElement(
+								'div',
+								{ className: 'col_two_third', style: { marginBottom: 4 } },
+								_react2.default.createElement('input', { type: 'text', placeholder: 'Title', style: _styles2.default.post.input }),
+								_react2.default.createElement('br', null),
+								_react2.default.createElement('textarea', { placeholder: 'Text:', style: _styles2.default.post.textarea }),
+								_react2.default.createElement('br', null)
+							),
+							_react2.default.createElement(
+								_reactDropzone2.default,
+								{ onDrop: this.uploadImage.bind(this), className: 'col_one_third col_last', style: { marginBottom: 4 } },
+								_react2.default.createElement('img', { style: _styles2.default.post.postImage, src: '/images/image-placeholder.png' })
+							)
+						),
+						_react2.default.createElement('hr', null),
+						_react2.default.createElement(
+							'a',
+							{ href: '#', onClick: this.toggleCreatePost.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
+							'Create'
+						)
+					)
+				);
+	
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(
 						'ol',
 						{ className: 'commentlist noborder nomargin nopadding clearfix' },
-						currentPosts
+						this.state.showCreatePost ? createPost : currentPosts
 					),
 					_react2.default.createElement(
 						'a',
-						{ href: '#', onClick: this.toggleModal.bind(this), style: { position: 'fixed', bottom: 0 }, className: _styles2.default.post.btnAdd.className },
+						{ href: '#', onClick: this.toggleCreatePost.bind(this), style: { position: 'fixed', bottom: 0 }, className: _styles2.default.post.btnAdd.className },
 						'Add Post'
-					),
-					_react2.default.createElement(
-						_reactBootstrap.Modal,
-						{ show: this.state.showModal, onHide: this.toggleModal.bind(this) },
-						_react2.default.createElement(
-							'ol',
-							{ className: 'commentlist noborder nomargin nopadding clearfix' },
-							_react2.default.createElement(
-								'li',
-								{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
-								_react2.default.createElement(
-									'div',
-									{ className: _styles2.default.post.container.className, style: _styles2.default.post.container },
-									_react2.default.createElement(
-										'div',
-										{ className: 'comment-meta' },
-										_react2.default.createElement(
-											'div',
-											{ className: 'comment-author vcard' },
-											_react2.default.createElement(
-												'span',
-												{ className: 'comment-avatar clearfix' },
-												_react2.default.createElement('img', { alt: 'The Varsity', src: 'https://lh3.googleusercontent.com/OfmWs4W8_286PjOrshncso1VYO6iAvVBmrr9Kgr6lISSz-5uWo_tF7Fl-KtKrPeylWmFEkt9k0j9xmFlEPR6XGEO8P8=s120-c', className: 'avatar avatar-60 photo', height: '60', width: '60' })
-											)
-										)
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: _styles2.default.post.content.className, style: _styles2.default.post.content },
-										_react2.default.createElement(
-											'div',
-											{ className: 'col_two_third', style: { marginBottom: 4 } },
-											_react2.default.createElement('input', { type: 'text', placeholder: 'Title', style: _styles2.default.post.input }),
-											_react2.default.createElement('br', null),
-											_react2.default.createElement('textarea', { placeholder: 'Text:', style: _styles2.default.post.textarea }),
-											_react2.default.createElement('br', null)
-										),
-										_react2.default.createElement(
-											'div',
-											{ className: 'col_one_third col_last', style: { marginBottom: 4 } },
-											_react2.default.createElement('img', { style: _styles2.default.post.postImage, src: 'https://scontent-lga3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/c150.150.600.600/14712116_676273292533229_6841608093340532736_n.jpg' })
-										)
-									),
-									_react2.default.createElement('hr', null),
-									_react2.default.createElement(
-										'a',
-										{ href: '#', onClick: this.toggleModal.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
-										'Create'
-									)
-								)
-							)
-						)
 					)
 				);
 			}

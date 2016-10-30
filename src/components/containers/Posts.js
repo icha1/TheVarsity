@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import Dropzone from 'react-dropzone'
 import { APIManager } from '../../utils'
 import { Post } from '../view'
 import store from '../../stores/store'
@@ -12,7 +13,13 @@ class Posts extends Component {
 		super()
 		this.fetchPosts = this.fetchPosts.bind(this)
 		this.state = {
-			showModal: false
+			showCreatePost: false,
+			post: {
+				title: '',
+				text: '',
+				type: '',
+				image: ''
+			}
 		}
 	}
 
@@ -28,12 +35,13 @@ class Posts extends Component {
 		this.fetchPosts()
 	}
 
-	toggleModal(event){
+	toggleCreatePost(event){
 		if (event != null)
 			event.preventDefault()
 
+		window.scrollTo(0, 0)
 		this.setState({
-			showModal: !this.state.showModal
+			showCreatePost: !this.state.showCreatePost
 		})
 	}
 
@@ -52,7 +60,12 @@ class Posts extends Component {
 			}
 
 			store.currentStore().dispatch(actions.postsReceived(response.results))
+			this.setState({showCreatePost: false})
 		})		
+	}
+
+	uploadImage(files){
+
 	}
 
 	render(){
@@ -68,42 +81,39 @@ class Posts extends Component {
 			})
 		}
 
+		let createPost = (
+			<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
+				<div className={styles.post.container.className} style={styles.post.container}>
+					<div className="comment-meta">
+						<div className="comment-author vcard">
+							<span className="comment-avatar clearfix">
+							<img alt='The Varsity' src={'https://lh3.googleusercontent.com/OfmWs4W8_286PjOrshncso1VYO6iAvVBmrr9Kgr6lISSz-5uWo_tF7Fl-KtKrPeylWmFEkt9k0j9xmFlEPR6XGEO8P8=s120-c'} className='avatar avatar-60 photo' height='60' width='60' /></span>
+						</div>
+					</div>
+
+					<div className={styles.post.content.className} style={styles.post.content}>
+						<div className="col_two_third" style={{marginBottom:4}}>
+							<input type="text" placeholder="Title" style={styles.post.input} /><br />
+							<textarea placeholder="Text:" style={styles.post.textarea}></textarea><br />					
+						</div>
+
+						<Dropzone onDrop={this.uploadImage.bind(this)} className="col_one_third col_last" style={{marginBottom:4}}>
+							<img style={styles.post.postImage} src={'/images/image-placeholder.png'} />
+						</Dropzone>
+					</div>
+
+					<hr />
+					<a href="#" onClick={this.toggleCreatePost.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create</a>
+				</div>
+			</li>
+		)
 
 		return (
 			<div>
 				<ol className="commentlist noborder nomargin nopadding clearfix">
-					{ currentPosts }
+					{ (this.state.showCreatePost) ? createPost : currentPosts }
 				</ol>
-				<a href="#" onClick={this.toggleModal.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add Post</a>
-
-		        <Modal show={this.state.showModal} onHide={this.toggleModal.bind(this)}>
-					<ol className="commentlist noborder nomargin nopadding clearfix">
-						<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
-							<div className={styles.post.container.className} style={styles.post.container}>
-								<div className="comment-meta">
-									<div className="comment-author vcard">
-										<span className="comment-avatar clearfix">
-										<img alt='The Varsity' src={'https://lh3.googleusercontent.com/OfmWs4W8_286PjOrshncso1VYO6iAvVBmrr9Kgr6lISSz-5uWo_tF7Fl-KtKrPeylWmFEkt9k0j9xmFlEPR6XGEO8P8=s120-c'} className='avatar avatar-60 photo' height='60' width='60' /></span>
-									</div>
-								</div>
-
-								<div className={styles.post.content.className} style={styles.post.content}>
-									<div className="col_two_third" style={{marginBottom:4}}>
-										<input type="text" placeholder="Title" style={styles.post.input} /><br />
-										<textarea placeholder="Text:" style={styles.post.textarea}></textarea><br />					
-									</div>
-									<div className="col_one_third col_last" style={{marginBottom:4}}>
-										<img style={styles.post.postImage} src={'https://scontent-lga3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/c150.150.600.600/14712116_676273292533229_6841608093340532736_n.jpg'} />
-									</div>
-								</div>
-
-								<hr />
-								<a href="#" onClick={this.toggleModal.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create</a>
-							</div>
-						</li>
-					</ol>
-		        </Modal>
-
+				<a href="#" onClick={this.toggleCreatePost.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add Post</a>
 			</div>
 		)
 	}

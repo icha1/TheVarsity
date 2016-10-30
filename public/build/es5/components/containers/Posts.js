@@ -17,6 +17,8 @@ var React = _interopRequire(_react);
 var Component = _react.Component;
 var Modal = require("react-bootstrap").Modal;
 var connect = require("react-redux").connect;
+var Dropzone = _interopRequire(require("react-dropzone"));
+
 var APIManager = require("../../utils").APIManager;
 var Post = require("../view").Post;
 var store = _interopRequire(require("../../stores/store"));
@@ -32,7 +34,13 @@ var Posts = (function (Component) {
 		_get(Object.getPrototypeOf(Posts.prototype), "constructor", this).call(this);
 		this.fetchPosts = this.fetchPosts.bind(this);
 		this.state = {
-			showModal: false
+			showCreatePost: false,
+			post: {
+				title: "",
+				text: "",
+				type: "",
+				image: ""
+			}
 		};
 	}
 
@@ -55,12 +63,13 @@ var Posts = (function (Component) {
 			writable: true,
 			configurable: true
 		},
-		toggleModal: {
-			value: function toggleModal(event) {
+		toggleCreatePost: {
+			value: function toggleCreatePost(event) {
 				if (event != null) event.preventDefault();
 
+				window.scrollTo(0, 0);
 				this.setState({
-					showModal: !this.state.showModal
+					showCreatePost: !this.state.showCreatePost
 				});
 			},
 			writable: true,
@@ -68,6 +77,7 @@ var Posts = (function (Component) {
 		},
 		fetchPosts: {
 			value: function fetchPosts() {
+				var _this = this;
 				var params = {
 					limit: 10,
 					type: this.props.selectedFeed,
@@ -82,8 +92,14 @@ var Posts = (function (Component) {
 					}
 
 					store.currentStore().dispatch(actions.postsReceived(response.results));
+					_this.setState({ showCreatePost: false });
 				});
 			},
+			writable: true,
+			configurable: true
+		},
+		uploadImage: {
+			value: function uploadImage(files) {},
 			writable: true,
 			configurable: true
 		},
@@ -101,6 +117,50 @@ var Posts = (function (Component) {
 					});
 				}
 
+				var createPost = React.createElement(
+					"li",
+					{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
+					React.createElement(
+						"div",
+						{ className: styles.post.container.className, style: styles.post.container },
+						React.createElement(
+							"div",
+							{ className: "comment-meta" },
+							React.createElement(
+								"div",
+								{ className: "comment-author vcard" },
+								React.createElement(
+									"span",
+									{ className: "comment-avatar clearfix" },
+									React.createElement("img", { alt: "The Varsity", src: "https://lh3.googleusercontent.com/OfmWs4W8_286PjOrshncso1VYO6iAvVBmrr9Kgr6lISSz-5uWo_tF7Fl-KtKrPeylWmFEkt9k0j9xmFlEPR6XGEO8P8=s120-c", className: "avatar avatar-60 photo", height: "60", width: "60" })
+								)
+							)
+						),
+						React.createElement(
+							"div",
+							{ className: styles.post.content.className, style: styles.post.content },
+							React.createElement(
+								"div",
+								{ className: "col_two_third", style: { marginBottom: 4 } },
+								React.createElement("input", { type: "text", placeholder: "Title", style: styles.post.input }),
+								React.createElement("br", null),
+								React.createElement("textarea", { placeholder: "Text:", style: styles.post.textarea }),
+								React.createElement("br", null)
+							),
+							React.createElement(
+								Dropzone,
+								{ onDrop: this.uploadImage.bind(this), className: "col_one_third col_last", style: { marginBottom: 4 } },
+								React.createElement("img", { style: styles.post.postImage, src: "/images/image-placeholder.png" })
+							)
+						),
+						React.createElement("hr", null),
+						React.createElement(
+							"a",
+							{ href: "#", onClick: this.toggleCreatePost.bind(this), style: styles.post.btnAdd, className: styles.post.btnAdd.className },
+							"Create"
+						)
+					)
+				);
 
 				return React.createElement(
 					"div",
@@ -108,64 +168,12 @@ var Posts = (function (Component) {
 					React.createElement(
 						"ol",
 						{ className: "commentlist noborder nomargin nopadding clearfix" },
-						currentPosts
+						this.state.showCreatePost ? createPost : currentPosts
 					),
 					React.createElement(
 						"a",
-						{ href: "#", onClick: this.toggleModal.bind(this), style: { position: "fixed", bottom: 0 }, className: styles.post.btnAdd.className },
+						{ href: "#", onClick: this.toggleCreatePost.bind(this), style: { position: "fixed", bottom: 0 }, className: styles.post.btnAdd.className },
 						"Add Post"
-					),
-					React.createElement(
-						Modal,
-						{ show: this.state.showModal, onHide: this.toggleModal.bind(this) },
-						React.createElement(
-							"ol",
-							{ className: "commentlist noborder nomargin nopadding clearfix" },
-							React.createElement(
-								"li",
-								{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
-								React.createElement(
-									"div",
-									{ className: styles.post.container.className, style: styles.post.container },
-									React.createElement(
-										"div",
-										{ className: "comment-meta" },
-										React.createElement(
-											"div",
-											{ className: "comment-author vcard" },
-											React.createElement(
-												"span",
-												{ className: "comment-avatar clearfix" },
-												React.createElement("img", { alt: "The Varsity", src: "https://lh3.googleusercontent.com/OfmWs4W8_286PjOrshncso1VYO6iAvVBmrr9Kgr6lISSz-5uWo_tF7Fl-KtKrPeylWmFEkt9k0j9xmFlEPR6XGEO8P8=s120-c", className: "avatar avatar-60 photo", height: "60", width: "60" })
-											)
-										)
-									),
-									React.createElement(
-										"div",
-										{ className: styles.post.content.className, style: styles.post.content },
-										React.createElement(
-											"div",
-											{ className: "col_two_third", style: { marginBottom: 4 } },
-											React.createElement("input", { type: "text", placeholder: "Title", style: styles.post.input }),
-											React.createElement("br", null),
-											React.createElement("textarea", { placeholder: "Text:", style: styles.post.textarea }),
-											React.createElement("br", null)
-										),
-										React.createElement(
-											"div",
-											{ className: "col_one_third col_last", style: { marginBottom: 4 } },
-											React.createElement("img", { style: styles.post.postImage, src: "https://scontent-lga3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/c150.150.600.600/14712116_676273292533229_6841608093340532736_n.jpg" })
-										)
-									),
-									React.createElement("hr", null),
-									React.createElement(
-										"a",
-										{ href: "#", onClick: this.toggleModal.bind(this), style: styles.post.btnAdd, className: styles.post.btnAdd.className },
-										"Create"
-									)
-								)
-							)
-						)
 					)
 				);
 			},
