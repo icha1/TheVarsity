@@ -23934,8 +23934,49 @@
 			list: {
 				listStyleType: 'none'
 			}
-		}
+		},
+		post: {
+			container: {
+				background: '#fff',
+				className: 'comment-wrap clearfix',
+				marginBottom: 24
+			},
+			content: {
+				textAlign: 'left',
+				className: 'comment-content clearfix'
+			},
+			header: {
+				marginBottom: 0
+			},
+			title: {
+				color: '#333',
+				fontFamily: 'Pathway Gothic One'
+			},
+			postImage: {
+				maxWidth: 180,
+				marginTop: 12
+			},
+			input: {
+				color: '#333',
+				fontWeight: 600,
+				lineHeight: 1.5,
+				fontSize: 30,
+				fontFamily: 'Pathway Gothic One',
+				border: 'none',
+				width: 100 + '%',
+				marginTop: 16
+			},
+			textarea: {
+				border: 'none',
+				width: 100 + '%',
+				resize: 'none'
+			},
+			btnAdd: {
+				float: 'right',
+				className: 'button button-small button-circle button-blue'
+			}
 	
+		}
 	};
 
 /***/ },
@@ -64785,6 +64826,10 @@
 	
 	var _reactRedux = __webpack_require__(172);
 	
+	var _styles = __webpack_require__(208);
+	
+	var _styles2 = _interopRequireDefault(_styles);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -64814,7 +64859,6 @@
 				_store2.default.currentStore().subscribe(function () {
 					setTimeout(function () {
 						// this is a sloppy workaround
-						//				console.log('STORE CHANGED: ' + this.props.selectedFeed)
 						console.log('RELOAD: ' + _this2.props.selectedFeed + ', ' + _this2.props.reload);
 						if (_this2.props.reload) _this2.fetchPosts();
 					}, 5);
@@ -64859,9 +64903,61 @@
 				}
 	
 				return _react2.default.createElement(
-					'ol',
-					{ className: 'commentlist noborder nomargin nopadding clearfix' },
-					currentPosts
+					'div',
+					null,
+					_react2.default.createElement(
+						'ol',
+						{ className: 'commentlist noborder nomargin nopadding clearfix' },
+						_react2.default.createElement(
+							'li',
+							{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
+							_react2.default.createElement(
+								'div',
+								{ className: _styles2.default.post.container.className, style: _styles2.default.post.container },
+								_react2.default.createElement(
+									'div',
+									{ className: 'comment-meta' },
+									_react2.default.createElement(
+										'div',
+										{ className: 'comment-author vcard' },
+										_react2.default.createElement(
+											'span',
+											{ className: 'comment-avatar clearfix' },
+											_react2.default.createElement('img', { alt: 'The Varsity', src: 'https://lh3.googleusercontent.com/OfmWs4W8_286PjOrshncso1VYO6iAvVBmrr9Kgr6lISSz-5uWo_tF7Fl-KtKrPeylWmFEkt9k0j9xmFlEPR6XGEO8P8=s120-c', className: 'avatar avatar-60 photo', height: '60', width: '60' })
+										)
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									{ className: _styles2.default.post.content.className, style: _styles2.default.post.content },
+									_react2.default.createElement(
+										'div',
+										{ className: 'col_two_third', style: { marginBottom: 4 } },
+										_react2.default.createElement('input', { type: 'text', placeholder: 'Title', style: _styles2.default.post.input }),
+										_react2.default.createElement('br', null),
+										_react2.default.createElement('textarea', { placeholder: 'Text:', style: _styles2.default.post.textarea }),
+										_react2.default.createElement('br', null)
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'col_one_third col_last', style: { marginBottom: 4 } },
+										_react2.default.createElement('img', { style: _styles2.default.post.postImage, src: 'https://scontent-lga3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/c150.150.600.600/14712116_676273292533229_6841608093340532736_n.jpg' })
+									)
+								),
+								_react2.default.createElement('hr', null),
+								_react2.default.createElement(
+									'a',
+									{ href: '#', style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
+									'Add Post'
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						'ol',
+						{ className: 'commentlist noborder nomargin nopadding clearfix' },
+						currentPosts
+					)
 				);
 			}
 		}]);

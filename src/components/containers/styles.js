@@ -59,6 +59,47 @@ export default {
 		list: {
 			listStyleType:'none'
 		}
-	}
+	},
+	post: {
+		container: {
+			background:'#fff',
+			className: 'comment-wrap clearfix',
+			marginBottom: 24
+		},
+		content: {
+			textAlign:'left',
+			className: 'comment-content clearfix'
+		},
+		header: {
+			marginBottom:0
+		},
+		title: {
+			color:'#333',
+			fontFamily:'Pathway Gothic One'
+		},
+		postImage: {
+			maxWidth: 180,
+			marginTop: 12
+		},
+		input: {
+			color:'#333',
+			fontWeight: 600,
+		    lineHeight: 1.5,
+		    fontSize: 30,
+			fontFamily:'Pathway Gothic One',
+			border: 'none',
+			width: 100+'%',
+			marginTop: 16
+		},
+		textarea: {
+			border: 'none',
+			width: 100+'%',
+			resize: 'none'
+		},
+		btnAdd: {
+			float: 'right',
+			className: 'button button-small button-circle button-blue'
+		}		
 
+	}
 }

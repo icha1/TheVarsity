@@ -22,6 +22,8 @@ var store = _interopRequire(require("../../stores/store"));
 var actions = _interopRequire(require("../../actions/actions"));
 
 var connect = require("react-redux").connect;
+var styles = _interopRequire(require("./styles"));
+
 var Posts = (function (Component) {
 	function Posts() {
 		_classCallCheck(this, Posts);
@@ -40,7 +42,6 @@ var Posts = (function (Component) {
 				store.currentStore().subscribe(function () {
 					setTimeout(function () {
 						// this is a sloppy workaround
-						//				console.log('STORE CHANGED: ' + this.props.selectedFeed)
 						console.log("RELOAD: " + _this.props.selectedFeed + ", " + _this.props.reload);
 						if (_this.props.reload) _this.fetchPosts();
 					}, 5);
@@ -90,9 +91,61 @@ var Posts = (function (Component) {
 
 
 				return React.createElement(
-					"ol",
-					{ className: "commentlist noborder nomargin nopadding clearfix" },
-					currentPosts
+					"div",
+					null,
+					React.createElement(
+						"ol",
+						{ className: "commentlist noborder nomargin nopadding clearfix" },
+						React.createElement(
+							"li",
+							{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
+							React.createElement(
+								"div",
+								{ className: styles.post.container.className, style: styles.post.container },
+								React.createElement(
+									"div",
+									{ className: "comment-meta" },
+									React.createElement(
+										"div",
+										{ className: "comment-author vcard" },
+										React.createElement(
+											"span",
+											{ className: "comment-avatar clearfix" },
+											React.createElement("img", { alt: "The Varsity", src: "https://lh3.googleusercontent.com/OfmWs4W8_286PjOrshncso1VYO6iAvVBmrr9Kgr6lISSz-5uWo_tF7Fl-KtKrPeylWmFEkt9k0j9xmFlEPR6XGEO8P8=s120-c", className: "avatar avatar-60 photo", height: "60", width: "60" })
+										)
+									)
+								),
+								React.createElement(
+									"div",
+									{ className: styles.post.content.className, style: styles.post.content },
+									React.createElement(
+										"div",
+										{ className: "col_two_third", style: { marginBottom: 4 } },
+										React.createElement("input", { type: "text", placeholder: "Title", style: styles.post.input }),
+										React.createElement("br", null),
+										React.createElement("textarea", { placeholder: "Text:", style: styles.post.textarea }),
+										React.createElement("br", null)
+									),
+									React.createElement(
+										"div",
+										{ className: "col_one_third col_last", style: { marginBottom: 4 } },
+										React.createElement("img", { style: styles.post.postImage, src: "https://scontent-lga3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/c150.150.600.600/14712116_676273292533229_6841608093340532736_n.jpg" })
+									)
+								),
+								React.createElement("hr", null),
+								React.createElement(
+									"a",
+									{ href: "#", style: styles.post.btnAdd, className: styles.post.btnAdd.className },
+									"Add Post"
+								)
+							)
+						)
+					),
+					React.createElement(
+						"ol",
+						{ className: "commentlist noborder nomargin nopadding clearfix" },
+						currentPosts
+					)
 				);
 			},
 			writable: true,
