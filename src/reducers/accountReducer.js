@@ -1,7 +1,8 @@
 import constants from '../constants/constants'
 
 var initialState = {
-	currentUser: null
+	currentUser: null,
+	teams: []
 }
 
 export default (state = initialState, action) => {

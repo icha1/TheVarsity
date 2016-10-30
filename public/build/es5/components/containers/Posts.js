@@ -132,7 +132,7 @@ var Posts = (function (Component) {
 								React.createElement(
 									"span",
 									{ className: "comment-avatar clearfix" },
-									React.createElement("img", { alt: "The Varsity", src: "https://lh3.googleusercontent.com/OfmWs4W8_286PjOrshncso1VYO6iAvVBmrr9Kgr6lISSz-5uWo_tF7Fl-KtKrPeylWmFEkt9k0j9xmFlEPR6XGEO8P8=s120-c", className: "avatar avatar-60 photo", height: "60", width: "60" })
+									React.createElement("img", { alt: "The Varsity", src: "/images/profile-icon.png", className: "avatar avatar-60 photo", height: "60", width: "60" })
 								)
 							)
 						),

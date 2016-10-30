@@ -23373,7 +23373,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var initialState = {
-		currentUser: null
+		currentUser: null,
+		teams: []
 	};
 	
 	exports.default = function () {
@@ -64945,7 +64946,7 @@
 								_react2.default.createElement(
 									'span',
 									{ className: 'comment-avatar clearfix' },
-									_react2.default.createElement('img', { alt: 'The Varsity', src: 'https://lh3.googleusercontent.com/OfmWs4W8_286PjOrshncso1VYO6iAvVBmrr9Kgr6lISSz-5uWo_tF7Fl-KtKrPeylWmFEkt9k0j9xmFlEPR6XGEO8P8=s120-c', className: 'avatar avatar-60 photo', height: '60', width: '60' })
+									_react2.default.createElement('img', { alt: 'The Varsity', src: '/images/profile-icon.png', className: 'avatar avatar-60 photo', height: '60', width: '60' })
 								)
 							)
 						),
