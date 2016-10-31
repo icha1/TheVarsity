@@ -101,26 +101,8 @@ var District = (function (Component) {
 										null,
 										React.createElement(
 											"a",
-											{ id: "service", onClick: this.selectFeed.bind(this), href: "#" },
-											"Services"
-										)
-									),
-									React.createElement(
-										"li",
-										null,
-										React.createElement(
-											"a",
-											{ id: "job", onClick: this.selectFeed.bind(this), href: "#" },
-											"Jobs"
-										)
-									),
-									React.createElement(
-										"li",
-										null,
-										React.createElement(
-											"a",
-											{ id: "chat", onClick: this.selectFeed.bind(this), href: "#" },
-											"Chat"
+											{ href: "#" },
+											"Teams"
 										)
 									)
 								)
