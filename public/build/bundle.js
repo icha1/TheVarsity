@@ -65504,6 +65504,7 @@
 				}
 	
 				var createPost = _react2.default.createElement(_view.CreatePost, {
+					type: this.props.selectedFeed,
 					user: this.props.user,
 					teams: this.props.teams,
 					isLoading: this.toggleLoader.bind(this),
@@ -70288,7 +70289,7 @@
 			_this.state = {
 				post: {
 					title: '',
-					text: '',
+					text: '', // event, news, etc.
 					type: '',
 					image: '',
 					author: {}
@@ -70375,7 +70376,10 @@
 			value: function submitPost(event) {
 				event.preventDefault();
 				//		console.log('submitPost: '+JSON.stringify(this.state.post))
-				this.props.submit(this.state.post);
+	
+				var updated = Object.assign({}, this.state.post);
+				updated['type'] = this.props.type;
+				this.props.submit(updated);
 			}
 		}, {
 			key: 'render',

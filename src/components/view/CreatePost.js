@@ -9,7 +9,7 @@ class CreatePost extends Component {
 		this.state = {
 			post: {
 				title: '',
-				text: '',
+				text: '', // event, news, etc.
 				type: '',
 				image: '',
 				author: {
@@ -89,7 +89,10 @@ class CreatePost extends Component {
 	submitPost(event){
 		event.preventDefault()
 //		console.log('submitPost: '+JSON.stringify(this.state.post))
-		this.props.submit(this.state.post)
+
+		let updated = Object.assign({}, this.state.post)
+		updated['type'] = this.props.type
+		this.props.submit(updated)
 	}
 
 	render(){

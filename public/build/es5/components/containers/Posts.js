@@ -126,6 +126,7 @@ var Posts = (function (Component) {
 				}
 
 				var createPost = React.createElement(CreatePost, {
+					type: this.props.selectedFeed,
 					user: this.props.user,
 					teams: this.props.teams,
 					isLoading: this.toggleLoader.bind(this),

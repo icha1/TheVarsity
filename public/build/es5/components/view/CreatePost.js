@@ -31,7 +31,7 @@ var CreatePost = (function (Component) {
 		this.state = {
 			post: {
 				title: "",
-				text: "",
+				text: "", // event, news, etc.
 				type: "",
 				image: "",
 				author: {}
@@ -126,7 +126,10 @@ var CreatePost = (function (Component) {
 			value: function submitPost(event) {
 				event.preventDefault();
 				//		console.log('submitPost: '+JSON.stringify(this.state.post))
-				this.props.submit(this.state.post);
+
+				var updated = Object.assign({}, this.state.post);
+				updated.type = this.props.type;
+				this.props.submit(updated);
 			},
 			writable: true,
 			configurable: true

@@ -81,7 +81,8 @@ class Posts extends Component {
 		}
 
 		let createPost = (
-			<CreatePost 
+			<CreatePost
+				type={this.props.selectedFeed}
 				user={this.props.user}
 				teams={this.props.teams}
 				isLoading={this.toggleLoader.bind(this)}
