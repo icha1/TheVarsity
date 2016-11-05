@@ -8,8 +8,7 @@ var PostSchema = new mongoose.Schema({
 	video: {type:String, trim:true, default:''},
 	text: {type:String, trim:true, default:''},
 	type: {type:String, trim:true, default:'event'}, // event, article, job, general
-	team: {type:mongoose.Schema.Types.Mixed, default:{}},
-	profile: {type:mongoose.Schema.Types.Mixed, default:{}},
+	author: {type:mongoose.Schema.Types.Mixed, default:{}}, // can be team or profile.
 	geo: {
 		type: [Number], // array of Numbers
 		index: '2d'
@@ -26,8 +25,7 @@ PostSchema.methods.summary = function(){
 		video: this.video,
 		text: this.text,
 		type: this.type,
-		team: this.team,
-		profile: this.profile,
+		author: this.author,
 		geo: this.geo,
 		timestamp: this.timestamp,
 		id: this._id
