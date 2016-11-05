@@ -17,8 +17,6 @@ var Dropzone = _interopRequire(require("react-dropzone"));
 
 var connect = require("react-redux").connect;
 var APIManager = require("../../utils").APIManager;
-var store = _interopRequire(require("../../stores/store"));
-
 var actions = _interopRequire(require("../../actions/actions"));
 
 var styles = _interopRequire(require("./styles"));
@@ -38,7 +36,7 @@ var District = (function (Component) {
 		selectFeed: {
 			value: function selectFeed(event) {
 				event.preventDefault();
-				store.currentStore().dispatch(actions.selectedFeedChanged(event.target.id));
+				this.props.changeSelectedFeed(event.target.id);
 			},
 			writable: true,
 			configurable: true
@@ -210,4 +208,12 @@ var stateToProps = function (state) {
 	};
 };
 
-module.exports = connect(stateToProps)(District);
+var dispatchToProps = function (dispatch) {
+	return {
+		changeSelectedFeed: function (feed) {
+			return dispatch(actions.selectedFeedChanged(feed));
+		}
+	};
+};
+
+module.exports = connect(stateToProps, dispatchToProps)(District);

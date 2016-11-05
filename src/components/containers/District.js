@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import { connect } from 'react-redux'
 import { APIManager } from '../../utils'
-import store from '../../stores/store'
 import actions from '../../actions/actions'
 import styles from './styles'
 
 class District extends Component {
 	selectFeed(event){
 		event.preventDefault()
-		store.currentStore().dispatch(actions.selectedFeedChanged(event.target.id))
+		this.props.changeSelectedFeed(event.target.id)
 	}
 
 	render(){
@@ -74,10 +73,8 @@ class District extends Component {
 							<span style={style.header}>Title</span><br />
 						</div>
 					</div>
-
 				</div>
 			</div>
-
 		)
 	}
 }
@@ -89,4 +86,10 @@ const stateToProps = (state) => {
 	}
 }
 
-export default connect(stateToProps)(District)
+const dispatchToProps = (dispatch) => {
+	return {
+		changeSelectedFeed: (feed) => dispatch(actions.selectedFeedChanged(feed))		
+	}
+}
+
+export default connect(stateToProps, dispatchToProps)(District)
