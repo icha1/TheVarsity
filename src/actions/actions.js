@@ -49,6 +49,14 @@ export default {
 			type: constants.SELECTED_FEED_CHANGED,
 			feed: feed
 		}		
+	},
+
+	toggleLoader: (isLoading) => {
+		return {
+			type: constants.TOGGLE_LOADER,
+			isLoading: isLoading
+		}		
+
 	}
 	
 

@@ -23392,7 +23392,9 @@
 	
 		LOCATION_CHANGED: 'LOCATION_CHANGED',
 		DISTRICT_CHANGED: 'DISTRICT_CHANGED',
-		SELECTED_FEED_CHANGED: 'SELECTED_FEED_CHANGED'
+		SELECTED_FEED_CHANGED: 'SELECTED_FEED_CHANGED',
+	
+		TOGGLE_LOADER: 'TOGGLE_LOADER'
 	
 	};
 
@@ -23600,6 +23602,12 @@
 				// reset realod boolean to false
 				var newState = Object.assign({}, state);
 				newState['reload'] = false;
+				return newState;
+	
+			case _constants2.default.TOGGLE_LOADER:
+				//			console.log('TOGGLE_LOADER')
+				var newState = Object.assign({}, state);
+				newState['showLoading'] = action.isLoading;
 				return newState;
 	
 			default:
@@ -64842,6 +64850,13 @@
 				type: _constants2.default.SELECTED_FEED_CHANGED,
 				feed: feed
 			};
+		},
+	
+		toggleLoader: function toggleLoader(isLoading) {
+			return {
+				type: _constants2.default.TOGGLE_LOADER,
+				isLoading: isLoading
+			};
 		}
 	
 	};
@@ -64931,6 +64946,11 @@
 				});
 			}
 		}, {
+			key: 'toggleLoader',
+			value: function toggleLoader(isLoading) {
+				this.props.toggleLoader(isLoading);
+			}
+		}, {
 			key: 'fetchPosts',
 			value: function fetchPosts() {
 				var _this3 = this;
@@ -64976,6 +64996,7 @@
 				var createPost = _react2.default.createElement(_view.CreatePost, {
 					user: this.props.user,
 					teams: this.props.teams,
+					isLoading: this.toggleLoader.bind(this),
 					submit: this.submitPost.bind(this),
 					cancel: this.toggleCreatePost.bind(this) });
 	
@@ -65018,6 +65039,9 @@
 		return {
 			postsReceived: function postsReceived(posts) {
 				return dispatch(_actions2.default.postsReceived(posts));
+			},
+			toggleLoader: function toggleLoader(isLoading) {
+				return dispatch(_actions2.default.toggleLoader(isLoading));
 			}
 		};
 	};
@@ -71150,7 +71174,9 @@
 			value: function uploadImage(files) {
 				var _this2 = this;
 	
+				this.props.isLoading(true);
 				_utils.APIManager.upload(files[0], function (err, image) {
+					_this2.props.isLoading(false);
 					if (err) {
 						alert(err);
 						return;

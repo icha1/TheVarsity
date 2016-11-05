@@ -38,6 +38,11 @@ class Posts extends Component {
 		})
 	}
 
+	toggleLoader(isLoading){
+		this.props.toggleLoader(isLoading)
+
+	}
+
 	fetchPosts(){
 		const params = {
 			limit: 10,
@@ -79,6 +84,7 @@ class Posts extends Component {
 			<CreatePost 
 				user={this.props.user}
 				teams={this.props.teams}
+				isLoading={this.toggleLoader.bind(this)}
 				submit={this.submitPost.bind(this)}
 				cancel={this.toggleCreatePost.bind(this)} />
 		)
@@ -110,7 +116,8 @@ const stateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		postsReceived: posts => dispatch(actions.postsReceived(posts))
+		postsReceived: posts => dispatch(actions.postsReceived(posts)),
+		toggleLoader: isLoading => dispatch(actions.toggleLoader(isLoading))
 	}
 }
 

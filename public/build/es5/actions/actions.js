@@ -54,6 +54,13 @@ module.exports = {
 			type: constants.SELECTED_FEED_CHANGED,
 			feed: feed
 		};
+	},
+
+	toggleLoader: function (isLoading) {
+		return {
+			type: constants.TOGGLE_LOADER,
+			isLoading: isLoading
+		};
 	}
 
 

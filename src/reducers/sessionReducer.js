@@ -34,6 +34,12 @@ export default (state = initialState, action) => {
 			newState['reload'] = false
 			return newState
 
+		case constants.TOGGLE_LOADER:
+//			console.log('TOGGLE_LOADER')
+			var newState = Object.assign({}, state)
+			newState['showLoading'] = action.isLoading
+			return newState
+
 		default:
 			return state
 	}

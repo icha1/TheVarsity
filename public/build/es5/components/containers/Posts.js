@@ -73,6 +73,13 @@ var Posts = (function (Component) {
 			writable: true,
 			configurable: true
 		},
+		toggleLoader: {
+			value: function toggleLoader(isLoading) {
+				this.props.toggleLoader(isLoading);
+			},
+			writable: true,
+			configurable: true
+		},
 		fetchPosts: {
 			value: function fetchPosts() {
 				var _this = this;
@@ -121,6 +128,7 @@ var Posts = (function (Component) {
 				var createPost = React.createElement(CreatePost, {
 					user: this.props.user,
 					teams: this.props.teams,
+					isLoading: this.toggleLoader.bind(this),
 					submit: this.submitPost.bind(this),
 					cancel: this.toggleCreatePost.bind(this) });
 
@@ -166,6 +174,9 @@ var mapDispatchToProps = function (dispatch) {
 	return {
 		postsReceived: function (posts) {
 			return dispatch(actions.postsReceived(posts));
+		},
+		toggleLoader: function (isLoading) {
+			return dispatch(actions.toggleLoader(isLoading));
 		}
 	};
 };

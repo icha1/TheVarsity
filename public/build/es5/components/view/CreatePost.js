@@ -98,7 +98,9 @@ var CreatePost = (function (Component) {
 		uploadImage: {
 			value: function uploadImage(files) {
 				var _this = this;
+				this.props.isLoading(true);
 				APIManager.upload(files[0], function (err, image) {
+					_this.props.isLoading(false);
 					if (err) {
 						alert(err);
 						return;
