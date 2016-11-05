@@ -43,8 +43,9 @@ router.get('/', function(req, res, next){
 		postInfo['title'] = team.name
 		postInfo['slug'] = TextUtils.slugVersion(team.name)
 		postInfo['geo'] = team.geo
-		postInfo['team'] = {
+		postInfo['author'] = {
 			id: team.id,
+			profile: '',
 			name: team.name,
 			slug: team.slug,
 			image: team.image,
