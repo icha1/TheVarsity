@@ -71225,7 +71225,7 @@
 					_react2.default.createElement(
 						'a',
 						{ href: '#', onClick: this.submitPost.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
-						'Create Post'
+						'Create Event'
 					),
 					_react2.default.createElement(
 						'a',

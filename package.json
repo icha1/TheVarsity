@@ -26,6 +26,7 @@
     "react-dom": "^15.3.2",
     "react-dropzone": "^3.6.0",
     "react-google-maps": "^4.11.0",
+    "react-loader": "^2.4.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "react-time": "^4.2.0",

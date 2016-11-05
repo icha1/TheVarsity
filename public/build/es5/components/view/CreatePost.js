@@ -221,7 +221,7 @@ var CreatePost = (function (Component) {
 					React.createElement(
 						"a",
 						{ href: "#", onClick: this.submitPost.bind(this), style: styles.post.btnAdd, className: styles.post.btnAdd.className },
-						"Create Post"
+						"Create Event"
 					),
 					React.createElement(
 						"a",
