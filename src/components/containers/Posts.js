@@ -106,6 +106,7 @@ class Posts extends Component {
 			})
 		}
 
+		const usernameOption = (this.props.user == null) ? null : <option value={this.props.user.id}>{ this.props.user.username }</option>
 		const teamList = this.props.teams.map((team, i) => {
 			return <option key={i} value={team.id}>{ team.name }</option>
 		})
@@ -144,12 +145,12 @@ class Posts extends Component {
 					<option>News</option>
 				</select>
 				<select className="form-control" style={styles.post.select}>
+					{ usernameOption }
 					{ teamList }
 				</select>
 
 				<a href="#" onClick={this.submitPost.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create Post</a>
 				<a href="#" onClick={this.toggleCreatePost.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Cancel</a>
-
 			</li>
 		)
 
@@ -158,7 +159,13 @@ class Posts extends Component {
 				<ol className="commentlist noborder nomargin nopadding clearfix">
 					{ (this.state.showCreatePost) ? createPost : currentPosts }
 				</ol>
-				{ (this.state.showCreatePost) ?  null : <a href="#" onClick={this.toggleCreatePost.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add Post</a> }
+				{ (this.state.showCreatePost) ? 
+					null :
+					(<div style={styles.post.admin}>
+						<a href="#" onClick={this.toggleCreatePost.bind(this)} className={styles.post.btnAdd.className}>Add Event</a>
+						<a href="#" onClick={this.toggleCreatePost.bind(this)} className={styles.post.btnAdd.className}>Create Team</a>
+					</div>) 
+				}
 			</div>
 		)
 	}
