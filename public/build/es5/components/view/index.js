@@ -6,8 +6,11 @@ var Map = _interopRequire(require("./Map"));
 
 var Post = _interopRequire(require("./Post"));
 
+var CreatePost = _interopRequire(require("./CreatePost"));
+
 exports.Map = Map;
 exports.Post = Post;
+exports.CreatePost = CreatePost;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });

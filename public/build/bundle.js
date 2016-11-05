@@ -64832,10 +64832,6 @@
 	
 	var _reactRedux = __webpack_require__(172);
 	
-	var _reactDropzone = __webpack_require__(645);
-	
-	var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
-	
 	var _utils = __webpack_require__(466);
 	
 	var _view = __webpack_require__(646);
@@ -64870,15 +64866,7 @@
 	
 			_this.fetchPosts = _this.fetchPosts.bind(_this);
 			_this.state = {
-				showCreatePost: false,
-				post: {
-					title: '',
-					text: '',
-					type: '',
-					image: '',
-					profile: {},
-					team: {}
-				}
+				showCreatePost: false
 			};
 			return _this;
 		}
@@ -64931,36 +64919,10 @@
 				});
 			}
 		}, {
-			key: 'updatePost',
-			value: function updatePost(event) {
-				event.preventDefault();
-				var updated = Object.assign({}, this.state.post);
-				updated[event.target.id] = event.target.value;
-				this.setState({
-					post: updated
-				});
-			}
-		}, {
 			key: 'submitPost',
-			value: function submitPost(event) {
-				event.preventDefault();
-				console.log('submitPost: ' + JSON.stringify(this.state.post));
-			}
-		}, {
-			key: 'uploadImage',
-			value: function uploadImage(files) {
-				var _this4 = this;
-	
-				_utils.APIManager.upload(files[0], function (err, image) {
-					if (err) {
-						alert(err);
-						return;
-					}
-	
-					var updated = Object.assign({}, _this4.state.post);
-					updated['image'] = image.address;
-					_this4.setState({ post: updated });
-				});
+			value: function submitPost(post) {
+				// event.preventDefault()
+				console.log('submitPost: ' + JSON.stringify(post));
 			}
 		}, {
 			key: 'render',
@@ -64977,109 +64939,11 @@
 					});
 				}
 	
-				var usernameOption = this.props.user == null ? null : _react2.default.createElement(
-					'option',
-					{ value: this.props.user.id },
-					this.props.user.username
-				);
-				var teamList = this.props.teams.map(function (team, i) {
-					return _react2.default.createElement(
-						'option',
-						{ key: i, value: team.id },
-						team.name
-					);
-				});
-	
-				var image = this.state.post.image.length == 0 ? '/images/image-placeholder.png' : this.state.post.image;
-				var createPost = _react2.default.createElement(
-					'li',
-					{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
-					_react2.default.createElement(
-						'div',
-						{ className: _styles2.default.post.container.className, style: _styles2.default.post.container },
-						_react2.default.createElement(
-							'div',
-							{ className: 'comment-meta' },
-							_react2.default.createElement(
-								'div',
-								{ className: 'comment-author vcard' },
-								_react2.default.createElement(
-									'span',
-									{ className: 'comment-avatar clearfix' },
-									_react2.default.createElement('img', { alt: 'The Varsity', src: '/images/profile-icon.png', className: 'avatar avatar-60 photo', height: '60', width: '60' })
-								)
-							)
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: _styles2.default.post.content.className, style: _styles2.default.post.content },
-							_react2.default.createElement(
-								'div',
-								{ className: 'col_two_third', style: { marginBottom: 4 } },
-								_react2.default.createElement('input', { id: 'title', onChange: this.updatePost.bind(this), type: 'text', placeholder: 'Title', style: _styles2.default.post.input }),
-								_react2.default.createElement('br', null),
-								_react2.default.createElement('textarea', { id: 'text', onChange: this.updatePost.bind(this), placeholder: 'Text:', style: _styles2.default.post.textarea }),
-								_react2.default.createElement('br', null)
-							),
-							_react2.default.createElement(
-								_reactDropzone2.default,
-								{ onDrop: this.uploadImage.bind(this), className: 'col_one_third col_last', style: { marginBottom: 4 } },
-								_react2.default.createElement('img', { style: _styles2.default.post.postImage, src: image })
-							)
-						),
-						_react2.default.createElement('hr', null),
-						_react2.default.createElement(
-							'h4',
-							{ style: _styles2.default.post.header },
-							_react2.default.createElement(
-								'a',
-								{ href: '#', style: _styles2.default.post.title },
-								this.state.post.profile.username
-							)
-						),
-						_react2.default.createElement(
-							'span',
-							null,
-							'address'
-						),
-						_react2.default.createElement('br', null),
-						_react2.default.createElement(
-							'span',
-							null,
-							_utils.DateUtils.today()
-						)
-					),
-					_react2.default.createElement(
-						'select',
-						{ className: 'form-control', style: _styles2.default.post.select },
-						_react2.default.createElement(
-							'option',
-							null,
-							'Events'
-						),
-						_react2.default.createElement(
-							'option',
-							null,
-							'News'
-						)
-					),
-					_react2.default.createElement(
-						'select',
-						{ className: 'form-control', style: _styles2.default.post.select },
-						usernameOption,
-						teamList
-					),
-					_react2.default.createElement(
-						'a',
-						{ href: '#', onClick: this.submitPost.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
-						'Create Post'
-					),
-					_react2.default.createElement(
-						'a',
-						{ href: '#', onClick: this.toggleCreatePost.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
-						'Cancel'
-					)
-				);
+				var createPost = _react2.default.createElement(_view.CreatePost, {
+					user: this.props.user,
+					teams: this.props.teams,
+					submit: this.submitPost.bind(this),
+					cancel: this.toggleCreatePost.bind(this) });
 	
 				return _react2.default.createElement(
 					'div',
@@ -65087,21 +64951,16 @@
 					_react2.default.createElement(
 						'ol',
 						{ className: 'commentlist noborder nomargin nopadding clearfix' },
-						this.state.showCreatePost ? createPost : currentPosts
+						_react2.default.createElement(
+							'li',
+							{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
+							this.state.showCreatePost ? createPost : currentPosts
+						)
 					),
 					this.state.showCreatePost ? null : _react2.default.createElement(
-						'div',
-						{ style: _styles2.default.post.admin },
-						_react2.default.createElement(
-							'a',
-							{ href: '#', onClick: this.toggleCreatePost.bind(this), className: _styles2.default.post.btnAdd.className },
-							'Add Event'
-						),
-						_react2.default.createElement(
-							'a',
-							{ href: '#', onClick: this.toggleCreatePost.bind(this), className: _styles2.default.post.btnAdd.className },
-							'Create Team'
-						)
+						'a',
+						{ href: '#', onClick: this.toggleCreatePost.bind(this), style: { position: 'fixed', bottom: 0 }, className: _styles2.default.post.btnAdd.className },
+						'Add Event'
 					)
 				);
 			}
@@ -65583,7 +65442,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.Post = exports.Map = undefined;
+	exports.CreatePost = exports.Post = exports.Map = undefined;
 	
 	var _Map = __webpack_require__(647);
 	
@@ -65593,10 +65452,15 @@
 	
 	var _Post2 = _interopRequireDefault(_Post);
 	
+	var _CreatePost = __webpack_require__(704);
+	
+	var _CreatePost2 = _interopRequireDefault(_CreatePost);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.Map = _Map2.default;
 	exports.Post = _Post2.default;
+	exports.CreatePost = _CreatePost2.default;
 
 /***/ },
 /* 647 */
@@ -70195,9 +70059,44 @@
 			postImage: {
 				maxWidth: 180,
 				marginTop: 12
+			},
+			input: {
+				color: '#333',
+				fontWeight: 600,
+				lineHeight: 1.5,
+				fontSize: 30,
+				fontFamily: 'Pathway Gothic One',
+				border: 'none',
+				width: 100 + '%',
+				marginTop: 16
+			},
+			textarea: {
+				border: 'none',
+				width: 100 + '%',
+				minHeight: 100,
+				resize: 'none'
+			},
+			btnAdd: {
+				float: 'right',
+				marginTop: 0,
+				className: 'button button-medium button-circle button-blue'
+			},
+			select: {
+				marginBottom: 16,
+				border: '1px solid #ddd',
+				borderRadius: 0,
+				boxShadow: 'none'
+			},
+			admin: {
+				background: '#fff',
+				padding: 10,
+				position: 'fixed',
+				bottom: 0,
+				width: 44 + '%',
+				minWidth: 320,
+				border: '1px solid #ddd'
 			}
 		},
-	
 		loader: {
 			lines: 13,
 			length: 20,
@@ -71100,6 +70999,247 @@
 	}(_react.Component);
 	
 	exports.default = Account;
+
+/***/ },
+/* 704 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDropzone = __webpack_require__(645);
+	
+	var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
+	
+	var _utils = __webpack_require__(466);
+	
+	var _styles = __webpack_require__(695);
+	
+	var _styles2 = _interopRequireDefault(_styles);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var CreatePost = function (_Component) {
+		_inherits(CreatePost, _Component);
+	
+		function CreatePost() {
+			_classCallCheck(this, CreatePost);
+	
+			var _this = _possibleConstructorReturn(this, (CreatePost.__proto__ || Object.getPrototypeOf(CreatePost)).call(this));
+	
+			_this.state = {
+				post: {
+					title: '',
+					text: '',
+					type: '',
+					image: '',
+					author: {}
+				}
+			};
+			return _this;
+		}
+	
+		_createClass(CreatePost, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var user = this.props.user;
+				var updatedPost = Object.assign({}, this.state.post);
+				updatedPost['author'] = {
+					id: user.id,
+					name: user.username,
+					image: user.image.length == 0 ? null : user.image
+				};
+	
+				this.setState({
+					post: updatedPost
+				});
+			}
+		}, {
+			key: 'updatePost',
+			value: function updatePost(event) {
+				event.preventDefault();
+				var updated = Object.assign({}, this.state.post);
+				if (event.target.id != 'author') {
+					updated[event.target.id] = event.target.value;
+					this.setState({ post: updated });
+					return;
+				}
+	
+				console.log('author = ' + event.target.value);
+				if (event.target.value == this.props.user.id) {
+					var user = this.props.user;
+					updated['author'] = {
+						id: user.id,
+						name: user.username,
+						image: user.image.length == 0 ? null : user.image,
+						type: 'profile'
+					};
+					this.setState({ post: updated });
+					return;
+				}
+	
+				var team = this.props.teams[event.target.value];
+	
+				updated['author'] = {
+					id: team.id,
+					name: team.name,
+					image: team.image.length == 0 ? null : team.image,
+					type: 'team'
+				};
+				this.setState({ post: updated });
+			}
+		}, {
+			key: 'uploadImage',
+			value: function uploadImage(files) {
+				var _this2 = this;
+	
+				_utils.APIManager.upload(files[0], function (err, image) {
+					if (err) {
+						alert(err);
+						return;
+					}
+	
+					var updated = Object.assign({}, _this2.state.post);
+					updated['image'] = image.address;
+					_this2.setState({ post: updated });
+				});
+			}
+		}, {
+			key: 'cancel',
+			value: function cancel(event) {
+				event.preventDefault();
+				this.props.cancel();
+			}
+		}, {
+			key: 'submitPost',
+			value: function submitPost(event) {
+				event.preventDefault();
+				//		console.log('submitPost: '+JSON.stringify(this.state.post))
+				this.props.submit(this.state.post);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var post = this.state.post;
+				var image = post.image.length == 0 ? '/images/image-placeholder.png' : post.image;
+				var usernameOption = this.props.user == null ? null : _react2.default.createElement(
+					'option',
+					{ value: this.props.user.id },
+					this.props.user.username
+				);
+				var teamList = this.props.teams.map(function (team, i) {
+					return _react2.default.createElement(
+						'option',
+						{ key: i, value: i },
+						team.name
+					);
+				});
+	
+				var icon = post.author.image == null ? '/images/profile-icon.png' : post.author.image;
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'div',
+						{ className: _styles2.default.post.container.className, style: _styles2.default.post.container },
+						_react2.default.createElement(
+							'div',
+							{ className: 'comment-meta' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'comment-author vcard' },
+								_react2.default.createElement(
+									'span',
+									{ className: 'comment-avatar clearfix' },
+									_react2.default.createElement('img', { alt: 'The Varsity', src: icon, className: 'avatar avatar-60 photo', height: '60', width: '60' })
+								)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: _styles2.default.post.content.className, style: _styles2.default.post.content },
+							_react2.default.createElement(
+								'div',
+								{ className: 'col_two_third', style: { marginBottom: 4 } },
+								_react2.default.createElement('input', { id: 'title', onChange: this.updatePost.bind(this), type: 'text', placeholder: 'Title', style: _styles2.default.post.input }),
+								_react2.default.createElement('br', null),
+								_react2.default.createElement('textarea', { id: 'text', onChange: this.updatePost.bind(this), placeholder: 'Text:', style: _styles2.default.post.textarea }),
+								_react2.default.createElement('br', null)
+							),
+							_react2.default.createElement(
+								_reactDropzone2.default,
+								{ onDrop: this.uploadImage.bind(this), className: 'col_one_third col_last', style: { marginBottom: 4 } },
+								_react2.default.createElement('img', { style: _styles2.default.post.postImage, src: image })
+							)
+						),
+						_react2.default.createElement('hr', null),
+						_react2.default.createElement(
+							'h4',
+							{ style: _styles2.default.post.header },
+							_react2.default.createElement(
+								'a',
+								{ href: '#', style: _styles2.default.post.title },
+								post.author.name
+							)
+						),
+						_react2.default.createElement(
+							'span',
+							null,
+							'address'
+						),
+						_react2.default.createElement('br', null),
+						_react2.default.createElement(
+							'span',
+							null,
+							_utils.DateUtils.today()
+						)
+					),
+					_react2.default.createElement('br', null),
+					_react2.default.createElement(
+						'label',
+						null,
+						'Post As'
+					),
+					_react2.default.createElement(
+						'select',
+						{ id: 'author', onChange: this.updatePost.bind(this), className: 'form-control', style: _styles2.default.post.select },
+						usernameOption,
+						teamList
+					),
+					_react2.default.createElement(
+						'a',
+						{ href: '#', onClick: this.submitPost.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
+						'Create Post'
+					),
+					_react2.default.createElement(
+						'a',
+						{ href: '#', onClick: this.cancel.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
+						'Cancel'
+					)
+				);
+			}
+		}]);
+	
+		return CreatePost;
+	}(_react.Component);
+	
+	exports.default = CreatePost;
 
 /***/ }
 /******/ ]);

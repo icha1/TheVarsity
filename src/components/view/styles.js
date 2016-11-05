@@ -19,9 +19,44 @@ export default {
 		postImage: {
 			maxWidth: 180,
 			marginTop: 12
-		}
+		},
+		input: {
+			color:'#333',
+			fontWeight: 600,
+		    lineHeight: 1.5,
+		    fontSize: 30,
+			fontFamily:'Pathway Gothic One',
+			border: 'none',
+			width: 100+'%',
+			marginTop: 16
+		},
+		textarea: {
+			border: 'none',
+			width: 100+'%',
+			minHeight: 100,
+			resize: 'none'
+		},
+		btnAdd: {
+			float: 'right',
+			marginTop: 0,
+			className: 'button button-medium button-circle button-blue'
+		},
+		select: {
+			marginBottom:16,
+			border:'1px solid #ddd',
+			borderRadius:0,
+			boxShadow:'none'
+		},
+		admin: {
+			background: '#fff',
+			padding: 10,
+			position: 'fixed',
+			bottom: 0,
+			width: 44+'%',
+			minWidth: 320,
+			border: '1px solid #ddd'
+		}		
 	},
-	
 	loader: {
 	    lines: 13,
 	    length: 20,

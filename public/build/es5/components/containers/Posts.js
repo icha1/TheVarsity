@@ -17,13 +17,14 @@ var React = _interopRequire(_react);
 var Component = _react.Component;
 var Modal = require("react-bootstrap").Modal;
 var connect = require("react-redux").connect;
-var Dropzone = _interopRequire(require("react-dropzone"));
-
 var _utils = require("../../utils");
 
 var APIManager = _utils.APIManager;
 var DateUtils = _utils.DateUtils;
-var Post = require("../view").Post;
+var _view = require("../view");
+
+var Post = _view.Post;
+var CreatePost = _view.CreatePost;
 var store = _interopRequire(require("../../stores/store"));
 
 var actions = _interopRequire(require("../../actions/actions"));
@@ -37,15 +38,7 @@ var Posts = (function (Component) {
 		_get(Object.getPrototypeOf(Posts.prototype), "constructor", this).call(this);
 		this.fetchPosts = this.fetchPosts.bind(this);
 		this.state = {
-			showCreatePost: false,
-			post: {
-				title: "",
-				text: "",
-				type: "",
-				image: "",
-				profile: {},
-				team: {}
-			}
+			showCreatePost: false
 		};
 	}
 
@@ -103,39 +96,10 @@ var Posts = (function (Component) {
 			writable: true,
 			configurable: true
 		},
-		updatePost: {
-			value: function updatePost(event) {
-				event.preventDefault();
-				var updated = Object.assign({}, this.state.post);
-				updated[event.target.id] = event.target.value;
-				this.setState({
-					post: updated
-				});
-			},
-			writable: true,
-			configurable: true
-		},
 		submitPost: {
-			value: function submitPost(event) {
-				event.preventDefault();
-				console.log("submitPost: " + JSON.stringify(this.state.post));
-			},
-			writable: true,
-			configurable: true
-		},
-		uploadImage: {
-			value: function uploadImage(files) {
-				var _this = this;
-				APIManager.upload(files[0], function (err, image) {
-					if (err) {
-						alert(err);
-						return;
-					}
-
-					var updated = Object.assign({}, _this.state.post);
-					updated.image = image.address;
-					_this.setState({ post: updated });
-				});
+			value: function submitPost(post) {
+				// event.preventDefault()
+				console.log("submitPost: " + JSON.stringify(post));
 			},
 			writable: true,
 			configurable: true
@@ -154,109 +118,11 @@ var Posts = (function (Component) {
 					});
 				}
 
-				var usernameOption = this.props.user == null ? null : React.createElement(
-					"option",
-					{ value: this.props.user.id },
-					this.props.user.username
-				);
-				var teamList = this.props.teams.map(function (team, i) {
-					return React.createElement(
-						"option",
-						{ key: i, value: team.id },
-						team.name
-					);
-				});
-
-				var image = this.state.post.image.length == 0 ? "/images/image-placeholder.png" : this.state.post.image;
-				var createPost = React.createElement(
-					"li",
-					{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
-					React.createElement(
-						"div",
-						{ className: styles.post.container.className, style: styles.post.container },
-						React.createElement(
-							"div",
-							{ className: "comment-meta" },
-							React.createElement(
-								"div",
-								{ className: "comment-author vcard" },
-								React.createElement(
-									"span",
-									{ className: "comment-avatar clearfix" },
-									React.createElement("img", { alt: "The Varsity", src: "/images/profile-icon.png", className: "avatar avatar-60 photo", height: "60", width: "60" })
-								)
-							)
-						),
-						React.createElement(
-							"div",
-							{ className: styles.post.content.className, style: styles.post.content },
-							React.createElement(
-								"div",
-								{ className: "col_two_third", style: { marginBottom: 4 } },
-								React.createElement("input", { id: "title", onChange: this.updatePost.bind(this), type: "text", placeholder: "Title", style: styles.post.input }),
-								React.createElement("br", null),
-								React.createElement("textarea", { id: "text", onChange: this.updatePost.bind(this), placeholder: "Text:", style: styles.post.textarea }),
-								React.createElement("br", null)
-							),
-							React.createElement(
-								Dropzone,
-								{ onDrop: this.uploadImage.bind(this), className: "col_one_third col_last", style: { marginBottom: 4 } },
-								React.createElement("img", { style: styles.post.postImage, src: image })
-							)
-						),
-						React.createElement("hr", null),
-						React.createElement(
-							"h4",
-							{ style: styles.post.header },
-							React.createElement(
-								"a",
-								{ href: "#", style: styles.post.title },
-								this.state.post.profile.username
-							)
-						),
-						React.createElement(
-							"span",
-							null,
-							"address"
-						),
-						React.createElement("br", null),
-						React.createElement(
-							"span",
-							null,
-							DateUtils.today()
-						)
-					),
-					React.createElement(
-						"select",
-						{ className: "form-control", style: styles.post.select },
-						React.createElement(
-							"option",
-							null,
-							"Events"
-						),
-						React.createElement(
-							"option",
-							null,
-							"News"
-						)
-					),
-					React.createElement(
-						"select",
-						{ className: "form-control", style: styles.post.select },
-						usernameOption,
-						teamList
-					),
-					React.createElement(
-						"a",
-						{ href: "#", onClick: this.submitPost.bind(this), style: styles.post.btnAdd, className: styles.post.btnAdd.className },
-						"Create Post"
-					),
-					React.createElement(
-						"a",
-						{ href: "#", onClick: this.toggleCreatePost.bind(this), style: styles.post.btnAdd, className: styles.post.btnAdd.className },
-						"Cancel"
-					)
-				);
+				var createPost = React.createElement(CreatePost, {
+					user: this.props.user,
+					teams: this.props.teams,
+					submit: this.submitPost.bind(this),
+					cancel: this.toggleCreatePost.bind(this) });
 
 				return React.createElement(
 					"div",
@@ -264,21 +130,16 @@ var Posts = (function (Component) {
 					React.createElement(
 						"ol",
 						{ className: "commentlist noborder nomargin nopadding clearfix" },
-						this.state.showCreatePost ? createPost : currentPosts
+						React.createElement(
+							"li",
+							{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
+							this.state.showCreatePost ? createPost : currentPosts
+						)
 					),
 					this.state.showCreatePost ? null : React.createElement(
-						"div",
-						{ style: styles.post.admin },
-						React.createElement(
-							"a",
-							{ href: "#", onClick: this.toggleCreatePost.bind(this), className: styles.post.btnAdd.className },
-							"Add Event"
-						),
-						React.createElement(
-							"a",
-							{ href: "#", onClick: this.toggleCreatePost.bind(this), className: styles.post.btnAdd.className },
-							"Create Team"
-						)
+						"a",
+						{ href: "#", onClick: this.toggleCreatePost.bind(this), style: { position: "fixed", bottom: 0 }, className: styles.post.btnAdd.className },
+						"Add Event"
 					)
 				);
 			},
