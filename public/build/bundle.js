@@ -65068,7 +65068,7 @@
 						{ className: 'commentlist noborder nomargin nopadding clearfix' },
 						this.state.showCreatePost ? createPost : currentPosts
 					),
-					_react2.default.createElement(
+					this.state.showCreatePost ? null : _react2.default.createElement(
 						'a',
 						{ href: '#', onClick: this.toggleCreatePost.bind(this), style: { position: 'fixed', bottom: 0 }, className: _styles2.default.post.btnAdd.className },
 						'Add Post'

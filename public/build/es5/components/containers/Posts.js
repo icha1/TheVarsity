@@ -260,7 +260,7 @@ var Posts = (function (Component) {
 						{ className: "commentlist noborder nomargin nopadding clearfix" },
 						this.state.showCreatePost ? createPost : currentPosts
 					),
-					React.createElement(
+					this.state.showCreatePost ? null : React.createElement(
 						"a",
 						{ href: "#", onClick: this.toggleCreatePost.bind(this), style: { position: "fixed", bottom: 0 }, className: styles.post.btnAdd.className },
 						"Add Post"
