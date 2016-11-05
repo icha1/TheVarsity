@@ -12,7 +12,7 @@ class Post extends Component {
 				<div className="comment-meta">
 					<div className="comment-author vcard">
 						<span className="comment-avatar clearfix">
-						<img alt='The Varsity' src={post.team.image+'=s120-c'} className='avatar avatar-60 photo' height='60' width='60' /></span>
+						<img alt='The Varsity' src={post.author.image+'=s120-c'} className='avatar avatar-60 photo' height='60' width='60' /></span>
 					</div>
 				</div>
 				<div className={styles.post.content.className} style={styles.post.content}>
@@ -29,9 +29,9 @@ class Post extends Component {
 				<hr />
 
 				<h4 style={styles.post.header}>
-					<Link to={'/team/'+post.team.slug} style={styles.post.title}>{ post.title }</Link>
+					<Link to={'/team/'+post.author.slug} style={styles.post.title}>{ post.title }</Link>
 				</h4>
-				<span>{ post.team.address }</span><br />
+				<span>{ post.author.address }</span><br />
 				<span>{DateUtils.formattedDate(post.timestamp)}</span>
 
 				<div style={{float:'right'}} className="dropdown">

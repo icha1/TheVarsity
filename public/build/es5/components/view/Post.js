@@ -44,7 +44,7 @@ var Post = (function (Component) {
 							React.createElement(
 								"span",
 								{ className: "comment-avatar clearfix" },
-								React.createElement("img", { alt: "The Varsity", src: post.team.image + "=s120-c", className: "avatar avatar-60 photo", height: "60", width: "60" })
+								React.createElement("img", { alt: "The Varsity", src: post.author.image + "=s120-c", className: "avatar avatar-60 photo", height: "60", width: "60" })
 							)
 						)
 					),
@@ -81,14 +81,14 @@ var Post = (function (Component) {
 						{ style: styles.post.header },
 						React.createElement(
 							Link,
-							{ to: "/team/" + post.team.slug, style: styles.post.title },
+							{ to: "/team/" + post.author.slug, style: styles.post.title },
 							post.title
 						)
 					),
 					React.createElement(
 						"span",
 						null,
-						post.team.address
+						post.author.address
 					),
 					React.createElement("br", null),
 					React.createElement(
