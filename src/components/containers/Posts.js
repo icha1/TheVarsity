@@ -52,7 +52,7 @@ class Posts extends Component {
 				return
 			}
 
-			store.currentStore().dispatch(actions.postsReceived(response.results))
+			this.props.postsReceived(response.results)
 			this.setState({showCreatePost: false})
 		})		
 	}
@@ -108,4 +108,10 @@ const stateToProps = (state) => {
 	}
 }
 
-export default connect(stateToProps)(Posts)
+const mapDispatchToProps = (dispatch) => {
+	return {
+		postsReceived: posts => dispatch(actions.postsReceived(posts))
+	}
+}
+
+export default connect(stateToProps, mapDispatchToProps)(Posts)

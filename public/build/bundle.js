@@ -64948,7 +64948,7 @@
 						return;
 					}
 	
-					_store2.default.currentStore().dispatch(_actions2.default.postsReceived(response.results));
+					_this3.props.postsReceived(response.results);
 					_this3.setState({ showCreatePost: false });
 				});
 			}
@@ -65014,7 +65014,15 @@
 		};
 	};
 	
-	exports.default = (0, _reactRedux.connect)(stateToProps)(Posts);
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+		return {
+			postsReceived: function postsReceived(posts) {
+				return dispatch(_actions2.default.postsReceived(posts));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, mapDispatchToProps)(Posts);
 
 /***/ },
 /* 645 */

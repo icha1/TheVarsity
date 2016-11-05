@@ -89,7 +89,7 @@ var Posts = (function (Component) {
 						return;
 					}
 
-					store.currentStore().dispatch(actions.postsReceived(response.results));
+					_this.props.postsReceived(response.results);
 					_this.setState({ showCreatePost: false });
 				});
 			},
@@ -162,4 +162,12 @@ var stateToProps = function (state) {
 	};
 };
 
-module.exports = connect(stateToProps)(Posts);
+var mapDispatchToProps = function (dispatch) {
+	return {
+		postsReceived: function (posts) {
+			return dispatch(actions.postsReceived(posts));
+		}
+	};
+};
+
+module.exports = connect(stateToProps, mapDispatchToProps)(Posts);
