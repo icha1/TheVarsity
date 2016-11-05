@@ -23537,6 +23537,12 @@
 				newState['currentUser'] = action.user;
 				return newState;
 	
+			case _constants2.default.TEAMS_RECEIVED:
+				console.log('TEAMS_RECEIVED: ' + JSON.stringify(action.teams));
+				var newState = Object.assign({}, state);
+				newState['teams'] = action.teams; // TODO: check members of each team first
+				return newState;
+	
 			default:
 				return state;
 		}
@@ -24129,6 +24135,15 @@
 				border: '1px solid #ddd',
 				borderRadius: 0,
 				boxShadow: 'none'
+			},
+			admin: {
+				background: '#fff',
+				padding: 10,
+				position: 'fixed',
+				bottom: 0,
+				width: 44 + '%',
+				minWidth: 320,
+				border: '1px solid #ddd'
 			}
 	
 		}
@@ -64962,6 +64977,11 @@
 					});
 				}
 	
+				var usernameOption = this.props.user == null ? null : _react2.default.createElement(
+					'option',
+					{ value: this.props.user.id },
+					this.props.user.username
+				);
 				var teamList = this.props.teams.map(function (team, i) {
 					return _react2.default.createElement(
 						'option',
@@ -65046,6 +65066,7 @@
 					_react2.default.createElement(
 						'select',
 						{ className: 'form-control', style: _styles2.default.post.select },
+						usernameOption,
 						teamList
 					),
 					_react2.default.createElement(
@@ -65069,9 +65090,18 @@
 						this.state.showCreatePost ? createPost : currentPosts
 					),
 					this.state.showCreatePost ? null : _react2.default.createElement(
-						'a',
-						{ href: '#', onClick: this.toggleCreatePost.bind(this), style: { position: 'fixed', bottom: 0 }, className: _styles2.default.post.btnAdd.className },
-						'Add Post'
+						'div',
+						{ style: _styles2.default.post.admin },
+						_react2.default.createElement(
+							'a',
+							{ href: '#', onClick: this.toggleCreatePost.bind(this), className: _styles2.default.post.btnAdd.className },
+							'Add Event'
+						),
+						_react2.default.createElement(
+							'a',
+							{ href: '#', onClick: this.toggleCreatePost.bind(this), className: _styles2.default.post.btnAdd.className },
+							'Create Team'
+						)
 					)
 				);
 			}

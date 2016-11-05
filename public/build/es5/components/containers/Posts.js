@@ -154,6 +154,11 @@ var Posts = (function (Component) {
 					});
 				}
 
+				var usernameOption = this.props.user == null ? null : React.createElement(
+					"option",
+					{ value: this.props.user.id },
+					this.props.user.username
+				);
 				var teamList = this.props.teams.map(function (team, i) {
 					return React.createElement(
 						"option",
@@ -238,6 +243,7 @@ var Posts = (function (Component) {
 					React.createElement(
 						"select",
 						{ className: "form-control", style: styles.post.select },
+						usernameOption,
 						teamList
 					),
 					React.createElement(
@@ -261,9 +267,18 @@ var Posts = (function (Component) {
 						this.state.showCreatePost ? createPost : currentPosts
 					),
 					this.state.showCreatePost ? null : React.createElement(
-						"a",
-						{ href: "#", onClick: this.toggleCreatePost.bind(this), style: { position: "fixed", bottom: 0 }, className: styles.post.btnAdd.className },
-						"Add Post"
+						"div",
+						{ style: styles.post.admin },
+						React.createElement(
+							"a",
+							{ href: "#", onClick: this.toggleCreatePost.bind(this), className: styles.post.btnAdd.className },
+							"Add Event"
+						),
+						React.createElement(
+							"a",
+							{ href: "#", onClick: this.toggleCreatePost.bind(this), className: styles.post.btnAdd.className },
+							"Create Team"
+						)
 					)
 				);
 			},
