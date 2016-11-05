@@ -13,6 +13,7 @@ export default {
             return <Time value={timestamp} format="MMM DD, YYYY" /> 
         
         return <Time value={timestamp} titleFormat="YYYY/MM/DD HH:mm" relative />
-	}
+	},
 
+	today: () => <Time value={new Date()} format="MMM D, YYYY" />
 }
