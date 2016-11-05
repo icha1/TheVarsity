@@ -90,7 +90,7 @@ class Posts extends Component {
 						{ (this.state.showCreatePost) ? createPost : currentPosts }
 					</li>
 				</ol>
-				
+
 				{ (this.state.showCreatePost) ? null : <a href="#" onClick={this.toggleCreatePost.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add Event</a> }
 			</div>
 		)

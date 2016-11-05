@@ -116,6 +116,5 @@ export default {
 			minWidth: 320,
 			border: '1px solid #ddd'
 		}
-
-	}
+	}	
 }

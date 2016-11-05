@@ -3,6 +3,7 @@ import constants from '../constants/constants'
 var initialState = {
 	selectedFeed: 'event',
 	reload: false,
+	showLoading: false,
 	currentLocation: { // default to nyc
 		lat: 40.73008847828741,
 		lng: -73.99769308314211

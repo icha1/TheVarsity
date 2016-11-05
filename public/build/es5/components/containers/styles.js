@@ -118,6 +118,5 @@ module.exports = {
 			minWidth: 320,
 			border: "1px solid #ddd"
 		}
-
 	}
 };

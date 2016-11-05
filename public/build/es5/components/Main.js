@@ -13,7 +13,10 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
+var Loader = _interopRequire(require("react-loader"));
+
 var Nav = require("./containers").Nav;
+var connect = require("react-redux").connect;
 var Main = (function (Component) {
 	function Main() {
 		_classCallCheck(this, Main);
@@ -31,6 +34,7 @@ var Main = (function (Component) {
 				return React.createElement(
 					"div",
 					{ className: "stretched side-header" },
+					React.createElement(Loader, { options: styles.loader, loaded: !this.props.showLoading, className: "spinner", loadedClassName: "loadedContent" }),
 					React.createElement(Nav, null),
 					React.createElement(
 						"div",
@@ -47,4 +51,31 @@ var Main = (function (Component) {
 	return Main;
 })(Component);
 
-module.exports = Main;
+var styles = {
+	loader: {
+		lines: 13,
+		length: 20,
+		width: 10,
+		radius: 30,
+		corners: 1,
+		rotate: 0,
+		direction: 1,
+		color: "#fff",
+		speed: 1,
+		trail: 60,
+		shadow: false,
+		hwaccel: false,
+		zIndex: 2000000000,
+		top: "50%",
+		left: "50%",
+		scale: 1
+	}
+};
+
+var stateToProps = function (state) {
+	return {
+		showLoading: state.session.showLoading
+	};
+};
+
+module.exports = connect(stateToProps)(Main);
