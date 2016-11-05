@@ -12,7 +12,7 @@ class Posts extends Component {
 		super()
 		this.fetchPosts = this.fetchPosts.bind(this)
 		this.state = {
-			showCreatePost: false
+			showCreate: false
 		}
 	}
 
@@ -28,13 +28,13 @@ class Posts extends Component {
 		this.fetchPosts()
 	}
 
-	toggleCreatePost(event){
+	toggleShowCreate(event){
 		if (event != null)
 			event.preventDefault()
 
 		window.scrollTo(0, 0)
 		this.setState({
-			showCreatePost: !this.state.showCreatePost
+			showCreate: !this.state.showCreate
 		})
 	}
 
@@ -58,7 +58,7 @@ class Posts extends Component {
 			}
 
 			this.props.postsReceived(response.results)
-			this.setState({showCreatePost: false})
+			this.setState({showCreate: false})
 		})		
 	}
 
@@ -87,18 +87,18 @@ class Posts extends Component {
 				teams={this.props.teams}
 				isLoading={this.toggleLoader.bind(this)}
 				submit={this.submitPost.bind(this)}
-				cancel={this.toggleCreatePost.bind(this)} />
+				cancel={this.toggleShowCreate.bind(this)} />
 		)
 
 		return (
 			<div>
 				<ol className="commentlist noborder nomargin nopadding clearfix">
 					<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
-						{ (this.state.showCreatePost) ? createPost : currentPosts }
+						{ (this.state.showCreate) ? createPost : currentPosts }
 					</li>
 				</ol>
 
-				{ (this.state.showCreatePost) ? null : <a href="#" onClick={this.toggleCreatePost.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add Event</a> }
+				{ (this.state.showCreate) ? null : <a href="#" onClick={this.toggleShowCreate.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add Event</a> }
 			</div>
 		)
 	}

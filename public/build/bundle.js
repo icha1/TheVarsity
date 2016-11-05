@@ -65425,7 +65425,7 @@
 	
 			_this.fetchPosts = _this.fetchPosts.bind(_this);
 			_this.state = {
-				showCreatePost: false
+				showCreate: false
 			};
 			return _this;
 		}
@@ -65446,13 +65446,13 @@
 				this.fetchPosts();
 			}
 		}, {
-			key: 'toggleCreatePost',
-			value: function toggleCreatePost(event) {
+			key: 'toggleShowCreate',
+			value: function toggleShowCreate(event) {
 				if (event != null) event.preventDefault();
 	
 				window.scrollTo(0, 0);
 				this.setState({
-					showCreatePost: !this.state.showCreatePost
+					showCreate: !this.state.showCreate
 				});
 			}
 		}, {
@@ -65479,7 +65479,7 @@
 					}
 	
 					_this3.props.postsReceived(response.results);
-					_this3.setState({ showCreatePost: false });
+					_this3.setState({ showCreate: false });
 				});
 			}
 		}, {
@@ -65509,7 +65509,7 @@
 					teams: this.props.teams,
 					isLoading: this.toggleLoader.bind(this),
 					submit: this.submitPost.bind(this),
-					cancel: this.toggleCreatePost.bind(this) });
+					cancel: this.toggleShowCreate.bind(this) });
 	
 				return _react2.default.createElement(
 					'div',
@@ -65520,12 +65520,12 @@
 						_react2.default.createElement(
 							'li',
 							{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
-							this.state.showCreatePost ? createPost : currentPosts
+							this.state.showCreate ? createPost : currentPosts
 						)
 					),
-					this.state.showCreatePost ? null : _react2.default.createElement(
+					this.state.showCreate ? null : _react2.default.createElement(
 						'a',
-						{ href: '#', onClick: this.toggleCreatePost.bind(this), style: { position: 'fixed', bottom: 0 }, className: _styles2.default.post.btnAdd.className },
+						{ href: '#', onClick: this.toggleShowCreate.bind(this), style: { position: 'fixed', bottom: 0 }, className: _styles2.default.post.btnAdd.className },
 						'Add Event'
 					)
 				);
@@ -71247,10 +71247,6 @@
 	
 	var _utils = __webpack_require__(468);
 	
-	var _store = __webpack_require__(202);
-	
-	var _store2 = _interopRequireDefault(_store);
-	
 	var _actions = __webpack_require__(645);
 	
 	var _actions2 = _interopRequireDefault(_actions);
@@ -71280,7 +71276,7 @@
 			key: 'selectFeed',
 			value: function selectFeed(event) {
 				event.preventDefault();
-				_store2.default.currentStore().dispatch(_actions2.default.selectedFeedChanged(event.target.id));
+				this.props.changeSelectedFeed(event.target.id);
 			}
 		}, {
 			key: 'render',
@@ -71447,7 +71443,15 @@
 		};
 	};
 	
-	exports.default = (0, _reactRedux.connect)(stateToProps)(District);
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			changeSelectedFeed: function changeSelectedFeed(feed) {
+				return dispatch(_actions2.default.selectedFeedChanged(feed));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(District);
 
 /***/ },
 /* 702 */
