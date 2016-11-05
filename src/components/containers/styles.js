@@ -106,7 +106,16 @@ export default {
 			border:'1px solid #ddd',
 			borderRadius:0,
 			boxShadow:'none'
-		}		
+		},
+		admin: {
+			background: '#fff',
+			padding: 10,
+			position: 'fixed',
+			bottom: 0,
+			width: 44+'%',
+			minWidth: 320,
+			border: '1px solid #ddd'
+		}
 
 	}
 }
