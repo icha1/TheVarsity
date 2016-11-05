@@ -76,7 +76,7 @@ class CreatePost extends Component {
 			}
 
 			let updated = Object.assign({}, this.state.post)
-			updated['image'] = image.address
+			updated['image'] = image.address+'=s220-c'
 			this.setState({post: updated})
 		})
 	}

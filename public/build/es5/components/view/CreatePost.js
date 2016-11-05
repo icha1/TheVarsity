@@ -107,7 +107,7 @@ var CreatePost = (function (Component) {
 					}
 
 					var updated = Object.assign({}, _this.state.post);
-					updated.image = image.address;
+					updated.image = image.address + "=s220-c";
 					_this.setState({ post: updated });
 				});
 			},
