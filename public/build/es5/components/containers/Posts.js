@@ -19,7 +19,10 @@ var Modal = require("react-bootstrap").Modal;
 var connect = require("react-redux").connect;
 var Dropzone = _interopRequire(require("react-dropzone"));
 
-var APIManager = require("../../utils").APIManager;
+var _utils = require("../../utils");
+
+var APIManager = _utils.APIManager;
+var DateUtils = _utils.DateUtils;
 var Post = require("../view").Post;
 var store = _interopRequire(require("../../stores/store"));
 
@@ -151,6 +154,14 @@ var Posts = (function (Component) {
 					});
 				}
 
+				var teamList = this.props.teams.map(function (team, i) {
+					return React.createElement(
+						"option",
+						{ key: i, value: team.id },
+						team.name
+					);
+				});
+
 				var image = this.state.post.image.length == 0 ? "/images/image-placeholder.png" : this.state.post.image;
 				var createPost = React.createElement(
 					"li",
@@ -190,29 +201,54 @@ var Posts = (function (Component) {
 						),
 						React.createElement("hr", null),
 						React.createElement(
-							"a",
-							{ href: "#", onClick: this.submitPost.bind(this), style: styles.post.btnAdd, className: styles.post.btnAdd.className },
-							"Create"
+							"h4",
+							{ style: styles.post.header },
+							React.createElement(
+								"a",
+								{ href: "#", style: styles.post.title },
+								this.state.post.profile.username
+							)
 						),
 						React.createElement(
-							"select",
-							{ className: "form-control", style: { width: 50 + "%" } },
-							React.createElement(
-								"option",
-								null,
-								"Mustard"
-							),
-							React.createElement(
-								"option",
-								null,
-								"Ketchup"
-							),
-							React.createElement(
-								"option",
-								null,
-								"Relish"
-							)
+							"span",
+							null,
+							"address"
+						),
+						React.createElement("br", null),
+						React.createElement(
+							"span",
+							null,
+							DateUtils.today()
 						)
+					),
+					React.createElement(
+						"select",
+						{ className: "form-control", style: styles.post.select },
+						React.createElement(
+							"option",
+							null,
+							"Events"
+						),
+						React.createElement(
+							"option",
+							null,
+							"News"
+						)
+					),
+					React.createElement(
+						"select",
+						{ className: "form-control", style: styles.post.select },
+						teamList
+					),
+					React.createElement(
+						"a",
+						{ href: "#", onClick: this.submitPost.bind(this), style: styles.post.btnAdd, className: styles.post.btnAdd.className },
+						"Create Post"
+					),
+					React.createElement(
+						"a",
+						{ href: "#", onClick: this.toggleCreatePost.bind(this), style: styles.post.btnAdd, className: styles.post.btnAdd.className },
+						"Cancel"
 					)
 				);
 
@@ -244,7 +280,9 @@ var stateToProps = function (state) {
 		posts: state.post.feed,
 		location: state.session.currentLocation,
 		selectedFeed: state.session.selectedFeed,
-		reload: state.session.reload
+		reload: state.session.reload,
+		user: state.account.currentUser,
+		teams: state.account.teams
 	};
 };
 

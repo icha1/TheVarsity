@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
-import { APIManager } from '../../utils'
+import { APIManager, DateUtils } from '../../utils'
 import { Post } from '../view'
 import store from '../../stores/store'
 import actions from '../../actions/actions'
@@ -106,6 +106,10 @@ class Posts extends Component {
 			})
 		}
 
+		const teamList = this.props.teams.map((team, i) => {
+			return <option key={i} value={team.id}>{ team.name }</option>
+		})
+
 		const image = (this.state.post.image.length == 0) ? '/images/image-placeholder.png' : this.state.post.image
 		let createPost = (
 			<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
@@ -128,14 +132,24 @@ class Posts extends Component {
 						</Dropzone>
 					</div>
 					<hr />
-					<a href="#" onClick={this.submitPost.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create</a>
-					<select className="form-control" style={{width:50+'%'}}>
-						<option>Mustard</option>
-						<option>Ketchup</option>
-						<option>Relish</option>
-					</select>
-
+					<h4 style={styles.post.header}>
+						<a href='#' style={styles.post.title}>{ this.state.post.profile.username }</a>
+					</h4>
+					<span>address</span><br />
+					<span>{ DateUtils.today() }</span>
 				</div>
+
+				<select className="form-control" style={styles.post.select}>
+					<option>Events</option>
+					<option>News</option>
+				</select>
+				<select className="form-control" style={styles.post.select}>
+					{ teamList }
+				</select>
+
+				<a href="#" onClick={this.submitPost.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create Post</a>
+				<a href="#" onClick={this.toggleCreatePost.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Cancel</a>
+
 			</li>
 		)
 
@@ -155,7 +169,9 @@ const stateToProps = (state) => {
 		posts: state.post.feed,
 		location: state.session.currentLocation,
 		selectedFeed: state.session.selectedFeed,
-		reload: state.session.reload
+		reload: state.session.reload,
+		user: state.account.currentUser,
+		teams: state.account.teams
 	}
 }
 
