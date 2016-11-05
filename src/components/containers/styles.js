@@ -100,6 +100,12 @@ export default {
 			float: 'right',
 			marginTop: 0,
 			className: 'button button-medium button-circle button-blue'
+		},
+		select: {
+			marginBottom:16,
+			border:'1px solid #ddd',
+			borderRadius:0,
+			boxShadow:'none'
 		}		
 
 	}
