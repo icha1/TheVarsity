@@ -26,9 +26,9 @@ class CreateTeam extends Component {
 				return
 			}
 
-			// let updated = Object.assign({}, this.state.post)
-			// updated['image'] = image.address+'=s220-c'
-			// this.setState({post: updated})
+			let updated = Object.assign({}, this.state.team)
+			updated['image'] = image.address+'=s220-c'
+			this.setState({team: updated})
 		})
 	}	
 
@@ -69,6 +69,7 @@ class CreateTeam extends Component {
 	render(){
 		const team = this.state.team
 		const image = (team.image.length == 0) ? '/images/image-placeholder.png' : team.image
+		const icon = (team.image.length == 0) ? '/images/profile-icon.png' : team.image
 
 		return (
 			<div>
@@ -76,7 +77,7 @@ class CreateTeam extends Component {
 					<div className="comment-meta">
 						<div className="comment-author vcard">
 							<span className="comment-avatar clearfix">
-							<img alt='The Varsity' src={'/images/profile-icon.png'} className='avatar avatar-60 photo' height='60' width='60' /></span>
+							<img alt='The Varsity' src={icon} className='avatar avatar-60 photo' height='60' width='60' /></span>
 						</div>
 					</div>
 
