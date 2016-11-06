@@ -28,7 +28,7 @@ module.exports = function (_x, action) {
 			return newState;
 
 		case constants.SELECTED_FEED_CHANGED:
-			console.log("SELECTED_FEED_CHANGED: " + action.feed);
+			//			console.log('SELECTED_FEED_CHANGED: ' + action.feed)
 			var newState = Object.assign({}, state);
 			newState.reload = action.feed != newState.selectedFeed;
 			newState.selectedFeed = action.feed;

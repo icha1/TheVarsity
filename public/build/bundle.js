@@ -23591,7 +23591,7 @@
 				return newState;
 	
 			case _constants2.default.SELECTED_FEED_CHANGED:
-				console.log('SELECTED_FEED_CHANGED: ' + action.feed);
+				//			console.log('SELECTED_FEED_CHANGED: ' + action.feed)
 				var newState = Object.assign({}, state);
 				newState['reload'] = action.feed != newState.selectedFeed;
 				newState['selectedFeed'] = action.feed;
@@ -65439,7 +65439,15 @@
 					setTimeout(function () {
 						// this is a sloppy workaround
 						console.log('RELOAD: ' + _this2.props.selectedFeed + ', ' + _this2.props.reload);
-						if (_this2.props.reload) _this2.fetchPosts();
+						if (_this2.props.reload) {
+							// TODO: check selected feed
+							var selectedFeed = _this2.props.selectedFeed;
+							if (selectedFeed == 'event') {}
+							if (selectedFeed == 'post') {}
+							if (selectedFeed == 'team') {}
+	
+							_this2.fetchPosts();
+						}
 					}, 5);
 				});
 	
@@ -65491,7 +65499,8 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				var list = this.props.posts[this.props.selectedFeed];
+				var feed = this.props.selectedFeed;
+				var list = this.props.posts[feed];
 				var currentPosts = null;
 				if (list != null) {
 					currentPosts = list.map(function (post, i) {
@@ -65503,13 +65512,32 @@
 					});
 				}
 	
-				var createPost = _react2.default.createElement(_view.CreatePost, {
-					type: this.props.selectedFeed,
-					user: this.props.user,
-					teams: this.props.teams,
-					isLoading: this.toggleLoader.bind(this),
-					submit: this.submitPost.bind(this),
-					cancel: this.toggleShowCreate.bind(this) });
+				var create = null;
+				if (feed == 'event' || feed == 'post') {
+					// post is news feed
+					create = _react2.default.createElement(
+						'li',
+						{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
+						_react2.default.createElement(_view.CreatePost, {
+							type: this.props.selectedFeed,
+							user: this.props.user,
+							teams: this.props.teams,
+							isLoading: this.toggleLoader.bind(this),
+							submit: this.submitPost.bind(this),
+							cancel: this.toggleShowCreate.bind(this) })
+					);
+				}
+				if (feed == 'team') {
+					create = _react2.default.createElement(
+						'li',
+						{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
+						_react2.default.createElement(
+							'div',
+							null,
+							'Create Team'
+						)
+					);
+				}
 	
 				return _react2.default.createElement(
 					'div',
@@ -65517,16 +65545,13 @@
 					_react2.default.createElement(
 						'ol',
 						{ className: 'commentlist noborder nomargin nopadding clearfix' },
-						_react2.default.createElement(
-							'li',
-							{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
-							this.state.showCreate ? createPost : currentPosts
-						)
+						this.state.showCreate ? create : currentPosts
 					),
 					this.state.showCreate ? null : _react2.default.createElement(
 						'a',
 						{ href: '#', onClick: this.toggleShowCreate.bind(this), style: { position: 'fixed', bottom: 0 }, className: _styles2.default.post.btnAdd.className },
-						'Add Event'
+						'Add ',
+						this.props.selectedFeed
 					)
 				);
 			}
@@ -71328,7 +71353,7 @@
 										null,
 										_react2.default.createElement(
 											'a',
-											{ id: 'article', onClick: this.selectFeed.bind(this), href: '#' },
+											{ id: 'post', onClick: this.selectFeed.bind(this), href: '#' },
 											'News'
 										)
 									),
@@ -71337,7 +71362,7 @@
 										null,
 										_react2.default.createElement(
 											'a',
-											{ href: '#' },
+											{ id: 'team', onClick: this.selectFeed.bind(this), href: '#' },
 											'Teams'
 										)
 									)
