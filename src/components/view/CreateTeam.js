@@ -10,7 +10,9 @@ class CreateTeam extends Component {
 			team: {
 				name: '',
 				description: '',
-				image: ''
+				street: '',
+				image: '',
+				invited: ''
 			}
 		}
 	}
@@ -31,12 +33,32 @@ class CreateTeam extends Component {
 	}	
 
 	updateTeam(event){
-
+		let updated = Object.assign({}, this.state.team)
+		updated[event.target.id] = event.target.value
+		this.setState({
+			team: updated
+		})
 	}
 
-	submitTeam(){
+	submitTeam(event){
 		event.preventDefault()
+		let updated = Object.assign({}, this.state.team)
+		let members = []
+		updated.invited.split(',').forEach((member, i) => {
+			members.push(member.trim())
+		})
 
+		updated['members'] = members
+		delete updated['invited']
+
+		updated['address'] = {
+			street: updated.street,
+			city: '',
+			state: ''
+		}
+
+		delete updated['street']
+		this.props.submit(updated)
 	}
 
 	cancel(event){
@@ -60,8 +82,8 @@ class CreateTeam extends Component {
 
 					<div className={styles.post.content.className} style={styles.post.content}>
 						<div className="col_two_third" style={{marginBottom:4}}>
-							<input id="title" onChange={this.updateTeam.bind(this)} type="text" placeholder="Team Name" style={styles.post.input} /><br />
-							<textarea id="text" onChange={this.updateTeam.bind(this)} placeholder="Description" style={styles.post.textarea}></textarea><br />					
+							<input id="name" onChange={this.updateTeam.bind(this)} type="text" placeholder="Team Name" style={styles.post.input} /><br />
+							<textarea id="description" onChange={this.updateTeam.bind(this)} placeholder="Description" style={styles.post.textarea}></textarea><br />					
 						</div>
 
 						<Dropzone onDrop={this.uploadImage.bind(this)} className="col_one_third col_last" style={{marginBottom:4}}>
@@ -72,14 +94,13 @@ class CreateTeam extends Component {
 				</div>
 				<br />
 				<label>Address</label>
-				<input id="street" type="text" placeholder="123 Main St." style={styles.post.select} className="form-control" /><br />
+				<input id="street" onChange={this.updateTeam.bind(this)} type="text" placeholder="123 Main St." style={styles.post.select} className="form-control" /><br />
 
 				<label>Invite Members</label>
-				<input id="members" type="text" placeholder="address@example.com, address2@example2.com, address3@example3.com" style={styles.post.select} className="form-control" /><br />
+				<input id="invited" onChange={this.updateTeam.bind(this)} type="text" placeholder="address@example.com, address2@example2.com, address3@example3.com" style={styles.post.select} className="form-control" /><br />
 
 				<a href="#" onClick={this.submitTeam.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create Team</a>
 				<a href="#" onClick={this.cancel.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Cancel</a>
-
 			</div>
 		)
 	}

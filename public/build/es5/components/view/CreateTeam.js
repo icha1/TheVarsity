@@ -32,7 +32,9 @@ var CreateTeam = (function (Component) {
 			team: {
 				name: "",
 				description: "",
-				image: ""
+				street: "",
+				image: "",
+				invited: ""
 			}
 		};
 	}
@@ -60,13 +62,36 @@ var CreateTeam = (function (Component) {
 			configurable: true
 		},
 		updateTeam: {
-			value: function updateTeam(event) {},
+			value: function updateTeam(event) {
+				var updated = Object.assign({}, this.state.team);
+				updated[event.target.id] = event.target.value;
+				this.setState({
+					team: updated
+				});
+			},
 			writable: true,
 			configurable: true
 		},
 		submitTeam: {
-			value: function submitTeam() {
+			value: function submitTeam(event) {
 				event.preventDefault();
+				var updated = Object.assign({}, this.state.team);
+				var members = [];
+				updated.invited.split(",").forEach(function (member, i) {
+					members.push(member.trim());
+				});
+
+				updated.members = members;
+				delete updated.invited;
+
+				updated.address = {
+					street: updated.street,
+					city: "",
+					state: ""
+				};
+
+				delete updated.street;
+				this.props.submit(updated);
 			},
 			writable: true,
 			configurable: true
@@ -109,9 +134,9 @@ var CreateTeam = (function (Component) {
 							React.createElement(
 								"div",
 								{ className: "col_two_third", style: { marginBottom: 4 } },
-								React.createElement("input", { id: "title", onChange: this.updateTeam.bind(this), type: "text", placeholder: "Team Name", style: styles.post.input }),
+								React.createElement("input", { id: "name", onChange: this.updateTeam.bind(this), type: "text", placeholder: "Team Name", style: styles.post.input }),
 								React.createElement("br", null),
-								React.createElement("textarea", { id: "text", onChange: this.updateTeam.bind(this), placeholder: "Description", style: styles.post.textarea }),
+								React.createElement("textarea", { id: "description", onChange: this.updateTeam.bind(this), placeholder: "Description", style: styles.post.textarea }),
 								React.createElement("br", null)
 							),
 							React.createElement(
@@ -127,14 +152,14 @@ var CreateTeam = (function (Component) {
 						null,
 						"Address"
 					),
-					React.createElement("input", { id: "street", type: "text", placeholder: "123 Main St.", style: styles.post.select, className: "form-control" }),
+					React.createElement("input", { id: "street", onChange: this.updateTeam.bind(this), type: "text", placeholder: "123 Main St.", style: styles.post.select, className: "form-control" }),
 					React.createElement("br", null),
 					React.createElement(
 						"label",
 						null,
 						"Invite Members"
 					),
-					React.createElement("input", { id: "members", type: "text", placeholder: "address@example.com, address2@example2.com, address3@example3.com", style: styles.post.select, className: "form-control" }),
+					React.createElement("input", { id: "invited", onChange: this.updateTeam.bind(this), type: "text", placeholder: "address@example.com, address2@example2.com, address3@example3.com", style: styles.post.select, className: "form-control" }),
 					React.createElement("br", null),
 					React.createElement(
 						"a",
