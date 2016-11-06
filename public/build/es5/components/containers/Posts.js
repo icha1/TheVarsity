@@ -52,7 +52,15 @@ var Posts = (function (Component) {
 					setTimeout(function () {
 						// this is a sloppy workaround
 						console.log("RELOAD: " + _this.props.selectedFeed + ", " + _this.props.reload);
-						if (_this.props.reload) _this.fetchPosts();
+						if (_this.props.reload) {
+							// TODO: check selected feed
+							var selectedFeed = _this.props.selectedFeed;
+							if (selectedFeed == "event") {}
+							if (selectedFeed == "post") {}
+							if (selectedFeed == "team") {}
+
+							_this.fetchPosts();
+						}
 					}, 5);
 				});
 
@@ -113,7 +121,8 @@ var Posts = (function (Component) {
 		},
 		render: {
 			value: function render() {
-				var list = this.props.posts[this.props.selectedFeed];
+				var feed = this.props.selectedFeed;
+				var list = this.props.posts[feed];
 				var currentPosts = null;
 				if (list != null) {
 					currentPosts = list.map(function (post, i) {
@@ -125,13 +134,32 @@ var Posts = (function (Component) {
 					});
 				}
 
-				var createPost = React.createElement(CreatePost, {
-					type: this.props.selectedFeed,
-					user: this.props.user,
-					teams: this.props.teams,
-					isLoading: this.toggleLoader.bind(this),
-					submit: this.submitPost.bind(this),
-					cancel: this.toggleShowCreate.bind(this) });
+				var create = null;
+				if (feed == "event" || feed == "post") {
+					// post is news feed
+					create = React.createElement(
+						"li",
+						{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
+						React.createElement(CreatePost, {
+							type: this.props.selectedFeed,
+							user: this.props.user,
+							teams: this.props.teams,
+							isLoading: this.toggleLoader.bind(this),
+							submit: this.submitPost.bind(this),
+							cancel: this.toggleShowCreate.bind(this) })
+					);
+				}
+				if (feed == "team") {
+					create = React.createElement(
+						"li",
+						{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
+						React.createElement(
+							"div",
+							null,
+							"Create Team"
+						)
+					);
+				}
 
 				return React.createElement(
 					"div",
@@ -139,16 +167,13 @@ var Posts = (function (Component) {
 					React.createElement(
 						"ol",
 						{ className: "commentlist noborder nomargin nopadding clearfix" },
-						React.createElement(
-							"li",
-							{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
-							this.state.showCreate ? createPost : currentPosts
-						)
+						this.state.showCreate ? create : currentPosts
 					),
 					this.state.showCreate ? null : React.createElement(
 						"a",
 						{ href: "#", onClick: this.toggleShowCreate.bind(this), style: { position: "fixed", bottom: 0 }, className: styles.post.btnAdd.className },
-						"Add Event"
+						"Add ",
+						this.props.selectedFeed
 					)
 				);
 			},

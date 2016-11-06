@@ -20,8 +20,20 @@ class Posts extends Component {
 		store.currentStore().subscribe(() => {
 			setTimeout(() => { // this is a sloppy workaround
 				console.log('RELOAD: ' + this.props.selectedFeed +', '+ this.props.reload)
-				if (this.props.reload)
+				if (this.props.reload){ // TODO: check selected feed
+					const selectedFeed = this.props.selectedFeed
+					if (selectedFeed == 'event'){
+
+					}
+					if (selectedFeed == 'post'){
+						
+					}
+					if (selectedFeed == 'team'){
+						
+					}
+
 					this.fetchPosts()
+				}
 			}, 5)
 		})
 
@@ -40,7 +52,6 @@ class Posts extends Component {
 
 	toggleLoader(isLoading){
 		this.props.toggleLoader(isLoading)
-
 	}
 
 	fetchPosts(){
@@ -68,7 +79,8 @@ class Posts extends Component {
 	}
 
 	render(){
-		const list = this.props.posts[this.props.selectedFeed]
+		const feed = this.props.selectedFeed
+		const list = this.props.posts[feed]
 		let currentPosts = null
 		if (list != null){
 			currentPosts = list.map((post, i) => {
@@ -80,25 +92,35 @@ class Posts extends Component {
 			})
 		}
 
-		let createPost = (
-			<CreatePost
-				type={this.props.selectedFeed}
-				user={this.props.user}
-				teams={this.props.teams}
-				isLoading={this.toggleLoader.bind(this)}
-				submit={this.submitPost.bind(this)}
-				cancel={this.toggleShowCreate.bind(this)} />
-		)
+		let create = null
+		if (feed == 'event' || feed == 'post'){ // post is news feed
+			create = (
+				<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
+					<CreatePost
+						type={this.props.selectedFeed}
+						user={this.props.user}
+						teams={this.props.teams}
+						isLoading={this.toggleLoader.bind(this)}
+						submit={this.submitPost.bind(this)}
+						cancel={this.toggleShowCreate.bind(this)} />
+				</li>
+			)
+		}
+		if (feed == 'team'){
+			create = (
+				<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
+					<div>Create Team</div>
+				</li>
+			)
+		}
 
 		return (
 			<div>
 				<ol className="commentlist noborder nomargin nopadding clearfix">
-					<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
-						{ (this.state.showCreate) ? createPost : currentPosts }
-					</li>
+					{ (this.state.showCreate) ? create : currentPosts }
 				</ol>
 
-				{ (this.state.showCreate) ? null : <a href="#" onClick={this.toggleShowCreate.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add Event</a> }
+				{ (this.state.showCreate) ? null : <a href="#" onClick={this.toggleShowCreate.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add {this.props.selectedFeed}</a> }
 			</div>
 		)
 	}
