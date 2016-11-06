@@ -61,14 +61,6 @@ module.exports = {
 		return new Promise(function(resolve, reject){
 			params['slug'] = TextUtils.slugVersion(params.name)
 
-			var social = {}
-			var socialComponents = ['facebook', 'instagram']
-			socialComponents.forEach(function(component){
-				if (params[component] != null)
-					social[component] = params[component]
-			})
-			params['social'] = social
-
 			var address = params.address
 		    var url = 'https://maps.googleapis.com/maps/api/geocode/json'
 		    var query = address.street+','+address.city+','+address.state
