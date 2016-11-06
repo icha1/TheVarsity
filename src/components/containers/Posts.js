@@ -156,12 +156,12 @@ class Posts extends Component {
 const stateToProps = (state) => {
 	return {
 		posts: state.post.feed,
+		user: state.account.currentUser,
+		teams: state.account.teams,
 		district: state.session.currentDistrict,
 		location: state.session.currentLocation,
 		selectedFeed: state.session.selectedFeed,
-		reload: state.session.reload,
-		user: state.account.currentUser,
-		teams: state.account.teams
+		reload: state.session.reload
 	}
 }
 
