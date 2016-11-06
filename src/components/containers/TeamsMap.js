@@ -5,7 +5,7 @@ import actions from '../../actions/actions'
 import { connect } from 'react-redux'
 import { Map } from '../view'
 
-class Teams extends Component {
+class TeamsMap extends Component {
 	constructor(){
 		super()
 		this.fetchTeams = this.fetchTeams.bind(this)
@@ -101,4 +101,4 @@ const mapDispatchToProps = (dispatch) => {
 		teamsReceived: teams => dispatch(actions.teamsReceived(teams))
 	}
 }
-export default connect(stateToProps, mapDispatchToProps)(Teams)
+export default connect(stateToProps, mapDispatchToProps)(TeamsMap)

@@ -1,13 +1,13 @@
 import Nav from './Nav'
 import Feed from './Feed'
-import Teams from './Teams'
+import TeamsMap from './TeamsMap'
 import Team from './Team'
 import District from './District'
 
 export {
 	Nav,
 	Feed,
-	Teams,
+	TeamsMap,
 	Team,
 	District
 }
