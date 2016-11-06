@@ -90,7 +90,7 @@ var District = (function (Component) {
 										null,
 										React.createElement(
 											"a",
-											{ id: "article", onClick: this.selectFeed.bind(this), href: "#" },
+											{ id: "post", onClick: this.selectFeed.bind(this), href: "#" },
 											"News"
 										)
 									),
@@ -99,7 +99,7 @@ var District = (function (Component) {
 										null,
 										React.createElement(
 											"a",
-											{ href: "#" },
+											{ id: "team", onClick: this.selectFeed.bind(this), href: "#" },
 											"Teams"
 										)
 									)

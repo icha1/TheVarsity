@@ -28,8 +28,8 @@ class District extends Component {
 							<span style={style.header}>{district.name}</span><br />
 							<ul style={style.list}>
 								<li><a id="event" onClick={this.selectFeed.bind(this)} href="#">Events</a></li>
-								<li><a id="article" onClick={this.selectFeed.bind(this)} href="#">News</a></li>
-								<li><a href="#">Teams</a></li>
+								<li><a id="post" onClick={this.selectFeed.bind(this)} href="#">News</a></li>
+								<li><a id="team" onClick={this.selectFeed.bind(this)} href="#">Teams</a></li>
 							</ul>
 						</div>
 					</div>
