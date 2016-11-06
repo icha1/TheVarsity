@@ -5,6 +5,8 @@ var DistrictSchema = new mongoose.Schema({
 	slug: {type:String, trim:true, lowercase:true, default:''},
 	image: {type:String, trim:true, default:''},
 	description: {type:String, trim:true, default:''},
+	city: {type:String, trim:true, lowercase:true, default:''},
+	state: {type:String, trim:true, lowercase:true, default:''},
 	zips: {type:Array, trim:true, default:[]}, // inluded zip codes
 	geo: {
 		type: [Number], // array of Numbers
@@ -19,6 +21,8 @@ DistrictSchema.methods.summary = function(){
 		slug: this.slug,
 		image: this.image,
 		description: this.description,
+		city: this.city,
+		state: this.state,
 		zips: this.zips,
 		geo: this.geo,
 		timestamp: this.timestamp,
