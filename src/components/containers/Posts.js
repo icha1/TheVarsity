@@ -86,7 +86,8 @@ class Posts extends Component {
 		address['state'] = district.state
 		team['address'] = address
 
-		console.log('createTeam: '+JSON.stringify(team))
+//		console.log('createTeam: '+JSON.stringify(team))
+
 		this.props.toggleLoader(true)
 		APIManager.handlePost('/api/team', team, (err, response) => {
 			this.props.toggleLoader(false)
@@ -96,7 +97,6 @@ class Posts extends Component {
 			}
 
 			console.log('TEAM CREATED: '+JSON.stringify(response))
-//			this.props.postsReceived(response.results)
 			this.setState({showCreate: false})
 		})		
 	}
