@@ -65531,7 +65531,10 @@
 					create = _react2.default.createElement(
 						'li',
 						{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
-						_react2.default.createElement(_view.CreateTeam, null)
+						_react2.default.createElement(_view.CreateTeam, {
+							user: this.props.user,
+							isLoading: this.toggleLoader.bind(this),
+							cancel: this.toggleShowCreate.bind(this) })
 					);
 				}
 	
@@ -70209,7 +70212,7 @@
 				fontFamily: 'Pathway Gothic One'
 			},
 			postImage: {
-				maxWidth: 180,
+				maxWidth: 140,
 				marginTop: 12
 			},
 			input: {
@@ -71007,16 +71010,118 @@
 		function CreateTeam() {
 			_classCallCheck(this, CreateTeam);
 	
-			return _possibleConstructorReturn(this, (CreateTeam.__proto__ || Object.getPrototypeOf(CreateTeam)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (CreateTeam.__proto__ || Object.getPrototypeOf(CreateTeam)).call(this));
+	
+			_this.state = {
+				team: {
+					name: '',
+					description: '',
+					image: ''
+				}
+			};
+			return _this;
 		}
 	
 		_createClass(CreateTeam, [{
+			key: 'uploadImage',
+			value: function uploadImage(files) {
+				var _this2 = this;
+	
+				this.props.isLoading(true);
+				_utils.APIManager.upload(files[0], function (err, image) {
+					_this2.props.isLoading(false);
+					if (err) {
+						alert(err);
+						return;
+					}
+	
+					// let updated = Object.assign({}, this.state.post)
+					// updated['image'] = image.address+'=s220-c'
+					// this.setState({post: updated})
+				});
+			}
+		}, {
+			key: 'updateTeam',
+			value: function updateTeam(event) {}
+		}, {
+			key: 'submitTeam',
+			value: function submitTeam() {
+				event.preventDefault();
+			}
+		}, {
+			key: 'cancel',
+			value: function cancel(event) {
+				event.preventDefault();
+				this.props.cancel();
+			}
+		}, {
 			key: 'render',
 			value: function render() {
+				var team = this.state.team;
+				var image = team.image.length == 0 ? '/images/image-placeholder.png' : team.image;
+	
 				return _react2.default.createElement(
 					'div',
 					null,
-					'Create Team!!'
+					_react2.default.createElement(
+						'div',
+						{ className: _styles2.default.post.container.className, style: _styles2.default.post.container },
+						_react2.default.createElement(
+							'div',
+							{ className: 'comment-meta' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'comment-author vcard' },
+								_react2.default.createElement(
+									'span',
+									{ className: 'comment-avatar clearfix' },
+									_react2.default.createElement('img', { alt: 'The Varsity', src: '/images/profile-icon.png', className: 'avatar avatar-60 photo', height: '60', width: '60' })
+								)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: _styles2.default.post.content.className, style: _styles2.default.post.content },
+							_react2.default.createElement(
+								'div',
+								{ className: 'col_two_third', style: { marginBottom: 4 } },
+								_react2.default.createElement('input', { id: 'title', onChange: this.updateTeam.bind(this), type: 'text', placeholder: 'Team Name', style: _styles2.default.post.input }),
+								_react2.default.createElement('br', null),
+								_react2.default.createElement('textarea', { id: 'text', onChange: this.updateTeam.bind(this), placeholder: 'Description', style: _styles2.default.post.textarea }),
+								_react2.default.createElement('br', null)
+							),
+							_react2.default.createElement(
+								_reactDropzone2.default,
+								{ onDrop: this.uploadImage.bind(this), className: 'col_one_third col_last', style: { marginBottom: 4 } },
+								_react2.default.createElement('img', { style: _styles2.default.post.postImage, src: image })
+							)
+						)
+					),
+					_react2.default.createElement('br', null),
+					_react2.default.createElement(
+						'label',
+						null,
+						'Address'
+					),
+					_react2.default.createElement('input', { id: 'street', type: 'text', placeholder: '123 Main St.', style: _styles2.default.post.select, className: 'form-control' }),
+					_react2.default.createElement('br', null),
+					_react2.default.createElement(
+						'label',
+						null,
+						'Invite Members'
+					),
+					_react2.default.createElement('input', { id: 'members', type: 'text', placeholder: 'address@example.com, address2@example2.com, address3@example3.com', style: _styles2.default.post.select, className: 'form-control' }),
+					_react2.default.createElement('br', null),
+					_react2.default.createElement(
+						'a',
+						{ href: '#', onClick: this.submitTeam.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
+						'Create Team'
+					),
+					_react2.default.createElement(
+						'a',
+						{ href: '#', onClick: this.cancel.bind(this), style: _styles2.default.post.btnAdd, className: _styles2.default.post.btnAdd.className },
+						'Cancel'
+					)
 				);
 			}
 		}]);
