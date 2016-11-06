@@ -154,7 +154,10 @@ var Posts = (function (Component) {
 					create = React.createElement(
 						"li",
 						{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
-						React.createElement(CreateTeam, null)
+						React.createElement(CreateTeam, {
+							user: this.props.user,
+							isLoading: this.toggleLoader.bind(this),
+							cancel: this.toggleShowCreate.bind(this) })
 					);
 				}
 
