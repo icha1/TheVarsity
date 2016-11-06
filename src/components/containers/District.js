@@ -82,7 +82,7 @@ class District extends Component {
 const stateToProps = (state) => {
 	return {
 		location: state.session.currentLocation,
-		district: state.district.currentDistrict
+		district: state.session.currentDistrict
 	}
 }
 

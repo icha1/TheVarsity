@@ -204,7 +204,7 @@ var District = (function (Component) {
 var stateToProps = function (state) {
 	return {
 		location: state.session.currentLocation,
-		district: state.district.currentDistrict
+		district: state.session.currentDistrict
 	};
 };
 
