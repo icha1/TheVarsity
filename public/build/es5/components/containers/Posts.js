@@ -25,6 +25,7 @@ var _view = require("../view");
 
 var Post = _view.Post;
 var CreatePost = _view.CreatePost;
+var CreateTeam = _view.CreateTeam;
 var store = _interopRequire(require("../../stores/store"));
 
 var actions = _interopRequire(require("../../actions/actions"));
@@ -153,11 +154,7 @@ var Posts = (function (Component) {
 					create = React.createElement(
 						"li",
 						{ className: "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1", id: "li-comment-2" },
-						React.createElement(
-							"div",
-							null,
-							"Create Team"
-						)
+						React.createElement(CreateTeam, null)
 					);
 				}
 

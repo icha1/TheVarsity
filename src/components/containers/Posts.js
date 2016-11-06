@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { APIManager, DateUtils } from '../../utils'
-import { Post, CreatePost } from '../view'
+import { Post, CreatePost, CreateTeam } from '../view'
 import store from '../../stores/store'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -109,7 +109,7 @@ class Posts extends Component {
 		if (feed == 'team'){
 			create = (
 				<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
-					<div>Create Team</div>
+					<CreateTeam />
 				</li>
 			)
 		}

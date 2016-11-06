@@ -64,7 +64,7 @@
 	
 	var _Main2 = _interopRequireDefault(_Main);
 	
-	var _layout = __webpack_require__(702);
+	var _layout = __webpack_require__(703);
 	
 	var _reactRouter = __webpack_require__(585);
 	
@@ -24234,15 +24234,15 @@
 	
 	var _Posts2 = _interopRequireDefault(_Posts);
 	
-	var _Teams = __webpack_require__(699);
+	var _Teams = __webpack_require__(700);
 	
 	var _Teams2 = _interopRequireDefault(_Teams);
 	
-	var _Team = __webpack_require__(700);
+	var _Team = __webpack_require__(701);
 	
 	var _Team2 = _interopRequireDefault(_Team);
 	
-	var _District = __webpack_require__(701);
+	var _District = __webpack_require__(702);
 	
 	var _District2 = _interopRequireDefault(_District);
 	
@@ -65531,11 +65531,7 @@
 					create = _react2.default.createElement(
 						'li',
 						{ className: 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1', id: 'li-comment-2' },
-						_react2.default.createElement(
-							'div',
-							null,
-							'Create Team'
-						)
+						_react2.default.createElement(_view.CreateTeam, null)
 					);
 				}
 	
@@ -65593,7 +65589,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.CreatePost = exports.Post = exports.Map = undefined;
+	exports.CreateTeam = exports.CreatePost = exports.Post = exports.Map = undefined;
 	
 	var _Map = __webpack_require__(648);
 	
@@ -65607,11 +65603,16 @@
 	
 	var _CreatePost2 = _interopRequireDefault(_CreatePost);
 	
+	var _CreateTeam = __webpack_require__(699);
+	
+	var _CreateTeam2 = _interopRequireDefault(_CreateTeam);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.Map = _Map2.default;
 	exports.Post = _Post2.default;
 	exports.CreatePost = _CreatePost2.default;
+	exports.CreateTeam = _CreateTeam2.default;
 
 /***/ },
 /* 648 */
@@ -70982,6 +70983,65 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _reactDropzone = __webpack_require__(698);
+	
+	var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
+	
+	var _utils = __webpack_require__(468);
+	
+	var _styles = __webpack_require__(696);
+	
+	var _styles2 = _interopRequireDefault(_styles);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var CreateTeam = function (_Component) {
+		_inherits(CreateTeam, _Component);
+	
+		function CreateTeam() {
+			_classCallCheck(this, CreateTeam);
+	
+			return _possibleConstructorReturn(this, (CreateTeam.__proto__ || Object.getPrototypeOf(CreateTeam)).apply(this, arguments));
+		}
+	
+		_createClass(CreateTeam, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					null,
+					'Create Team!!'
+				);
+			}
+		}]);
+	
+		return CreateTeam;
+	}(_react.Component);
+	
+	exports.default = CreateTeam;
+
+/***/ },
+/* 700 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
 	var _utils = __webpack_require__(468);
 	
 	var _store = __webpack_require__(202);
@@ -71107,7 +71167,7 @@
 	exports.default = (0, _reactRedux.connect)(stateToProps)(Teams);
 
 /***/ },
-/* 700 */
+/* 701 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71249,7 +71309,7 @@
 	exports.default = (0, _reactRedux.connect)(stateToProps)(Team);
 
 /***/ },
-/* 701 */
+/* 702 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71479,7 +71539,7 @@
 	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(District);
 
 /***/ },
-/* 702 */
+/* 703 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71489,15 +71549,15 @@
 	});
 	exports.Account = exports.Detail = exports.Home = undefined;
 	
-	var _Home = __webpack_require__(703);
+	var _Home = __webpack_require__(704);
 	
 	var _Home2 = _interopRequireDefault(_Home);
 	
-	var _Detail = __webpack_require__(705);
+	var _Detail = __webpack_require__(706);
 	
 	var _Detail2 = _interopRequireDefault(_Detail);
 	
-	var _Account = __webpack_require__(706);
+	var _Account = __webpack_require__(707);
 	
 	var _Account2 = _interopRequireDefault(_Account);
 	
@@ -71508,7 +71568,7 @@
 	exports.Account = _Account2.default;
 
 /***/ },
-/* 703 */
+/* 704 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71525,7 +71585,7 @@
 	
 	var _containers = __webpack_require__(214);
 	
-	var _styles = __webpack_require__(704);
+	var _styles = __webpack_require__(705);
 	
 	var _styles2 = _interopRequireDefault(_styles);
 	
@@ -71590,7 +71650,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 704 */
+/* 705 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -71652,7 +71712,7 @@
 	};
 
 /***/ },
-/* 705 */
+/* 706 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71669,7 +71729,7 @@
 	
 	var _containers = __webpack_require__(214);
 	
-	var _styles = __webpack_require__(704);
+	var _styles = __webpack_require__(705);
 	
 	var _styles2 = _interopRequireDefault(_styles);
 	
@@ -71726,7 +71786,7 @@
 	exports.default = Detail;
 
 /***/ },
-/* 706 */
+/* 707 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71741,7 +71801,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _styles = __webpack_require__(704);
+	var _styles = __webpack_require__(705);
 	
 	var _styles2 = _interopRequireDefault(_styles);
 	
