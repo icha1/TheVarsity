@@ -50,7 +50,9 @@ class Teams extends Component {
 				return
 			}
 
-			store.currentStore().dispatch(actions.teamsReceived(response.results))
+//			store.currentStore().dispatch(actions.teamsReceived(response.results))
+			console.log('TEAMS: '+JSON.stringify(response))
+			this.props.teamsReceived(response.results)
 			this.fetchDistrict()
 		})
 	}
@@ -94,4 +96,9 @@ const stateToProps = (state) => {
 	}
 }
 
-export default connect(stateToProps)(Teams)
+const mapDispatchToProps = (dispatch) => {
+	return {
+		teamsReceived: teams => dispatch(actions.teamsReceived(teams))
+	}
+}
+export default connect(stateToProps, mapDispatchToProps)(Teams)
