@@ -23231,7 +23231,6 @@
 				post: _reducers.postReducer,
 				team: _reducers.teamReducer,
 				session: _reducers.sessionReducer,
-				district: _reducers.districtReducer,
 				account: _reducers.accountReducer
 			});
 	
@@ -23282,15 +23281,11 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.accountReducer = exports.sessionReducer = exports.districtReducer = exports.teamReducer = exports.postReducer = undefined;
+	exports.accountReducer = exports.sessionReducer = exports.teamReducer = exports.postReducer = undefined;
 	
 	var _postReducer = __webpack_require__(205);
 	
 	var _postReducer2 = _interopRequireDefault(_postReducer);
-	
-	var _districtReducer = __webpack_require__(207);
-	
-	var _districtReducer2 = _interopRequireDefault(_districtReducer);
 	
 	var _teamReducer = __webpack_require__(208);
 	
@@ -23308,7 +23303,6 @@
 	
 	exports.postReducer = _postReducer2.default;
 	exports.teamReducer = _teamReducer2.default;
-	exports.districtReducer = _districtReducer2.default;
 	exports.sessionReducer = _sessionReducer2.default;
 	exports.accountReducer = _accountReducer2.default;
 
@@ -23399,59 +23393,7 @@
 	};
 
 /***/ },
-/* 207 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _constants = __webpack_require__(206);
-	
-	var _constants2 = _interopRequireDefault(_constants);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var initialState = {
-		currentDistrict: {
-			id: null,
-			name: 'None'
-		}
-	};
-	
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-		var action = arguments[1];
-	
-	
-		switch (action.type) {
-	
-			case _constants2.default.DISTRICT_CHANGED:
-				console.log('DISTRICT_CHANGED' + JSON.stringify(action.districts));
-				var newState = Object.assign({}, state);
-				var list = action.districts;
-				if (list.length == 0) {
-					// reset to null
-					newState['currentDistrict'] = {
-						id: null,
-						name: 'None'
-					};
-	
-					return newState;
-				}
-	
-				var district = list[0];
-				newState['currentDistrict'] = district;
-				return newState;
-	
-			default:
-				return state;
-		}
-	};
-
-/***/ },
+/* 207 */,
 /* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
