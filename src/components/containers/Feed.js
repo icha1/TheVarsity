@@ -104,9 +104,9 @@ class Feed extends Component {
 	render(){
 		const feed = this.props.selectedFeed
 		const list = this.props.posts[feed]
-		let currentPosts = null
+		let currentFeed = null
 		if (list != null){
-			currentPosts = list.map((post, i) => {
+			currentFeed = list.map((post, i) => {
 				return (
 					<li key={post.id} className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
 						<Post post={post} />
@@ -144,7 +144,7 @@ class Feed extends Component {
 		return (
 			<div>
 				<ol className="commentlist noborder nomargin nopadding clearfix">
-					{ (this.state.showCreate) ? create : currentPosts }
+					{ (this.state.showCreate) ? create : currentFeed }
 				</ol>
 
 				{ (this.state.showCreate) ? null : <a href="#" onClick={this.toggleShowCreate.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add {this.props.selectedFeed}</a> }
