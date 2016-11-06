@@ -27,7 +27,7 @@ class CreateTeam extends Component {
 			}
 
 			let updated = Object.assign({}, this.state.team)
-			updated['image'] = image.address+'=s220-c'
+			updated['image'] = image.address
 			this.setState({team: updated})
 		})
 	}	
@@ -56,8 +56,15 @@ class CreateTeam extends Component {
 			city: '',
 			state: ''
 		}
-
 		delete updated['street']
+
+		updated['social'] = {
+			instagram: updated.instagram,
+			facebook: updated.facebook,
+		}
+		delete updated['instagram']
+		delete updated['facebook']
+
 		this.props.submit(updated)
 	}
 
@@ -68,8 +75,8 @@ class CreateTeam extends Component {
 
 	render(){
 		const team = this.state.team
-		const image = (team.image.length == 0) ? '/images/image-placeholder.png' : team.image
-		const icon = (team.image.length == 0) ? '/images/profile-icon.png' : team.image
+		const image = (team.image.length == 0) ? '/images/image-placeholder.png' : team.image+'=s220-c'
+		const icon = (team.image.length == 0) ? '/images/profile-icon.png' : team.image+'=s120-c'
 
 		return (
 			<div>
@@ -99,6 +106,10 @@ class CreateTeam extends Component {
 
 				<label>Invite Members</label>
 				<input id="invited" onChange={this.updateTeam.bind(this)} type="text" placeholder="address@example.com, address2@example2.com, address3@example3.com" style={styles.post.select} className="form-control" /><br />
+
+				<label>Social</label>
+				<input id="instagram" onChange={this.updateTeam.bind(this)} type="text" placeholder="Instagram Username" style={styles.post.select} className="form-control" />
+				<input id="facebook" onChange={this.updateTeam.bind(this)} type="text" placeholder="Facebook Page Name" style={styles.post.select} className="form-control" /><br />
 
 				<a href="#" onClick={this.submitTeam.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create Team</a>
 				<a href="#" onClick={this.cancel.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Cancel</a>
