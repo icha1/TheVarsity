@@ -9,7 +9,7 @@ var TeamSchema = new mongoose.Schema({
 	district: {type:String, trim:true, default:''},
 	description: {type:String, trim:true, default:''},
 	social: {type:mongoose.Schema.Types.Mixed, default:{}},
-	address: {type:mongoose.Schema.Types.Mixed, default:{}}, // city, state, zip
+	address: {type:mongoose.Schema.Types.Mixed, default:{}}, // street, city, state, zip
 	geo: {
 		type: [Number], // array of Numbers
 		index: '2d'
