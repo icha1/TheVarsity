@@ -61,14 +61,6 @@ module.exports = {
 		return new Promise(function(resolve, reject){
 			params['slug'] = TextUtils.slugVersion(params.name)
 
-			var address = {}
-			var addressComponents = ['street', 'city', 'state', 'zip']
-			addressComponents.forEach(function(component){
-				if (params[component] != null)
-					address[component] = params[component]
-			})
-			params['address'] = address
-
 			var social = {}
 			var socialComponents = ['facebook', 'instagram']
 			socialComponents.forEach(function(component){
@@ -77,9 +69,10 @@ module.exports = {
 			})
 			params['social'] = social
 
-
+			var address = params.address
 		    var url = 'https://maps.googleapis.com/maps/api/geocode/json'
 		    var query = address.street+','+address.city+','+address.state
+//		    console.log('QUERY: '+query)
 		    var mapsQuery = {
 		    	address: query,
 		    	key:process.env.GOOGLE_MAPS_API_KEY
@@ -87,7 +80,7 @@ module.exports = {
 
 		    Request.get(url, mapsQuery)
 		    .then(function(response){
-		    	console.log('GEOCODE: '+JSON.stringify(response))
+//		    	console.log('GEOCODE: '+JSON.stringify(response))
 
 		    	var results = response.results
 		    	var locationInfo = results[0]
