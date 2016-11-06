@@ -47,6 +47,13 @@ gulp.task('css', function(){
         .pipe(gulp.dest('./public/build/css/'))
 })
 
+gulp.task('copy', function(){
+    return gulp.src(
+            ['./public/css/fonts/**']
+        )
+        .pipe(gulp.dest('./public/build/css/fonts/'))
+})
+
 gulp.task('build', function(){
     return gulp.src(
     		[
@@ -66,6 +73,6 @@ gulp.task('watch', function() {
     gulp.watch(['./public/less/**.less', './src/serverapp.js', './src/*/**.js', './src/*/*/**.js'], ['less', 'es6-es5'])
 })
 
-gulp.task('prod', ['less', 'css', 'build', 'es6-es5'], function(){});
+gulp.task('prod', ['less', 'css', 'copy', 'build', 'es6-es5'], function(){});
 
-gulp.task('default', ['less', 'css', 'build', 'es6-es5', 'watch'], function(){})
+gulp.task('default', ['less', 'css', 'copy', 'build', 'es6-es5', 'watch'], function(){})
