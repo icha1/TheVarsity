@@ -23570,6 +23570,10 @@
 		selectedFeed: 'event',
 		reload: false,
 		showLoading: false,
+		currentDistrict: {
+			id: null,
+			name: 'None'
+		},
 		currentLocation: { // default to nyc
 			lat: 40.73008847828741,
 			lng: -73.99769308314211
@@ -23608,6 +23612,24 @@
 				//			console.log('TOGGLE_LOADER')
 				var newState = Object.assign({}, state);
 				newState['showLoading'] = action.isLoading;
+				return newState;
+	
+			case _constants2.default.DISTRICT_CHANGED:
+				console.log('DISTRICT_CHANGED' + JSON.stringify(action.districts));
+				var newState = Object.assign({}, state);
+				var list = action.districts;
+				if (list.length == 0) {
+					// reset to null
+					newState['currentDistrict'] = {
+						id: null,
+						name: 'None'
+					};
+	
+					return newState;
+				}
+	
+				var district = list[0];
+				newState['currentDistrict'] = district;
 				return newState;
 	
 			default:
@@ -65493,8 +65515,20 @@
 		}, {
 			key: 'submitPost',
 			value: function submitPost(post) {
-				// event.preventDefault()
 				console.log('submitPost: ' + JSON.stringify(post));
+			}
+		}, {
+			key: 'createTeam',
+			value: function createTeam(team) {
+				var district = this.props.district;
+				team['district'] = district.id;
+	
+				var address = Object.assign({}, team.address);
+				address['city'] = district.city;
+				address['state'] = district.state;
+				team['address'] = address;
+	
+				console.log('createTeam: ' + JSON.stringify(team));
 			}
 		}, {
 			key: 'render',
@@ -65534,6 +65568,7 @@
 						_react2.default.createElement(_view.CreateTeam, {
 							user: this.props.user,
 							isLoading: this.toggleLoader.bind(this),
+							submit: this.createTeam.bind(this),
 							cancel: this.toggleShowCreate.bind(this) })
 					);
 				}
@@ -65562,6 +65597,7 @@
 	var stateToProps = function stateToProps(state) {
 		return {
 			posts: state.post.feed,
+			district: state.session.currentDistrict,
 			location: state.session.currentLocation,
 			selectedFeed: state.session.selectedFeed,
 			reload: state.session.reload,
@@ -71016,7 +71052,9 @@
 				team: {
 					name: '',
 					description: '',
-					image: ''
+					street: '',
+					image: '',
+					invited: ''
 				}
 			};
 			return _this;
@@ -71042,11 +71080,34 @@
 			}
 		}, {
 			key: 'updateTeam',
-			value: function updateTeam(event) {}
+			value: function updateTeam(event) {
+				var updated = Object.assign({}, this.state.team);
+				updated[event.target.id] = event.target.value;
+				this.setState({
+					team: updated
+				});
+			}
 		}, {
 			key: 'submitTeam',
-			value: function submitTeam() {
+			value: function submitTeam(event) {
 				event.preventDefault();
+				var updated = Object.assign({}, this.state.team);
+				var members = [];
+				updated.invited.split(',').forEach(function (member, i) {
+					members.push(member.trim());
+				});
+	
+				updated['members'] = members;
+				delete updated['invited'];
+	
+				updated['address'] = {
+					street: updated.street,
+					city: '',
+					state: ''
+				};
+	
+				delete updated['street'];
+				this.props.submit(updated);
 			}
 		}, {
 			key: 'cancel',
@@ -71085,9 +71146,9 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'col_two_third', style: { marginBottom: 4 } },
-								_react2.default.createElement('input', { id: 'title', onChange: this.updateTeam.bind(this), type: 'text', placeholder: 'Team Name', style: _styles2.default.post.input }),
+								_react2.default.createElement('input', { id: 'name', onChange: this.updateTeam.bind(this), type: 'text', placeholder: 'Team Name', style: _styles2.default.post.input }),
 								_react2.default.createElement('br', null),
-								_react2.default.createElement('textarea', { id: 'text', onChange: this.updateTeam.bind(this), placeholder: 'Description', style: _styles2.default.post.textarea }),
+								_react2.default.createElement('textarea', { id: 'description', onChange: this.updateTeam.bind(this), placeholder: 'Description', style: _styles2.default.post.textarea }),
 								_react2.default.createElement('br', null)
 							),
 							_react2.default.createElement(
@@ -71103,14 +71164,14 @@
 						null,
 						'Address'
 					),
-					_react2.default.createElement('input', { id: 'street', type: 'text', placeholder: '123 Main St.', style: _styles2.default.post.select, className: 'form-control' }),
+					_react2.default.createElement('input', { id: 'street', onChange: this.updateTeam.bind(this), type: 'text', placeholder: '123 Main St.', style: _styles2.default.post.select, className: 'form-control' }),
 					_react2.default.createElement('br', null),
 					_react2.default.createElement(
 						'label',
 						null,
 						'Invite Members'
 					),
-					_react2.default.createElement('input', { id: 'members', type: 'text', placeholder: 'address@example.com, address2@example2.com, address3@example3.com', style: _styles2.default.post.select, className: 'form-control' }),
+					_react2.default.createElement('input', { id: 'invited', onChange: this.updateTeam.bind(this), type: 'text', placeholder: 'address@example.com, address2@example2.com, address3@example3.com', style: _styles2.default.post.select, className: 'form-control' }),
 					_react2.default.createElement('br', null),
 					_react2.default.createElement(
 						'a',
@@ -71629,7 +71690,7 @@
 	var stateToProps = function stateToProps(state) {
 		return {
 			location: state.session.currentLocation,
-			district: state.district.currentDistrict
+			district: state.session.currentDistrict
 		};
 	};
 	
