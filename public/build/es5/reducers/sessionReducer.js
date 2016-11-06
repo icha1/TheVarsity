@@ -8,6 +8,10 @@ var initialState = {
 	selectedFeed: "event",
 	reload: false,
 	showLoading: false,
+	currentDistrict: {
+		id: null,
+		name: "None"
+	},
 	currentLocation: { // default to nyc
 		lat: 40.73008847828741,
 		lng: -73.99769308314211
@@ -45,6 +49,24 @@ module.exports = function (_x, action) {
 			//			console.log('TOGGLE_LOADER')
 			var newState = Object.assign({}, state);
 			newState.showLoading = action.isLoading;
+			return newState;
+
+		case constants.DISTRICT_CHANGED:
+			console.log("DISTRICT_CHANGED" + JSON.stringify(action.districts));
+			var newState = Object.assign({}, state);
+			var list = action.districts;
+			if (list.length == 0) {
+				// reset to null
+				newState.currentDistrict = {
+					id: null,
+					name: "None"
+				};
+
+				return newState;
+			}
+
+			var district = list[0];
+			newState.currentDistrict = district;
 			return newState;
 
 		default:
