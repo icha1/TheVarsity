@@ -7,7 +7,7 @@ import store from '../../stores/store'
 import actions from '../../actions/actions'
 import styles from './styles'
 
-class Posts extends Component {
+class Feed extends Component {
 	constructor(){
 		super()
 		this.fetchPosts = this.fetchPosts.bind(this)
@@ -172,4 +172,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(stateToProps, mapDispatchToProps)(Posts)
+export default connect(stateToProps, mapDispatchToProps)(Feed)

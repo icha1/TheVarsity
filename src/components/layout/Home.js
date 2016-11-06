@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Posts, Teams, District } from '../containers'
+import { Feed, Teams, District } from '../containers'
 import styles from './styles'
 
 class Home extends Component {
@@ -17,7 +17,7 @@ class Home extends Component {
 				<section id="content" style={style.content}>
 					<div className="content-wrap container clearfix">
 						<div className="col_two_third">
-							<Posts />
+							<Feed />
 						</div>
 
 						<div className="col_one_third col_last">
