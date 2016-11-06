@@ -74,8 +74,19 @@ class Posts extends Component {
 	}
 
 	submitPost(post){
-		// event.preventDefault()
 		console.log('submitPost: '+JSON.stringify(post))
+	}
+
+	createTeam(team){
+		const district = this.props.district
+		team['district'] = district.id
+
+		let address = Object.assign({}, team.address)
+		address['city'] =  district.city
+		address['state'] = district.state
+		team['address'] = address
+
+		console.log('createTeam: '+JSON.stringify(team))
 	}
 
 	render(){
@@ -112,6 +123,7 @@ class Posts extends Component {
 					<CreateTeam
 						user={this.props.user}
 						isLoading={this.toggleLoader.bind(this)}
+						submit={this.createTeam.bind(this)}
 						cancel={this.toggleShowCreate.bind(this)} />
 				</li>
 			)
@@ -132,6 +144,7 @@ class Posts extends Component {
 const stateToProps = (state) => {
 	return {
 		posts: state.post.feed,
+		district: state.session.currentDistrict,
 		location: state.session.currentLocation,
 		selectedFeed: state.session.selectedFeed,
 		reload: state.session.reload,

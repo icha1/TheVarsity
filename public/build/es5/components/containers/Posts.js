@@ -114,8 +114,22 @@ var Posts = (function (Component) {
 		},
 		submitPost: {
 			value: function submitPost(post) {
-				// event.preventDefault()
 				console.log("submitPost: " + JSON.stringify(post));
+			},
+			writable: true,
+			configurable: true
+		},
+		createTeam: {
+			value: function createTeam(team) {
+				var district = this.props.district;
+				team.district = district.id;
+
+				var address = Object.assign({}, team.address);
+				address.city = district.city;
+				address.state = district.state;
+				team.address = address;
+
+				console.log("createTeam: " + JSON.stringify(team));
 			},
 			writable: true,
 			configurable: true
@@ -157,6 +171,7 @@ var Posts = (function (Component) {
 						React.createElement(CreateTeam, {
 							user: this.props.user,
 							isLoading: this.toggleLoader.bind(this),
+							submit: this.createTeam.bind(this),
 							cancel: this.toggleShowCreate.bind(this) })
 					);
 				}
@@ -188,6 +203,7 @@ var Posts = (function (Component) {
 var stateToProps = function (state) {
 	return {
 		posts: state.post.feed,
+		district: state.session.currentDistrict,
 		location: state.session.currentLocation,
 		selectedFeed: state.session.selectedFeed,
 		reload: state.session.reload,
