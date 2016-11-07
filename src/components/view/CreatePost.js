@@ -160,8 +160,8 @@ class CreatePost extends Component {
 					<h4 style={styles.post.header}>
 						<a href='#' style={styles.post.title}>{ post.author.name }</a>
 					</h4>
-					<span>address</span><br />
-					<span>{ DateUtils.today() }</span>
+					<span>{ DateUtils.today() }</span><br />
+					<a href="#" style={{marginLeft: 0}} className="button button-mini button-circle button-red">{ this.props.type }</a>
 				</div>
 
 				<br />
