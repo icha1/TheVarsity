@@ -19,7 +19,7 @@ class District extends Component {
 		const feedOptions = [
 			{name: constants.FEED_TYPE_EVENT, display:'Events'},
 			{name: constants.FEED_TYPE_NEWS, display:'News'},
-			{name: constants.FEED_TYPE_TEAM, display:'Team'}
+			{name: constants.FEED_TYPE_TEAM, display:'Teams'}
 		]
 		const list = feedOptions.map((feed, i) => {
 			return (
