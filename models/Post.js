@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
 var PostSchema = new mongoose.Schema({
 	title: {type:String, trim:true, default:''},
 	slug: {type:String, trim:true, lowercase:true, default:''},
+	url: {type:String, trim:true, default:''}, // for news posts
 	code: {type:String, trim:true, default:''}, // this is a unique identifier from instagram
 	image: {type:String, trim:true, default:''},
 	video: {type:String, trim:true, default:''},
@@ -20,6 +21,7 @@ PostSchema.methods.summary = function(){
 	var summary = {
 		title: this.title,
 		slug: this.slug,
+		url: this.url,
 		code: this.code,
 		image: this.image,
 		video: this.video,
