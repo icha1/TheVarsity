@@ -14,8 +14,8 @@ const update = (state, posts) => {
 	var postsFeed = Object.assign({}, newState.feed)
 
 	posts.forEach(post => {
-		if (postsMap[post.id] == null){
-			postsMap[post.id] = post
+		if (postsMap[post.slug] == null){
+			postsMap[post.slug] = post
 			array.push(post)
 
 			let feedArray = (postsFeed[post.type]==null) ? [] : postsFeed[post.type]
@@ -37,6 +37,28 @@ export default (state = initialState, action) => {
 		case constants.POSTS_RECEIVED:
 //			console.log('POSTS_RECEIVED')
 			return update(state, action.posts)
+
+		case constants.POST_CREATED:
+			var newState = Object.assign({}, state)
+			var array = Object.assign([], newState.list)
+			var postsMap = Object.assign({}, newState.map)
+			var postsFeed = Object.assign({}, newState.feed)
+
+			const post = action.post
+			if (postsMap[post.slug] == null){
+				postsMap[post.slug] = post
+				array.unshift(post)
+
+				let feedArray = (postsFeed[post.type]==null) ? [] : postsFeed[post.type]
+				feedArray.unshift(post) // when creating new post, add straight to top
+				postsFeed[post.type] = feedArray				
+			}
+
+			newState['list'] = array
+			newState['map'] = postsMap
+			newState['feed'] = postsFeed
+
+			return newState
 
 		default:
 			return state

@@ -82,8 +82,9 @@ class Feed extends Component {
 				return
 			}
 
-			this.props.postsReceived([response.result])
+			this.props.postCreated(response.result)
 			this.setState({showCreate: false})
+			window.scrollTo(0, 0)
 		})
 	}
 
@@ -178,6 +179,7 @@ const stateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		postsReceived: posts => dispatch(actions.postsReceived(posts)),
+		postCreated: post => dispatch(actions.postCreated(post)),
 		toggleLoader: isLoading => dispatch(actions.toggleLoader(isLoading))
 	}
 }

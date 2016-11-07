@@ -29,7 +29,7 @@ class Post extends Component {
 				<hr />
 
 				<h4 style={styles.post.header}>
-					<Link to={'/team/'+post.author.slug} style={styles.post.title}>{ post.title }</Link>
+					<Link to={'/team/'+post.author.slug} style={styles.post.title}>{ post.author.name }</Link>
 				</h4>
 				<span>{DateUtils.formattedDate(post.timestamp)}</span><br />
 				<a href="#" style={{marginLeft: 0}} className="button button-mini button-circle button-red">{ post.type }</a>

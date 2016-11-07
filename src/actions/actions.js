@@ -16,6 +16,13 @@ export default {
 		}
 	},
 
+	postCreated: (post) => {
+		return {
+			type: constants.POST_CREATED,
+			post: post
+		}
+	},
+
 	venuesReceived: (venues) => {
 		return {
 			type: constants.VENUES_RECEIVED,
