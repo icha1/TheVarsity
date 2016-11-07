@@ -71,6 +71,20 @@ class Feed extends Component {
 
 	submitPost(post){
 		console.log('submitPost: '+JSON.stringify(post))
+		post['geo'] = [
+			this.props.location.lat,
+			this.props.location.lng
+		]
+		
+		APIManager.handlePost('/api/post', post, (err, response) => {
+			if (err){
+				alert(err)
+				return
+			}
+
+			this.props.postsReceived([response.result])
+			this.setState({showCreate: false})
+		})
 	}
 
 	createTeam(team){
