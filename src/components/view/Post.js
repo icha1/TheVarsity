@@ -31,8 +31,8 @@ class Post extends Component {
 				<h4 style={styles.post.header}>
 					<Link to={'/team/'+post.author.slug} style={styles.post.title}>{ post.title }</Link>
 				</h4>
-				<span>{ post.author.address }</span><br />
-				<span>{DateUtils.formattedDate(post.timestamp)}</span>
+				<span>{DateUtils.formattedDate(post.timestamp)}</span><br />
+				<a href="#" style={{marginLeft: 0}} className="button button-mini button-circle button-red">{ post.type }</a>
 
 				<div style={{float:'right'}} className="dropdown">
 					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
