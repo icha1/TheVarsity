@@ -6,13 +6,7 @@ import store from '../../stores/store'
 import actions from '../../actions/actions'
 import { Map } from '../view'
 
-class Team extends Component {
-	constructor(){
-		super()
-		this.state = {
-
-		}
-	}
+class TeamDetail extends Component {
 
 	uploadImage(files){
 		APIManager.upload(files[0], (err, image) => {
@@ -71,7 +65,6 @@ class Team extends Component {
 			</div>
 		)
 	}
-
 }
 
 const stateToProps = (state) => {
@@ -80,4 +73,4 @@ const stateToProps = (state) => {
 	}
 }
 
-export default connect(stateToProps)(Team)
+export default connect(stateToProps)(TeamDetail)

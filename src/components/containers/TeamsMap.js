@@ -50,8 +50,6 @@ class TeamsMap extends Component {
 				return
 			}
 
-//			store.currentStore().dispatch(actions.teamsReceived(response.results))
-			console.log('TEAMS: '+JSON.stringify(response))
 			this.props.teamsReceived(response.results)
 			this.fetchDistrict()
 		})
