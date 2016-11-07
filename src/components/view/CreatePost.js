@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
+import constants from '../../constants/constants'
 import { APIManager, DateUtils } from '../../utils'
 import styles from './styles'
 
@@ -36,6 +37,36 @@ class CreatePost extends Component {
 	updatePost(event){
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.post)
+		if (this.props.type == constants.FEED_TYPE_NEWS){
+			if (event.target.id == 'title'){ // check if title is url
+				console.log('TITLE = '+event.target.value)
+			    if (event.target.value.indexOf("http://") == 0 || event.target.value.indexOf("https://") == 0) {
+					console.log('FETCH URL = '+event.target.value)
+
+					const params = {
+						url: event.target.value
+					}
+
+					APIManager.handleGet('/tags', params, (err, response) => {
+						console.log(JSON.stringify(response))
+						if (err){
+							alert(JSON.stringify(err))
+							return
+						}
+
+						const tags = response.tags // title, image, description
+						updated['title'] = tags.title
+						updated['image'] = tags.image
+						updated['text'] = tags.description
+						updated['url'] = tags.url
+						this.setState({post: updated})
+					})
+					return
+			    }
+			}
+		}
+
+
 		if (event.target.id != 'author'){
 			updated[event.target.id] = event.target.value
 			this.setState({post: updated})
@@ -88,7 +119,6 @@ class CreatePost extends Component {
 
 	submitPost(event){
 		event.preventDefault()
-//		console.log('submitPost: '+JSON.stringify(this.state.post))
 
 		let updated = Object.assign({}, this.state.post)
 		updated['type'] = this.props.type
@@ -104,6 +134,7 @@ class CreatePost extends Component {
 		})
 
 		const icon = (post.author.image == null) ? '/images/profile-icon.png' : post.author.image
+		const placeholder = (this.props.type == constants.FEED_TYPE_EVENT) ? 'Event Title' : 'Title or URL to link'
 
 		return (
 			<div>
@@ -117,8 +148,8 @@ class CreatePost extends Component {
 
 					<div className={styles.post.content.className} style={styles.post.content}>
 						<div className="col_two_third" style={{marginBottom:4}}>
-							<input id="title" onChange={this.updatePost.bind(this)} type="text" placeholder="Title" style={styles.post.input} /><br />
-							<textarea id="text" onChange={this.updatePost.bind(this)} placeholder="Text:" style={styles.post.textarea}></textarea><br />					
+							<input id="title" onChange={this.updatePost.bind(this)} type="text" value={post.title} placeholder={placeholder} style={styles.post.input} /><br />
+							<textarea id="text" onChange={this.updatePost.bind(this)} value={post.text} placeholder="Text" style={styles.post.textarea}></textarea><br />					
 						</div>
 
 						<Dropzone onDrop={this.uploadImage.bind(this)} className="col_one_third col_last" style={{marginBottom:4}}>

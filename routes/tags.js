@@ -15,6 +15,10 @@ router.get('/', function(req, res, next){
 	.set('Accept', 'text/html')
 	.end(function(err, response){
 		if (err){
+		    res.json({
+		    	confirmation: 'fail',
+		    	message: err
+		    })
 			return
 		}
 
@@ -34,10 +38,13 @@ router.get('/', function(req, res, next){
 	    	}
 	    })
 
-	    console.log(JSON.stringify(metaData))
-	    res.json(metaData)
+		metaData['url'] = url
+//	    console.log(JSON.stringify(metaData))
+	    res.json({
+	    	confirmation: 'success',
+	    	tags: metaData
+	    })
 	})
-
 })
 
 module.exports = router
