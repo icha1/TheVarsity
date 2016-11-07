@@ -7,7 +7,7 @@ var PostSchema = new mongoose.Schema({
 	image: {type:String, trim:true, default:''},
 	video: {type:String, trim:true, default:''},
 	text: {type:String, trim:true, default:''},
-	type: {type:String, trim:true, default:'event'}, // event, article, job, general
+	type: {type:String, trim:true, default:'event'}, // event, news, job, general
 	author: {type:mongoose.Schema.Types.Mixed, default:{}}, // can be team or profile.
 	geo: {
 		type: [Number], // array of Numbers

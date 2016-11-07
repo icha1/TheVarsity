@@ -3,6 +3,7 @@ import Dropzone from 'react-dropzone'
 import { connect } from 'react-redux'
 import { APIManager } from '../../utils'
 import actions from '../../actions/actions'
+import constants from '../../constants/constants'
 import styles from './styles'
 
 class District extends Component {
@@ -14,6 +15,19 @@ class District extends Component {
 	render(){
 		const style = styles.district
 		const district = this.props.district
+
+		const feedOptions = [
+			{name: constants.FEED_TYPE_EVENT, display:'Events'},
+			{name: constants.FEED_TYPE_NEWS, display:'News'},
+			{name: constants.FEED_TYPE_TEAM, display:'Team'}
+		]
+		const list = feedOptions.map((feed, i) => {
+			return (
+				<li key={i}>
+					<a id={feed.name} onClick={this.selectFeed.bind(this)} href="#">{feed.display}</a>
+				</li>				
+			)
+		})
 
 		return (
 			<div className="feature-box center media-box fbox-bg">
@@ -27,9 +41,7 @@ class District extends Component {
 						<div style={style.body}>
 							<span style={style.header}>{district.name}</span><br />
 							<ul style={style.list}>
-								<li><a id="event" onClick={this.selectFeed.bind(this)} href="#">Events</a></li>
-								<li><a id="post" onClick={this.selectFeed.bind(this)} href="#">News</a></li>
-								<li><a id="team" onClick={this.selectFeed.bind(this)} href="#">Teams</a></li>
+								{list}
 							</ul>
 						</div>
 					</div>

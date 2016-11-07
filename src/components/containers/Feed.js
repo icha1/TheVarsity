@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { APIManager, DateUtils } from '../../utils'
 import { Post, CreatePost, CreateTeam } from '../view'
 import store from '../../stores/store'
+import constants from '../../constants/constants'
 import actions from '../../actions/actions'
 import styles from './styles'
 
@@ -22,17 +23,12 @@ class Feed extends Component {
 				console.log('RELOAD: ' + this.props.selectedFeed +', '+ this.props.reload)
 				if (this.props.reload){ // TODO: check selected feed
 					const selectedFeed = this.props.selectedFeed
-					if (selectedFeed == 'event'){
-
-					}
-					if (selectedFeed == 'post'){
-						
+					if (selectedFeed == constants.FEED_TYPE_EVENT || selectedFeed == constants.FEED_TYPE_NEWS){
+						this.fetchPosts()
 					}
 					if (selectedFeed == 'team'){
 						
 					}
-
-					this.fetchPosts()
 				}
 			}, 5)
 		})
@@ -116,7 +112,7 @@ class Feed extends Component {
 		}
 
 		let create = null
-		if (feed == 'event' || feed == 'post'){ // post is news feed
+		if (feed == constants.FEED_TYPE_EVENT || feed == constants.FEED_TYPE_NEWS){ 
 			create = (
 				<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
 					<CreatePost
