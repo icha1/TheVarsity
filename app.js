@@ -11,8 +11,8 @@ require('dotenv').config()
 
 var routes = require('./routes/index')
 var api = require('./routes/api')
-var geo = require('./routes/geo')
 var scrape = require('./routes/scrape')
+var tags = require('./routes/tags')
 var account = require('./routes/account')
 
 mongoose.connect(process.env.MONGODB_URI, function(err, res){
@@ -48,7 +48,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', routes)
 app.use('/scrape', scrape)
-app.use('/geo', geo)
+app.use('/tags', tags)
 app.use('/api', api)
 app.use('/account', account)
 

@@ -70,7 +70,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/:page', function(req, res, next) {
 	var page = req.params.page
-	if (page == 'scrape' || page == 'geo'){
+	if (page == 'scrape' || page == 'geo' || page == 'tags'){
 		next()
 		return
 	}
