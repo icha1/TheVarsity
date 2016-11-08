@@ -1,7 +1,7 @@
 import constants from '../constants/constants'
 
 var initialState = {
-	selectedFeed: 'event',
+	selectedFeed: constants.FEED_TYPE_EVENT,
 	reload: false,
 	showLoading: false,
 	teams: [],

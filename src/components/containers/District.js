@@ -14,17 +14,22 @@ class District extends Component {
 
 	render(){
 		const style = styles.district
-		const district = this.props.district
+		const district = this.props.session.currentDistrict
+		const selectedFeed = this.props.session.selectedFeed
 
 		const feedOptions = [
 			{name: constants.FEED_TYPE_EVENT, display:'Events'},
 			{name: constants.FEED_TYPE_NEWS, display:'News'},
 			{name: constants.FEED_TYPE_TEAM, display:'Teams'}
 		]
+
 		const list = feedOptions.map((feed, i) => {
+			let style = (selectedFeed == feed.name) ? {padding:6, marginTop:4, border:'1px solid #ddd', background:'#f9f9f9'} : {padding:6, marginTop:4}
 			return (
 				<li key={i}>
-					<a id={feed.name} onClick={this.selectFeed.bind(this)} href="#">{feed.display}</a>
+					<div style={style}>
+						<a id={feed.name} onClick={this.selectFeed.bind(this)} href="#">{feed.display}</a>
+					</div>
 				</li>				
 			)
 		})
@@ -93,8 +98,7 @@ class District extends Component {
 
 const stateToProps = (state) => {
 	return {
-		location: state.session.currentLocation,
-		district: state.session.currentDistrict
+		session: state.session // district, currentLocation, teams, selectedFeed, reload
 	}
 }
 
