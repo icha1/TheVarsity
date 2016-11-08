@@ -37,6 +37,13 @@ export default {
 		}
 	},
 
+	teamCreated: (team) => {
+		return {
+			type: constants.TEAM_CREATED,
+			team: team
+		}
+	},
+
 	districtChanged: (districts) => { // this returns as an arry
 		return {
 			type: constants.DISTRICT_CHANGED,

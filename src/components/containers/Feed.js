@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { APIManager, DateUtils } from '../../utils'
-import { Post, CreatePost, CreateTeam } from '../view'
+import { Post, CreatePost, CreateTeam, TeamPreview } from '../view'
 import store from '../../stores/store'
 import constants from '../../constants/constants'
 import actions from '../../actions/actions'
@@ -20,15 +20,13 @@ class Feed extends Component {
 	componentDidMount(){
 		store.currentStore().subscribe(() => {
 			setTimeout(() => { // this is a sloppy workaround
-				console.log('RELOAD: ' + this.props.selectedFeed +', '+ this.props.reload)
-				if (this.props.reload){ // TODO: check selected feed
-					const selectedFeed = this.props.selectedFeed
-					if (selectedFeed == constants.FEED_TYPE_EVENT || selectedFeed == constants.FEED_TYPE_NEWS){
+				console.log('RELOAD: ' + this.props.session.selectedFeed +', '+ this.props.session.reload)
+				if (this.props.session.reload){ // TODO: check selected feed
+					const selectedFeed = this.props.session.selectedFeed
+					if (selectedFeed == constants.FEED_TYPE_EVENT || selectedFeed == constants.FEED_TYPE_NEWS)
 						this.fetchPosts()
-					}
-					if (selectedFeed == 'team'){
-						
-					}
+					// else if (selectedFeed == constants.FEED_TYPE_TEAM)
+					// 	this.fetchTeams()
 				}
 			}, 5)
 		})
@@ -51,12 +49,15 @@ class Feed extends Component {
 	}
 
 	fetchPosts(){
+		const session = this.props.session
 		const params = {
 			limit: 10,
-			type: this.props.selectedFeed,
-			lat: this.props.location.lat,
-			lng: this.props.location.lng
+			type: session.selectedFeed,
+			lat: session.currentLocation.lat,
+			lng: session.currentLocation.lng
 		}
+
+		console.log('FETCH POSTS: '+JSON.stringify(params))
 
 		APIManager.handleGet('/api/post', params, (err, response) => {
 			if (err){
@@ -71,9 +72,10 @@ class Feed extends Component {
 
 	submitPost(post){
 		console.log('submitPost: '+JSON.stringify(post))
+		const currentLocation = this.props.session.currentLocation
 		post['geo'] = [
-			this.props.location.lat,
-			this.props.location.lng
+			currentLocation.lat,
+			currentLocation.lng
 		]
 		
 		APIManager.handlePost('/api/post', post, (err, response) => {
@@ -89,7 +91,7 @@ class Feed extends Component {
 	}
 
 	createTeam(team){
-		const district = this.props.district
+		const district = this.props.session.district
 		team['district'] = district.id
 
 		let address = Object.assign({}, team.address)
@@ -113,17 +115,28 @@ class Feed extends Component {
 	}
 
 	render(){
-		const feed = this.props.selectedFeed
-		const list = this.props.posts[feed]
+		const feed = this.props.session.selectedFeed
 		let currentFeed = null
-		if (list != null){
-			currentFeed = list.map((post, i) => {
+		if (feed == constants.FEED_TYPE_TEAM){
+			currentFeed = this.props.session.teams.map((team, i) => {
 				return (
-					<li key={post.id} className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
-						<Post post={post} />
+					<li key={team.id} className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
+						<TeamPreview team={team} />
 					</li>
 				)
 			})
+		}
+		else {
+			const list = this.props.posts[feed]
+			if (list != null){
+				currentFeed = list.map((post, i) => {
+					return (
+						<li key={post.id} className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
+							<Post post={post} />
+						</li>
+					)
+				})
+			}
 		}
 
 		let create = null
@@ -131,7 +144,7 @@ class Feed extends Component {
 			create = (
 				<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
 					<CreatePost
-						type={this.props.selectedFeed}
+						type={this.props.session.selectedFeed}
 						user={this.props.user}
 						teams={this.props.teams}
 						isLoading={this.toggleLoader.bind(this)}
@@ -158,7 +171,7 @@ class Feed extends Component {
 					{ (this.state.showCreate) ? create : currentFeed }
 				</ol>
 
-				{ (this.state.showCreate) ? null : <a href="#" onClick={this.toggleShowCreate.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add {this.props.selectedFeed}</a> }
+				{ (this.state.showCreate) ? null : <a href="#" onClick={this.toggleShowCreate.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add {this.props.session.selectedFeed}</a> }
 			</div>
 		)
 	}
@@ -169,10 +182,7 @@ const stateToProps = (state) => {
 		posts: state.post.feed,
 		user: state.account.currentUser,
 		teams: state.account.teams,
-		district: state.session.currentDistrict,
-		location: state.session.currentLocation,
-		selectedFeed: state.session.selectedFeed,
-		reload: state.session.reload
+		session: state.session // district, currentLocation, teams, selectedFeed, reload
 	}
 }
 

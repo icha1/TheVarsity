@@ -4,6 +4,7 @@ var initialState = {
 	selectedFeed: 'event',
 	reload: false,
 	showLoading: false,
+	teams: [],
 	currentDistrict: {
 		id: null,
 		name: 'None'
@@ -19,7 +20,7 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 
 		case constants.LOCATION_CHANGED:
-			console.log('LOCATION_CHANGED')
+			console.log('LOCATION_CHANGED: '+JSON.stringify(action.location))
 			var newState = Object.assign({}, state)
 			newState['currentLocation'] = action.location
 
@@ -36,6 +37,12 @@ export default (state = initialState, action) => {
 		case constants.POSTS_RECEIVED: // reset realod boolean to false
 			var newState = Object.assign({}, state)
 			newState['reload'] = false
+			return newState
+
+		case constants.TEAMS_RECEIVED:
+			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
+			var newState = Object.assign({}, state)
+			newState['teams'] = action.teams
 			return newState
 
 		case constants.TOGGLE_LOADER:
@@ -60,6 +67,7 @@ export default (state = initialState, action) => {
 			const district = list[0]
 			newState['currentDistrict'] = district
 			return newState
+
 
 		default:
 			return state
