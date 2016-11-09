@@ -25,6 +25,7 @@ class CreatePost extends Component {
 		let updatedPost = Object.assign({}, this.state.post)
 		updatedPost['author'] = {
 			id: user.id,
+			slug: user.username,
 			name: user.username,
 			image: (user.image.length == 0) ? null : user.image
 		}
@@ -79,6 +80,7 @@ class CreatePost extends Component {
 			updated['author'] = {
 				id: user.id,
 				name: user.username,
+				slug: user.username,
 				image: (user.image.length == 0) ? null : user.image,
 				type: 'profile'
 			}
@@ -91,6 +93,7 @@ class CreatePost extends Component {
 		updated['author'] = {
 			id: team.id,
 			name: team.name,
+			slug: team.slug,
 			image: (team.image.length == 0) ? null : team.image,
 			type: 'team'
 		}
