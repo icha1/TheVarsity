@@ -58,6 +58,18 @@ export default {
 		},
 		list: {
 			listStyleType:'none'
+		},
+		unselected: {
+			padding:6,
+			marginTop:4,
+			border:'1px solid #fff',
+			background:'#fff'
+		},
+		selected: {
+			padding:6,
+			marginTop:4,
+			border:'1px solid #ddd',
+			background:'#f9f9f9'
 		}
 	},
 	post: {

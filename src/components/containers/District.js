@@ -24,10 +24,10 @@ class District extends Component {
 		]
 
 		const list = feedOptions.map((feed, i) => {
-			let style = (selectedFeed == feed.name) ? {padding:6, marginTop:4, border:'1px solid #ddd', background:'#f9f9f9'} : {padding:6, marginTop:4}
+			let selected = (selectedFeed == feed.name) ? style.selected : style.unselected
 			return (
 				<li key={i}>
-					<div style={style}>
+					<div style={selected}>
 						<a id={feed.name} onClick={this.selectFeed.bind(this)} href="#">{feed.display}</a>
 					</div>
 				</li>				
