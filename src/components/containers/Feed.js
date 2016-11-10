@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { APIManager, DateUtils } from '../../utils'
-import { Post, CreatePost, CreateTeam, TeamPreview } from '../view'
+import { Post, CreatePost, CreateTeam, TeamPreview, Comment } from '../view'
 import store from '../../stores/store'
 import constants from '../../constants/constants'
 import actions from '../../actions/actions'
@@ -12,21 +12,28 @@ class Feed extends Component {
 	constructor(){
 		super()
 		this.fetchPosts = this.fetchPosts.bind(this)
+		this.showChat = this.showChat.bind(this)
 		this.state = {
-			showCreate: false
+			showCreate: false,
+			comment: {
+				profile: null,
+				text: '',
+				image: ''
+			}
 		}
 	}
 
 	componentDidMount(){
+		const session = this.props.session
 		store.currentStore().subscribe(() => {
 			setTimeout(() => { // this is a sloppy workaround
-				console.log('RELOAD: ' + this.props.session.selectedFeed +', '+ this.props.session.reload)
+				console.log('RELOAD: ' + session.selectedFeed +', '+ session.reload)
 				if (this.props.session.reload){ // TODO: check selected feed
-					const selectedFeed = this.props.session.selectedFeed
+					const selectedFeed = session.selectedFeed
 					if (selectedFeed == constants.FEED_TYPE_EVENT || selectedFeed == constants.FEED_TYPE_NEWS)
 						this.fetchPosts()
-					// else if (selectedFeed == constants.FEED_TYPE_TEAM)
-					// 	this.fetchTeams()
+					else if (selectedFeed == constants.FEED_TYPE_CHAT)
+						this.showChat()
 				}
 			}, 5)
 		})
@@ -68,6 +75,10 @@ class Feed extends Component {
 			this.props.postsReceived(response.results)
 			this.setState({showCreate: false})
 		})
+	}
+
+	showChat(){
+		console.log('showChat: ')
 	}
 
 	submitPost(post){
@@ -114,63 +125,133 @@ class Feed extends Component {
 		})		
 	}
 
+	updateComment(event){
+//		console.log('UpdateComment: '+event.target.value)
+		let updated = Object.assign({}, this.state.comment)
+		updated['text'] = event.target.value
+		this.setState({
+			comment: updated
+		})
+	}
+
+	keyPress(event){
+		if (event.keyCode != 13)
+			return
+
+		if (this.props.user == null){
+			alert('Please log in or register to post a comment.')
+			return
+		}
+
+		if (this.props.session.currentDistrict.id == null) // no current district
+			return
+
+		let updated = Object.assign({}, this.state.comment)
+		updated['profile'] = {
+			id: this.props.user.id,
+			username: this.props.user.username,
+			image: this.props.user.image
+		}
+
+		const currentDistrict = this.props.session.currentDistrict
+		firebase.database().ref('/comments/'+currentDistrict.id+'/'+currentDistrict.comments.length).set(updated)
+		this.setState({ // reset comment
+			comment: {
+				profile: null,
+				text: '',
+				image: ''
+			}
+		})
+	}
+
 	render(){
 		const feed = this.props.session.selectedFeed
 		let currentFeed = null
-		if (feed == constants.FEED_TYPE_TEAM){
-			currentFeed = this.props.session.teams.map((team, i) => {
-				return (
-					<li key={team.id} className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
-						<TeamPreview team={team} />
-					</li>
-				)
-			})
-		}
-		else {
+		let create = null
+
+		const listClass = 'commentlist noborder nomargin nopadding clearfix'
+		const listItemClass = 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1'
+
+		if (feed == constants.FEED_TYPE_EVENT || feed == constants.FEED_TYPE_NEWS){ 
 			const list = this.props.posts[feed]
 			if (list != null){
-				currentFeed = list.map((post, i) => {
-					return (
-						<li key={post.id} className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
-							<Post post={post} />
-						</li>
-					)
-				})
+				currentFeed = (
+					<ol className={listClass}>
+						{
+							list.map((post, i) => {
+								return (
+									<li key={post.id} className={listItemClass} id="li-comment-2">
+										<Post post={post} />
+									</li>
+								)
+							})
+						}
+					</ol>
+				)
 			}
+
+			create = (
+				<ol className={listClass}>
+					<li className={listItemClass} id="li-comment-2">
+						<CreatePost
+							type={this.props.session.selectedFeed}
+							user={this.props.user}
+							teams={this.props.teams}
+							isLoading={this.toggleLoader.bind(this)}
+							submit={this.submitPost.bind(this)}
+							cancel={this.toggleShowCreate.bind(this)} />
+					</li>
+				</ol>
+			)			
 		}
 
-		let create = null
-		if (feed == constants.FEED_TYPE_EVENT || feed == constants.FEED_TYPE_NEWS){ 
-			create = (
-				<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
-					<CreatePost
-						type={this.props.session.selectedFeed}
-						user={this.props.user}
-						teams={this.props.teams}
-						isLoading={this.toggleLoader.bind(this)}
-						submit={this.submitPost.bind(this)}
-						cancel={this.toggleShowCreate.bind(this)} />
-				</li>
+		if (feed == constants.FEED_TYPE_TEAM){
+			currentFeed = (
+				<ol className={listClass}>
+					{
+						this.props.session.teams.map((team, i) => {
+							return (
+								<li key={team.id} className={listItemClass} id="li-comment-2">
+									<TeamPreview team={team} />
+								</li>
+							)
+						})
+					}
+				</ol>
 			)
-		}
-		if (feed == 'team'){
+
 			create = (
-				<li className="comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1" id="li-comment-2">
-					<CreateTeam
-						user={this.props.user}
-						isLoading={this.toggleLoader.bind(this)}
-						submit={this.createTeam.bind(this)}
-						cancel={this.toggleShowCreate.bind(this)} />
-				</li>
+				<ol className={listClass}>
+					<li className={listItemClass} id="li-comment-2">
+						<CreateTeam
+							user={this.props.user}
+							isLoading={this.toggleLoader.bind(this)}
+							submit={this.createTeam.bind(this)}
+							cancel={this.toggleShowCreate.bind(this)} />
+					</li>
+				</ol>
+			)			
+		}
+
+		if (feed == constants.FEED_TYPE_CHAT){
+			currentFeed = (
+				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
+					<div style={{padding:16, background:'#fff', borderTop:'1px solid #ddd'}}>
+						<input value={this.state.comment.text} onKeyUp={this.keyPress.bind(this)} onChange={this.updateComment.bind(this)} type="text" className="form-control" />
+
+					</div>
+					{
+						this.props.session.currentDistrict.comments.map((comment, i) => {
+							return <Comment comment={comment} key={i} />
+						})
+					}
+				</div>
 			)
 		}
 
 		return (
 			<div>
-				<ol className="commentlist noborder nomargin nopadding clearfix">
-					{ (this.state.showCreate) ? create : currentFeed }
-				</ol>
-
+				{ (this.state.showCreate) ? create : currentFeed }
 				{ (this.state.showCreate) ? null : <a href="#" onClick={this.toggleShowCreate.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add {this.props.session.selectedFeed}</a> }
 			</div>
 		)

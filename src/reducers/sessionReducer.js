@@ -7,7 +7,8 @@ var initialState = {
 	teams: [],
 	currentDistrict: {
 		id: null,
-		name: 'None'
+		name: 'None',
+		comments: []
 	},
 	currentLocation: { // default to nyc
 		lat: 40.73008847828741,
@@ -40,7 +41,7 @@ export default (state = initialState, action) => {
 			return newState
 
 		case constants.TEAMS_RECEIVED:
-			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
+//			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
 			var newState = Object.assign({}, state)
 			newState['teams'] = action.teams
 			return newState
@@ -54,20 +55,44 @@ export default (state = initialState, action) => {
 		case constants.DISTRICT_CHANGED:
 			console.log('DISTRICT_CHANGED'+JSON.stringify(action.districts))
 			var newState = Object.assign({}, state)
+
+			// TODO: check if previous district exists, if so then disconnect firebase reference
+
 			const list = action.districts
 			if (list.length == 0){ // reset to null
 				newState['currentDistrict'] = {
 					id: null,
-					name: 'None'
+					name: 'None',
+					comments: []
 				}
 
 				return newState				
 			}
 
 			const district = list[0]
+			district['comments'] = []
 			newState['currentDistrict'] = district
+
+			firebase.database().ref('/comments/'+district.id).on('value', (snapshot) => {
+				const currentComments = snapshot.val()
+				// console.log('COMMENTS: '+JSON.stringify(currentComments))
+
+				action.dispatch({
+					type: constants.COMMENTS_RECEIVED,
+					comments: currentComments
+				})
+			})
+
 			return newState
 
+		case constants.COMMENTS_RECEIVED:
+			console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
+			var newState = Object.assign({}, state)
+			var updatedDistrict = Object.assign({}, newState.currentDistrict)
+			updatedDistrict['comments'] = action.comments.reverse() // latest comment first
+			newState['currentDistrict'] = updatedDistrict
+
+			return newState
 
 		default:
 			return state

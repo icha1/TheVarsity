@@ -2,14 +2,16 @@ export default {
 	
 	comment: {
 		container: {
-			borderTop:'1px solid #ddd', height:140
+			borderTop:'1px solid #ddd',
+			background: '#fff',
+			minHeight: 140
 		},
 		rightBox: {
 			float: 'right',
 			background: '#eee',
 			textAlign: 'left',
 			width: 80,
-			height: 139,
+			minHeight: 139,
 			padding: 12,
 			paddingTop: 40,
 			marginLeft: 10,
@@ -80,7 +82,10 @@ export default {
 			width: 44+'%',
 			minWidth: 320,
 			border: '1px solid #ddd'
-		}		
+		},
+		listItem: {
+			marginTop: 10
+		}
 	},
 	loader: {
 	    lines: 13,

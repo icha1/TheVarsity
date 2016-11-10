@@ -7,6 +7,10 @@ import constants from '../../constants/constants'
 import styles from './styles'
 
 class District extends Component {
+	componentDidMount(){
+
+	}
+
 	selectFeed(event){
 		event.preventDefault()
 		this.props.changeSelectedFeed(event.target.id)
@@ -20,7 +24,8 @@ class District extends Component {
 		const feedOptions = [
 			{name: constants.FEED_TYPE_EVENT, display:'Events'},
 			{name: constants.FEED_TYPE_NEWS, display:'News'},
-			{name: constants.FEED_TYPE_TEAM, display:'Teams'}
+			{name: constants.FEED_TYPE_TEAM, display:'Teams'},
+			{name: constants.FEED_TYPE_CHAT, display:'Chat'}
 		]
 
 		const list = feedOptions.map((feed, i) => {
@@ -98,7 +103,7 @@ class District extends Component {
 
 const stateToProps = (state) => {
 	return {
-		session: state.session // district, currentLocation, teams, selectedFeed, reload
+		session: state.session // currentDistrict, currentLocation, teams, selectedFeed, reload
 	}
 }
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { APIManager } from '../../utils'
-import store from '../../stores/store'
 import actions from '../../actions/actions'
 import { connect } from 'react-redux'
 import { Map } from '../view'
@@ -39,7 +38,7 @@ class TeamsMap extends Component {
 		if (distance < 0.01)
 			return		
 
-		store.currentStore().dispatch(actions.locationChanged(location))
+		this.props.locationChanged(location)
 		this.fetchTeams(location)
 	}
 
@@ -69,8 +68,7 @@ class TeamsMap extends Component {
 				return
 			}
 
-//			console.log(JSON.stringify(response))
-			store.currentStore().dispatch(actions.districtChanged(response.results))
+			this.props.districtChanged(response.results)
 		})
 	}
 
@@ -96,7 +94,9 @@ const stateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		teamsReceived: teams => dispatch(actions.teamsReceived(teams))
+		teamsReceived: teams => dispatch(actions.teamsReceived(teams)),
+		districtChanged: districts => dispatch(actions.districtChanged(districts, dispatch)),
+		locationChanged: location => dispatch(actions.locationChanged(location))
 	}
 }
 export default connect(stateToProps, mapDispatchToProps)(TeamsMap)

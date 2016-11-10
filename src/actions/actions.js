@@ -44,10 +44,11 @@ export default {
 		}
 	},
 
-	districtChanged: (districts) => { // this returns as an arry
+	districtChanged: (districts, dispatch) => { // this returns as an array
 		return {
 			type: constants.DISTRICT_CHANGED,
-			districts: districts
+			districts: districts,
+			dispatch: dispatch
 		}
 	},
 
