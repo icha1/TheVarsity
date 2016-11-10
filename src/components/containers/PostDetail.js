@@ -15,13 +15,6 @@ class PostDetail extends Component {
 	render(){
 		const style = styles.post
 		const post = this.props.posts[this.props.slug]
-		let array = []
-		for (var i=0; i<20; i++)
-			array.push('comment')
-
-		const comments = array.map((comment, i) => {
-			return <Comment key={i}/>
-		})
 
 		return (
 			<div className="clearfix">
@@ -29,15 +22,9 @@ class PostDetail extends Component {
 				<header id="header" className="no-sticky">
 		            <div id="header-wrap" style={{height:92+'%'}}>
 		            	<div id="comments" style={{padding:'0px 0px 0px 0px'}}>
-		            		{comments}
 
 		            	</div>
 		            </div>
-
-            		<div style={style.textBox}>
-            			<input type="text" className="form-control" />
-            		</div>
-
 				</header>
 
 				<section id="content" style={{background:'#f9f9f9', minHeight:800}}>

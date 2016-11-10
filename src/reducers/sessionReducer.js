@@ -76,7 +76,7 @@ export default (state = initialState, action) => {
 			firebase.database().ref('/comments/'+district.id).on('value', (snapshot) => {
 				const currentComments = snapshot.val()
 				// console.log('COMMENTS: '+JSON.stringify(currentComments))
-				
+
 				if (currentComments != null){
 					action.dispatch({
 						type: constants.COMMENTS_RECEIVED,
