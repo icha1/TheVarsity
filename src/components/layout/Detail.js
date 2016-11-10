@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TeamDetail } from '../containers'
+import { TeamDetail, PostDetail } from '../containers'
 import styles from './styles'
 
 class Detail extends Component {
@@ -15,7 +15,7 @@ class Detail extends Component {
 				return component = <TeamDetail slug={this.props.params.slug} />
 
 			case 'post':
-				return component = <div>POST PAGE</div>
+				return component = <PostDetail slug={this.props.params.slug} />
 
 			default:
 				return component = null

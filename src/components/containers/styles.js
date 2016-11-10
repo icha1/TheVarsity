@@ -127,6 +127,16 @@ export default {
 			width: 44+'%',
 			minWidth: 320,
 			border: '1px solid #ddd'
-		}
+		},
+		textBox: {
+			position:'absolute',
+			bottom:0,
+			left:0,
+			padding:8,
+			background:'#ffffe6',
+			width:100+'%',
+			height: 8+'%',
+			borderTop: '1px solid #ddd'
+		}		
 	}	
 }

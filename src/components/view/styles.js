@@ -1,5 +1,30 @@
 export default {
 	
+	comment: {
+		container: {
+			borderTop:'1px solid #ddd', height:140
+		},
+		rightBox: {
+			float: 'right',
+			background: '#eee',
+			textAlign: 'left',
+			width: 80,
+			height: 139,
+			padding: 12,
+			paddingTop: 40,
+			marginLeft: 10,
+			fontWeight: 100,
+			lineHeight: 16+'px'
+		},
+		body: {
+			padding: 16,
+			textAlign: 'left'			
+		},
+		header: {
+			fontFamily: 'Pathway Gothic One',
+			fontSize: 22
+		}		
+	},
 	post: {
 		container: {
 			background:'#fff',
