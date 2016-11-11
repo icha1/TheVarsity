@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { APIManager } from '../../utils'
+import { APIManager, FirebaseManager } from '../../utils'
 import actions from '../../actions/actions'
 import { connect } from 'react-redux'
 import { Map } from '../view'
@@ -75,7 +75,7 @@ class TeamsMap extends Component {
 				return
 
 			const district = results[0]
-			firebase.database().ref('/comments/'+district.id).on('value', (snapshot) => {
+			FirebaseManager.database().ref('/comments/'+district.id).on('value', (snapshot) => {
 				const currentComments = snapshot.val()
 				if (currentComments == null)
 					return

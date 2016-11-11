@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { APIManager, DateUtils } from '../../utils'
+import { APIManager, DateUtils, FirebaseManager } from '../../utils'
 import { Post, CreatePost, CreateTeam, TeamPreview, Comment } from '../view'
 import store from '../../stores/store'
 import constants from '../../constants/constants'
@@ -154,7 +154,7 @@ class Feed extends Component {
 		}
 
 		const currentDistrict = this.props.session.currentDistrict
-		firebase.database().ref('/comments/'+currentDistrict.id+'/'+currentDistrict.comments.length).set(updated)
+		FirebaseManager.database().ref('/comments/'+currentDistrict.id+'/'+currentDistrict.comments.length).set(updated)
 		this.setState({ // reset comment
 			comment: {
 				profile: null,
