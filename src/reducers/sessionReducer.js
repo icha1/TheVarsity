@@ -75,7 +75,7 @@ export default (state = initialState, action) => {
 			return newState
 
 		case constants.COMMENTS_RECEIVED:
-			console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
+//			console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
 			var newState = Object.assign({}, state)
 			var updatedDistrict = Object.assign({}, newState.currentDistrict)
 			updatedDistrict['comments'] = action.comments.reverse() // latest comment first

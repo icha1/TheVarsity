@@ -75,10 +75,10 @@ class TeamsMap extends Component {
 				return
 
 			const district = results[0]
-			FirebaseManager.database().ref('/comments/'+district.id).on('value', (snapshot) => {
-				const currentComments = snapshot.val()
-				if (currentComments == null)
+			FirebaseManager.register('/comments/'+district.id, (err, currentComments) => {
+				if (err){
 					return
+				}
 
 				this.props.commentsReceived(currentComments)
 			})

@@ -23,6 +23,32 @@ export default {
 		firebase.initializeApp(config)
 		databaseRef = firebase.database()
 		return databaseRef
+	},
+
+	register: (path, callback) => {
+		if (databaseRef == null){
+			firebase.initializeApp(config)
+			databaseRef = firebase.database()
+		}
+
+		databaseRef.ref(path).on('value', (snapshot) => {
+			const data = snapshot.val()
+			if (data == null){
+				callback({}, null)
+				return
+			}
+
+			callback(null, data)
+		})
+	},
+
+	post: (path, data) => {
+		if (databaseRef == null){
+			firebase.initializeApp(config)
+			databaseRef = firebase.database()
+		}
+
+		databaseRef.ref(path).set(data)
 	}
 
 }

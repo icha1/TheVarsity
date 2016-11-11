@@ -154,7 +154,8 @@ class Feed extends Component {
 		}
 
 		const currentDistrict = this.props.session.currentDistrict
-		FirebaseManager.database().ref('/comments/'+currentDistrict.id+'/'+currentDistrict.comments.length).set(updated)
+		const path = '/comments/'+currentDistrict.id+'/'+currentDistrict.comments.length
+		FirebaseManager.post(path, updated)
 		this.setState({ // reset comment
 			comment: {
 				profile: null,
