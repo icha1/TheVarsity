@@ -72,19 +72,6 @@ export default (state = initialState, action) => {
 			const district = list[0]
 			district['comments'] = []
 			newState['currentDistrict'] = district
-
-			firebase.database().ref('/comments/'+district.id).on('value', (snapshot) => {
-				const currentComments = snapshot.val()
-				// console.log('COMMENTS: '+JSON.stringify(currentComments))
-
-				if (currentComments != null){
-					action.dispatch({
-						type: constants.COMMENTS_RECEIVED,
-						comments: currentComments
-					})
-				}
-			})
-
 			return newState
 
 		case constants.COMMENTS_RECEIVED:

@@ -68,7 +68,20 @@ class TeamsMap extends Component {
 				return
 			}
 
-			this.props.districtChanged(response.results)
+			const results = response.results
+			this.props.districtChanged(results)
+
+			if (results.length == 0)
+				return
+
+			const district = results[0]
+			firebase.database().ref('/comments/'+district.id).on('value', (snapshot) => {
+				const currentComments = snapshot.val()
+				if (currentComments == null)
+					return
+
+				this.props.commentsReceived(currentComments)
+			})
 		})
 	}
 
@@ -95,7 +108,8 @@ const stateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		teamsReceived: teams => dispatch(actions.teamsReceived(teams)),
-		districtChanged: districts => dispatch(actions.districtChanged(districts, dispatch)),
+		districtChanged: districts => dispatch(actions.districtChanged(districts)),
+		commentsReceived: comments => dispatch(actions.commentsReceived(comments)),
 		locationChanged: location => dispatch(actions.locationChanged(location))
 	}
 }

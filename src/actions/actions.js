@@ -44,11 +44,17 @@ export default {
 		}
 	},
 
-	districtChanged: (districts, dispatch) => { // this returns as an array
+	districtChanged: (districts) => { // this returns as an array
 		return {
 			type: constants.DISTRICT_CHANGED,
-			districts: districts,
-			dispatch: dispatch
+			districts: districts
+		}
+	},
+
+	commentsReceived: (comments) => {
+		return {
+			type: constants.COMMENTS_RECEIVED,
+			comments: comments
 		}
 	},
 
