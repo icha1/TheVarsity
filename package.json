@@ -22,6 +22,7 @@
     "debug": "~2.2.0",
     "dotenv": "^2.0.0",
     "express": "~4.13.4",
+    "firebase": "^3.6.0",
     "gulp": "^3.9.1",
     "gulp-6to5": "^3.0.0",
     "gulp-autoprefixer": "^3.1.1",
