@@ -1,35 +1,76 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
-import { Map } from '../view'
+import styles from './styles'
 
 class TeamDetail extends Component {
+	constructor(){
+		super()
+		this.state = {
+			selected: 0,
+			menuItems: [
+				{name:'Listings', component:'Posts'},
+				{name:'Teams', component:'CreatePost'},
+				{name:'Chat', component:'ManageNotifications'}
+			]
+		}
+	}
+
+	selectItem(index, event){
+		event.preventDefault()
+
+		const item = this.state.menuItems
+		this.setState({
+			selected: index
+		})
+	}
 
 	render(){
 		const team = this.props.teams[this.props.slug]
-		const center = {
-			lat: team.geo[0],
-			lng: team.geo[1]
-		}
+		const style = styles.team
+
+		const sideMenu = this.state.menuItems.map((item, i) => {
+			const itemStyle = (i == this.state.selected) ? style.selected : style.menuItem
+			return (
+				<li key={i}>
+					<div style={itemStyle}>
+						<a onClick={this.selectItem.bind(this, i)} href="#"><div>{item.name}</div></a>
+					</div>
+				</li>
+			)
+		})
 
 		return (
 			<div className="clearfix">
 
 				<header id="header" className="no-sticky">
 		            <div id="header-wrap">
-						<Map center={center} zoom={17} animation={2} markers={[team]} />
+						<div className="container clearfix">
+							<div style={{paddingTop:96}}>
+
+								<img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140'} />
+								<h2 style={style.title}>
+									{ team.name }
+								</h2>
+								{ this.props.session.currentDistrict.name }
+
+								<hr />
+								<nav id="primary-menu">
+									<ul>{sideMenu}</ul>
+								</nav>
+
+								<a href={'/scrape?team='+team.id}>Scrape</a>
+							</div>
+			            </div>
+
 		            </div>
 				</header>
 
 				<section id="content" style={{background:'#f9f9f9', minHeight:800}}>
 					<div className="content-wrap container clearfix">
-
 						<div className="col_full col_last">
-							{ team.name }
-							<br />
-							<a href={'/scrape?team='+team.id}>Scrape</a>
-							<br />
-							<img src={team.image+'=s220'} />
+
+
 
 						</div>
 					</div>
@@ -41,6 +82,7 @@ class TeamDetail extends Component {
 
 const stateToProps = (state) => {
 	return {
+		session: state.session, // currentDistrict, currentLocation, teams, selectedFeed, reload
 		teams: state.team.map
 	}
 }

@@ -20,10 +20,8 @@ class PostDetail extends Component {
 			<div className="clearfix">
 
 				<header id="header" className="no-sticky">
-		            <div id="header-wrap" style={{height:92+'%'}}>
-		            	<div id="comments" style={{padding:'0px 0px 0px 0px'}}>
+		            <div id="header-wrap">
 
-		            	</div>
 		            </div>
 				</header>
 

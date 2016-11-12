@@ -138,5 +138,28 @@ export default {
 			height: 8+'%',
 			borderTop: '1px solid #ddd'
 		}		
+	},
+	team: {
+		content: {
+			background:'#f9f9f9',
+			minHeight:800
+		},
+		container: {
+			borderTop:'1px solid #ddd', height:140
+		},
+		title: {
+			color:'#333',
+			fontFamily:'Pathway Gothic One',
+			marginBottom: 0
+		},
+		selected: {
+			padding: 8,
+			background:'#f9f9f9',
+			borderRadius: 2
+		},
+		menuItem: {
+			padding:8,
+			background:'#fff'
+		}
 	}	
 }
