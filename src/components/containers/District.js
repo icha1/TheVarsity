@@ -5,6 +5,7 @@ import { APIManager } from '../../utils'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
 import styles from './styles'
+import { Link } from 'react-router'
 
 class District extends Component {
 	componentDidMount(){
@@ -44,7 +45,9 @@ class District extends Component {
 			const visitor = recentVisitors[id].visitor
 			return (
 				<div key={id} style={{borderBottom:'1px solid #ddd', padding:16}}>
-					{ visitor.username }
+					<Link to={'/profile/'+visitor.username}>
+						{ visitor.username }
+					</Link>
 				</div>
 			)
 		})
