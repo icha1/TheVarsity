@@ -42,13 +42,15 @@ export default {
 		})
 	},
 
-	post: (path, data) => {
+	post: (path, data, callback) => {
 		if (databaseRef == null){
 			firebase.initializeApp(config)
 			databaseRef = firebase.database()
 		}
 
-		databaseRef.ref(path).set(data)
+		databaseRef.ref(path).set(data, () => {
+			callback()
+		})
 	}
 
 }

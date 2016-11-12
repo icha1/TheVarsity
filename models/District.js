@@ -8,6 +8,7 @@ var DistrictSchema = new mongoose.Schema({
 	city: {type:String, trim:true, lowercase:true, default:''},
 	state: {type:String, trim:true, lowercase:true, default:''},
 	zips: {type:Array, trim:true, default:[]}, // inluded zip codes
+	recentVisitors: {type:mongoose.Schema.Types.Mixed, default:{}},
 	geo: {
 		type: [Number], // array of Numbers
 		index: '2d'
@@ -24,6 +25,7 @@ DistrictSchema.methods.summary = function(){
 		city: this.city,
 		state: this.state,
 		zips: this.zips,
+		recentVisitors: this.recentVisitors,
 		geo: this.geo,
 		timestamp: this.timestamp,
 		id: this._id
