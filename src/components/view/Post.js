@@ -8,6 +8,8 @@ class Post extends Component {
 	render(){
 		const post = this.props.post
 		const style = styles.post
+
+		const path = (post.author.type == 'team') ? post.author.slug : post.author.name
 		return (
 			<div className={styles.post.container.className} style={style.container}>
 				<div className="comment-meta">
@@ -30,7 +32,7 @@ class Post extends Component {
 				<hr />
 
 				<h4 style={style.header}>
-					<Link to={'/'+post.author.type+'/'+post.author.slug} style={style.title}>{ post.author.name }</Link>
+					<Link to={'/'+post.author.type+'/'+path} style={style.title}>{ post.author.name }</Link>
 				</h4>
 				<span>{DateUtils.formattedDate(post.timestamp)}</span><br />
 				<a href="#" style={{marginLeft: 0}} className="button button-mini button-circle button-red">{ post.type }</a>
