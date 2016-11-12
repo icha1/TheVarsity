@@ -242,9 +242,8 @@ class Feed extends Component {
 		if (feed == constants.FEED_TYPE_CHAT){
 			currentFeed = (
 				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
-					<div style={{padding:16, background:'#fff', borderTop:'1px solid #ddd'}}>
+					<div style={{padding:16, background:'#ffffe6', borderTop:'1px solid #ddd'}}>
 						<input value={this.state.comment.text} onKeyUp={this.keyPress.bind(this)} onChange={this.updateComment.bind(this)} type="text" className="form-control" />
-
 					</div>
 					{
 						this.props.session.currentDistrict.comments.map((comment, i) => {
