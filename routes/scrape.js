@@ -47,6 +47,7 @@ router.get('/', function(req, res, next){
 		postInfo['author'] = {
 			id: team.id,
 			profile: '',
+			type: 'team',
 			name: team.name,
 			slug: team.slug,
 			image: team.image,

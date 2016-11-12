@@ -24,16 +24,17 @@ class Feed extends Component {
 	}
 
 	componentDidMount(){
-//		const session = this.props.session
 		store.currentStore().subscribe(() => {
 			setTimeout(() => { // this is a sloppy workaround
-				console.log('RELOAD: ' + this.props.session.selectedFeed +', '+ this.props.session.reload)
+//				console.log('RELOAD: ' + this.props.session.selectedFeed +', '+ this.props.session.reload)
 				if (this.props.session.reload){ // check selected feed
 					const selectedFeed = this.props.session.selectedFeed
 					if (selectedFeed == constants.FEED_TYPE_EVENT || selectedFeed == constants.FEED_TYPE_NEWS)
 						this.fetchPosts()
+
 					else if (selectedFeed == constants.FEED_TYPE_CHAT)
 						this.showChat()
+					
 				}
 			}, 5)
 		})

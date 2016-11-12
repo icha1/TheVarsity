@@ -25,9 +25,10 @@ class CreatePost extends Component {
 		let updatedPost = Object.assign({}, this.state.post)
 		updatedPost['author'] = {
 			id: user.id,
+			type: 'profile',
 			slug: user.username,
 			name: user.username,
-			image: (user.image.length == 0) ? null : user.image
+			image: (user.image.length == 0) ? null : user.image // TODO: insert placeholder icon
 		}
 
 		this.setState({

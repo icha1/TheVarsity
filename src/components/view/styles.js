@@ -45,7 +45,9 @@ export default {
 		},
 		postImage: {
 			maxWidth: 140,
-			marginTop: 12
+			marginTop: 12,
+			padding: 3,
+			border: '1px solid #ddd'
 		},
 		input: {
 			color:'#333',
