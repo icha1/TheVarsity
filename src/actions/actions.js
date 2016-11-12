@@ -44,6 +44,13 @@ export default {
 		}
 	},
 
+	profilesReceived: (profiles) => {
+		return {
+			type: constants.PROFILES_RECEIVED,
+			profiles: profiles
+		}
+	},
+
 	districtChanged: (districts) => { // this returns as an array
 		return {
 			type: constants.DISTRICT_CHANGED,

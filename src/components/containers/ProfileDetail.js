@@ -4,15 +4,15 @@ import actions from '../../actions/actions'
 import { Comment } from '../view'
 import styles from './styles'
 
-class PostDetail extends Component {
+class ProfileDetail extends Component {
 
 	componentDidMount(){
-		
+
 	}
 
 	render(){
 		const style = styles.post
-		const post = this.props.posts[this.props.slug]
+//		const post = this.props.posts[this.props.slug]
 
 		return (
 			<div className="clearfix">
@@ -27,7 +27,7 @@ class PostDetail extends Component {
 					<div className="content-wrap container clearfix">
 
 						<div className="col_full col_last">
-							{ post.title }
+							Profile Detail Page
 						</div>
 					</div>
 
@@ -46,4 +46,4 @@ const stateToProps = (state) => {
 	}
 }
 
-export default connect(stateToProps)(PostDetail)
+export default connect(stateToProps)(ProfileDetail)

@@ -1,6 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import { postReducer, teamReducer, accountReducer, sessionReducer } from '../reducers'
+import { postReducer, teamReducer, accountReducer, sessionReducer, profileReducer } from '../reducers'
 
 var store;
 
@@ -11,6 +11,7 @@ export default {
 			post: postReducer,
 			team: teamReducer,
 			session: sessionReducer,
+			profile: profileReducer,
 			account: accountReducer
 		})
 
