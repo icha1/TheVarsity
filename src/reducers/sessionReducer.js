@@ -8,7 +8,8 @@ var initialState = {
 	currentDistrict: {
 		id: null,
 		name: 'None',
-		comments: []
+		comments: [],
+		recentVisitors: {}
 	},
 	currentLocation: { // default to nyc
 		lat: 40.73008847828741,

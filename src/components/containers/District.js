@@ -39,6 +39,16 @@ class District extends Component {
 			)
 		})
 
+		const recentVisitors = district.recentVisitors
+		const visitors = Object.keys(recentVisitors).map((id, i) => {
+			const visitor = recentVisitors[id].visitor
+			return (
+				<div key={id} style={{borderBottom:'1px solid #ddd', padding:16}}>
+					{ visitor.username }
+				</div>
+			)
+		})
+
 		return (
 			<div className="feature-box center media-box fbox-bg">
 				<div className="fbox-desc">
@@ -56,45 +66,10 @@ class District extends Component {
 						</div>
 					</div>
 
-					<div style={style.container}>
-						<div style={style.rightBox}>
-							line 1<br />
-							username
-						</div>
-						<div style={style.body}>
-							<span style={style.header}>Title</span><br />
-						</div>
+					<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
+						{ visitors }
 					</div>
 
-					<div style={style.container}>
-						<div style={style.rightBox}>
-							line 1<br />
-							username
-						</div>
-						<div style={style.body}>
-							<span style={style.header}>Title</span><br />
-						</div>
-					</div>
-
-					<div style={style.container}>
-						<div style={style.rightBox}>
-							line 1<br />
-							username
-						</div>
-						<div style={style.body}>
-							<span style={style.header}>Title</span><br />
-						</div>
-					</div>
-
-					<div style={style.container}>
-						<div style={style.rightBox}>
-							line 1<br />
-							username
-						</div>
-						<div style={style.body}>
-							<span style={style.header}>Title</span><br />
-						</div>
-					</div>
 				</div>
 			</div>
 		)
