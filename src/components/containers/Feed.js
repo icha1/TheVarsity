@@ -24,12 +24,12 @@ class Feed extends Component {
 	}
 
 	componentDidMount(){
-		const session = this.props.session
+//		const session = this.props.session
 		store.currentStore().subscribe(() => {
 			setTimeout(() => { // this is a sloppy workaround
-				console.log('RELOAD: ' + session.selectedFeed +', '+ session.reload)
-				if (this.props.session.reload){ // TODO: check selected feed
-					const selectedFeed = session.selectedFeed
+				console.log('RELOAD: ' + this.props.session.selectedFeed +', '+ this.props.session.reload)
+				if (this.props.session.reload){ // check selected feed
+					const selectedFeed = this.props.session.selectedFeed
 					if (selectedFeed == constants.FEED_TYPE_EVENT || selectedFeed == constants.FEED_TYPE_NEWS)
 						this.fetchPosts()
 					else if (selectedFeed == constants.FEED_TYPE_CHAT)
@@ -37,8 +37,6 @@ class Feed extends Component {
 				}
 			}, 5)
 		})
-
-		this.fetchPosts()
 	}
 
 	toggleShowCreate(event){
@@ -82,12 +80,15 @@ class Feed extends Component {
 	}
 
 	submitPost(post){
-		console.log('submitPost: '+JSON.stringify(post))
-		const currentLocation = this.props.session.currentLocation
+		const session = this.props.session
+		post['district'] = session.currentDistrict.id
+		const currentLocation = session.currentLocation
 		post['geo'] = [
 			currentLocation.lat,
 			currentLocation.lng
 		]
+
+		console.log('submitPost: '+JSON.stringify(post))
 		
 		APIManager.handlePost('/api/post', post, (err, response) => {
 			if (err){

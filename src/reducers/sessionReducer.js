@@ -1,7 +1,7 @@
 import constants from '../constants/constants'
 
 var initialState = {
-	selectedFeed: constants.FEED_TYPE_EVENT,
+	selectedFeed: constants.FEED_TYPE_NEWS,
 	reload: false,
 	showLoading: false,
 	teams: [],
@@ -74,6 +74,7 @@ export default (state = initialState, action) => {
 			const district = list[0]
 			district['comments'] = []
 			newState['currentDistrict'] = district
+			newState['reload'] = true // by setting true, this triggers a re-load of the feeds
 			return newState
 
 		case constants.COMMENTS_RECEIVED:

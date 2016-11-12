@@ -43,6 +43,7 @@ router.get('/', function(req, res, next){
 		postInfo['title'] = team.name
 		postInfo['slug'] = TextUtils.slugVersion(team.name)
 		postInfo['geo'] = team.geo
+		postInfo['district'] = team.district
 		postInfo['author'] = {
 			id: team.id,
 			profile: '',
@@ -55,6 +56,7 @@ router.get('/', function(req, res, next){
 		postInfo['text'] = mostRecent.caption.text
 		postInfo['code'] = mostRecent.code
 		postInfo['timestamp'] = new Date(mostRecent['created_time']*1000)
+		postInfo['type'] = 'news'
 
 		var images = mostRecent.images
 		var standard_resolution = images['standard_resolution']['url']
