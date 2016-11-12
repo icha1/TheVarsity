@@ -7,7 +7,7 @@ var initialState = {
 	teams: [],
 	currentDistrict: {
 		id: null,
-		name: 'None',
+		name: '',
 		comments: [],
 		recentVisitors: {}
 	},
@@ -63,11 +63,12 @@ export default (state = initialState, action) => {
 			if (list.length == 0){ // reset to null
 				newState['currentDistrict'] = {
 					id: null,
-					name: 'None',
-					comments: []
+					name: '',
+					comments: [],
+					recentVisitors: {}
 				}
 
-				return newState				
+				return newState
 			}
 
 			const district = list[0]
