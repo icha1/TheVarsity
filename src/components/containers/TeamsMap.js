@@ -81,6 +81,30 @@ class TeamsMap extends Component {
 				}
 
 				this.props.commentsReceived(currentComments)
+				const user = this.props.user
+				if (user == null) // not loggged in
+					return
+
+				let recentVisitors = district.recentVisitors
+				let visit = recentVisitors[user.id]
+				if (visit == null) // first visit
+					visit = {count: 0}
+				
+				visit['count'] = visit.count+1
+				visit['timestamp'] = Date.now()
+				visit['visitor'] = {
+					id: user.id,
+					username: user.username,
+					image: user.image
+				}
+
+				recentVisitors[user.id] = visit
+				console.log(JSON.stringify(recentVisitors))
+
+				const url = '/api/district/'+district.id
+				APIManager.handlePut(url, {recentVisitors: recentVisitors}, (err, result) => {
+
+				})
 			})
 		})
 	}
@@ -100,6 +124,7 @@ class TeamsMap extends Component {
 
 const stateToProps = (state) => {
 	return {
+		user: state.account.currentUser,
 		location: state.session.currentLocation,
 		teams: state.team.list
 	}
