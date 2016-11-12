@@ -156,7 +156,7 @@ class Feed extends Component {
 		}
 
 		const currentDistrict = this.props.session.currentDistrict
-		const path = '/comments/'+currentDistrict.id+'/'+currentDistrict.comments.length
+		const path = '/'+currentDistrict.id+'/comments/'+currentDistrict.comments.length
 		FirebaseManager.post(path, updated, () => {
 			console.log('callback test') // TODO: post comment to API
 		})

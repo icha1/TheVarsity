@@ -75,7 +75,7 @@ class TeamsMap extends Component {
 				return
 
 			const district = results[0]
-			FirebaseManager.register('/comments/'+district.id, (err, currentComments) => {
+			FirebaseManager.register('/'+district.id+'/comments', (err, currentComments) => {
 				if (err){
 					return
 				}

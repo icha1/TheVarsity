@@ -11,20 +11,11 @@ class ProfileDetail extends Component {
 		this.state = {
 			selected: 0,
 			menuItems: [
-				{name:'Listings', component:'Posts'},
+				{name:'Posts', component:'Posts'},
 				{name:'Teams', component:'CreatePost'},
-				{name:'Chat', component:'ManageNotifications'}
+				{name:'Direct Message', component:'ManageNotifications'}
 			]
 		}
-	}
-
-	selectItem(index, event){
-		event.preventDefault()
-
-		const item = this.state.menuItems
-		this.setState({
-			selected: index
-		})
 	}
 
 	componentDidMount(){
@@ -40,6 +31,15 @@ class ProfileDetail extends Component {
 
 			console.log(JSON.stringify(response))
 			this.props.profilesReceived(response.results)
+		})
+	}
+
+	selectItem(index, event){
+		event.preventDefault()
+
+		const item = this.state.menuItems
+		this.setState({
+			selected: index
 		})
 	}
 

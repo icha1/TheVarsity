@@ -9,8 +9,8 @@ class TeamDetail extends Component {
 		this.state = {
 			selected: 0,
 			menuItems: [
-				{name:'Listings', component:'Posts'},
-				{name:'Teams', component:'CreatePost'},
+				{name:'Posts', component:'Posts'},
+				{name:'Members', component:'CreatePost'},
 				{name:'Chat', component:'ManageNotifications'}
 			]
 		}
