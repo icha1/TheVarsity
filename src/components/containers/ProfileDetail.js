@@ -69,6 +69,7 @@ class ProfileDetail extends Component {
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
 
+								<img style={{padding:3, border:'1px solid #ddd'}} src={profile.image+'=s140'} />
 								<h2 style={style.title}>
 									{ username }
 								</h2>

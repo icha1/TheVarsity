@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var ProfileSchema = new mongoose.Schema({
 	username: {type:String, trim:true, lowercase:true, default:''},
-	image: {type:String, trim:true, default:''},
+	image: {type:String, trim:true, default:process.env.DEFAULT_PROFILE_IMAGE},
 	email: {type:String, trim:true, lowercase:true, default:''},
 	credits: {type:Number, default:0}, // first 3 are free
 	password: {type:String, trim:true, default:''},
