@@ -10,6 +10,7 @@ var PostSchema = new mongoose.Schema({
 	text: {type:String, trim:true, default:''},
 	type: {type:String, trim:true, default:'event'}, // event, news
 	district: {type:String, trim:true, default:''},
+	rsvp: {type:Array, default:[]},
 	author: {type:mongoose.Schema.Types.Mixed, default:{}}, // can be team or profile.
 	geo: {
 		type: [Number], // array of Numbers
@@ -30,6 +31,7 @@ PostSchema.methods.summary = function(){
 		type: this.type,
 		district: this.district,
 		author: this.author,
+		rsvp: this.rsvp,
 		geo: this.geo,
 		timestamp: this.timestamp,
 		id: this._id
