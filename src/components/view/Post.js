@@ -47,7 +47,7 @@ class Post extends Component {
 						<li style={style.listItem}><a href="#">Comments <span style={{float:'right'}} className="badge">5</span></a></li>
 						<li style={style.listItem}><a href="#">Save</a></li>
 					</ul>
-				</div>				
+				</div>
 			</div>
 		)
 	}
