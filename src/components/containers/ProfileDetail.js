@@ -73,7 +73,6 @@ class ProfileDetail extends Component {
 		            <div id="header-wrap">
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
-
 								{ image }
 								<h2 style={style.title}>
 									{ username }
@@ -93,7 +92,12 @@ class ProfileDetail extends Component {
 					<div className="content-wrap container clearfix">
 
 						<div className="col_full col_last">
-							Profile Detail Page
+							<h2 style={style.title}>
+								Profile Detail Page
+							</h2>
+
+
+
 						</div>
 					</div>
 

@@ -1,7 +1,8 @@
 var mongoose = require('mongoose')
 
 var ProfileSchema = new mongoose.Schema({
-	username: {type:String, trim:true, lowercase:true, default:''},
+	username: {type:String, trim:true, default:''},
+	slug: {type:String, trim:true, lowercase:true, default:''},
 	image: {type:String, trim:true, default:process.env.DEFAULT_PROFILE_IMAGE},
 	email: {type:String, trim:true, lowercase:true, default:''},
 	credits: {type:Number, default:0}, // first 3 are free
@@ -13,6 +14,7 @@ var ProfileSchema = new mongoose.Schema({
 ProfileSchema.methods.summary = function(){
 	var summary = {
 		username: this.username,
+		slug: this.slug,
 		image: this.image,
 		email: this.email,
 		credits: this.credits,

@@ -19,6 +19,18 @@ class PostDetail extends Component {
 
 				<header id="header" className="no-sticky">
 		            <div id="header-wrap">
+						<div className="container clearfix">
+							<div style={{paddingTop:96}}>
+								Hosted By<br />
+								<img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.author.image+'=s140'} />
+								<h2 style={style.title}>
+									{ post.author.name }
+								</h2>
+								<hr />
+
+
+							</div>
+			            </div>
 
 		            </div>
 				</header>
@@ -27,7 +39,12 @@ class PostDetail extends Component {
 					<div className="content-wrap container clearfix">
 
 						<div className="col_full col_last">
-							{ post.title }
+							<h2 style={style.title}>
+								{ post.title }
+							</h2>
+							<p>{ post.text }</p>
+							<img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} />
+
 						</div>
 					</div>
 

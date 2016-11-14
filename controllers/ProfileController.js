@@ -1,4 +1,5 @@
 var Profile = require('../models/Profile')
+var TextUtils = require('../utils/TextUtils')
 var Promise = require('bluebird')
 var bcrypt = require('bcrypt')
 
@@ -46,6 +47,7 @@ module.exports = {
 	post: function(params){
 		return new Promise(function(resolve, reject){
 			params['password'] = bcrypt.hashSync(params.password, 10)
+			params['slug'] = TextUtils.slugVersion(params.username)
 			Profile.create(params, function(err, profile){
 				if (err){
 					reject(err)
