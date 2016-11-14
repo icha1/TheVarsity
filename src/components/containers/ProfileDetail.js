@@ -47,7 +47,12 @@ class ProfileDetail extends Component {
 		const style = styles.post
 		const profile = this.props.profiles[this.props.slug] // can be null
 
-		const username = (profile) ? profile.username : username
+		let username = null
+		let image = null
+		if (profile){
+			username = profile.username
+			image = profile.image+'=s140'
+		}
 
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
@@ -69,7 +74,7 @@ class ProfileDetail extends Component {
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
 
-								<img style={{padding:3, border:'1px solid #ddd'}} src={profile.image+'=s140'} />
+								<img style={{padding:3, border:'1px solid #ddd'}} src={image} />
 								<h2 style={style.title}>
 									{ username }
 								</h2>
