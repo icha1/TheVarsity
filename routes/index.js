@@ -38,7 +38,8 @@ router.get('/', function(req, res, next) {
 	var reducers = {}
 	var tags = {title: 'Home'}
 
-	controllers.account.checkCurrentUser(req)
+	controllers.account
+	.checkCurrentUser(req)
 	.then(function(user){
 		reducers['account'] = {currentUser: user, teams:[]} // can be null
 		
@@ -85,7 +86,8 @@ router.get('/:page', function(req, res, next) {
 	var reducers = {}
 	var tags = {title: page}
 
-	controllers.account.checkCurrentUser(req)
+	controllers.account
+	.checkCurrentUser(req)
 	.then(function(user){
 		reducers['account'] = {currentUser: user, teams:[]} // can be null		
 		initialStore = store.configureStore(reducers)
@@ -126,9 +128,13 @@ router.get('/:page/:slug', function(req, res, next) {
 	var reducers = {}
 	var tags = {}
 
-	var controller = controllers[page]
-	controller
-	.get({slug:slug}, false)
+	controllers.account
+	.checkCurrentUser(req)
+	.then(function(user){
+		reducers['account'] = {currentUser: user, teams:[]} // can be null
+		var controller = controllers[page]
+		return controller.get({slug:slug}, false)
+	})
 	.then(function(results){
 //		console.log('RESULTS: '+JSON.stringify(results))
 

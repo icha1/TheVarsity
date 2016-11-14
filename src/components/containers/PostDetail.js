@@ -35,7 +35,7 @@ class PostDetail extends Component {
 			}
 
 			this.setState({
-				comments: currentComments
+				comments: currentComments.reverse()
 			})
 		})
 	}
