@@ -64,7 +64,7 @@ class ProfileDetail extends Component {
 					</div>
 				</li>
 			)
-		})		
+		})
 
 		return (
 			<div className="clearfix">
