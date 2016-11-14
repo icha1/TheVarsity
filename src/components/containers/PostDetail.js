@@ -17,10 +17,6 @@ class PostDetail extends Component {
 		}
 	}
 
-	componentDidMount(){
-		
-	}
-
 	selectItem(index, event){
 		event.preventDefault()
 
@@ -79,7 +75,7 @@ class PostDetail extends Component {
 									{ post.title }
 								</h2>
 								<hr />
-								<p>{ post.text }</p>
+								<p className="lead">{ post.text }</p>
 								<img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} />
 							</div>
 
