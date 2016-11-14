@@ -166,14 +166,14 @@ class CreatePost extends Component {
 					</h4>
 					<span>{ DateUtils.today() }</span><br />
 					<a href="#" style={{marginLeft: 0}} className="button button-mini button-circle button-red">{ this.props.type }</a>
+					<hr />
+					<label>Post From</label>
+					<select id="author" onChange={this.updatePost.bind(this)} style={{border:'none', marginLeft:12}}>
+						{ usernameOption }
+						{ teamList }
+					</select>
 				</div>
-
 				<br />
-				<label>Post As</label>
-				<select id="author" onChange={this.updatePost.bind(this)} className="form-control" style={styles.post.select}>
-					{ usernameOption }
-					{ teamList }
-				</select>
 
 				<a href="#" onClick={this.submitPost.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Submit</a>
 				<a href="#" onClick={this.cancel.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Cancel</a>

@@ -104,7 +104,7 @@ class Feed extends Component {
 	}
 
 	createTeam(team){
-		const district = this.props.session.district
+		const district = this.props.session.currentDistrict
 		team['district'] = district.id
 
 		let address = Object.assign({}, team.address)

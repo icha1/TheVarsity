@@ -97,7 +97,6 @@ class CreateTeam extends Component {
 						<Dropzone onDrop={this.uploadImage.bind(this)} className="col_one_third col_last" style={{marginBottom:4}}>
 							<img style={styles.post.postImage} src={image} />
 						</Dropzone>
-
 					</div>
 				</div>
 				<br />

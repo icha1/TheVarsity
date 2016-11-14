@@ -72,9 +72,13 @@ export default {
 		},
 		select: {
 			marginBottom:16,
-			border:'1px solid #ddd',
+			borderBottom:'1px solid #ddd',
+			borderTop: 'none',
+			borderLeft: 'none',
+			borderRight: 'none',
 			borderRadius:0,
-			boxShadow:'none'
+			boxShadow:'none',
+			width: 100+'%'
 		},
 		admin: {
 			background: '#fff',
