@@ -10,6 +10,7 @@ class Post extends Component {
 		const style = styles.post
 
 		const path = (post.author.type == 'team') ? post.author.slug : post.author.name
+		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ post.title }</Link> : <a target='_blank' style={style.title} href={post.url}>{post.title}</a>
 		return (
 			<div className={styles.post.container.className} style={style.container}>
 				<div className="comment-meta">
@@ -21,7 +22,7 @@ class Post extends Component {
 				<div className={style.content.className} style={style.content}>
 					<div className="col_two_third" style={{marginBottom:4}}>
 						<h2 style={style.header}>
-							<Link to={'/post/'+post.slug} style={style.title}>{ post.title }</Link>
+							{ title }
 						</h2>
 						<p style={{marginTop:0}}>{ post.text }</p>
 					</div>
