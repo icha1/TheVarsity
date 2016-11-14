@@ -43,6 +43,7 @@ class Post extends Component {
 					</a>
 					<ul className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 						<li style={style.listItem}><a href="#">Share</a></li>
+						<li style={style.listItem}><a href="#">Attend</a></li>
 						<li style={style.listItem}><a href="#">Comments <span style={{float:'right'}} className="badge">5</span></a></li>
 						<li style={style.listItem}><a href="#">Save</a></li>
 					</ul>
