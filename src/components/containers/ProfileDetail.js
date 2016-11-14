@@ -49,9 +49,9 @@ class ProfileDetail extends Component {
 
 		let username = null
 		let image = null
-		if (profile){
+		if (profile != null){
 			username = profile.username
-			image = profile.image+'=s140'
+			image = <img style={{padding:3, border:'1px solid #ddd'}} src={profile.image+'=s140'} />
 		}
 
 
@@ -74,7 +74,7 @@ class ProfileDetail extends Component {
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
 
-								<img style={{padding:3, border:'1px solid #ddd'}} src={image} />
+								{ image }
 								<h2 style={style.title}>
 									{ username }
 								</h2>
