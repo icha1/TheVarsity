@@ -1,24 +1,26 @@
 import superagent from 'superagent'
+import Promise from 'bluebird'
 
 export default {
-	handleGet: (endpoint, params, completion) => {
-		superagent
-		.get(endpoint)
-		.query(params)
-		.set('Accept', 'application/json')
-		.end((err, res) => {
-			if (completion == null)
-				return
+	handleGet: (endpoint, params) => {
+		return new Promise((resolve, reject) => {
+			superagent
+			.get(endpoint)
+			.query(params)
+			.set('Accept', 'application/json')
+			.end((err, res) => {
+				if (err){ 
+					reject(err)
+					return
+				}
 
-			if (err){ 
-				completion(err, null)
-				return
-			}
+				if (res.body.confirmation != 'success'){
+					reject({message:res.body.message})
+					return
+				}
 
-			if (res.body.confirmation == 'success')
-	    		completion(null, res.body)
-			else 
-	    		completion({message:res.body.message}, null)
+				resolve(res.body)
+			})
 		})
 	},
 
