@@ -25,7 +25,6 @@ class TeamsMap extends Component {
 			lng: props.session.currentLocation.lng
 		}
 
-//		props.fetchDistrict(params, props.fetchTeams(props.session.currentLocation))
 		props.fetchDistrict(params)
 	}
 
@@ -43,7 +42,7 @@ class TeamsMap extends Component {
 		console.log('Distance: '+JSON.stringify(distance))
 
 		if (distance < 0.01)
-			return		
+			return
 
 		console.log('locationChanged: '+JSON.stringify(location))
 		const props = this.props
