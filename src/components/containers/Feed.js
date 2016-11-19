@@ -10,7 +10,6 @@ import styles from './styles'
 class Feed extends Component {
 	constructor(){
 		super()
-		this.fetchPosts = this.fetchPosts.bind(this)
 		this.showChat = this.showChat.bind(this)
 		this.state = {
 			showCreate: false,
@@ -132,34 +131,29 @@ class Feed extends Component {
 		})
 	}
 
-	fetchPosts(){
-		const session = this.props.session
-		if (session.currentDistrict.id == null)
-			return null
-
-		if (this.props.post.isFetching)
-			return null
-
-		const params = {
-			limit: 10,
-			type: session.selectedFeed,
-			lat: session.currentLocation.lat,
-			lng: session.currentLocation.lng
-		}
-
-		this.props.fetchPosts(params)
-		return null
-	}
-
 	componentDidUpdate(){
 //		console.log('componentDidUpdate: '+feed+' == '+JSON.stringify(this.props.post))
-		const feed = this.props.session.selectedFeed
+		const session = this.props.session
+		const feed = session.selectedFeed
 		if (feed == constants.FEED_TYPE_NEWS || feed == constants.FEED_TYPE_EVENT){ 
 			const list = this.props.post.feed[feed]
-			if (list != null)
+			if (list != null) // already there, no need to fetch
 				return
 
-			this.fetchPosts()
+			if (session.currentDistrict.id == null)
+				return null
+
+			if (this.props.post.isFetching) // in the middle of a fetch
+				return null
+
+			const params = {
+				limit: 10,
+				type: feed,
+				lat: session.currentLocation.lat,
+				lng: session.currentLocation.lng
+			}
+
+			this.props.fetchPosts(params)
 		}
 
 		if (feed == constants.FEED_TYPE_CHAT){
