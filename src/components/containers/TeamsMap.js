@@ -55,7 +55,6 @@ class TeamsMap extends Component {
 			lng: location.lng
 		}
 
-//		props.fetchDistrict(params, props.fetchTeams(location))
 		props.fetchDistrict(params)
 	}
 
@@ -70,80 +69,6 @@ class TeamsMap extends Component {
 
 		return this.props.teams
 	}
-
-	// fetchDistrict(){
-	// 	const params = {
-	// 		limit: 1,
-	// 		lat: this.props.location.lat,
-	// 		lng: this.props.location.lng
-	// 	}
-
-	// 	const props = this.props
-	// 	props.fetchDistrict(params, props.fetchTeams(props.session.currentLocation))
-
-		// APIManager
-		// .handleGet('/api/district', params)
-		// .then((response) => {
-		// 	console.log(JSON.stringify(response))
-		// 	const results = response.results
-		// 	this.props.districtChanged(results)
-
-		// 	if (results.length == 0)
-		// 		return
-
-		// 	return this.fetchTeams(this.props.location)
-		// })
-		// .catch((err) => {
-		// 	alert(err)
-		// })
-
-
-		// APIManager.handleGet('/api/district', params, (err, response) => {
-		// 	if (err){
-		// 		alert(err)
-		// 		return
-		// 	}
-
-		// 	const results = response.results
-		// 	this.props.districtChanged(results)
-
-		// 	if (results.length == 0)
-		// 		return
-
-		// 	const district = results[0]
-		// 	FirebaseManager.register('/'+district.id+'/comments', (err, currentComments) => {
-		// 		if (err){
-		// 			return
-		// 		}
-
-		// 		this.props.commentsReceived(currentComments)
-		// 		const user = this.props.user
-		// 		if (user == null) // not loggged in
-		// 			return
-
-		// 		let recentVisitors = district.recentVisitors
-		// 		let visit = recentVisitors[user.id]
-		// 		if (visit == null) // first visit
-		// 			visit = {count: 0}
-				
-		// 		visit['count'] = visit.count+1
-		// 		visit['timestamp'] = Date.now()
-		// 		visit['visitor'] = {
-		// 			id: user.id,
-		// 			username: user.username,
-		// 			image: user.image
-		// 		}
-
-		// 		recentVisitors[user.id] = visit
-		// 		console.log(JSON.stringify(recentVisitors))
-
-		// 		const url = '/api/district/'+district.id
-		// 		APIManager.handlePut(url, {recentVisitors: recentVisitors}, (err, result) => {
-
-		// 		})
-		// 	})
-		// })
-//	}
 
 	render(){
 
