@@ -5,6 +5,7 @@ var initialState = {
 	reload: false,
 	showLoading: false,
 	teams: [],
+	nearby: [], // districts nearby
 	currentDistrict: {
 		id: null,
 		name: '',
@@ -73,6 +74,7 @@ export default (state = initialState, action) => {
 
 			const district = list[0]
 			district['comments'] = []
+			newState['nearby'] = []
 			newState['currentDistrict'] = district
 			newState['reload'] = true // by setting true, this triggers a re-load of the feeds
 			return newState

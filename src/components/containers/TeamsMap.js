@@ -50,7 +50,7 @@ class TeamsMap extends Component {
 		props.locationChanged(location)
 
 		const params = {
-			limit: 1,
+			limit: 5,
 			lat: location.lat,
 			lng: location.lng
 		}
