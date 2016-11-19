@@ -2,7 +2,6 @@ import constants from '../constants/constants'
 import { APIManager } from '../utils'
 
 export default {
-
 	currentUserReceived: (user) => {
 		return {
 			type: constants.CURRENT_USER_RECIEVED,
@@ -21,7 +20,6 @@ export default {
 			return APIManager
 				.handleGet('/api/post', params)
 				.then((response) => {
-//					console.log('POSTS: '+JSON.stringify(response))
 					const results = response.results
 					dispatch({
 						type: constants.POSTS_RECEIVED,
@@ -66,7 +64,6 @@ export default {
 			APIManager
 			.handleGet('/api/team', params)
 			.then((response) => {
-//				console.log(JSON.stringify(response))
 				const results = response.results
 				dispatch({
 					type: constants.TEAMS_RECEIVED,
@@ -111,7 +108,6 @@ export default {
 			APIManager
 			.handleGet('/api/district', params)
 			.then((response) => {
-//				console.log(JSON.stringify(response))
 				const results = response.results
 				dispatch({
 					type: constants.DISTRICT_CHANGED,

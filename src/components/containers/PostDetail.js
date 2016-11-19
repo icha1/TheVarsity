@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
-import { Comment } from '../view'
+import { CreateComment, Comment } from '../view'
 import { DateUtils, FirebaseManager } from '../../utils'
 import styles from './styles'
 
@@ -11,11 +11,6 @@ class PostDetail extends Component {
 		this.state = {
 			selected: 0,
 			comments: [],
-			comment: {
-				profile: null,
-				text: '',
-				image: ''
-			},
 			menuItems: [
 				{name:'Overview', component:'Posts'},
 				{name:'Attend', component:'CreatePost'},
@@ -49,19 +44,7 @@ class PostDetail extends Component {
 		})
 	}
 
-	updateComment(event){
-//		console.log('UpdateComment: '+event.target.value)
-		let updated = Object.assign({}, this.state.comment)
-		updated['text'] = event.target.value
-		this.setState({
-			comment: updated
-		})
-	}
-
-	keyPress(event){
-		if (event.keyCode != 13)
-			return
-
+	submitComment(comment){
 		if (this.props.user == null){
 			alert('Please log in or register to post a comment.')
 			return
@@ -71,24 +54,17 @@ class PostDetail extends Component {
 		if (post == null)
 			return
 
-		let updated = Object.assign({}, this.state.comment)
+		let updated = Object.assign({}, comment)
 		updated['profile'] = {
 			id: this.props.user.id,
 			username: this.props.user.username,
 			image: this.props.user.image
 		}
 
+		const currentDistrict = this.props.session.currentDistrict
 		const path = '/'+post.id+'/comments/'+this.state.comments.length
 		FirebaseManager.post(path, updated, () => {
-			console.log('callback test') // TODO: post comment to API
-
-			this.setState({ // reset comment
-				comment: {
-					profile: null,
-					text: '',
-					image: ''
-				}
-			})
+//			console.log('callback test') // TODO: post comment to API
 		})
 	}
 
@@ -126,9 +102,7 @@ class PostDetail extends Component {
 		if (this.state.selected == 2){ // chat
 			content = (
 				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
-					<div style={{padding:16, background:'#ffffe6', borderTop:'1px solid #ddd'}}>
-						<input value={this.state.comment.text} onKeyUp={this.keyPress.bind(this)} onChange={this.updateComment.bind(this)} type="text" className="form-control" />
-					</div>
+					<CreateComment onCreate={this.submitComment.bind(this)} />
 					{
 						this.state.comments.map((comment, i) => {
 							return <Comment comment={comment} key={i} />
@@ -168,7 +142,6 @@ class PostDetail extends Component {
 							{ content }
 						</div>
 					</div>
-
 				</section>
 
 			</div>

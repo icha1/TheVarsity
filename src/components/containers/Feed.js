@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { APIManager, DateUtils, FirebaseManager } from '../../utils'
-import { PostFeed, CreatePost, CreateTeam, TeamFeed, Comment } from '../view'
+import { PostFeed, CreatePost, CreateTeam, TeamFeed, Comment, CreateComment } from '../view'
 import constants from '../../constants/constants'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -13,11 +13,7 @@ class Feed extends Component {
 		this.showChat = this.showChat.bind(this)
 		this.state = {
 			showCreate: false,
-			comment: {
-				profile: null,
-				text: '',
-				image: ''
-			}
+			commentsLoaded: false
 		}
 	}
 
@@ -89,19 +85,7 @@ class Feed extends Component {
 		})
 	}
 
-	updateComment(event){
-//		console.log('UpdateComment: '+event.target.value)
-		let updated = Object.assign({}, this.state.comment)
-		updated['text'] = event.target.value
-		this.setState({
-			comment: updated
-		})
-	}
-
-	keyPress(event){
-		if (event.keyCode != 13)
-			return
-
+	submitComment(comment){
 		if (this.props.user == null){
 			alert('Please log in or register to post a comment.')
 			return
@@ -110,24 +94,19 @@ class Feed extends Component {
 		if (this.props.session.currentDistrict.id == null) // no current district
 			return
 
-		let updated = Object.assign({}, this.state.comment)
+		let updated = Object.assign({}, comment)
 		updated['profile'] = {
 			id: this.props.user.id,
 			username: this.props.user.username,
 			image: this.props.user.image
 		}
 
+		console.log('submitComment: '+JSON.stringify(updated))
+
 		const currentDistrict = this.props.session.currentDistrict
 		const path = '/'+currentDistrict.id+'/comments/'+currentDistrict.comments.length
 		FirebaseManager.post(path, updated, () => {
 			console.log('callback test') // TODO: post comment to API
-			this.setState({ // reset comment
-				comment: {
-					profile: null,
-					text: '',
-					image: ''
-				}
-			})
 		})
 	}
 
@@ -157,8 +136,23 @@ class Feed extends Component {
 		}
 
 		if (feed == constants.FEED_TYPE_CHAT){
-			console.log('CONNECT TO FIREBASE!')
+			if (session.currentDistrict.id == null)
+				return null
 
+			if (this.state.commentsLoaded == true) // already connected
+				return
+
+			const path = '/'+session.currentDistrict.id+'/comments/'
+			FirebaseManager.register(path, (err, comments) => {
+				if (err)
+					return
+				
+				if (comments == null)
+					return
+
+				this.setState({commentsLoaded: true})
+				this.props.commentsReceived(comments)
+			})
 		}
 	}
 
@@ -210,9 +204,7 @@ class Feed extends Component {
 		if (feed == constants.FEED_TYPE_CHAT){
 			currentFeed = (
 				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
-					<div style={{padding:16, background:'#ffffe6', borderTop:'1px solid #ddd'}}>
-						<input value={this.state.comment.text} onKeyUp={this.keyPress.bind(this)} onChange={this.updateComment.bind(this)} type="text" className="form-control" />
-					</div>
+					<CreateComment onCreate={this.submitComment.bind(this)} />
 					{
 						this.props.session.currentDistrict.comments.map((comment, i) => {
 							return <Comment comment={comment} key={i} />
@@ -245,6 +237,7 @@ const mapDispatchToProps = (dispatch) => {
 		fetchPosts: params => dispatch(actions.fetchPosts(params)),
 		postsReceived: posts => dispatch(actions.postsReceived(posts)),
 		postCreated: post => dispatch(actions.postCreated(post)),
+		commentsReceived: comments => dispatch(actions.commentsReceived(comments)),
 		toggleLoader: isLoading => dispatch(actions.toggleLoader(isLoading))
 	}
 }
