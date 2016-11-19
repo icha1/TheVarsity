@@ -3,7 +3,8 @@ import constants from '../constants/constants'
 var initialState = {
 	map: {}, // organized by slug
 	feed: {}, // organized by type (event, article, etc)
-	list: []
+	list: [],
+	isFetching: false
 }
 
 
@@ -27,6 +28,7 @@ const update = (state, posts) => {
 	newState['list'] = array
 	newState['map'] = postsMap
 	newState['feed'] = postsFeed
+	newState['isFetching'] = false
 	return newState
 }
 
@@ -34,8 +36,14 @@ export default (state = initialState, action) => {
 
 	switch (action.type) {
 
+		case constants.FETCH_POSTS:
+			var newState = Object.assign({}, state)
+			newState['isFetching'] = true
+			return newState
+
+
 		case constants.POSTS_RECEIVED:
-//			console.log('POSTS_RECEIVED')
+			// console.log('POSTS_RECEIVED')
 			return update(state, action.posts)
 
 		case constants.POST_CREATED:
@@ -57,6 +65,16 @@ export default (state = initialState, action) => {
 			newState['list'] = array
 			newState['map'] = postsMap
 			newState['feed'] = postsFeed
+			newState['isFetching'] = false
+
+			return newState
+
+		case constants.DISTRICT_CHANGED:
+			// when district changes, reset current posts
+			var newState = Object.assign({}, state)
+			newState['map'] = {}
+			newState['feed'] = {}
+			newState['list'] = []
 
 			return newState
 

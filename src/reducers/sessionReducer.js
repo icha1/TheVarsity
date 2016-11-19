@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
 			return newState
 			
 		case constants.DISTRICT_CHANGED:
-			console.log('DISTRICT_CHANGED'+JSON.stringify(action.districts))
+//			console.log('DISTRICT_CHANGED'+JSON.stringify(action.districts))
 			var newState = Object.assign({}, state)
 
 			// TODO: check if previous district exists, if so then disconnect firebase reference

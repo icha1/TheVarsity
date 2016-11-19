@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import { connect } from 'react-redux'
-import { APIManager } from '../../utils'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
 import styles from './styles'

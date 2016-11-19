@@ -23,14 +23,14 @@ class ProfileDetail extends Component {
 		if (profile)
 			return
 
-		APIManager.handleGet('/api/profile', {username:this.props.slug}, (err, response) => {
-			if (err){
-				alert(err)
-				return
-			}
-
+		APIManager
+		.handleGet('/api/profile', {username:this.props.slug})
+		.then((response) => {
 			console.log(JSON.stringify(response))
 			this.props.profilesReceived(response.results)
+		})
+		.catch((err) => {
+			alert(err)
 		})
 	}
 

@@ -4,7 +4,6 @@ import { Modal } from 'react-bootstrap'
 import { APIManager } from '../../utils'
 import { Link, browserHistory } from 'react-router'
 import actions from '../../actions/actions'
-import store from '../../stores/store'
 import { connect } from 'react-redux'
 
 class Nav extends Component {
@@ -64,19 +63,20 @@ class Nav extends Component {
 	}
 
 	sendCredentials(endpoint){
-		APIManager.handlePost(endpoint, this.state.credentials, (err, response) => {
-			if (err){
-				alert(err.message)
-				return
-			}
-
+		APIManager
+		.handlePost(endpoint, this.state.credentials)
+		.then((result) => {
 			this.setState({
 				showRegister: false,
 				showLogin: false
 			})
 
-			store.currentStore().dispatch(actions.currentUserReceived(response.user))
+//			store.currentStore().dispatch(actions.currentUserReceived(result.user))
+			this.props.currentUserReceived(result.user)
 			browserHistory.push('/account')
+		})
+		.catch((err) => {
+			alert(err.message)
 		})
 	}
 
@@ -161,4 +161,11 @@ const stateToProps = (state) => {
 	}
 }
 
-export default connect(stateToProps)(Nav)
+const dispatchToProps = (dispatch) => {
+	return {
+		currentUserReceived: (user) => dispatch(actions.currentUserReceived(user))
+
+	}
+}
+
+export default connect(stateToProps, dispatchToProps)(Nav)

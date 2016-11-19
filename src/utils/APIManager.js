@@ -1,14 +1,24 @@
 import superagent from 'superagent'
 import Promise from 'bluebird'
 
+var queue = [] // only queue the GET requests, for now
+
 export default {
 	handleGet: (endpoint, params) => {
 		return new Promise((resolve, reject) => {
+			if (queue.indexOf(endpoint) != -1) // request already running, ignore
+				return
+			
+			queue.push(endpoint)
+
 			superagent
 			.get(endpoint)
 			.query(params)
 			.set('Accept', 'application/json')
 			.end((err, res) => {
+				let index = queue.indexOf(endpoint)
+				queue.splice(index, 1)
+
 				if (err){ 
 					reject(err)
 					return
@@ -25,51 +35,49 @@ export default {
 	},
 
 	// using superagent here because for some reason, cookies don't get installed using fetch (wtf)
-	handlePost: (endpoint, body, completion) => {
-		superagent
-		.post(endpoint)
-		.send(body)
-		.set('Accept', 'application/json')
-		.end((err, res) => {
-			if (completion == null)
-				return
+	handlePost: (endpoint, body) => {
+		return new Promise((resolve, reject) => {
+			superagent
+			.post(endpoint)
+			.send(body)
+			.set('Accept', 'application/json')
+			.end((err, res) => {
+				if (err){ 
+					reject(err)
+					return
+				}
+				
+				const json = res.body
+				if (json.confirmation != 'success'){
+					reject({message:json.message})
+		    		return
+				}
 
-			if (err){ 
-				completion(err, null)
-				return
-			}
-			
-			const json = res.body
-//			console.log('ERROR: '+JSON.stringify(json))
-			if (json.confirmation != 'success'){
-	    		completion({message:json.message}, null)
-	    		return
-			}
-
-	    	completion(null, json)
+				resolve(json)
+			})
 		})
 	},
 
-	handlePut: (endpoint, body, completion) => {
-		superagent
-		.put(endpoint)
-		.send(body)
-		.set('Accept', 'application/json')
-		.end((err, res) => {
-			if (completion == null)
-				return
+	handlePut: (endpoint, body) => {
+		return new Promise((resolve, reject) => {
+			superagent
+			.put(endpoint)
+			.send(body)
+			.set('Accept', 'application/json')
+			.end((err, res) => {
+				if (err){ 
+					reject(err)
+					return
+				}
+				
+				const json = res.body
+				if (json.confirmation != 'success'){
+					reject({message:json.message})
+		    		return
+				}
 
-			if (err){ 
-				completion(err, null)
-				return
-			}
-			
-			if (res.body.confirmation != 'success'){
-	    		completion({message:res.body.message}, null)
-	    		return
-			}
-
-	    	completion(null, res.body)
+				resolve(json)
+			})
 		})
 	},
 
