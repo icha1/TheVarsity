@@ -49,19 +49,18 @@ class CreatePost extends Component {
 						url: event.target.value
 					}
 
-					APIManager.handleGet('/tags', params, (err, response) => {
-						console.log(JSON.stringify(response))
-						if (err){
-							alert(JSON.stringify(err))
-							return
-						}
-
+					APIManager
+					.handleGet('/tags', params)
+					.then((response) => {
 						const tags = response.tags // title, image, description
 						updated['title'] = tags.title
 						updated['image'] = tags.image
 						updated['text'] = tags.description
 						updated['url'] = tags.url
 						this.setState({post: updated})
+					})
+					.catch((err) => {
+
 					})
 					return
 			    }
