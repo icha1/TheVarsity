@@ -10,8 +10,8 @@ var PostSchema = new mongoose.Schema({
 	text: {type:String, trim:true, default:''},
 	type: {type:String, trim:true, default:'event'}, // event, news
 	district: {type:String, trim:true, default:''},
-	rsvp: {type:Array, default:[]},
 	author: {type:mongoose.Schema.Types.Mixed, default:{}}, // can be team or profile.
+	eventDetails: {type:mongoose.Schema.Types.Mixed, default:{}}, // date, rsvp list, status, etc. If not event, this will be empty
 	geo: {
 		type: [Number], // array of Numbers
 		index: '2d'
@@ -31,7 +31,7 @@ PostSchema.methods.summary = function(){
 		type: this.type,
 		district: this.district,
 		author: this.author,
-		rsvp: this.rsvp,
+		eventDetails: this.eventDetails,
 		geo: this.geo,
 		timestamp: this.timestamp,
 		id: this._id
