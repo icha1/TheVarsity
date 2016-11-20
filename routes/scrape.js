@@ -62,7 +62,7 @@ router.get('/', function(req, res, next){
 		var images = mostRecent.images
 		var standard_resolution = images['standard_resolution']['url']
 		var image = standard_resolution.split('?')[0]
-		postInfo['image'] = image.replace('e35/', 'e35/c150.150.600.600/')
+		postInfo['image'] = image.replace('e35/', 'e35/c150.150.600.600/') // this crops instagram images into squares
 		return controllers.post.post(postInfo)
 	})
 	.then(function(post){

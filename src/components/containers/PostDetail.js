@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
-import { CreateComment, Comment } from '../view'
+import { CreateComment, Comment, ProfilePreview } from '../view'
 import { DateUtils, FirebaseManager } from '../../utils'
 import styles from './styles'
 
@@ -187,14 +187,14 @@ class PostDetail extends Component {
 							Attending
 						</h2>
 						<hr />
-						<ul style={{listStyleType:'none', paddingLeft:12}}>
 							{
 								rsvpList.map((attendeeId, i) => {
 									const attendee = post.eventDetails.rsvp[attendeeId]
-									return <li key={attendeeId}>{attendee.name}</li>
+									return (
+										<ProfilePreview key={attendee.id} profile={attendee} />
+									)
 								})
 							}
-						</ul>
 					</div>
 				</div>
 			)

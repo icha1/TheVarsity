@@ -3,7 +3,6 @@ import constants from '../constants/constants'
 var initialState = {
 	map: {}, // organized by slug
 	feed: {}, // organized by type (event, article, etc)
-	list: [],
 	isFetching: false
 }
 
@@ -25,7 +24,6 @@ const update = (state, posts) => {
 		}
 	})
 
-	newState['list'] = array
 	newState['map'] = postsMap
 	newState['feed'] = postsFeed
 	newState['isFetching'] = false
@@ -39,6 +37,15 @@ export default (state = initialState, action) => {
 		case constants.FETCH_POSTS:
 			var newState = Object.assign({}, state)
 			newState['isFetching'] = true
+
+			// prepare an empty array for the feed being fetched
+			// so that it initializes and doesn't trigger 
+			// rerender infinitely on Feed component
+
+			var postsFeed = Object.assign({}, newState.feed)
+			postsFeed[action.feed] = []
+			newState['feed'] = postsFeed
+
 			return newState
 
 
@@ -73,7 +80,6 @@ export default (state = initialState, action) => {
 				postsFeed[post.type] = feedArray				
 			}
 
-			newState['list'] = array
 			newState['map'] = postsMap
 			newState['feed'] = postsFeed
 			newState['isFetching'] = false
@@ -85,7 +91,6 @@ export default (state = initialState, action) => {
 			var newState = Object.assign({}, state)
 			newState['map'] = {}
 			newState['feed'] = {}
-			newState['list'] = []
 
 			return newState
 

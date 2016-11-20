@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
+import { ProfilePreview } from '../view'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
@@ -42,13 +43,7 @@ class District extends Component {
 		const recentVisitors = district.recentVisitors
 		const visitors = Object.keys(recentVisitors).map((id, i) => {
 			const visitor = recentVisitors[id].visitor
-			return (
-				<div key={id} style={{borderBottom:'1px solid #ddd', padding:16}}>
-					<Link to={'/profile/'+visitor.username}>
-						{ visitor.username }
-					</Link>
-				</div>
-			)
+			return <ProfilePreview key={visitor.id} profile={visitor} />
 		})
 
 		return (

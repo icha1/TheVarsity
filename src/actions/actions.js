@@ -14,7 +14,8 @@ export default {
 
 		return dispatch => {
 			dispatch({
-				type: constants.FETCH_POSTS
+				type: constants.FETCH_POSTS,
+				feed: params.type
 			})
 
 			return APIManager
@@ -60,7 +61,7 @@ export default {
 				let eventDetails = Object.assign({}, result.eventDetails)
 				const attendee = {
 					id: profile.id,
-					name: profile.username,
+					username: profile.username,
 					image: profile.image
 				}
 

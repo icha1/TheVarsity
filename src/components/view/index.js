@@ -7,6 +7,7 @@ import TeamFeed from './TeamFeed'
 import TeamPreview from './TeamPreview'
 import CreatePost from './CreatePost'
 import CreateTeam from './CreateTeam'
+import ProfilePreview from './ProfilePreview'
 
 export {
 	Map,
@@ -17,5 +18,6 @@ export {
 	TeamFeed,
 	TeamPreview,
 	CreatePost,
-	CreateTeam
+	CreateTeam,
+	ProfilePreview
 }

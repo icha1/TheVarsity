@@ -10,7 +10,6 @@ import styles from './styles'
 class Feed extends Component {
 	constructor(){
 		super()
-		this.showChat = this.showChat.bind(this)
 		this.state = {
 			showCreate: false,
 			commentsLoaded: false
@@ -31,11 +30,12 @@ class Feed extends Component {
 		this.props.toggleLoader(isLoading)
 	}
 
-	showChat(){
-		console.log('showChat: ')
-	}
-
 	submitPost(post){
+		if (this.props.user == null){
+			alert('Please log in or register to submit.')
+			return
+		}
+
 		const session = this.props.session
 		post['district'] = session.currentDistrict.id
 		const currentLocation = session.currentLocation
@@ -111,9 +111,9 @@ class Feed extends Component {
 	}
 
 	componentDidUpdate(){
-//		console.log('componentDidUpdate: '+feed+' == '+JSON.stringify(this.props.post))
 		const session = this.props.session
 		const feed = session.selectedFeed
+		console.log('componentDidUpdate: ' + feed)
 		if (feed == constants.FEED_TYPE_NEWS || feed == constants.FEED_TYPE_EVENT){ 
 			const list = this.props.post.feed[feed]
 			if (list != null) // already there, no need to fetch
