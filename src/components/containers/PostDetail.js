@@ -9,14 +9,31 @@ class PostDetail extends Component {
 	constructor(){
 		super()
 		this.state = {
-			selected: 0,
+			selected: 'Overview',
 			comments: [],
+			menuItems: [
+				{name:'Overview', component:'Posts'},
+				{name:'Chat', component:'ManageNotifications'}
+			]
+		}
+	}
+
+	componentWillMount(){
+		const post = this.props.posts[this.props.slug]
+		if (post == null)
+			return
+
+		if (post.type != 'event')
+			return
+
+		// Events Menu
+		this.setState({
 			menuItems: [
 				{name:'Overview', component:'Posts'},
 				{name:'Attend', component:'CreatePost'},
 				{name:'Chat', component:'ManageNotifications'}
 			]
-		}
+		})
 	}
 
 	componentDidMount(){
@@ -35,13 +52,12 @@ class PostDetail extends Component {
 		})
 	}
 
-	selectItem(index, event){
+	selectItem(name, event){
 		event.preventDefault()
 		window.scrollTo(0, 0)
 
-		const item = this.state.menuItems
 		this.setState({
-			selected: index
+			selected: name
 		})
 	}
 
@@ -95,20 +111,22 @@ class PostDetail extends Component {
 	render(){
 		const style = styles.post
 		const post = this.props.posts[this.props.slug]
+		const selected = this.state.selected
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
-			const itemStyle = (i == this.state.selected) ? styles.team.selected : styles.team.menuItem
+			const itemStyle = (item.name == selected) ? styles.team.selected : styles.team.menuItem
 			return (
 				<li key={i}>
 					<div style={itemStyle}>
-						<a onClick={this.selectItem.bind(this, i)} href="#"><div>{item.name}</div></a>
+						<a onClick={this.selectItem.bind(this, item.name)} href="#"><div>{item.name}</div></a>
 					</div>
 				</li>
 			)
 		})
 
+
 		let content = null
-		if (this.state.selected == 0){ // overview
+		if (selected == 'Overview'){ // overview
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
 					<h2 style={style.title}>
@@ -121,7 +139,7 @@ class PostDetail extends Component {
 			)
 		}
 
-		if (this.state.selected == 1){ // attend
+		if (selected == 'Attend'){ // attend
 			const rsvpList = (post.eventDetails.rsvp == null) ? [] : Object.keys(post.eventDetails.rsvp)
 
 			content = (
@@ -182,7 +200,7 @@ class PostDetail extends Component {
 			)
 		}
 
-		if (this.state.selected == 2){ // chat
+		if (selected == 'Chat'){ // chat
 			content = (
 				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
 					<CreateComment onCreate={this.submitComment.bind(this)} />
