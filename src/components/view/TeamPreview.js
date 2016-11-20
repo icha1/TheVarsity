@@ -23,7 +23,7 @@ class TeamPreview extends Component {
 						<p style={{marginTop:0}}>{ TextUtils.truncateText(team.description, 220) }</p>
 					</div>
 					<div className="col_one_third col_last" style={{marginBottom:4}}>
-						<img style={styles.postImage} src={team.image} />
+						<img style={styles.post.postImage} src={team.image} />
 					</div>
 				</div>
 				<hr />
