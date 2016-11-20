@@ -182,20 +182,29 @@ class PostDetail extends Component {
 						<br />
 					</div>
 
-					<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2, marginTop:36}}>
-						<h2 style={style.title}>
-							Attending
-						</h2>
-						<hr />
-							{
-								rsvpList.map((attendeeId, i) => {
-									const attendee = post.eventDetails.rsvp[attendeeId]
-									return (
-										<ProfilePreview key={attendee.id} profile={attendee} />
-									)
-								})
-							}
+
+					<div className="feature-box center media-box fbox-bg">
+						<div className="fbox-desc">
+
+							<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
+								<h2 style={{fontFamily:'Pathway Gothic One', marginBottom:0}}>Attending</h2>
+							</div>
+
+
+							<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
+									{
+										rsvpList.map((attendeeId, i) => {
+											const attendee = post.eventDetails.rsvp[attendeeId]
+											return (
+												<ProfilePreview key={attendee.id} profile={attendee} />
+											)
+										})
+									}
+							</div>
+
+						</div>
 					</div>
+
 				</div>
 			)
 		}
