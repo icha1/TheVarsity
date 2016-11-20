@@ -4,7 +4,10 @@ export default {
 			fontWeight: 100
 		},
 		title: {
-			color:'#fff'
+			color:'#fff',
+			fontFamily: 'Pathway Gothic One',
+			fontWeight: 200,
+			fontSize: 30
 		},
 		modal: {
 			background:'#f9f9f9',

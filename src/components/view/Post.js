@@ -21,9 +21,7 @@ class Post extends Component {
 				</div>
 				<div className={style.content.className} style={style.content}>
 					<div className="col_two_third" style={{marginBottom:4}}>
-						<h2 style={style.header}>
-							{ title }
-						</h2>
+						<h2 style={style.header}>{ title }</h2>
 						<p style={{marginTop:0}}>{ TextUtils.truncateText(post.text, 220) }</p>
 					</div>
 					<div className="col_one_third col_last" style={{marginBottom:4}}>
