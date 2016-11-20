@@ -51,6 +51,40 @@ export default {
 		}
 	},
 
+	attendEvent: (post, profile) => {
+		return dispatch => {
+			APIManager
+			.handleGet('/api/post/'+post.id, null)
+			.then((response) => {
+				const result = response.result
+				let eventDetails = Object.assign({}, result.eventDetails)
+				const attendee = {
+					id: profile.id,
+					name: profile.username,
+					image: profile.image
+				}
+
+				let rsvp = (eventDetails.rsvp) ? Object.assign({}, eventDetails.rsvp) : {}
+				rsvp[attendee.id] = attendee
+				eventDetails['rsvp'] = rsvp
+				eventDetails['count'] = Object.keys(rsvp).length
+
+				result['eventDetails'] = eventDetails
+				return APIManager.handlePut('/api/post/'+post.id, result)
+			})
+			.then((updated) => {
+				console.log('UPDATED: '+JSON.stringify(updated))
+				dispatch({
+					type: constants.POST_UPDATED,
+					post: updated.result
+				})
+			})
+			.catch((err) => {
+				alert(err)
+			})
+		}
+	},
+
 	venuesReceived: (venues) => {
 		return {
 			type: constants.VENUES_RECEIVED,

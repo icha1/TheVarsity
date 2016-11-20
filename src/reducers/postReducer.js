@@ -46,6 +46,17 @@ export default (state = initialState, action) => {
 			// console.log('POSTS_RECEIVED')
 			return update(state, action.posts)
 
+		case constants.POST_UPDATED:
+			var newState = Object.assign({}, state)
+			var array = Object.assign([], newState.list)
+			var postsMap = Object.assign({}, newState.map)
+			var postsFeed = Object.assign({}, newState.feed)
+
+			postsMap[action.post.slug] = action.post
+			newState['map'] = postsMap
+
+			return newState
+
 		case constants.POST_CREATED:
 			var newState = Object.assign({}, state)
 			var array = Object.assign([], newState.list)

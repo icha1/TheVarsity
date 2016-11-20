@@ -37,6 +37,7 @@ class PostDetail extends Component {
 
 	selectItem(index, event){
 		event.preventDefault()
+		window.scrollTo(0, 0)
 
 		const item = this.state.menuItems
 		this.setState({
@@ -68,6 +69,29 @@ class PostDetail extends Component {
 		})
 	}
 
+	attendEvent(event){
+		event.preventDefault()
+
+		if (this.props.user == null){
+			alert('Please register or log in to attend this event.')
+			return
+		}
+
+		const post = this.props.posts[this.props.slug]
+		if (post == null)
+			return
+
+		const rsvp = (post.eventDetails.rsvp == null) ? {} : post.eventDetails.rsvp
+		if (rsvp[this.props.user.id] != null){
+			alert('You are already registered for this event.')
+			return
+		}
+
+		// download fresh copy of post, update rsvp list, send put call:
+		this.props.attendEvent(post, this.props.user)
+
+	}
+
 	render(){
 		const style = styles.post
 		const post = this.props.posts[this.props.slug]
@@ -96,9 +120,68 @@ class PostDetail extends Component {
 				</div>
 			)
 		}
-		if (this.state.selected == 1){ // attend
 
+		if (this.state.selected == 1){ // attend
+			const rsvpList = (post.eventDetails.rsvp == null) ? [] : Object.keys(post.eventDetails.rsvp)
+
+			content = (
+				<div>
+					<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
+						<h2 style={style.title}>
+							Attend { post.title }
+						</h2>
+						<hr />
+						<table className="table table-striped">
+							<thead>
+								<tr>
+									<td><strong>Type</strong></td>
+									<td><strong>Price</strong></td>
+									<td><strong>QTY</strong></td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>General</td>
+									<td>Free</td>
+									<td>
+										<select style={{background:'#fff'}}>
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+											<option>6</option>
+											<option>7</option>
+											<option>8</option>
+											<option>9</option>
+											<option>10</option>
+										</select>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<a href="#" onClick={this.attendEvent.bind(this)} style={{float:'right', margin:0}} className='button button-small button-circle button-blue clearfix'>RSVP</a>
+						<br />
+					</div>
+
+					<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2, marginTop:36}}>
+						<h2 style={style.title}>
+							Attending
+						</h2>
+						<hr />
+						<ul style={{listStyleType:'none', paddingLeft:12}}>
+							{
+								rsvpList.map((attendeeId, i) => {
+									const attendee = post.eventDetails.rsvp[attendeeId]
+									return <li key={attendeeId}>{attendee.name}</li>
+								})
+							}
+						</ul>
+					</div>
+				</div>
+			)
 		}
+
 		if (this.state.selected == 2){ // chat
 			content = (
 				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
@@ -137,11 +220,15 @@ class PostDetail extends Component {
 
 				<section id="content" style={{background:'#f9f9f9', minHeight:800}}>
 					<div className="content-wrap container clearfix">
-
-						<div className="col_full col_last">
+						<div className="col_two_third">
 							{ content }
 						</div>
+
+						<div className="col_one_third col_last">
+							Right Side
+						</div>
 					</div>
+
 				</section>
 
 			</div>
@@ -158,4 +245,11 @@ const stateToProps = (state) => {
 	}
 }
 
-export default connect(stateToProps)(PostDetail)
+const dispatchToProps = (dispatch) => {
+	return {
+		attendEvent: (post, profile) => dispatch(actions.attendEvent(post, profile))
+	}
+
+}
+
+export default connect(stateToProps, dispatchToProps)(PostDetail)
