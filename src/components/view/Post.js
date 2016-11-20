@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { DateUtils } from '../../utils'
+import { TextUtils, DateUtils } from '../../utils'
 import styles from './styles'
 
 class Post extends Component {
@@ -24,7 +24,7 @@ class Post extends Component {
 						<h2 style={style.header}>
 							{ title }
 						</h2>
-						<p style={{marginTop:0}}>{ post.text }</p>
+						<p style={{marginTop:0}}>{ TextUtils.truncateText(post.text, 220) }</p>
 					</div>
 					<div className="col_one_third col_last" style={{marginBottom:4}}>
 						<img style={styles.postImage} src={post.image} />
