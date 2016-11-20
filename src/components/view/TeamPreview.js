@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { DateUtils } from '../../utils'
+import { DateUtils, TextUtils } from '../../utils'
 import styles from './styles'
 
 class TeamPreview extends Component {
@@ -20,7 +20,7 @@ class TeamPreview extends Component {
 						<h2 style={styles.post.header}>
 							<Link to={'/team/'+team.slug} style={styles.post.title}>{ team.name }</Link>
 						</h2>
-						<p style={{marginTop:0}}>{ team.description }</p>
+						<p style={{marginTop:0}}>{ TextUtils.truncateText(team.description, 220) }</p>
 					</div>
 					<div className="col_one_third col_last" style={{marginBottom:4}}>
 						<img style={styles.postImage} src={team.image} />
