@@ -41,7 +41,7 @@ router.get('/', function(req, res, next){
 
 		// create post:
 		postInfo['title'] = team.name
-		postInfo['slug'] = TextUtils.slugVersion(team.name)
+		postInfo['slug'] = TextUtils.slugVersion(team.name)+'-'+TextUtils.randomString(8)
 		postInfo['geo'] = team.geo
 		postInfo['district'] = team.district
 		postInfo['author'] = {
