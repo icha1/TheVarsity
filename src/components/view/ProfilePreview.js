@@ -8,7 +8,7 @@ class ProfilePreview extends Component {
 
 		return (
 			<div style={{borderBottom:'1px solid #ddd', padding:16}}>
-				<img style={{align:'left', marginRight:12, borderRadius:36}} src={profile.image+'=s72-c'} />
+				<img style={{align:'left', marginRight:12, borderRadius:18}} src={profile.image+'=s36-c'} />
 				<Link to={'/profile/'+profile.username}>
 					{ profile.username }
 				</Link>
