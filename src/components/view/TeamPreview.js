@@ -28,6 +28,18 @@ class TeamPreview extends Component {
 				</div>
 				<hr />
 
+				<h4 style={styles.post.header}>{ team.address.street }</h4>
+				<span>{ team.members.length } members</span><br />
+				<div style={{float:'right'}} className="dropdown">
+					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<img style={{width:32, float:'right'}} src="/images/dots.png" />
+					</a>
+					<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+						<li style={styles.post.listItem}><a href="#">Share</a></li>
+						<li style={styles.post.listItem}><a href="#">Save</a></li>
+					</ul>
+				</div>
+
 			</div>
 		)
 	}
