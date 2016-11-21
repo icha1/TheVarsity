@@ -11,6 +11,28 @@ class Post extends Component {
 
 		const path = (post.author.type == 'team') ? post.author.slug : post.author.name
 		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ post.title }</Link> : <a target='_blank' style={style.title} href={post.url}>{post.title}</a>
+
+		let submenu = null 
+		if (post.type == 'news'){
+			submenu = (
+				<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+					<li style={style.listItem}><a href="#">Share</a></li>
+					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments <span style={{float:'right'}} className="badge">5</span></Link></li>
+					<li style={style.listItem}><a href="#">Save</a></li>
+				</ul>
+			)
+		}
+		else {
+			submenu = (
+				<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+					<li style={style.listItem}><a href="#">Share</a></li>
+					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=attend'}>Attend</Link></li>
+					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments <span style={{float:'right'}} className="badge">5</span></Link></li>
+					<li style={style.listItem}><a href="#">Save</a></li>
+				</ul>
+			)
+		}
+
 		return (
 			<div className={styles.post.container.className} style={style.container}>
 				<div className="comment-meta">
@@ -40,12 +62,7 @@ class Post extends Component {
 					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						<img style={{width:32, float:'right'}} src="/images/dots.png" />
 					</a>
-					<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-						<li style={style.listItem}><a href="#">Share</a></li>
-						<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=attend'}>Attend</Link></li>
-						<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments <span style={{float:'right'}} className="badge">5</span></Link></li>
-						<li style={style.listItem}><a href="#">Save</a></li>
-					</ul>
+					{ submenu }
 				</div>
 			</div>
 		)
