@@ -52,7 +52,7 @@ export default {
 		}
 	},
 
-	attendEvent: (post, profile) => {
+	attendEvent: (post, profile, qty) => {
 		return dispatch => {
 			APIManager
 			.handleGet('/api/post/'+post.id, null)
@@ -62,7 +62,8 @@ export default {
 				const attendee = {
 					id: profile.id,
 					username: profile.username,
-					image: profile.image
+					image: profile.image,
+					qty: qty
 				}
 
 				let rsvp = (eventDetails.rsvp) ? Object.assign({}, eventDetails.rsvp) : {}

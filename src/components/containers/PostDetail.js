@@ -11,6 +11,7 @@ class PostDetail extends Component {
 		this.state = {
 			selected: 'Overview',
 			comments: [],
+			numTickets: 1,
 			menuItems: [
 				{name:'Overview', component:'Posts'},
 				{name:'Chat', component:'ManageNotifications'}
@@ -104,8 +105,16 @@ class PostDetail extends Component {
 		}
 
 		// download fresh copy of post, update rsvp list, send put call:
-		this.props.attendEvent(post, this.props.user)
+		this.props.attendEvent(post, this.props.user, this.state.numTickets)
+	}
 
+	updateNumTickets(event){
+		event.preventDefault()
+		console.log('updateRsvp: '+event.target.value)
+
+		this.setState({
+			numTickets: event.target.value
+		})
 	}
 
 	render(){
@@ -162,17 +171,17 @@ class PostDetail extends Component {
 									<td>General</td>
 									<td>Free</td>
 									<td>
-										<select style={{background:'#fff'}}>
-											<option>1</option>
-											<option>2</option>
-											<option>3</option>
-											<option>4</option>
-											<option>5</option>
-											<option>6</option>
-											<option>7</option>
-											<option>8</option>
-											<option>9</option>
-											<option>10</option>
+										<select onChange={this.updateNumTickets.bind(this)} style={{background:'#fff'}}>
+											<option value='1'>1</option>
+											<option value='2'>2</option>
+											<option value='3'>3</option>
+											<option value='4'>4</option>
+											<option value='5'>5</option>
+											<option value='6'>6</option>
+											<option value='7'>7</option>
+											<option value='8'>8</option>
+											<option value='9'>9</option>
+											<option value='10'>10</option>
 										</select>
 									</td>
 								</tr>
@@ -274,7 +283,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
-		attendEvent: (post, profile) => dispatch(actions.attendEvent(post, profile))
+		attendEvent: (post, profile, qty) => dispatch(actions.attendEvent(post, profile, qty))
 	}
 
 }
