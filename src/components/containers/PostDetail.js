@@ -93,6 +93,7 @@ class PostDetail extends Component {
 		const currentDistrict = this.props.session.currentDistrict
 		const path = '/'+post.id+'/comments/'+this.state.comments.length
 		FirebaseManager.post(path, updated, () => {
+			this.props.updatePost(post, {numComments: this.state.comments.length})
 //			console.log('callback test') // TODO: post comment to API
 		})
 	}
@@ -294,7 +295,8 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
-		attendEvent: (post, profile, qty) => dispatch(actions.attendEvent(post, profile, qty))
+		attendEvent: (post, profile, qty) => dispatch(actions.attendEvent(post, profile, qty)),
+		updatePost: (post, params) => dispatch(actions.updatePost(post, params))
 	}
 
 }

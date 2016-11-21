@@ -18,8 +18,7 @@ export default {
 				feed: params.type
 			})
 
-			return APIManager
-				.handleGet('/api/post', params)
+			return APIManager.handleGet('/api/post', params)
 				.then((response) => {
 					const results = response.results
 					dispatch({
@@ -52,10 +51,24 @@ export default {
 		}
 	},
 
+	updatePost: (post, params) => {
+		return dispatch => {
+			APIManager.handlePut('/api/post/'+post.id, params)
+			.then((response) => {
+				dispatch({
+					type: constants.POST_UPDATED,
+					post: response.result
+				})
+			})
+			.catch((err) => {
+				alert(err.message)
+			})
+		}
+	},
+
 	attendEvent: (post, profile, qty) => {
 		return dispatch => {
-			APIManager
-			.handleGet('/api/post/'+post.id, null)
+			APIManager.handleGet('/api/post/'+post.id, null)
 			.then((response) => {
 				const result = response.result
 				let eventDetails = Object.assign({}, result.eventDetails)
@@ -97,8 +110,7 @@ export default {
 	fetchTeams: (params) => {
 //		console.log('ACTIONS - fetchTeams: '+JSON.stringify(params))
 		return dispatch => {
-			APIManager
-			.handleGet('/api/team', params)
+			APIManager.handleGet('/api/team', params)
 			.then((response) => {
 				const results = response.results
 				dispatch({
@@ -141,8 +153,7 @@ export default {
 	fetchDistrict: (params, next) => {
 //		console.log('ACTIONS - fetchDistrict: '+JSON.stringify(params))
 		return (dispatch) => {
-			APIManager
-			.handleGet('/api/district', params)
+			APIManager.handleGet('/api/district', params)
 			.then((response) => {
 				const results = response.results
 				dispatch({

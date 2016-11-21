@@ -11,13 +11,14 @@ class Post extends Component {
 
 		const path = (post.author.type == 'team') ? post.author.slug : post.author.name
 		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ post.title }</Link> : <a target='_blank' style={style.title} href={post.url}>{post.title}</a>
+		const numCommentsBadge = (post.numComments == 0) ? null : <span style={{float:'right'}} className="badge">{post.numComments}</span>
 
 		let submenu = null 
 		if (post.type == 'news'){
 			submenu = (
 				<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
 					<li style={style.listItem}><a href="#">Share</a></li>
-					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments <span style={{float:'right'}} className="badge">5</span></Link></li>
+					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
 					<li style={style.listItem}><a href="#">Save</a></li>
 				</ul>
 			)
@@ -27,7 +28,7 @@ class Post extends Component {
 				<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
 					<li style={style.listItem}><a href="#">Share</a></li>
 					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=attend'}>Attend</Link></li>
-					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments <span style={{float:'right'}} className="badge">5</span></Link></li>
+					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
 					<li style={style.listItem}><a href="#">Save</a></li>
 				</ul>
 			)
