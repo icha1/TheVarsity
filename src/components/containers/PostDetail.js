@@ -20,7 +20,7 @@ class PostDetail extends Component {
 	}
 
 	componentWillMount(){
-		console.log('componentWillMount: '+JSON.stringify(this.props.query))
+//		console.log('componentWillMount: '+JSON.stringify(this.props.query))
 
 		const post = this.props.posts[this.props.slug]
 		if (post == null)

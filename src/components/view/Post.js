@@ -40,7 +40,7 @@ class Post extends Component {
 					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						<img style={{width:32, float:'right'}} src="/images/dots.png" />
 					</a>
-					<ul className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+					<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
 						<li style={style.listItem}><a href="#">Share</a></li>
 						<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=attend'}>Attend</Link></li>
 						<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments <span style={{float:'right'}} className="badge">5</span></Link></li>
