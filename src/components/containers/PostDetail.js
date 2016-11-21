@@ -83,6 +83,7 @@ class PostDetail extends Component {
 			return
 
 		let updated = Object.assign({}, comment)
+		updated['timestamp'] = new Date().getTime()
 		updated['profile'] = {
 			id: this.props.user.id,
 			username: this.props.user.username,
