@@ -143,6 +143,24 @@ export default {
 		}
 	},
 
+	createTeam: (team) => {
+		return dispatch => {
+			APIManager.handlePost('/api/team', team)
+			.then((response) => {
+				const result = response.result
+				dispatch({
+					type: constants.TEAM_CREATED,
+					team: result					
+				})
+
+				return
+			})
+			.catch((err) => {
+				alert(err)
+			})
+		}
+	},
+
 	profilesReceived: (profiles) => {
 		return {
 			type: constants.PROFILES_RECEIVED,

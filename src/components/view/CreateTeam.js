@@ -43,19 +43,20 @@ class CreateTeam extends Component {
 	submitTeam(event){
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.team)
-		let members = []
+		let invited = []
 		updated.invited.split(',').forEach((member, i) => {
-			members.push(member.trim())
+			invited.push(member.trim())
 		})
 
-		updated['members'] = members
-		delete updated['invited']
+		updated['invited'] = invited
+//		delete updated['invited']
 
 		updated['address'] = {
 			street: updated.street,
 			city: '',
 			state: ''
 		}
+		
 		delete updated['street']
 
 		updated['social'] = {

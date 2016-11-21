@@ -47,8 +47,7 @@ class Feed extends Component {
 		console.log('submitPost: '+JSON.stringify(post))
 
 		this.props.toggleLoader(true)
-		APIManager
-		.handlePost('/api/post', post)
+		APIManager.handlePost('/api/post', post)
 		.then((response) => {
 			this.props.toggleLoader(false)
 			this.props.postCreated(response.result)
@@ -62,6 +61,8 @@ class Feed extends Component {
 	}
 
 	createTeam(team){
+		team['members'] = [{id: this.props.user.id, username: this.props.user.username, image: this.props.user.image}]
+
 		const district = this.props.session.currentDistrict
 		team['district'] = district.id
 
@@ -70,19 +71,7 @@ class Feed extends Component {
 		address['state'] = district.state
 		team['address'] = address
 
-//		console.log('createTeam: '+JSON.stringify(team))
-
-		this.props.toggleLoader(true)
-		APIManager
-		.handlePost('/api/team', team)
-		.then((response) => {
-			this.props.toggleLoader(false)
-			this.setState({showCreate: false})
-		})
-		.catch((err) => {
-			this.props.toggleLoader(false)
-			this.setState({showCreate: false})
-		})
+		this.props.createTeam(team)
 	}
 
 	submitComment(comment){
@@ -114,7 +103,7 @@ class Feed extends Component {
 	componentDidUpdate(){
 		const session = this.props.session
 		const feed = session.selectedFeed
-		console.log('componentDidUpdate: ' + feed)
+//		console.log('componentDidUpdate: ' + feed)
 		if (feed == constants.FEED_TYPE_NEWS || feed == constants.FEED_TYPE_EVENT){ 
 			const list = this.props.post.feed[feed]
 			if (list != null) // already there, no need to fetch
@@ -239,7 +228,8 @@ const mapDispatchToProps = (dispatch) => {
 		postsReceived: posts => dispatch(actions.postsReceived(posts)),
 		postCreated: post => dispatch(actions.postCreated(post)),
 		commentsReceived: comments => dispatch(actions.commentsReceived(comments)),
-		toggleLoader: isLoading => dispatch(actions.toggleLoader(isLoading))
+		toggleLoader: isLoading => dispatch(actions.toggleLoader(isLoading)),
+		createTeam: team => dispatch(actions.createTeam(team))
 	}
 }
 
