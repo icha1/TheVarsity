@@ -9,7 +9,7 @@ class PostDetail extends Component {
 	constructor(){
 		super()
 		this.state = {
-			selected: 'Overview',
+			selected: 'overview',
 			comments: [],
 			numTickets: 1,
 			menuItems: [
@@ -20,12 +20,22 @@ class PostDetail extends Component {
 	}
 
 	componentWillMount(){
+		console.log('componentWillMount: '+JSON.stringify(this.props.query))
+
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
 			return
 
+		let selected = this.props.query['selected']
+		if (selected != null){
+			this.setState({
+				selected: selected
+			})
+		}
+
 		if (post.type != 'event')
 			return
+		
 
 		// Events Menu
 		this.setState({
@@ -120,7 +130,7 @@ class PostDetail extends Component {
 	render(){
 		const style = styles.post
 		const post = this.props.posts[this.props.slug]
-		const selected = this.state.selected
+		const selected = this.state.selected.toLowerCase()
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
 			const itemStyle = (item.name == selected) ? styles.team.selected : styles.team.menuItem
@@ -135,7 +145,7 @@ class PostDetail extends Component {
 
 
 		let content = null
-		if (selected == 'Overview'){ // overview
+		if (selected == 'overview'){ // overview
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
 					<h2 style={style.title}>
@@ -148,7 +158,7 @@ class PostDetail extends Component {
 			)
 		}
 
-		if (selected == 'Attend'){ // attend
+		if (selected == 'attend'){ // attend
 			const rsvpList = (post.eventDetails.rsvp == null) ? [] : Object.keys(post.eventDetails.rsvp)
 
 			content = (
@@ -218,7 +228,7 @@ class PostDetail extends Component {
 			)
 		}
 
-		if (selected == 'Chat'){ // chat
+		if (selected == 'chat'){ // chat
 			content = (
 				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
 					<CreateComment onCreate={this.submitComment.bind(this)} />
