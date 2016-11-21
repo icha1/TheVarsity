@@ -41,7 +41,9 @@ router.get('/', function(req, res, next){
 
 		// create post:
 		postInfo['title'] = team.name
-		postInfo['slug'] = TextUtils.slugVersion(team.name)+'-'+TextUtils.randomString(8)
+		var slug = TextUtils.slugVersion(team.name)+'-'+TextUtils.randomString(8)
+		console.log('SLUG == '+slug)
+		postInfo['slug'] = slug
 		postInfo['geo'] = team.geo
 		postInfo['district'] = team.district
 		postInfo['author'] = {

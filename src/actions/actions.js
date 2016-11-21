@@ -33,7 +33,7 @@ export default {
 
 				})
 				.catch((err) => {
-					alert(err)
+					alert(err.message)
 				})
 		}
 	},
@@ -82,7 +82,7 @@ export default {
 				})
 			})
 			.catch((err) => {
-				alert(err)
+				alert(err.message)
 			})
 		}
 	},
@@ -112,7 +112,7 @@ export default {
 
 			})
 			.catch((err) => {
-				alert(err)
+				alert(err.message)
 			})
 		}
 	},

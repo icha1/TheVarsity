@@ -59,7 +59,9 @@ module.exports = {
 
 	post: function(params){
 		return new Promise(function(resolve, reject){
-			params['slug'] = TextUtils.slugVersion(params.title)
+			if (params.slug == null) // might already be assigned
+				params['slug'] = TextUtils.slugVersion(params.title)
+
 			Post.create(params, function(err, post){
 				if (err){
 					reject(err)
