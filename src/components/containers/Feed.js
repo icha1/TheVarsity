@@ -100,6 +100,22 @@ class Feed extends Component {
 		})
 	}
 
+	savePost(post){
+		const user = this.props.user
+		if (user == null){
+			alert('Please register or log in to save this post.')
+			return
+		}
+
+		if (post.saved.indexOf(user.id) != -1){
+			alert('Already Saved')
+			return
+		}
+
+		console.log('SAVE POST: '+JSON.stringify(post))
+		this.props.savePost(post, user)
+	}
+
 	componentDidUpdate(){
 		const session = this.props.session
 		const feed = session.selectedFeed
@@ -156,7 +172,7 @@ class Feed extends Component {
 
 		if (feed == constants.FEED_TYPE_NEWS || feed == constants.FEED_TYPE_EVENT){ 
 			const list = this.props.post.feed[feed]
-			currentFeed = (list) ? <PostFeed posts={list} /> : null
+			currentFeed = (list) ? <PostFeed savePost={this.savePost.bind(this)} posts={list} /> : null
 
 			create = (
 				<ol className={listClass}>
@@ -227,6 +243,7 @@ const mapDispatchToProps = (dispatch) => {
 		fetchPosts: params => dispatch(actions.fetchPosts(params)),
 		postsReceived: posts => dispatch(actions.postsReceived(posts)),
 		postCreated: post => dispatch(actions.postCreated(post)),
+		savePost: (post, profile) => dispatch(actions.savePost(post, profile)),
 		commentsReceived: comments => dispatch(actions.commentsReceived(comments)),
 		toggleLoader: isLoading => dispatch(actions.toggleLoader(isLoading)),
 		createTeam: team => dispatch(actions.createTeam(team))

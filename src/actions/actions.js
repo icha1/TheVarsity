@@ -66,6 +66,29 @@ export default {
 		}
 	},
 
+	savePost: (post, profile) => {
+		return dispatch => {
+			APIManager.handleGet('/api/post/'+post.id, null)
+			.then((response) => {
+				const result = response.result
+				let saved = Object.assign([], result.saved)
+				saved.push(profile.id)
+				result['saved'] = saved
+				return APIManager.handlePut('/api/post/'+post.id, result)
+			})
+			.then((updated) => {
+				console.log('UPDATED: '+JSON.stringify(updated))
+				dispatch({
+					type: constants.POST_UPDATED,
+					post: updated.result
+				})
+			})
+			.catch((err) => {
+				alert(err.message)
+			})
+		}
+	},
+
 	attendEvent: (post, profile, qty) => {
 		return dispatch => {
 			APIManager.handleGet('/api/post/'+post.id, null)
