@@ -7,7 +7,6 @@ class Post extends Component {
 
 	save(event){
 		event.preventDefault()
-//		console.log('SAVE: ')
 		this.props.savePost(this.props.post)
 	}
 

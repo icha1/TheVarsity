@@ -119,7 +119,6 @@ class Feed extends Component {
 	componentDidUpdate(){
 		const session = this.props.session
 		const feed = session.selectedFeed
-//		console.log('componentDidUpdate: ' + feed)
 		if (feed == constants.FEED_TYPE_NEWS || feed == constants.FEED_TYPE_EVENT){ 
 			const list = this.props.post.feed[feed]
 			if (list != null) // already there, no need to fetch
