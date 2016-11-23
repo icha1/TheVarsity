@@ -61,6 +61,19 @@ class PostDetail extends Component {
 				comments: currentComments.reverse()
 			})
 		})
+
+		// Track view count:
+		const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
+		let updatedViewed = Object.assign({}, post.viewed)
+		updatedViewed[userId] = (updatedViewed[userId] == null) ? 1 : updatedViewed[userId]+1
+		let total = 0
+		Object.keys(updatedViewed).forEach((key, i) => {
+			if (key != 'total')
+				total += updatedViewed[key]
+		})
+
+		updatedViewed['total'] = total
+		this.props.updatePost(post, {viewed: updatedViewed})
 	}
 
 	selectItem(name, event){
