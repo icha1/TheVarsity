@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
 
 var ProfileSchema = new mongoose.Schema({
 	username: {type:String, trim:true, default:''},
+	isConfirmed: {type:String, trim:true, default:'pending'}, // yes, no, pending
 	slug: {type:String, trim:true, lowercase:true, default:''},
 	image: {type:String, trim:true, default:process.env.DEFAULT_PROFILE_IMAGE},
 	email: {type:String, trim:true, lowercase:true, default:''},
@@ -14,6 +15,7 @@ var ProfileSchema = new mongoose.Schema({
 ProfileSchema.methods.summary = function(){
 	var summary = {
 		username: this.username,
+		isConfirmed: this.isConfirmed,
 		slug: this.slug,
 		image: this.image,
 		email: this.email,
