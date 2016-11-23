@@ -12,7 +12,14 @@ class Post extends Component {
 
 	render(){
 		const post = this.props.post
+		const user = this.props.user // can be null
 		const style = styles.post
+
+		let saved = false
+		if (user != null){
+			if (post.saved.indexOf(user.id) != -1)
+				saved = true
+		}
 
 		const path = (post.author.type == 'team') ? post.author.slug : post.author.name
 		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ post.title }</Link> : <a target='_blank' style={style.title} href={post.url}>{post.title}</a>
@@ -24,7 +31,7 @@ class Post extends Component {
 				<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
 					<li style={style.listItem}><a href="#">Share</a></li>
 					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
-					<li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li>
+					{ (saved) ? <li style={style.listItem}><a href="#">Saved</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
 				</ul>
 			)
 		}
@@ -34,7 +41,8 @@ class Post extends Component {
 					<li style={style.listItem}><a href="#">Share</a></li>
 					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=attend'}>Attend</Link></li>
 					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
-					<li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li>
+					{ (saved) ? <li style={style.listItem}><a href="#">Saved</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
+
 				</ul>
 			)
 		}

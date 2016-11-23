@@ -21,7 +21,7 @@ class PostFeed extends Component {
 					this.props.posts.map((post, i) => {
 						return (
 							<li key={post.id} className={listItemClass} id="li-comment-2">
-								<Post savePost={this.onSave.bind(this)} post={post} />
+								<Post savePost={this.onSave.bind(this)} post={post} user={this.props.user} />
 							</li>
 						)
 					})

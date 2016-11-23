@@ -171,7 +171,7 @@ class Feed extends Component {
 
 		if (feed == constants.FEED_TYPE_NEWS || feed == constants.FEED_TYPE_EVENT){ 
 			const list = this.props.post.feed[feed]
-			currentFeed = (list) ? <PostFeed savePost={this.savePost.bind(this)} posts={list} /> : null
+			currentFeed = (list) ? <PostFeed savePost={this.savePost.bind(this)} posts={list} user={this.props.user} /> : null
 
 			create = (
 				<ol className={listClass}>
@@ -189,7 +189,7 @@ class Feed extends Component {
 		}
 
 		if (feed == constants.FEED_TYPE_TEAM){
-			currentFeed = <TeamFeed teams={this.props.session.teams} />
+			currentFeed = <TeamFeed teams={this.props.session.teams} user={this.props.user} />
 
 			create = (
 				<ol className={listClass}>
