@@ -11,6 +11,7 @@ var TeamSchema = new mongoose.Schema({
 	description: {type:String, trim:true, default:''},
 	social: {type:mongoose.Schema.Types.Mixed, default:{}},
 	address: {type:mongoose.Schema.Types.Mixed, default:{}}, // street, city, state, zip
+	viewed: {type:mongoose.Schema.Types.Mixed, default:{}}, // map of profiles that viewed the post
 	geo: {
 		type: [Number], // array of Numbers
 		index: '2d'
@@ -30,6 +31,7 @@ TeamSchema.methods.summary = function(){
 		description: this.description,
 		social: this.social,
 		address: this.address,
+		viewed: this.viewed,
 		geo: this.geo,
 		timestamp: this.timestamp,
 		id: this._id
