@@ -12,6 +12,7 @@ var PostSchema = new mongoose.Schema({
 	district: {type:String, trim:true, default:''},
 	saved: {type:Array, default:[]}, // array of profile IDs who saved the post
 	numComments: {type:Number, default:0},
+	viewed: {type:mongoose.Schema.Types.Mixed, default:{}}, // map of profiles that viewed the post
 	author: {type:mongoose.Schema.Types.Mixed, default:{}}, // can be team or profile.
 	eventDetails: {type:mongoose.Schema.Types.Mixed, default:{}}, // date, rsvp list, status, etc. If not event, this will be empty
 	geo: {
@@ -34,6 +35,7 @@ PostSchema.methods.summary = function(){
 		district: this.district,
 		saved: this.saved,
 		numComments: this.numComments,
+		viewed: this.viewed,
 		author: this.author,
 		eventDetails: this.eventDetails,
 		geo: this.geo,
