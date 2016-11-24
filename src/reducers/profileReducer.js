@@ -2,13 +2,15 @@ import constants from '../constants/constants'
 
 var initialState = {
 	map: {}, // organized by username
-	list: []
+	list: [],
+	posts: {} // posts keyed by id
 }
 
 const update = (state, profiles) => {
 	var newState = Object.assign({}, state)
 	var array = Object.assign([], newState.list)
 	var map = Object.assign({}, newState.map)
+	var posts = Object.assign({}, newState.posts)
 
 	profiles.forEach(profile => {
 		if (map[profile.username] == null){
@@ -19,6 +21,7 @@ const update = (state, profiles) => {
 
 	newState['list'] = array
 	newState['map'] = map
+	newState['posts'] = posts
 	return newState
 }
 
@@ -26,6 +29,7 @@ export default (state = initialState, action) => {
 	let newState = Object.assign({}, state)
 	let array = Object.assign([], newState.list)
 	let map = Object.assign({}, newState.map)
+	let posts = Object.assign({}, newState.posts)
 
 	switch (action.type) {
 
@@ -35,6 +39,18 @@ export default (state = initialState, action) => {
 
 		case constants.PROFILE_UPDDATED:
 
+			return newState
+
+		case constants.SAVED_POSTS_RECEIVED:
+			const id = action.profile.id
+			let savedArray = (posts[id] == null) ? [] : posts[id]
+			action.posts.forEach((post, i) => {
+				savedArray.push(post)
+			})
+
+			posts[id] = savedArray
+
+			newState['posts'] = posts
 			return newState
 
 		default:

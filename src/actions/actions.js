@@ -9,9 +9,9 @@ export default {
 		}
 	},
 
-	fetchPosts: (params) => {
-//		console.log('ACTIONS - FETCH_POSTS: '+JSON.stringify(params))
+	// - - - - - - - - - POSTS - - - - - - - - - 
 
+	fetchPosts: (params) => {
 		return dispatch => {
 			dispatch({
 				type: constants.FETCH_POSTS,
@@ -34,6 +34,25 @@ export default {
 				.catch((err) => {
 					alert(err.message)
 				})
+		}
+	},
+
+	fetchSavedPosts: (profile) => {
+		return (dispatch) => {
+			APIManager
+			.handleGet('/api/post', {saved:profile.id})
+			.then((response) => {
+				dispatch({
+					type: constants.SAVED_POSTS_RECEIVED,
+					profile: profile,
+					posts: response.results
+				})
+
+				return response.results
+			})
+			.catch((err) => {
+				alert(err.message)
+			})
 		}
 	},
 
@@ -123,6 +142,8 @@ export default {
 		}
 	},
 
+	// - - - - - - - - - TEAMS - - - - - - - - - 
+
 	venuesReceived: (venues) => {
 		return {
 			type: constants.VENUES_RECEIVED,
@@ -131,7 +152,6 @@ export default {
 	},
 
 	fetchTeams: (params) => {
-//		console.log('ACTIONS - fetchTeams: '+JSON.stringify(params))
 		return dispatch => {
 			APIManager.handleGet('/api/team', params)
 			.then((response) => {
@@ -195,6 +215,26 @@ export default {
 			})
 			.catch((err) => {
 				alert(err)
+			})
+		}
+	},
+
+	// - - - - - - - - - PROFILES - - - - - - - - - 	
+
+	fetchProfile: (username) => {
+		return (dispatch) => {
+			APIManager
+			.handleGet('/api/profile', {username:username})
+			.then((response) => {
+				dispatch({
+					type: constants.PROFILES_RECEIVED,
+					profiles: response.results
+				})
+
+				return response.results
+			})
+			.catch((err) => {
+				alert(JSON.stringify(err))
 			})
 		}
 	},
