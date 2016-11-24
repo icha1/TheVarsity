@@ -18,22 +18,19 @@ export default {
 				feed: params.type
 			})
 
-			return APIManager.handleGet('/api/post', params)
-				.then((response) => {
-					const results = response.results
-					dispatch({
-						type: constants.POSTS_RECEIVED,
-						posts: response.results
-					})
+			APIManager.handleGet('/api/post', params)
+			.then((response) => {
+				const results = response.results
+				dispatch({
+					type: constants.POSTS_RECEIVED,
+					posts: response.results
+				})
 
-					return results
-				})
-				.then((results) => {
-
-				})
-				.catch((err) => {
-					alert(err.message)
-				})
+				return results
+			})
+			.catch((err) => {
+				alert(err.message)
+			})
 		}
 	},
 
@@ -184,7 +181,7 @@ export default {
 					teams: results,
 					profile: profile
 				})
-				
+
 				return results
 			})
 			.catch((err) => {
