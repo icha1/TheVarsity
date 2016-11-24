@@ -61,6 +61,11 @@ class Feed extends Component {
 	}
 
 	createTeam(team){
+		if (this.props.user == null){
+			alert('Please log in or register to create a team.')
+			return
+		}
+
 		team['members'] = [{id: this.props.user.id, username: this.props.user.username, image: this.props.user.image}]
 
 		const district = this.props.session.currentDistrict
