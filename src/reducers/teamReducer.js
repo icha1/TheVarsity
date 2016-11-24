@@ -31,19 +31,22 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 
 		case constants.TEAMS_RECEIVED:
-//			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
 			return update(state, action.teams)
 
 		case constants.TEAM_UPDATED:
 //			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
-
-
 			return newState
 
-		case constants.DISTRICT_CHANGED:
-			// when district changes, reset current teams
+		case constants.DISTRICT_CHANGED: // when district changes, reset current teams
 			newState['list'] = null
+			return newState
 
+		case constants.PROFILE_TEAMS_RECEIVED:
+			action.teams.forEach((team, i) => {
+				teamsMap[team.slug] = team
+			})
+
+			newState['map'] = teamsMap
 			return newState
 
 		default:

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { APIManager } from '../../utils'
-import { PostFeed, Comment } from '../view'
+import { PostFeed, TeamFeed, Comment } from '../view'
 import styles from './styles'
 
 class ProfileDetail extends Component {
@@ -40,19 +40,21 @@ class ProfileDetail extends Component {
 		if (profile == null)
 			return
 
-		console.log('ProfileDetail: componentDidUpdate - '+profile.username)
-
 		const selected = this.state.selected
 		if (selected == 'Feed'){ // these are posts that the profile saved
 			if (this.props.posts[profile.id])
 				return
 
-			console.log('Fetch Posts')
+//			console.log('Fetch Posts')
 			this.props.fetchSavedPosts(profile)
 		}
 
 		if (selected == 'Teams'){
+			if (this.props.teams[profile.id])
+				return
+
 			console.log('Fetch Teams')
+			this.props.fetchProfileTeams(profile)
 
 		}
 
@@ -87,11 +89,14 @@ class ProfileDetail extends Component {
 		})
 
 		let content = null
+		const currentUser = this.props.user // can be null
+		
 		if (selected == 'Feed' && profile != null)
-			content = (this.props.posts[profile.id]) ? <PostFeed posts={this.props.posts[profile.id]} user={this.props.user} /> : null
+			content = (this.props.posts[profile.id]) ? <PostFeed posts={this.props.posts[profile.id]} user={currentUser} /> : null
 		
 		if (selected == 'Teams' && profile != null)
-			content = 'Show Teams'
+			content = (this.props.teams[profile.id]) ? <TeamFeed teams={this.props.teams[profile.id]} user={currentUser} /> : null
+		
 
 		return (
 			<div className="clearfix">
@@ -118,15 +123,18 @@ class ProfileDetail extends Component {
 				<section id="content" style={{background:'#f9f9f9', minHeight:800}}>
 					<div className="content-wrap container clearfix">
 
-						<div className="col_full col_last">
+						<div className="col_two_third col_last">
 							<h2 style={style.title}>
 								{ this.state.selected }
 							</h2>
 
 							{ content }
-
-
 						</div>
+
+						<div className="col_one_third col_last">
+							Right Side
+						</div>
+
 					</div>
 
 				</section>
@@ -139,17 +147,16 @@ const stateToProps = (state) => {
 	return {
 		profiles: state.profile.map,
 		posts: state.profile.posts,
+		teams: state.profile.teams,
 		session: state.session
-
-		// posts: state.post.map,
-		// teams: state.team.map
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		fetchProfile: (username) => dispatch(actions.fetchProfile(username)),
-		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile))
+		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
+		fetchProfileTeams: (profile) => dispatch(actions.fetchProfileTeams(profile))
 	}
 }
 

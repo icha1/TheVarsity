@@ -172,6 +172,27 @@ export default {
 		}
 	},
 
+	fetchProfileTeams: (profile) => {
+		return (dispatch) => {
+
+			APIManager
+			.handleGet('/api/team', {'members.id':profile.id})
+			.then((response) => {
+				let results = response.results
+				dispatch({
+					type: constants.PROFILE_TEAMS_RECEIVED,
+					teams: results,
+					profile: profile
+				})
+				
+				return results
+			})
+			.catch((err) => {
+				alert(JSON.stringify(err))
+			})
+		}
+	},
+
 	teamsReceived: (teams) => {
 		return {
 			type: constants.TEAMS_RECEIVED,
