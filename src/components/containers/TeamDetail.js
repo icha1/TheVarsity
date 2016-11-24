@@ -35,6 +35,7 @@ class TeamDetail extends Component {
 
 	selectItem(index, event){
 		event.preventDefault()
+		window.scrollTo(0, 0)
 
 		const item = this.state.menuItems
 		this.setState({
