@@ -19,45 +19,48 @@ var initialState = {
 }
 
 export default (state = initialState, action) => {
+	let newState = Object.assign({}, state)
 
 	switch (action.type) {
 
 		case constants.LOCATION_CHANGED:
 			console.log('LOCATION_CHANGED: '+JSON.stringify(action.location))
-			var newState = Object.assign({}, state)
 			newState['currentLocation'] = action.location
 
 			return newState
 
 		case constants.SELECTED_FEED_CHANGED:
-//			console.log('SELECTED_FEED_CHANGED: ' + action.feed)
-			var newState = Object.assign({}, state)
 			newState['reload'] = (action.feed != newState.selectedFeed)
 			newState['selectedFeed'] = action.feed
 
 			return newState
 
 		case constants.POSTS_RECEIVED: // reset realod boolean to false
-			var newState = Object.assign({}, state)
 			newState['reload'] = false
 			return newState
 
 		case constants.TEAMS_RECEIVED:
-//			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
-			var newState = Object.assign({}, state)
 			newState['teams'] = action.teams
 			return newState
 
+		case constants.TEAM_UPDATED:
+			let teams = Object.assign([], newState.teams)
+			let updatedTeams = []
+			teams.forEach((team, i) => {
+				if (team.id == action.team.id)
+					updatedTeams.push(action.team)				
+				else 
+					updatedTeams.push(team)
+			})
+
+			newState['teams'] = updatedTeams
+			return newState
+
 		case constants.TOGGLE_LOADER:
-//			console.log('TOGGLE_LOADER')
-			var newState = Object.assign({}, state)
 			newState['showLoading'] = action.isLoading
 			return newState
 			
 		case constants.DISTRICT_CHANGED:
-//			console.log('DISTRICT_CHANGED'+JSON.stringify(action.districts))
-			var newState = Object.assign({}, state)
-
 			// TODO: check if previous district exists, if so then disconnect firebase reference
 
 			const list = action.districts
@@ -80,8 +83,6 @@ export default (state = initialState, action) => {
 			return newState
 
 		case constants.COMMENTS_RECEIVED:
-//			console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
-			var newState = Object.assign({}, state)
 			var updatedDistrict = Object.assign({}, newState.currentDistrict)
 			updatedDistrict['comments'] = action.comments.reverse() // latest comment first
 			newState['currentDistrict'] = updatedDistrict

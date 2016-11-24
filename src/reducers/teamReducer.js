@@ -34,7 +34,7 @@ export default (state = initialState, action) => {
 //			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
 			return update(state, action.teams)
 
-		case constants.TEAMS_UPDATED:
+		case constants.TEAM_UPDATED:
 //			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
 
 

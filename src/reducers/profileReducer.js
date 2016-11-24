@@ -23,12 +23,19 @@ const update = (state, profiles) => {
 }
 
 export default (state = initialState, action) => {
+	let newState = Object.assign({}, state)
+	let array = Object.assign([], newState.list)
+	let map = Object.assign({}, newState.map)
 
 	switch (action.type) {
 
 		case constants.PROFILES_RECEIVED:
 //			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.profiles))
 			return update(state, action.profiles)
+
+		case constants.PROFILE_UPDDATED:
+
+			return newState
 
 		default:
 			return state
