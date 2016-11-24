@@ -48,6 +48,7 @@ class PostDetail extends Component {
 	}
 
 	componentDidMount(){
+		window.scrollTo(0, 0)
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
 			return
