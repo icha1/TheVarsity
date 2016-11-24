@@ -141,7 +141,7 @@ router.get('/:page/:slug', function(req, res, next) {
 		var map = {}
 		results.forEach(function(entity){
 			map[entity.slug] = entity
-			tags['title'] = (entity.name == null) ? entity.title : entity.name
+			tags['title'] = (entity.username == null) ? entity.title : entity.username
 		})
 
 		reducers[page] = {
