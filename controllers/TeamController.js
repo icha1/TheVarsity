@@ -59,12 +59,12 @@ module.exports = {
 
 	post: function(params){
 		return new Promise(function(resolve, reject){
-			params['slug'] = TextUtils.slugVersion(params.name)
+			if (params.slug == null) // might already be assigned
+				params['slug'] = TextUtils.slugVersion(params.name)+'-'+TextUtils.randomString(8)
 
 			var address = params.address
 		    var url = 'https://maps.googleapis.com/maps/api/geocode/json'
 		    var query = address.street+','+address.city+','+address.state
-//		    console.log('QUERY: '+query)
 		    var mapsQuery = {
 		    	address: query,
 		    	key:process.env.GOOGLE_MAPS_API_KEY
@@ -72,8 +72,6 @@ module.exports = {
 
 		    Request.get(url, mapsQuery)
 		    .then(function(response){
-//		    	console.log('GEOCODE: '+JSON.stringify(response))
-
 		    	var results = response.results
 		    	var locationInfo = results[0]
 		    	var geometry = locationInfo.geometry
