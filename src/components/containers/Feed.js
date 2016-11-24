@@ -76,7 +76,10 @@ class Feed extends Component {
 		address['state'] = district.state
 		team['address'] = address
 
-		this.props.createTeam(team)
+		this.props.createTeam(team, (result) => {
+			window.scrollTo(0, 0)
+			this.setState({showCreate: false})
+		})
 	}
 
 	submitComment(comment){
@@ -250,7 +253,7 @@ const mapDispatchToProps = (dispatch) => {
 		savePost: (post, profile) => dispatch(actions.savePost(post, profile)),
 		commentsReceived: comments => dispatch(actions.commentsReceived(comments)),
 		toggleLoader: isLoading => dispatch(actions.toggleLoader(isLoading)),
-		createTeam: team => dispatch(actions.createTeam(team))
+		createTeam: (team, next) => dispatch(actions.createTeam(team, next))
 	}
 }
 

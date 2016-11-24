@@ -54,13 +54,18 @@ class ProfileDetail extends Component {
 			if (this.props.teams[profile.id])
 				return
 
-			console.log('Fetch Teams')
 			this.props.fetchProfileTeams(profile)
-
 		}
 
 		if (selected == 'Direct Message'){
-			console.log('Direct Message')
+			if (this.props.user == null){
+				alert('Please log in or register to send a direct message.')
+				return
+			}
+
+			let profileIds = [profile.id, this.props.user.id].sort()
+			let threadId = profileIds.join().replace(',', '') // alphabetize so the ID is the same for both participants
+			console.log('Direct Message: '+threadId)
 
 		}
 	}
@@ -149,6 +154,7 @@ const stateToProps = (state) => {
 		profiles: state.profile.map,
 		posts: state.profile.posts,
 		teams: state.profile.teams,
+		user: state.account.currentUser,
 		session: state.session
 	}
 }

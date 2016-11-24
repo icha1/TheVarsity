@@ -43,6 +43,11 @@ export default (state = initialState, action) => {
 			newState['teams'] = action.teams
 			return newState
 
+		case constants.TEAM_CREATED:
+			newState['teams'] = Object.assign([], newState.teams)
+			newState.teams.unshift(action.team)
+			return newState
+
 		case constants.TEAM_UPDATED:
 			let teams = Object.assign([], newState.teams)
 			let updatedTeams = []

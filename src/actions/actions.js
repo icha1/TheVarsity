@@ -219,7 +219,7 @@ export default {
 		}
 	},
 
-	createTeam: (team) => {
+	createTeam: (team, next) => {
 		return dispatch => {
 			APIManager.handlePost('/api/team', team)
 			.then((response) => {
@@ -229,6 +229,10 @@ export default {
 					team: result					
 				})
 
+				return result
+			})
+			.then((result) => {
+				next(result)
 				return
 			})
 			.catch((err) => {
