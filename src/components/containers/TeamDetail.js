@@ -16,6 +16,23 @@ class TeamDetail extends Component {
 		}
 	}
 
+	componentDidMount(){
+		const team = this.props.teams[this.props.slug]
+
+		// Track view count:
+		const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
+		let updatedViewed = Object.assign({}, team.viewed)
+		updatedViewed[userId] = (updatedViewed[userId] == null) ? 1 : updatedViewed[userId]+1
+		let total = 0
+		Object.keys(updatedViewed).forEach((key, i) => {
+			if (key != 'total')
+				total += updatedViewed[key]
+		})
+
+		updatedViewed['total'] = total
+		this.props.updateTeam(team, {viewed: updatedViewed})		
+	}
+
 	selectItem(index, event){
 		event.preventDefault()
 
@@ -82,9 +99,17 @@ class TeamDetail extends Component {
 
 const stateToProps = (state) => {
 	return {
+		user: state.account.currentUser,
 		session: state.session, // currentDistrict, currentLocation, teams, selectedFeed, reload
 		teams: state.team.map
 	}
 }
 
-export default connect(stateToProps)(TeamDetail)
+const dispatchToProps = (dispatch) => {
+	return {
+		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params))
+
+	}
+}
+
+export default connect(stateToProps, dispatchToProps)(TeamDetail)
