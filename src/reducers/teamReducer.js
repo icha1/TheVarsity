@@ -24,6 +24,9 @@ const update = (state, teams) => {
 }
 
 export default (state = initialState, action) => {
+	let newState = Object.assign({}, state)
+	let array = (newState.list == null) ? [] : Object.assign([], newState.list)
+	let teamsMap = Object.assign({}, newState.map)
 
 	switch (action.type) {
 
@@ -31,9 +34,14 @@ export default (state = initialState, action) => {
 //			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
 			return update(state, action.teams)
 
+		case constants.TEAMS_UPDATED:
+//			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
+
+
+			return newState
+
 		case constants.DISTRICT_CHANGED:
 			// when district changes, reset current teams
-			var newState = Object.assign({}, state)
 			newState['list'] = null
 
 			return newState

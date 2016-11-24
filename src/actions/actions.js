@@ -159,6 +159,21 @@ export default {
 		}
 	},
 
+	updateTeam: (team, params) => {
+		return dispatch => {
+			APIManager.handlePut('/api/team/'+team.id, params)
+			.then((response) => {
+				dispatch({
+					type: constants.TEAM_UPDATED,
+					team: response.result
+				})
+			})
+			.catch((err) => {
+				alert(err.message)
+			})
+		}
+	},
+
 	teamCreated: (team) => {
 		return {
 			type: constants.TEAM_CREATED,
