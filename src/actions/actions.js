@@ -53,6 +53,26 @@ export default {
 		}
 	},
 
+	fetchTeamPosts: (team) => {
+		return (dispatch) => {
+			APIManager
+			.handleGet('/api/post', {'author.id':team.id})
+			.then((response) => {
+				let results = response.results
+				dispatch({
+					type: constants.TEAM_POSTS_RECEIVED,
+					team: team,
+					posts: results
+				})
+
+				return results
+			})
+			.catch((err) => {
+				alert(err.message)
+			})
+		}
+	},
+
 	postsReceived: (posts) => {
 		return {
 			type: constants.POSTS_RECEIVED,

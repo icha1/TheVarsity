@@ -18,6 +18,7 @@ class TeamDetail extends Component {
 	}
 
 	componentDidMount(){
+//		console.log('COMPONENT DID MOUNT: '+JSON.stringify(this.props))
 		const team = this.props.teams[this.props.slug]
 
 		// Track view count:
@@ -32,6 +33,21 @@ class TeamDetail extends Component {
 
 		updatedViewed['total'] = total
 		this.props.updateTeam(team, {viewed: updatedViewed})		
+	}
+
+	componentDidUpdate(){
+		const team = this.props.teams[this.props.slug]
+		if (team == null)
+			return
+
+		const selected = this.state.selected
+		if (selected == 'Posts'){
+			console.log('POSTS: '+JSON.stringify(this.props.posts))
+			// if (this.props.posts[team.id] == null)
+			// 	this.props.fetchTeamPosts(team)
+
+		}
+
 	}
 
 	selectItem(item, event){
@@ -100,8 +116,7 @@ class TeamDetail extends Component {
 		            <div id="header-wrap">
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
-
-								<img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140'} />
+								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
 								{ this.props.session.currentDistrict.name }
 
@@ -135,14 +150,15 @@ const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
 		session: state.session, // currentDistrict, currentLocation, teams, selectedFeed, reload
-		teams: state.team.map
+		teams: state.team.map,
+		posts: state.team.posts
 	}
 }
 
 const dispatchToProps = (dispatch) => {
 	return {
+		fetchTeamPosts: (team) => dispatch(actions.fetchTeamPosts(team)),
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params))
-
 	}
 }
 

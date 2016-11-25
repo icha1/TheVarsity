@@ -1,10 +1,13 @@
 import constants from '../constants/constants'
+import { team } from './initial'
 
-var initialState = {
-	map: {}, // organized by slug
-	list: null
-}
+var initialState = Object.assign({}, team.initialState)
 
+// var initialState = {
+// 	map: {}, // organized by slug
+// 	list: null,
+// 	posts: {} // keyed by team id
+// }
 
 const update = (state, teams) => {
 	var newState = Object.assign({}, state)
@@ -27,14 +30,25 @@ export default (state = initialState, action) => {
 	let newState = Object.assign({}, state)
 	let array = (newState.list == null) ? [] : Object.assign([], newState.list)
 	let teamsMap = Object.assign({}, newState.map)
+	let postsMap = Object.assign({}, newState.posts)
 
 	switch (action.type) {
-
 		case constants.TEAMS_RECEIVED:
 			return update(state, action.teams)
 
 		case constants.TEAM_UPDATED:
 //			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
+			return newState
+
+		case constants.TEAM_POSTS_RECEIVED:
+//			newState['posts'] = Object.assign({}, newState.posts)
+			let postsArray = (postsMap[action.team.id]==null) ? [] : postsMap[action.team.id]
+			action.posts.forEach((post, i) => {
+				postsArray.push(post)
+			})
+
+			postsMap[action.team.id] = postsArray
+			newState['posts'] = postsMap
 			return newState
 
 		case constants.DISTRICT_CHANGED: // when district changes, reset current teams

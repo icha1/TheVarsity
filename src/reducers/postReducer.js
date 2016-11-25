@@ -1,11 +1,7 @@
 import constants from '../constants/constants'
+import { post } from './initial'
 
-var initialState = {
-	map: {}, // organized by slug
-	feed: {}, // organized by type (event, article, etc)
-	isFetching: false
-}
-
+var initialState = Object.assign({}, post.initialState)
 
 const update = (state, posts) => {
 	var newState = Object.assign({}, state)

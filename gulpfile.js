@@ -70,7 +70,7 @@ gulp.task('build', function(){
 })
 
 gulp.task('watch', function() {
-    gulp.watch(['./public/less/**.less', './src/serverapp.js', './src/*/**.js', './src/*/*/**.js'], ['less', 'es6-es5'])
+    gulp.watch(['./public/less/**.less', './src/serverapp.js', './src/*/**.js', './src/*/*/**.js', './src/*/*/*/**.js'], ['less', 'es6-es5'])
 })
 
 gulp.task('prod', ['less', 'css', 'copy', 'build', 'es6-es5'], function(){});

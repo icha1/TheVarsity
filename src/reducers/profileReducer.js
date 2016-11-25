@@ -1,11 +1,7 @@
 import constants from '../constants/constants'
+import { profile } from './initial'
 
-var initialState = {
-	map: {}, // organized by username
-	list: [],
-	posts: {}, // posts keyed by profile ids
-	teams: {} // teams keyed by profile ids
-}
+var initialState = Object.assign({}, profile.initialState)
 
 const update = (state, profiles) => {
 	var newState = Object.assign({}, state)

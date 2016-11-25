@@ -10,6 +10,7 @@ var store = require('../public/build/es5/stores/store')
 var Home = require('../public/build/es5/components/layout/Home')
 var Account = require('../public/build/es5/components/layout/Account')
 var Detail = require('../public/build/es5/components/layout/Detail')
+var reducersIndex = require('../public/build/es5/reducers')
 var controllers = require('../controllers')
 
 var staticPages = {
@@ -124,6 +125,9 @@ router.get('/:page/:slug', function(req, res, next) {
 		return
 	}
 
+	// console.log('PAGE == '+page)
+	// console.log('SLUG == '+slug)
+
 	var initialStore = null
 	var reducers = {}
 	var tags = {}
@@ -136,19 +140,12 @@ router.get('/:page/:slug', function(req, res, next) {
 		return controller.get({slug:slug}, false)
 	})
 	.then(function(results){
-//		console.log('RESULTS: '+JSON.stringify(results))
-
-		var map = {}
+		// console.log('RESULTS: '+JSON.stringify(results))
 		results.forEach(function(entity){
-			map[entity.slug] = entity
-			tags['title'] = (entity.username == null) ? entity.title : entity.username
+			tags['title'] = entity.title || entity.username || entity.name
 		})
 
-		reducers[page] = {
-			map: map,
-			list: results
-		}
-
+		reducers[page] = reducersIndex.initial(page, results)
 		initialStore = store.configureStore(reducers)
 
 		var routes = {
