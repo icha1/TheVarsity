@@ -3,12 +3,6 @@ import { team } from './initial'
 
 var initialState = Object.assign({}, team.initialState)
 
-// var initialState = {
-// 	map: {}, // organized by slug
-// 	list: null,
-// 	posts: {} // keyed by team id
-// }
-
 const update = (state, teams) => {
 	var newState = Object.assign({}, state)
 	var array = (newState.list == null) ? [] : Object.assign([], newState.list)
@@ -37,11 +31,9 @@ export default (state = initialState, action) => {
 			return update(state, action.teams)
 
 		case constants.TEAM_UPDATED:
-//			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
 			return newState
 
 		case constants.TEAM_POSTS_RECEIVED:
-//			newState['posts'] = Object.assign({}, newState.posts)
 			let postsArray = (postsMap[action.team.id]==null) ? [] : postsMap[action.team.id]
 			action.posts.forEach((post, i) => {
 				postsArray.push(post)

@@ -56,6 +56,14 @@ export default (state = initialState, action) => {
 
 			newState['map'] = postsMap
 			return newState
+			
+		case constants.TEAM_POSTS_RECEIVED:
+			action.posts.forEach((post, i) => {
+				postsMap[post.slug] = post
+			})
+
+			newState['map'] = postsMap
+			return newState
 
 		case constants.POST_UPDATED:
 			postsMap[action.post.slug] = action.post

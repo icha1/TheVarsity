@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { CreateComment, Comment, ProfilePreview } from '../view'
+import { CreateComment, Comment, ProfilePreview, PostFeed } from '../view'
 import actions from '../../actions/actions'
 import styles from './styles'
 
@@ -18,7 +18,6 @@ class TeamDetail extends Component {
 	}
 
 	componentDidMount(){
-//		console.log('COMPONENT DID MOUNT: '+JSON.stringify(this.props))
 		const team = this.props.teams[this.props.slug]
 
 		// Track view count:
@@ -42,12 +41,9 @@ class TeamDetail extends Component {
 
 		const selected = this.state.selected
 		if (selected == 'Posts'){
-			console.log('POSTS: '+JSON.stringify(this.props.posts))
-			// if (this.props.posts[team.id] == null)
-			// 	this.props.fetchTeamPosts(team)
-
+			if (this.props.posts[team.id] == null)
+				this.props.fetchTeamPosts(team)
 		}
-
 	}
 
 	selectItem(item, event){
@@ -77,7 +73,8 @@ class TeamDetail extends Component {
 		let content = null
 		const selected = this.state.selected
 		if (selected == 'Posts'){
-
+			const list = this.props.posts[team.id]
+			content = (list) ? <PostFeed posts={list} user={this.props.user} /> : null
 		}
 
 		if (selected == 'Members'){
@@ -88,7 +85,6 @@ class TeamDetail extends Component {
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
 							<h2 style={{fontFamily:'Pathway Gothic One', marginBottom:0, fontWeight:100}}>Members</h2>
 						</div>
-
 
 						<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
 								{
