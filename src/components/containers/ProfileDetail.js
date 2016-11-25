@@ -21,7 +21,6 @@ class ProfileDetail extends Component {
 
 	componentDidMount(){
 		const profile = this.props.profiles[this.props.slug]
-		console.log('TEST')
 		if (profile == null){
 			this.props.fetchProfile(this.props.slug)
 			return
@@ -67,7 +66,7 @@ class ProfileDetail extends Component {
 					return
 				}
 
-//				console.log('CURRENT COMMENTS: '+JSON.stringify(currentComments))
+				console.log('CURRENT COMMENTS: '+JSON.stringify(currentComments))
 				let comments = (currentComments) ? currentComments.reverse() : []
 				this.setState({
 					comments: comments
