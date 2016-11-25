@@ -102,9 +102,7 @@ class TeamDetail extends Component {
 							<div style={{paddingTop:96}}>
 
 								<img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140'} />
-								<h2 style={style.title}>
-									{ team.name }
-								</h2>
+								<h2 style={style.title}>{ team.name }</h2>
 								{ this.props.session.currentDistrict.name }
 
 								<hr />
@@ -125,7 +123,7 @@ class TeamDetail extends Component {
 							{ content }
 						</div>
 
-						
+
 					</div>
 				</section>
 			</div>
