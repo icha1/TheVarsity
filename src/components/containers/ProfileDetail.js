@@ -63,6 +63,7 @@ class ProfileDetail extends Component {
 			let threadId = profileIds.join().replace(',', '') // alphabetize so the ID is the same for both participants
 			FirebaseManager.register('/'+threadId+'/comments', (err, currentComments) => {
 				if (err){
+					console.log('CURRENT COMMENTS ERROR: '+JSON.stringify(err))
 					return
 				}
 
