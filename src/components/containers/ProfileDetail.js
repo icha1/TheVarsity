@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
-import { APIManager } from '../../utils'
-import { PostFeed, TeamFeed, Comment } from '../view'
+import { APIManager, FirebaseManager } from '../../utils'
+import { PostFeed, TeamFeed, Comment, CreateComment } from '../view'
 import styles from './styles'
 
 class ProfileDetail extends Component {
@@ -10,6 +10,7 @@ class ProfileDetail extends Component {
 		super()
 		this.state = {
 			selected: 'Feed',
+			comments: null,
 			menuItems: [
 				'Feed',
 				'Teams',
@@ -20,20 +21,13 @@ class ProfileDetail extends Component {
 
 	componentDidMount(){
 		const profile = this.props.profiles[this.props.slug]
-		if (profile){
-			document.title = 'The Varsity | '+profile.username
+		console.log('TEST')
+		if (profile == null){
+			this.props.fetchProfile(this.props.slug)
 			return
 		}
 
-		this.props.fetchProfile(this.props.slug)
-	}
-
-	selectItem(item, event){
-		event.preventDefault()
-		window.scrollTo(0, 0)
-		this.setState({
-			selected: item
-		})
+		document.title = 'The Varsity | '+profile.username
 	}
 
 	componentDidUpdate(){
@@ -63,12 +57,62 @@ class ProfileDetail extends Component {
 				return
 			}
 
+			if (this.state.comments) // comments already loaded
+				return
+
 			let profileIds = [profile.id, this.props.user.id].sort()
 			let threadId = profileIds.join().replace(',', '') // alphabetize so the ID is the same for both participants
-			console.log('Direct Message: '+threadId)
+			FirebaseManager.register('/'+threadId+'/comments', (err, currentComments) => {
+				if (err){
+					return
+				}
+
+//				console.log('CURRENT COMMENTS: '+JSON.stringify(currentComments))
+				this.setState({
+					comments: currentComments.reverse()
+				})
+			})
+
 
 		}
 	}
+
+	selectItem(item, event){
+		event.preventDefault()
+		window.scrollTo(0, 0)
+		this.setState({
+			selected: item
+		})
+	}
+
+	submitComment(comment){
+		if (this.props.user == null){
+			alert('Please log in or register to post a comment.')
+			return
+		}
+
+
+		let updated = Object.assign({}, comment)
+		updated['timestamp'] = new Date().getTime()
+		updated['profile'] = {
+			id: this.props.user.id,
+			username: this.props.user.username,
+			image: this.props.user.image
+		}
+
+		const profile = this.props.profiles[this.props.slug]
+		if (profile == null)
+			return
+
+		let profileIds = [profile.id, this.props.user.id].sort()
+		let threadId = profileIds.join().replace(',', '') // alphabetize so the ID is the same for both participants
+
+		const path = '/'+threadId+'/comments/'+this.state.comments.length
+		FirebaseManager.post(path, updated, () => {
+//			this.props.updatePost(post, {numComments: this.state.comments.length})
+		})		
+	}
+
 
 	render(){
 		const style = styles.post
@@ -103,6 +147,17 @@ class ProfileDetail extends Component {
 		if (selected == 'Teams' && profile != null)
 			content = (this.props.teams[profile.id]) ? <TeamFeed teams={this.props.teams[profile.id]} user={currentUser} /> : null
 		
+		if (selected == 'Direct Message' && profile != null){
+			content = (
+				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
+					<CreateComment onCreate={this.submitComment.bind(this)} />
+					{ (this.state.comments) ? this.state.comments.map((comment, i) => {
+							return <Comment comment={comment} key={i} />
+						}) : null
+					}
+				</div>
+			)
+		}
 
 		return (
 			<div className="clearfix">
