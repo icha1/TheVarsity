@@ -110,7 +110,7 @@ class TeamDetail extends Component {
 									<ul>{sideMenu}</ul>
 								</nav>
 
-								<a href={'/scrape?team='+team.id}>Scrape</a>
+								{ (team.social.instagram == null) ? null : <a href={'/scrape?team='+team.id}>Scrape</a> }
 							</div>
 			            </div>
 
