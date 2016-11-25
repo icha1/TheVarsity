@@ -264,7 +264,7 @@ class PostDetail extends Component {
 		            <div id="header-wrap">
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
-								Hosted By<br />
+								{ (post.type == 'event') ? 'Hosted By' : null }<br />
 								<img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginTop:6}} src={post.author.image+'=s140'} />
 								<h2 style={ style.title }>
 									{ post.author.name }
