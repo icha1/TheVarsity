@@ -68,12 +68,11 @@ class ProfileDetail extends Component {
 				}
 
 //				console.log('CURRENT COMMENTS: '+JSON.stringify(currentComments))
+				let comments = (currentComments) ? currentComments.reverse() : []
 				this.setState({
-					comments: currentComments.reverse()
+					comments: comments
 				})
 			})
-
-
 		}
 	}
 
