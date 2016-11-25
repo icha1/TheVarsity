@@ -201,10 +201,13 @@ export default {
 		return dispatch => {
 			APIManager.handlePut('/api/team/'+team.id, params)
 			.then((response) => {
+				let result = response.result
 				dispatch({
 					type: constants.TEAM_UPDATED,
-					team: response.result
+					team: result
 				})
+
+				return result
 			})
 			.catch((err) => {
 				alert(err.message)
