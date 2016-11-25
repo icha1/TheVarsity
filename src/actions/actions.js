@@ -141,13 +141,6 @@ export default {
 
 	// - - - - - - - - - TEAMS - - - - - - - - - 
 
-	venuesReceived: (venues) => {
-		return {
-			type: constants.VENUES_RECEIVED,
-			venues: venues
-		}
-	},
-
 	fetchTeams: (params) => {
 		return dispatch => {
 			APIManager.handleGet('/api/team', params)
@@ -187,13 +180,6 @@ export default {
 			.catch((err) => {
 				alert(JSON.stringify(err))
 			})
-		}
-	},
-
-	teamsReceived: (teams) => {
-		return {
-			type: constants.TEAMS_RECEIVED,
-			teams: teams
 		}
 	},
 
