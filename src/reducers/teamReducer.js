@@ -30,6 +30,11 @@ export default (state = initialState, action) => {
 		case constants.TEAMS_RECEIVED:
 			return update(state, action.teams)
 
+		case constants.TEAM_CREATED:
+			teamsMap[action.team.slug] = action.team
+			newState['map'] = teamsMap
+			return newState
+
 		case constants.TEAM_UPDATED:
 			return newState
 
