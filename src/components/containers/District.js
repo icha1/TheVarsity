@@ -14,6 +14,7 @@ class District extends Component {
 
 	selectFeed(event){
 		event.preventDefault()
+		window.scrollTo(0, 0)
 		this.props.changeSelectedFeed(event.target.id)
 	}
 

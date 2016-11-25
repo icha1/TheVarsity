@@ -153,6 +153,7 @@ export default {
 		title: {
 			color:'#333',
 			fontFamily:'Pathway Gothic One',
+			fontWeight: 100,
 			marginBottom: 0
 		},
 		selected: {

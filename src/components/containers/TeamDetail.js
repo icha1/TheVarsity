@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { CreateComment, Comment, ProfilePreview } from '../view'
 import actions from '../../actions/actions'
 import styles from './styles'
 
@@ -7,11 +8,11 @@ class TeamDetail extends Component {
 	constructor(){
 		super()
 		this.state = {
-			selected: 0,
+			selected: 'Posts',
 			menuItems: [
-				{name:'Posts', component:'Posts'},
-				{name:'Members', component:'CreatePost'},
-				{name:'Chat', component:'ManageNotifications'}
+				'Posts',
+				'Members',
+				'Chat'
 			]
 		}
 	}
@@ -33,13 +34,12 @@ class TeamDetail extends Component {
 		this.props.updateTeam(team, {viewed: updatedViewed})		
 	}
 
-	selectItem(index, event){
+	selectItem(item, event){
 		event.preventDefault()
 		window.scrollTo(0, 0)
 
-		const item = this.state.menuItems
 		this.setState({
-			selected: index
+			selected: item
 		})
 	}
 
@@ -48,15 +48,50 @@ class TeamDetail extends Component {
 		const style = styles.team
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
-			const itemStyle = (i == this.state.selected) ? style.selected : style.menuItem
+			const itemStyle = (item == this.state.selected) ? style.selected : style.menuItem
 			return (
-				<li key={i}>
+				<li key={item}>
 					<div style={itemStyle}>
-						<a onClick={this.selectItem.bind(this, i)} href="#"><div>{item.name}</div></a>
+						<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
 					</div>
 				</li>
 			)
 		})
+
+		let content = null
+		const selected = this.state.selected
+		if (selected == 'Posts'){
+
+		}
+
+		if (selected == 'Members'){
+			content = (
+				<div className="feature-box center media-box fbox-bg">
+					<div className="fbox-desc">
+
+						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
+							<h2 style={{fontFamily:'Pathway Gothic One', marginBottom:0, fontWeight:100}}>Members</h2>
+						</div>
+
+
+						<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
+								{
+									team.members.map((member, i) => {
+										return (
+											<ProfilePreview key={member.id} profile={member} />
+										)
+									})
+								}
+						</div>
+
+					</div>
+				</div>
+			)			
+		}
+
+		if (selected == 'Chat'){
+			
+		}
 
 		return (
 			<div className="clearfix">
@@ -86,11 +121,11 @@ class TeamDetail extends Component {
 
 				<section id="content" style={{background:'#f9f9f9', minHeight:800}}>
 					<div className="content-wrap container clearfix">
-						<div className="col_full col_last">
-
-
-
+						<div className="col_two_third">
+							{ content }
 						</div>
+
+						
 					</div>
 				</section>
 			</div>
