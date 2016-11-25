@@ -62,13 +62,15 @@ class ProfileDetail extends Component {
 			let profileIds = [profile.id, this.props.user.id].sort()
 			let threadId = profileIds.join().replace(',', '') // alphabetize so the ID is the same for both participants
 			FirebaseManager.register('/'+threadId+'/comments', (err, currentComments) => {
-				if (err){
-					console.log('CURRENT COMMENTS ERROR: '+JSON.stringify(err))
-					return
-				}
+// 				let comments = null
+// 				if (err){
+// //					return
+// 				}
 
-				console.log('CURRENT COMMENTS: '+JSON.stringify(currentComments))
-				let comments = (currentComments) ? currentComments.reverse() : []
+				let comments = (err) ? [] : currentComments.reverse()
+
+				// console.log('CURRENT COMMENTS: '+JSON.stringify(currentComments))
+				// let comments = (currentComments) ? currentComments.reverse() : []
 				this.setState({
 					comments: comments
 				})
