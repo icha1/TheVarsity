@@ -120,7 +120,6 @@ class Feed extends Component {
 			return
 		}
 
-//		console.log('SAVE POST: '+JSON.stringify(post))
 		this.props.savePost(post, user)
 	}
 
