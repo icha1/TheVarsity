@@ -12,6 +12,7 @@ class ProfileDetail extends Component {
 			selected: 'Feed',
 			comments: null,
 			menuItems: [
+				'Overview',
 				'Feed',
 				'Teams',
 				'Direct Message'
@@ -62,15 +63,7 @@ class ProfileDetail extends Component {
 			let profileIds = [profile.id, this.props.user.id].sort()
 			let threadId = profileIds.join().replace(',', '') // alphabetize so the ID is the same for both participants
 			FirebaseManager.register('/'+threadId+'/comments', (err, currentComments) => {
-// 				let comments = null
-// 				if (err){
-// //					return
-// 				}
-
 				let comments = (err) ? [] : currentComments.reverse()
-
-				// console.log('CURRENT COMMENTS: '+JSON.stringify(currentComments))
-				// let comments = (currentComments) ? currentComments.reverse() : []
 				this.setState({
 					comments: comments
 				})
@@ -142,6 +135,14 @@ class ProfileDetail extends Component {
 		let content = null
 		const currentUser = this.props.user // can be null
 		
+		if (selected == 'Overview' && profile != null){
+			content = (
+				<div className={styles.post.container.className} style={style.container}>
+
+				</div>
+			)
+		}
+
 		if (selected == 'Feed' && profile != null)
 			content = (this.props.posts[profile.id]) ? <PostFeed posts={this.props.posts[profile.id]} user={currentUser} /> : null
 		
@@ -184,8 +185,7 @@ class ProfileDetail extends Component {
 
 				<section id="content" style={{background:'#f9f9f9', minHeight:800}}>
 					<div className="content-wrap container clearfix">
-
-						<div className="col_two_third col_last">
+						<div className="col_two_third">
 							<h2 style={style.title}>
 								{ this.state.selected }
 							</h2>
