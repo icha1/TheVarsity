@@ -61,7 +61,7 @@ class Post extends Component {
 						<p style={{marginTop:0}}>{ TextUtils.truncateText(post.text, 220) }</p>
 					</div>
 					<div className="col_one_third col_last" style={{marginBottom:4}}>
-						<img style={styles.postImage} src={post.image} />
+						<img style={style.postImage} src={post.image} />
 					</div>
 				</div>
 				<hr />
