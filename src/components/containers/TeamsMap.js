@@ -20,7 +20,7 @@ class TeamsMap extends Component {
 
 		const props = this.props
 		const params = {
-			limit: 1,
+			limit: 5,
 			lat: props.session.currentLocation.lat,
 			lng: props.session.currentLocation.lng
 		}
@@ -49,7 +49,7 @@ class TeamsMap extends Component {
 		props.locationChanged(location)
 
 		const params = {
-			limit: 5,
+			limit: 5, // nearby districts also
 			lat: location.lat,
 			lng: location.lng
 		}
@@ -61,8 +61,11 @@ class TeamsMap extends Component {
 		if (this.props.session.currentDistrict.id == null)
 			return null
 
+		const district = this.props.session.currentDistrict.id
+
 		if (this.props.teams == null){
-			this.props.fetchTeams(this.props.session.currentLocation)
+//			this.props.fetchTeams(this.props.session.currentLocation)
+			this.props.fetchTeams({district: district})
 			return null
 		}
 
@@ -70,11 +73,14 @@ class TeamsMap extends Component {
 	}
 
 	componentDidUpdate(){
-		if (this.props.session.currentDistrict.id == null)
+		const district = this.props.session.currentDistrict.id
+		if (district == null)
 			return null
 
+
 		if (this.props.teams == null){
-			this.props.fetchTeams(this.props.session.currentLocation)
+//			this.props.fetchTeams(this.props.session.currentLocation)
+			this.props.fetchTeams({district: district})
 			return null
 		}
 	}
