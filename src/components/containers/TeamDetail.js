@@ -114,6 +114,7 @@ class TeamDetail extends Component {
 							<div style={{paddingTop:96}}>
 								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
+								{ team.address.street }<br />
 								{ this.props.session.currentDistrict.name }
 
 								<hr />
