@@ -114,8 +114,11 @@ class TeamDetail extends Component {
 							<div style={{paddingTop:96}}>
 								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
-								{ team.address.street }<br />
-								{ this.props.session.currentDistrict.name }
+								<div style={{padding:8, background:'#EBF5FB', border:'1px solid #ddd'}}>
+									{ team.address.street }<br />
+									{ (team.social.website) ? <div><a target="_blank" style={{color:'blue'}} href={team.social.website}>website</a></div> : null }
+									{ this.props.session.currentDistrict.name }
+								</div>
 
 								<hr />
 								<nav id="primary-menu">
