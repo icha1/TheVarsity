@@ -62,9 +62,12 @@ class CreateTeam extends Component {
 		updated['social'] = {
 			instagram: updated.instagram,
 			facebook: updated.facebook,
+			website: updated.website,
 		}
+
 		delete updated['instagram']
 		delete updated['facebook']
+		delete updated['website']
 
 		this.props.submit(updated)
 	}
@@ -109,8 +112,10 @@ class CreateTeam extends Component {
 
 				<label>Social</label>
 				<input id="instagram" onChange={this.updateTeam.bind(this)} type="text" placeholder="Instagram Username" style={styles.post.select} className="form-control" />
-				<input id="facebook" onChange={this.updateTeam.bind(this)} type="text" placeholder="Facebook Page Name" style={styles.post.select} className="form-control" /><br />
+				<input id="facebook" onChange={this.updateTeam.bind(this)} type="text" placeholder="Facebook Page Name" style={styles.post.select} className="form-control" />
+				<input id="website" onChange={this.updateTeam.bind(this)} type="text" placeholder="http://www.yourwebsite.com" style={styles.post.select} className="form-control" />
 
+				<br />
 				<a href="#" onClick={this.submitTeam.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create Team</a>
 				<a href="#" onClick={this.cancel.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Cancel</a>
 			</div>
