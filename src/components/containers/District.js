@@ -8,8 +8,16 @@ import styles from './styles'
 import { Link } from 'react-router'
 
 class District extends Component {
-	componentDidMount(){
-
+	constructor(){
+		super()
+		this.state = {
+			feedOptions: [
+				{name: constants.FEED_TYPE_NEWS, display:'News'},
+				{name: constants.FEED_TYPE_EVENT, display:'Events'},
+				{name: constants.FEED_TYPE_TEAM, display:'Teams'},
+				{name: constants.FEED_TYPE_CHAT, display:'Chat'}
+			]
+		}
 	}
 
 	selectFeed(event){
@@ -23,14 +31,7 @@ class District extends Component {
 		const district = this.props.session.currentDistrict
 		const selectedFeed = this.props.session.selectedFeed
 
-		const feedOptions = [
-			{name: constants.FEED_TYPE_NEWS, display:'News'},
-			{name: constants.FEED_TYPE_EVENT, display:'Events'},
-			{name: constants.FEED_TYPE_TEAM, display:'Teams'},
-			{name: constants.FEED_TYPE_CHAT, display:'Chat'}
-		]
-
-		const list = feedOptions.map((feed, i) => {
+		const list = this.state.feedOptions.map((feed, i) => {
 			let selected = (selectedFeed == feed.name) ? style.selected : style.unselected
 			return (
 				<li key={i}>
