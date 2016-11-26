@@ -52,6 +52,17 @@ export default (state = initialState, action) => {
 			newState['posts'] = posts
 			return newState
 
+		case constants.POST_SAVED:
+//			const id = action.profile.id
+			let saved = posts[action.profile.id]
+			if (saved == null) // dont' do anything. refresh feed completely on page load
+				return newState
+
+			saved.push(action.post)
+			posts[action.profile.id] = saved
+			newState['posts'] = posts
+			return newState
+
 		case constants.PROFILE_TEAMS_RECEIVED:
 			let teamsArray = (teams[action.profile.id] == null) ? [] : teams[action.profile.id]
 			action.teams.forEach((team, i) => {

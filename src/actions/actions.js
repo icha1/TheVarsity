@@ -115,7 +115,8 @@ export default {
 			.then((updated) => {
 				console.log('UPDATED: '+JSON.stringify(updated))
 				dispatch({
-					type: constants.POST_UPDATED,
+					type: constants.POST_SAVED,
+					profile: profile,
 					post: updated.result
 				})
 			})

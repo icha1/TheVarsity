@@ -6,19 +6,29 @@ var initialState = {
 }
 
 export default (state = initialState, action) => {
+	let newState = Object.assign({}, state)
+	let teams = Object.assign([], newState.teams)
+	let currentUser = Object.assign([], newState.currentUser)
 
 	switch (action.type) {
 
 		case constants.CURRENT_USER_RECIEVED:
-//			console.log('CURRENT_USER_RECIEVED: '+JSON.stringify(action.user))
-			var newState = Object.assign({}, state)
 			newState['currentUser'] = action.user
 			return newState
 
 		case constants.TEAMS_RECEIVED:
-//			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.teams))
-			var newState = Object.assign({}, state)
-			newState['teams'] = action.teams // TODO: check members of each team first
+			if (currentUser == null)
+				return newState
+
+			// check members of each team first
+			action.teams.forEach((team, i) => {
+				team.members.forEach((member, i) => {
+					if (member.id == currentUser.id)
+						teams.push(team)
+				})
+			})
+
+			newState['teams'] = teams 
 			return newState
 
 		default:

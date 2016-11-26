@@ -26,6 +26,32 @@ const update = (state, posts) => {
 	return newState
 }
 
+const postUpdated = (action, state, post) => {
+	let newState = Object.assign({}, state)
+	let array = Object.assign([], newState.list)
+	let postsMap = Object.assign({}, newState.map)
+	let postsFeed = Object.assign({}, newState.feed)
+
+	postsMap[action.post.slug] = action.post
+	newState['map'] = postsMap
+
+	// updated feed object:
+	const type = action.post.type // event, news
+	let feedArray = (postsFeed[type]==null) ? [] : postsFeed[type]
+	let updatedFeedArray = []
+	feedArray.forEach((post, i) => {
+		if (post.id == action.post.id)
+			updatedFeedArray.push(action.post) // insert updated post
+		else 
+			updatedFeedArray.push(post)
+	})
+
+	postsFeed[type] = updatedFeedArray
+	newState['feed'] = postsFeed
+
+	return newState
+}
+
 export default (state = initialState, action) => {
 	let newState = Object.assign({}, state)
 	let array = Object.assign([], newState.list)
@@ -65,25 +91,11 @@ export default (state = initialState, action) => {
 			newState['map'] = postsMap
 			return newState
 
+		case constants.POST_SAVED: // basically the same a POST_UPDATED
+			return postUpdated(action, state, post)
+
 		case constants.POST_UPDATED:
-			postsMap[action.post.slug] = action.post
-			newState['map'] = postsMap
-
-			// updated feed object:
-			const type = action.post.type // event, news
-			let feedArray = (postsFeed[type]==null) ? [] : postsFeed[type]
-			let updatedFeedArray = []
-			feedArray.forEach((post, i) => {
-				if (post.id == action.post.id)
-					updatedFeedArray.push(action.post) // insert updated post
-				else 
-					updatedFeedArray.push(post)
-			})
-
-			postsFeed[type] = updatedFeedArray
-			newState['feed'] = postsFeed
-
-			return newState
+			return postUpdated(action, state, post)
 
 		case constants.POST_CREATED:
 			const post = action.post
