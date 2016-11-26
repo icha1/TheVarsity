@@ -32,7 +32,10 @@ export default (state = initialState, action) => {
 
 		case constants.TEAM_CREATED:
 			teamsMap[action.team.slug] = action.team
+			array.unshift(action.team)
+
 			newState['map'] = teamsMap
+			newState['list'] = array
 			return newState
 
 		case constants.TEAM_UPDATED:

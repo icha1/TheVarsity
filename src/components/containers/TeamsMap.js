@@ -69,14 +69,23 @@ class TeamsMap extends Component {
 		return this.props.teams
 	}
 
-	render(){
+	componentDidUpdate(){
+		if (this.props.session.currentDistrict.id == null)
+			return null
 
+		if (this.props.teams == null){
+			this.props.fetchTeams(this.props.session.currentLocation)
+			return null
+		}
+	}
+
+	render(){
 		return (
 			<Map 
 				center={this.props.session.currentLocation} 
 				zoom={16} 
 				animation={2}
-				markers={ this.fetchTeams() }
+				markers={ this.props.teams }
 				mapMoved={this.locationChanged.bind(this)} />
 		)
 	}
