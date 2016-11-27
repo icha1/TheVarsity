@@ -8,6 +8,7 @@ import TeamPreview from './TeamPreview'
 import CreatePost from './CreatePost'
 import CreateTeam from './CreateTeam'
 import ProfilePreview from './ProfilePreview'
+import EditProfile from './EditProfile'
 
 export {
 	Map,
@@ -19,5 +20,6 @@ export {
 	TeamPreview,
 	CreatePost,
 	CreateTeam,
-	ProfilePreview
+	ProfilePreview,
+	EditProfile
 }

@@ -38,7 +38,8 @@ export default (state = initialState, action) => {
 			return update(state, action.profiles)
 
 		case constants.PROFILE_UPDDATED:
-
+			map[action.profile.username] = action.profile
+			newState['map'] = map
 			return newState
 
 		case constants.SAVED_POSTS_RECEIVED:

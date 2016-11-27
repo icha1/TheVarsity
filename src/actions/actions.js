@@ -271,6 +271,24 @@ export default {
 		}
 	},
 
+	updateProfile: (profile, params) => {
+		return dispatch => {
+			APIManager
+			.handlePut('/api/profile/'+profile.id, params)
+			.then((response) => {
+				dispatch({
+					type: constants.PROFILE_UPDDATED,
+					profile: response.result
+				})
+
+				return response.result
+			})
+			.catch((err) => {
+				alert(JSON.stringify(err))
+			})
+		}
+	},
+
 	profilesReceived: (profiles) => {
 		return {
 			type: constants.PROFILES_RECEIVED,

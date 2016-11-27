@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { APIManager, FirebaseManager, TextUtils } from '../../utils'
-import { PostFeed, TeamFeed, Comment, CreateComment } from '../view'
+import { PostFeed, TeamFeed, Comment, CreateComment, EditProfile } from '../view'
 import styles from './styles'
 
 class ProfileDetail extends Component {
@@ -76,7 +76,8 @@ class ProfileDetail extends Component {
 		event.preventDefault()
 		window.scrollTo(0, 0)
 		this.setState({
-			selected: item
+			selected: item,
+			showEdit: false
 		})
 	}
 
@@ -108,9 +109,21 @@ class ProfileDetail extends Component {
 	}
 
 	editProfile(event){
-		event.preventDefault()
-		console.log('EDIT PROFILE')
+		if (event)
+			event.preventDefault()
 
+		this.setState({
+			showEdit: !this.state.showEdit
+		})
+	}
+
+	updateProfile(updated){
+		const profile = this.props.profiles[this.props.slug] // can be null
+		if (profile == null)
+			return
+
+//		console.log('UPDATE: '+JSON.stringify(updated))
+		this.props.updateProfile(profile, updated)
 		this.setState({
 			showEdit: !this.state.showEdit
 		})
@@ -143,8 +156,18 @@ class ProfileDetail extends Component {
 
 		let content = null
 		const currentUser = this.props.user // can be null
+
+		if (this.state.showEdit){
+			let btnEdit = null
+			if (currentUser != null){
+				if (currentUser.id == profile.id)
+					btnEdit = <button onClick={this.editProfile.bind(this)} style={{float:'right'}}>Done</button>
+			}
+
+			content = <EditProfile profile={currentUser} update={this.updateProfile.bind(this)} close={this.editProfile.bind(this)} />
+		}
 		
-		if (selected == 'Overview' && profile != null){
+		else if (selected == 'Overview' && profile != null){
 			let btnEdit = null
 			if (currentUser != null){
 				if (currentUser.id == profile.id)
@@ -161,13 +184,13 @@ class ProfileDetail extends Component {
 			)
 		}
 
-		if (selected == 'Feed' && profile != null)
+		else if (selected == 'Feed' && profile != null)
 			content = (this.props.posts[profile.id]) ? <PostFeed posts={this.props.posts[profile.id]} user={currentUser} /> : null
 		
-		if (selected == 'Teams' && profile != null)
+		else if (selected == 'Teams' && profile != null)
 			content = (this.props.teams[profile.id]) ? <TeamFeed teams={this.props.teams[profile.id]} user={currentUser} /> : null
 		
-		if (selected == 'Direct Message' && profile != null){
+		else if (selected == 'Direct Message' && profile != null){
 			content = (
 				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
 					<CreateComment onCreate={this.submitComment.bind(this)} />
@@ -231,7 +254,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		fetchProfile: (username) => dispatch(actions.fetchProfile(username)),
 		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
-		fetchProfileTeams: (profile) => dispatch(actions.fetchProfileTeams(profile))
+		fetchProfileTeams: (profile) => dispatch(actions.fetchProfileTeams(profile)),
+		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params))
 	}
 }
 
