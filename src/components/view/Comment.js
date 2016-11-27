@@ -13,7 +13,6 @@ class Comment extends Component {
 		return (
 			<div style={style.container}>
 				<div style={style.rightBox}>
-					username<br />
 					{ date }
 				</div>
 				<div style={style.body}>
