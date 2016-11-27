@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
-import { APIManager, FirebaseManager } from '../../utils'
+import { APIManager, FirebaseManager, TextUtils } from '../../utils'
 import { PostFeed, TeamFeed, Comment, CreateComment } from '../view'
 import styles from './styles'
 
@@ -138,7 +138,9 @@ class ProfileDetail extends Component {
 		if (selected == 'Overview' && profile != null){
 			content = (
 				<div className={styles.post.container.className} style={style.container}>
-
+					<h2 style={styles.post.title}>Overview</h2>
+					<hr />
+					<p dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
 				</div>
 			)
 		}
