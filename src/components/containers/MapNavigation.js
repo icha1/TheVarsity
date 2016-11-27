@@ -49,9 +49,10 @@ class MapNavigation extends Component {
 		const props = this.props
 		props.locationChanged(location)
 
+		const range = (this.state.zoom >= 16) ? 50 : 600 // make this value dependent on map zoom level
 		const params = {
 //			range: 50,
-			range: 600,
+			range: range, 
 			limit: 5, // nearby districts also
 			lat: location.lat,
 			lng: location.lng
