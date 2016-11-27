@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Feed, TeamsMap, District } from '../containers'
+import { Feed, MapNavigation, District } from '../containers'
 import styles from './styles'
 
 class Home extends Component {
@@ -10,7 +10,7 @@ class Home extends Component {
 
 				<header id="header" className="no-sticky">
 		            <div id="header-wrap">
-						<TeamsMap />
+						<MapNavigation />
 		            </div>
 				</header>
 

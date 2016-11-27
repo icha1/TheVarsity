@@ -4,7 +4,7 @@ import actions from '../../actions/actions'
 import { connect } from 'react-redux'
 import { Map } from '../view'
 
-class TeamsMap extends Component {
+class MapNavigation extends Component {
 	constructor(){
 		super()
 		this.calculateDistance = this.calculateDistance.bind(this)
@@ -119,4 +119,4 @@ const mapDispatchToProps = (dispatch) => {
 		locationChanged: location => dispatch(actions.locationChanged(location))
 	}
 }
-export default connect(stateToProps, mapDispatchToProps)(TeamsMap)
+export default connect(stateToProps, mapDispatchToProps)(MapNavigation)
