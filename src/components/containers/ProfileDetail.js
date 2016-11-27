@@ -9,6 +9,7 @@ class ProfileDetail extends Component {
 	constructor(){
 		super()
 		this.state = {
+			showEdit: false,
 			selected: 'Overview',
 			comments: null,
 			menuItems: [
@@ -85,7 +86,6 @@ class ProfileDetail extends Component {
 			return
 		}
 
-
 		let updated = Object.assign({}, comment)
 		updated['timestamp'] = new Date().getTime()
 		updated['profile'] = {
@@ -107,6 +107,15 @@ class ProfileDetail extends Component {
 		})		
 	}
 
+	editProfile(event){
+		event.preventDefault()
+		console.log('EDIT PROFILE')
+
+		this.setState({
+			showEdit: !this.state.showEdit
+		})
+
+	}
 
 	render(){
 		const style = styles.post
@@ -136,8 +145,15 @@ class ProfileDetail extends Component {
 		const currentUser = this.props.user // can be null
 		
 		if (selected == 'Overview' && profile != null){
+			let btnEdit = null
+			if (currentUser != null){
+				if (currentUser.id == profile.id)
+					btnEdit = <button onClick={this.editProfile.bind(this)} style={{float:'right'}}>Edit</button>
+			}
+
 			content = (
 				<div className={styles.post.container.className} style={style.container}>
+					{ btnEdit }
 					<h2 style={styles.post.title}>Overview</h2>
 					<hr />
 					<p dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
