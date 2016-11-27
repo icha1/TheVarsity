@@ -9,7 +9,7 @@ class ProfileDetail extends Component {
 	constructor(){
 		super()
 		this.state = {
-			selected: 'Feed',
+			selected: 'Overview',
 			comments: null,
 			menuItems: [
 				'Overview',
