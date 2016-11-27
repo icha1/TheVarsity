@@ -17,7 +17,7 @@ var ProfileSchema = new mongoose.Schema({
 ProfileSchema.methods.summary = function(){
 	var summary = {
 		username: this.username,
-		bio: this.username,
+		bio: this.bio,
 		isConfirmed: this.isConfirmed,
 		slug: this.slug,
 		image: this.image,
