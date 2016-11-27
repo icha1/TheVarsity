@@ -8,8 +8,10 @@ module.exports = {
 	get: function(params, isRaw){
 		return new Promise(function(resolve, reject){
 			if (params.lat!=null && params.lng!=null){
-				var distance = 50/6371 // 6371 is radius of earth in KM
-//				var distance = 600/6371 // 6371 is radius of earth in KM
+				var range = (params.range == null) ? 50 : parseInt(params.range)
+				var distance = range/6371 // 6371 is radius of earth in KM
+//				var distance = 50/6371 // 6371 is radius of earth in KM
+
 				params['geo'] = {
 				  	$near: [params.lat, params.lng],
 			  		$maxDistance: distance
@@ -17,6 +19,7 @@ module.exports = {
 
 				delete params['lat']
 				delete params['lng']
+				delete params['range']
 			}
 
 			/* Query by filters passed into parameter string: */
