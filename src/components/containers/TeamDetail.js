@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CreateComment, Comment, ProfilePreview, PostFeed } from '../view'
+import { TextUtils } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
 
@@ -78,7 +79,7 @@ class TeamDetail extends Component {
 				<div className={styles.post.container.className} style={styles.post.container}>
 					<h2 style={styles.post.title}>Overview</h2>
 					<hr />
-					<p dangerouslySetInnerHTML={{__html:team.description}}></p>
+					<p dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 				</div>
 			)			
 		}
