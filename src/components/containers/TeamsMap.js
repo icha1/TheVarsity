@@ -10,6 +10,7 @@ class TeamsMap extends Component {
 		this.calculateDistance = this.calculateDistance.bind(this)
 		this.fetchTeams = this.fetchTeams.bind(this)
 		this.state = {
+			zoom: 16
 
 		}
 	}
@@ -57,42 +58,47 @@ class TeamsMap extends Component {
 		props.fetchDistrict(params)
 	}
 
+	zoomChanged(zoom){
+		this.setState({
+			zoom: zoom
+		})
+	}
+
 	fetchTeams(){
 		if (this.props.session.currentDistrict.id == null)
 			return null
 
 		const district = this.props.session.currentDistrict.id
 
-		if (this.props.teams == null){
-//			this.props.fetchTeams(this.props.session.currentLocation)
+		if (this.props.session.teams == null){
 			this.props.fetchTeams({district: district})
 			return null
 		}
 
-		return this.props.teams
+		return this.props.session.teams
 	}
 
 	componentDidUpdate(){
 		const district = this.props.session.currentDistrict.id
 		if (district == null)
-			return null
+			return
 
-
-		if (this.props.teams == null){
-//			this.props.fetchTeams(this.props.session.currentLocation)
+		if (this.props.session.teams == null){
 			this.props.fetchTeams({district: district})
-			return null
+			return
 		}
 	}
 
 	render(){
+		const markers = (this.state.zoom >= 15) ? this.props.session.teams : this.props.session.nearby
 		return (
 			<Map 
 				center={this.props.session.currentLocation} 
-				zoom={16} 
+				zoom={this.state.zoom} 
 				animation={2}
-				markers={ this.props.teams }
-				mapMoved={this.locationChanged.bind(this)} />
+				markers={ markers }
+				mapZoomChanged={ this.zoomChanged.bind(this) }
+				mapMoved={ this.locationChanged.bind(this) } />
 		)
 	}
 
@@ -101,8 +107,7 @@ class TeamsMap extends Component {
 const stateToProps = (state) => {
 	return {
 		session: state.session,
-		user: state.account.currentUser,
-		teams: state.team.list
+		user: state.account.currentUser
 	}
 }
 

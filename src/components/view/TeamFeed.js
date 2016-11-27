@@ -10,12 +10,12 @@ class TeamFeed extends Component {
 		const listClass = 'commentlist noborder nomargin nopadding clearfix'
 		const listItemClass = 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1'
 
-//		const list = this.props.posts
+		const list = (this.props.teams) ? this.props.teams : []
 
 		return (
 			<ol className={listClass}>
 				{
-					this.props.teams.map((team, i) => {
+					list.map((team, i) => {
 						return (
 							<li key={team.id} className={listItemClass} id="li-comment-2">
 								<TeamPreview team={team} />

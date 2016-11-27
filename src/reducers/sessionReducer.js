@@ -18,22 +18,24 @@ var initialState = {
 	}
 }
 
-const resetSession = (state, district) => {
-	if (district == null){
+const resetSession = (state, districts) => {
+	let district = null
+	if (districts.length == 0){
 		district = {
 			id: null,
 			name: '',
-			comments: [],
 			recentVisitors: {}
 		}
+	}
+	else {
+		district = districts[0]
 	}
 
 	district['comments'] = []
 	state['currentDistrict'] = district
-	state['nearby'] = []
-	state['teams'] = []
+	state['nearby'] = districts
+	state['teams'] = null
 	state['reload'] = true // by setting true, this triggers a re-load of the feeds
-//	console.log('RESET SESSION: '+JSON.stringify(state))
 	return state
 }
 
@@ -86,8 +88,7 @@ export default (state = initialState, action) => {
 			
 		case constants.DISTRICT_CHANGED:
 			// TODO: check if previous district exists, if so then disconnect firebase reference
-			const list = action.districts
-			return (list.length == 0) ? resetSession(newState, null) : resetSession(newState, list[0])
+			return resetSession(newState, action.districts)
 
 		case constants.COMMENTS_RECEIVED:
 			var updatedDistrict = Object.assign({}, newState.currentDistrict)

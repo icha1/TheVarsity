@@ -32,7 +32,7 @@ class Map extends Component {
 		if (this.props.markers != null){
 			markers = this.props.markers.map((marker, i) => {
 				marker['defaultAnimation'] = this.props.animation
-				marker['icon'] = (marker.image.length == 0) ? null : marker.image+'=s60-c'
+				marker['icon'] = (marker.image.length == 0) ? '/images/icons/map-icon.png' : marker.image+'=s60-c'
 				marker['position'] = {
 					lat: marker.geo[0],
 					lng: marker.geo[1]
