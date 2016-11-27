@@ -15,5 +15,9 @@ export default {
         return <Time value={timestamp} titleFormat="YYYY/MM/DD HH:mm" relative />
 	},
 
+    abbreviatedDate: (timestamp) => {
+        return <Time value={timestamp} format="MMM DD" /> 
+    },
+
 	today: () => <Time value={new Date()} format="MMM D, YYYY" />
 }
