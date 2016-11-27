@@ -16,10 +16,15 @@ class Map extends Component {
 			this.props.mapMoved(latLng)
 	}
 
+	mapZoomChanged(){
+//		console.log('MAP ZOOME CHANGED: '+this.state.map.getZoom())
+		if (this.props.mapZoomChanged != null)
+			this.props.mapZoomChanged(this.state.map.getZoom())
+	}
+
 	handleMarkerClick(marker){
 		console.log('MarkerClick: '+JSON.stringify(marker))
 		browserHistory.push('/team/'+marker.slug)
-
 	}
 
 	render(){
@@ -27,7 +32,7 @@ class Map extends Component {
 		if (this.props.markers != null){
 			markers = this.props.markers.map((marker, i) => {
 				marker['defaultAnimation'] = this.props.animation
-				marker['icon'] = marker.image+'=s60-c'
+				marker['icon'] = (marker.image.length == 0) ? null : marker.image+'=s60-c'
 				marker['position'] = {
 					lat: marker.geo[0],
 					lng: marker.geo[1]
@@ -61,6 +66,7 @@ class Map extends Component {
 			         	}
 
 			            onDragend={this.mapDragged.bind(this)}
+			            onZoomChanged={this.mapZoomChanged.bind(this)}
 			            defaultZoom={this.props.zoom}
 			            defaultCenter={this.props.center}
 			            options={{streetViewControl: false, mapTypeControl: false}}>
