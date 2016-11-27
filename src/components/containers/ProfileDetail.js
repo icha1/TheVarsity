@@ -169,9 +169,7 @@ class ProfileDetail extends Component {
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
 								{ image }
-								<h2 style={style.title}>
-									{ username }
-								</h2>
+								<h2 style={style.title}>{ username }</h2>
 								<hr />
 								<nav id="primary-menu">
 									<ul>{sideMenu}</ul>
