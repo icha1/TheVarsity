@@ -186,10 +186,6 @@ class ProfileDetail extends Component {
 				<section id="content" style={{background:'#f9f9f9', minHeight:800}}>
 					<div className="content-wrap container clearfix">
 						<div className="col_two_third">
-							<h2 style={style.title}>
-								{ this.state.selected }
-							</h2>
-
 							{ content }
 						</div>
 
