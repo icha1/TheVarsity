@@ -141,8 +141,6 @@ class Feed extends Component {
 				limit: 10,
 				type: feed,
 				district: session.currentDistrict.id
-				// lat: session.currentLocation.lat,
-				// lng: session.currentLocation.lng
 			}
 
 			this.props.fetchPosts(params)
