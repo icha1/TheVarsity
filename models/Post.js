@@ -40,6 +40,7 @@ PostSchema.methods.summary = function(){
 		eventDetails: this.eventDetails,
 		geo: this.geo,
 		timestamp: this.timestamp,
+		schema: 'post',
 		id: this._id
 	}
 

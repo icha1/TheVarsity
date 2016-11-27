@@ -28,6 +28,7 @@ DistrictSchema.methods.summary = function(){
 		recentVisitors: this.recentVisitors,
 		geo: this.geo,
 		timestamp: this.timestamp,
+		schema: 'district',
 		id: this._id
 	}
 

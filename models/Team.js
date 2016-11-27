@@ -34,6 +34,7 @@ TeamSchema.methods.summary = function(){
 		viewed: this.viewed,
 		geo: this.geo,
 		timestamp: this.timestamp,
+		schema: 'team',
 		id: this._id
 	}
 

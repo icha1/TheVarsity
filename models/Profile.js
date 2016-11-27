@@ -24,6 +24,7 @@ ProfileSchema.methods.summary = function(){
 		social: this.social,
 		viewed: this.viewed,
 		timestamp: this.timestamp,
+		schema: 'profile',
 		id: this._id.toString()
 	}
 
