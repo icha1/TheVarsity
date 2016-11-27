@@ -3,6 +3,7 @@ import { FirebaseManager } from '../../utils'
 import actions from '../../actions/actions'
 import { connect } from 'react-redux'
 import { Map } from '../view'
+import { browserHistory } from 'react-router'
 
 class MapNavigation extends Component {
 	constructor(){
@@ -11,7 +12,6 @@ class MapNavigation extends Component {
 		this.fetchTeams = this.fetchTeams.bind(this)
 		this.state = {
 			zoom: 16
-
 		}
 	}
 
@@ -50,6 +50,8 @@ class MapNavigation extends Component {
 		props.locationChanged(location)
 
 		const params = {
+//			range: 50,
+			range: 600,
 			limit: 5, // nearby districts also
 			lat: location.lat,
 			lng: location.lng
@@ -62,6 +64,28 @@ class MapNavigation extends Component {
 		this.setState({
 			zoom: zoom
 		})
+	}
+
+	markerClicked(marker, map){
+		console.log('markerClicked: '+marker.slug+', '+marker.schema)
+		if (marker.schema == 'team'){
+			browserHistory.push('/team/' + marker.slug)
+			return
+		}
+
+		if (marker.schema == 'district'){
+			const markerLoc = marker.position
+			const delta = .003 // this is about a zoom level of 16
+//			console.log('ZOOM IN: '+JSON.stringify(markerLoc))
+
+			map.fitBounds({
+				north: markerLoc.lat+delta,
+				east: markerLoc.lng+delta,
+				south: markerLoc.lat-delta,
+				west: markerLoc.lng-delta
+			})
+			return
+		}
 	}
 
 	fetchTeams(){
@@ -97,6 +121,7 @@ class MapNavigation extends Component {
 				zoom={this.state.zoom} 
 				animation={2}
 				markers={ markers }
+				markerClicked = { this.markerClicked.bind(this) }
 				mapZoomChanged={ this.zoomChanged.bind(this) }
 				mapMoved={ this.locationChanged.bind(this) } />
 		)
