@@ -8,8 +8,9 @@ class TeamDetail extends Component {
 	constructor(){
 		super()
 		this.state = {
-			selected: 'Posts',
+			selected: 'Overview',
 			menuItems: [
+				'Overview',
 				'Posts',
 				'Members',
 				'Chat'
@@ -72,6 +73,17 @@ class TeamDetail extends Component {
 
 		let content = null
 		const selected = this.state.selected
+		if (selected == 'Overview'){
+			content = (
+				<div className={styles.post.container.className} style={styles.post.container}>
+					<h2 style={styles.post.title}>Overview</h2>
+					<hr />
+					<p dangerouslySetInnerHTML={{__html:team.description}}></p>
+				</div>
+			)			
+		}
+
+
 		if (selected == 'Posts'){
 			const list = this.props.posts[team.id]
 			content = (list) ? <PostFeed posts={list} user={this.props.user} /> : null
@@ -83,7 +95,7 @@ class TeamDetail extends Component {
 					<div className="fbox-desc">
 
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
-							<h2 style={{fontFamily:'Pathway Gothic One', marginBottom:0, fontWeight:100}}>Members</h2>
+							<h2 style={styles.post.title}>Members</h2>
 						</div>
 
 						<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
