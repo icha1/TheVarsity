@@ -1,14 +1,18 @@
 import Time from 'react-time'
 import React from 'react'
 
+const differenceFromNow = (timestamp) => {
+    let now = new Date()
+    let ts = new Date(timestamp)
+    let diff = now-ts
+    return diff
+}
+
 export default {
 
 	formattedDate: (timestamp) => {
-        var now = new Date()
-        var timestamp = new Date(timestamp)
-        var diff = now-timestamp
-
-        var date = null
+        let diff = differenceFromNow(timestamp)
+        let date = null
         if (diff > 24*60*1000) 
             return <Time value={timestamp} format="MMM DD, YYYY" /> 
         
@@ -16,7 +20,12 @@ export default {
 	},
 
     abbreviatedDate: (timestamp) => {
-        return <Time value={timestamp} format="MMM DD" /> 
+        let diff = differenceFromNow(timestamp)
+        let date = null
+        if (diff > 24*60*1000) 
+            return <Time value={timestamp} format="MMM DD" /> 
+
+        return <Time value={timestamp} format="MMM DD" relative /> 
     },
 
 	today: () => <Time value={new Date()} format="MMM D, YYYY" />
