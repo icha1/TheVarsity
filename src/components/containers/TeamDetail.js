@@ -57,6 +57,11 @@ class TeamDetail extends Component {
 		})
 	}
 
+	subscribe(event){
+		event.preventDefault()
+		console.log('Subscribe')
+	}
+
 	render(){
 		const team = this.props.teams[this.props.slug]
 		const style = styles.team
@@ -76,19 +81,20 @@ class TeamDetail extends Component {
 		const selected = this.state.selected
 		if (selected == 'Overview'){
 			content = (
-				<div className="feature-box center media-box fbox-bg">
-					<div className="fbox-desc">
+				<div className="feature-box center media-box fbox-bg" style={{background:'url("'+team.image+'")', borderRadius:'5px 5px 8px 8px'}}>
+					<div className="fbox-desc gradient">
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
-							<h2 style={styles.team.title}>Overview</h2>
-							<div style={{padding:8, background:'#EBF5FB'}}>
+							<h2 style={styles.team.titleWhite}>Overview</h2>
+							<hr style={{marginBottom:4}} />
+							<div style={{color:'#fff'}}>
 								{ team.address.street }<br />
-								{ (team.social.website) ? <div><a target="_blank" style={{color:'blue'}} href={team.social.website}>website</a></div> : null }
+								{ (team.social.website) ? <div><a target="_blank" style={{color:'#fff'}} href={team.social.website}>website</a></div> : null }
 								{ this.props.session.currentDistrict.name }
 							</div>
 
 						</div>
 
-						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24}}>
+						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24, background:'#fff'}}>
 							<p dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 						</div>
 
@@ -139,6 +145,7 @@ class TeamDetail extends Component {
 							<div style={{paddingTop:96}}>
 								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
+								<a href="#" className="button button-border button-rounded button-blue"><i className="icon-bookmark2"></i>Subscribe</a>
 
 								<hr />
 								<nav id="primary-menu">

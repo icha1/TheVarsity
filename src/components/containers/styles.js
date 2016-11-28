@@ -157,6 +157,12 @@ export default {
 			fontWeight: 100,
 			marginBottom: 0
 		},
+		titleWhite: {
+			color:'#fff',
+			fontFamily:'Pathway Gothic One',
+			fontWeight: 100,
+			marginBottom: 0
+		},
 		selected: {
 			padding: 8,
 			background:'#f9f9f9',
