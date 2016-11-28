@@ -76,10 +76,23 @@ class TeamDetail extends Component {
 		const selected = this.state.selected
 		if (selected == 'Overview'){
 			content = (
-				<div className={styles.post.container.className} style={styles.post.container}>
-					<h2 style={styles.post.title}>Overview</h2>
-					<hr />
-					<p dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+				<div className="feature-box center media-box fbox-bg">
+					<div className="fbox-desc">
+						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
+							<h2 style={styles.team.title}>Overview</h2>
+							<div style={{padding:8, background:'#EBF5FB'}}>
+								{ team.address.street }<br />
+								{ (team.social.website) ? <div><a target="_blank" style={{color:'blue'}} href={team.social.website}>website</a></div> : null }
+								{ this.props.session.currentDistrict.name }
+							</div>
+
+						</div>
+
+						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24}}>
+							<p dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+						</div>
+
+					</div>
 				</div>
 			)			
 		}
@@ -94,19 +107,18 @@ class TeamDetail extends Component {
 			content = (
 				<div className="feature-box center media-box fbox-bg">
 					<div className="fbox-desc">
-
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
-							<h2 style={styles.post.title}>Members</h2>
+							<h2 style={styles.team.title}>Members</h2>
 						</div>
 
 						<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
-								{
-									team.members.map((member, i) => {
-										return (
-											<ProfilePreview key={member.id} profile={member} />
-										)
-									})
-								}
+							{
+								team.members.map((member, i) => {
+									return (
+										<ProfilePreview key={member.id} profile={member} />
+									)
+								})
+							}
 						</div>
 
 					</div>
@@ -127,11 +139,6 @@ class TeamDetail extends Component {
 							<div style={{paddingTop:96}}>
 								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
-								<div style={{padding:8, background:'#EBF5FB', border:'1px solid #ddd'}}>
-									{ team.address.street }<br />
-									{ (team.social.website) ? <div><a target="_blank" style={{color:'blue'}} href={team.social.website}>website</a></div> : null }
-									{ this.props.session.currentDistrict.name }
-								</div>
 
 								<hr />
 								<nav id="primary-menu">
