@@ -58,6 +58,7 @@ export default {
 			APIManager
 			.handleGet('/api/post', {'author.id':team.id})
 			.then((response) => {
+				console.log('FETCH TEAM POSTS: '+JSON.stringify(response))
 				let results = response.results
 				dispatch({
 					type: constants.TEAM_POSTS_RECEIVED,
