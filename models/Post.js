@@ -41,7 +41,7 @@ PostSchema.methods.summary = function(){
 		geo: this.geo,
 		timestamp: this.timestamp,
 		schema: 'post',
-		id: this._id
+		id: this._id.toString()
 	}
 
 	return summary

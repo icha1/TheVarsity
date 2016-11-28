@@ -29,7 +29,7 @@ DistrictSchema.methods.summary = function(){
 		geo: this.geo,
 		timestamp: this.timestamp,
 		schema: 'district',
-		id: this._id
+		id: this._id.toString()
 	}
 
 	return summary

@@ -35,7 +35,7 @@ TeamSchema.methods.summary = function(){
 		geo: this.geo,
 		timestamp: this.timestamp,
 		schema: 'team',
-		id: this._id
+		id: this._id.toString()
 	}
 
 	return summary
