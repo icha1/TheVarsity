@@ -179,7 +179,7 @@ class ProfileDetail extends Component {
 					{ btnEdit }
 					<h2 style={styles.post.title}>Overview</h2>
 					<hr />
-					<p dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
+					<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
 				</div>
 			)
 		}

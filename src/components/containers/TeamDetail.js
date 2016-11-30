@@ -95,7 +95,7 @@ class TeamDetail extends Component {
 						</div>
 
 						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24, background:'#fff'}}>
-							<p dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 						</div>
 
 					</div>
