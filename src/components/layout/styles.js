@@ -1,5 +1,21 @@
 export default {
-
+	input: {
+		color:'#333',
+		fontWeight: 600,
+	    lineHeight: 1.5,
+	    fontSize: 30,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%',
+		marginTop: 16
+	},
+	textarea: {
+		border: 'none',
+		width: 100+'%',
+		minHeight: 100,
+		resize: 'none'
+	},
+	
 	home: {
 		content: {
 			background:'#f9f9f9',

@@ -1,25 +1,29 @@
 import React, { Component } from 'react'
 import styles from './styles'
+import { EditProfile } from '../view'
+import { connect } from 'react-redux'
 
 class Account extends Component {
 	constructor(){
 		super()
 		this.state = {
-			selected: 0,
+			showEdit: false,
+			selected: 'Profile',
 			menuItems: [
-				{name:'Listings', component:'Posts'},
-				{name:'Teams', component:'CreatePost'},
-				{name:'Posts', component:'ManageNotifications'}
+				'Profile',
+				'Teams',
+				'Saved',
+				'Messages'
 			]
 		}
 	}
 
-	selectItem(index, event){
+	selectItem(item, event){
 		event.preventDefault()
 
-		const item = this.state.menuItems
+		// const item = this.state.menuItems
 		this.setState({
-			selected: index
+			selected: item
 		})
 	}
 
@@ -27,11 +31,11 @@ class Account extends Component {
 		const style = styles.account
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
-			const itemStyle = (i == this.state.selected) ? style.selected : style.menuItem
+			const itemStyle = (item == this.state.selected) ? style.selected : style.menuItem
 			return (
 				<li key={i}>
 					<div style={itemStyle}>
-						<a onClick={this.selectItem.bind(this, i)} href="#"><div>{item.name}</div></a>
+						<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
 					</div>
 				</li>
 			)
@@ -54,8 +58,13 @@ class Account extends Component {
 
 				<section id="content" style={style.content}>
 					<div className="content-wrap container clearfix">
+
 						<div className="col_two_third">
-							Account Page
+							<EditProfile profile={this.props.user} />
+						</div>
+
+						<div className="col_one_third col_last">
+							Right Side
 						</div>
 
 					</div>
@@ -65,4 +74,9 @@ class Account extends Component {
 	}
 }
 
-export default Account
+const stateToProps = (state) => {
+	return {
+		user: state.account.currentUser,
+	}
+}
+export default connect(stateToProps)(Account)

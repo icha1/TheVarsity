@@ -41,7 +41,7 @@ class EditProfile extends Component {
 		return (
 			<div className={styles.post.container.className} style={styles.post.container}>
 				<button onClick={this.btnCloseClicked.bind(this)} style={{float:'right'}}>Done</button>
-				<h2 style={styles.post.title}>Edit Profile</h2>
+				<h2 style={styles.post.title}>Update Profile</h2>
 				<hr />
 				<textarea id="bio" onChange={this.updateProfile.bind(this)} style={{border:'none', background:'#F8F9F9', width:'100%', minHeight:220, padding:8, resize:'none'}} defaultValue={profile.bio}></textarea>
 			</div>
