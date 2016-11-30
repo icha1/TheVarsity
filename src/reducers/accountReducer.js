@@ -31,6 +31,16 @@ export default (state = initialState, action) => {
 			newState['teams'] = teams 
 			return newState
 
+		case constants.PROFILE_UPDDATED:
+			if (newState.currentUser == null)
+				return newState
+
+			if (newState.currentUser.id != action.profile.id)
+				return newState
+
+			newState['currentUser'] = action.profile
+			return newState
+
 		default:
 			return state
 	}

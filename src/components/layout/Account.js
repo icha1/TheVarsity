@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import styles from './styles'
 import { EditProfile } from '../view'
 import { connect } from 'react-redux'
+import { TextUtils } from '../../utils'
+import actions from '../../actions/actions'
 
 class Account extends Component {
 	constructor(){
@@ -23,12 +25,35 @@ class Account extends Component {
 
 		// const item = this.state.menuItems
 		this.setState({
-			selected: item
+			selected: item,
+			showEdit: false
 		})
 	}
 
+	editProfile(event){
+		if (event)
+			event.preventDefault()
+
+		this.setState({
+			showEdit: !this.state.showEdit
+		})
+	}
+
+	updateProfile(updated){
+		if (this.props.user == null)
+			return
+
+		this.props.updateProfile(this.props.user, updated)
+		this.setState({
+			showEdit: !this.state.showEdit
+		})
+	}
+
+
 	render(){
 		const style = styles.account
+		const user = this.props.user
+		const selected = this.state.selected
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
 			const itemStyle = (item == this.state.selected) ? style.selected : style.menuItem
@@ -40,6 +65,31 @@ class Account extends Component {
 				</li>
 			)
 		})
+
+		let content = null
+		if (this.state.showEdit){
+			content = <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} />
+		}
+
+		else if (selected == 'Profile') {
+			content = (
+				<div className={styles.container.className} style={styles.container}>
+					{ (user) ? <button onClick={this.editProfile.bind(this)} style={{float:'right'}}>Edit</button> : null }
+					<h2 style={styles.title}>Overview</h2>
+					<hr />
+					<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+				</div>
+			)
+		}
+		else if (selected == 'Teams') {
+			content = null
+		}
+		else if (selected == 'Saved') {
+			content = null
+		}
+		else if (selected == 'Messages') {
+			content = null
+		}
 
 		return (
 			<div className="clearfix">
@@ -60,7 +110,7 @@ class Account extends Component {
 					<div className="content-wrap container clearfix">
 
 						<div className="col_two_third">
-							<EditProfile profile={this.props.user} />
+							{ content }
 						</div>
 
 						<div className="col_one_third col_last">
@@ -76,7 +126,14 @@ class Account extends Component {
 
 const stateToProps = (state) => {
 	return {
-		user: state.account.currentUser,
+		user: state.account.currentUser
 	}
 }
-export default connect(stateToProps)(Account)
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params))
+	}
+}
+export default connect(stateToProps, mapDispatchToProps)(Account)
+
