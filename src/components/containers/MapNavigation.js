@@ -10,8 +10,11 @@ class MapNavigation extends Component {
 		super()
 		this.calculateDistance = this.calculateDistance.bind(this)
 		this.fetchTeams = this.fetchTeams.bind(this)
+		this.connectToFirebase = this.connectToFirebase.bind(this)
 		this.state = {
-			zoom: 16
+			zoom: 16,
+			connected: false,
+			currentMembers: null
 		}
 	}
 
@@ -105,13 +108,68 @@ class MapNavigation extends Component {
 
 	componentDidUpdate(){
 		const district = this.props.session.currentDistrict.id
-		if (district == null)
+		if (district == null){
 			return
+		}
 
 		if (this.props.session.teams == null){
 			this.props.fetchTeams({district: district})
 			return
 		}
+
+		if (this.state.connected){
+			console.log('DISTRICT: '+JSON.stringify(district))
+			return
+		}
+
+		window.onbeforeunload = () => {
+			if (this.props.user == null)
+				return
+
+			console.log('BYE')
+			const district = this.props.session.currentDistrict.id
+			const path = '/'+district+'/current/'+this.props.user.id
+			FirebaseManager.post(path, null, () => {
+
+			})
+		}
+
+		this.setState({connected: true})
+
+		const path = '/'+district+'/current'
+		FirebaseManager.register(path, (err, members) => {
+			this.setState({
+				currentMembers: (err) ? {} : members
+			})
+
+			console.log('CURRENT MEMBERS: '+JSON.stringify(members))
+			setTimeout(() => {
+				this.connectToFirebase()
+			}, 500)
+		})
+	}
+
+	connectToFirebase(){
+		const user = this.props.user
+		if (user == null)
+			return
+
+		console.log('connectToFirebase: '+JSON.stringify(this.state.currentMembers))
+		if (this.state.currentMembers[user.id] != null) // already there
+			return
+		
+		console.log('connectToFirebase: ')
+		const district = this.props.session.currentDistrict.id
+		const path = '/'+district+'/current/'+user.id
+		const member = {
+			id: user.id,
+			username: user.username,
+			image: user.image
+		}
+
+		FirebaseManager.post(path, member, () => {
+
+		})
 	}
 
 	render(){
