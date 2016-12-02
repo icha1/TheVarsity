@@ -14,7 +14,8 @@ var reducersIndex = require('../public/build/es5/reducers')
 var controllers = require('../controllers')
 
 var staticPages = {
-	create: 'create'
+	create: 'create',
+	authenticate: 'authenticate'
 }
 
 matchRoutes = function(req, routes, initialStore){

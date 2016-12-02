@@ -7,6 +7,7 @@ var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var compression = require('compression')
 var sessions = require('client-sessions')
+var jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 var routes = require('./routes/index')

@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var ProfileController = require('../controllers/ProfileController')
+var jwt = require('jsonwebtoken')
 var bcrypt = require('bcrypt')
 
 router.get('/:action', function(req, res, next){
@@ -58,10 +59,18 @@ router.post('/:action', function(req, res, next){
 		.post(req.body)
 		.then(function(profile){
 			req.session.user = profile.id
+			var token = jwt.sign(profile, process.env.SECRET_KEY, {expiresIn:4000})
 			res.json({
 				confirmation: 'success',
-				user: profile
+				user: profile,
+				token: token
 			})
+
+
+			// res.json({
+			// 	confirmation: 'success',
+			// 	user: profile
+			// })
 		})
 		.catch(function(err){
 			res.json({
@@ -103,9 +112,11 @@ router.post('/:action', function(req, res, next){
 			}
 
 			req.session.user = profile._id
+			var token = jwt.sign(profile.summary(), process.env.SECRET_KEY, {expiresIn:4000})
 			res.json({
 				confirmation: 'success',
-				user: profile.summary()
+				user: profile.summary(),
+				token: token
 			})
 		})
 		.catch(function(err){
