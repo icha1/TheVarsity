@@ -1,4 +1,70 @@
 export default {
+	container: {
+		background:'#fff',
+		className: 'comment-wrap clearfix',
+		marginBottom: 24
+	},
+	content: {
+		textAlign:'left',
+		className: 'comment-content clearfix'
+	},
+	header: {
+		marginBottom:0
+	},
+	title: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100
+	},
+	postImage: {
+		marginTop: 12
+	},
+	input: {
+		color:'#333',
+		fontWeight: 600,
+	    lineHeight: 1.5,
+	    fontSize: 30,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%',
+		marginTop: 16
+	},
+	textarea: {
+		border: 'none',
+		width: 100+'%',
+		minHeight: 100,
+		resize: 'none'
+	},
+	btnAdd: {
+		float: 'right',
+		marginTop: 0,
+		className: 'button button-medium button-circle button-blue'
+	},
+	select: {
+		marginBottom:16,
+		border:'1px solid #ddd',
+		borderRadius:0,
+		boxShadow:'none'
+	},
+	admin: {
+		background: '#fff',
+		padding: 10,
+		position: 'fixed',
+		bottom: 0,
+		width: 44+'%',
+		minWidth: 320,
+		border: '1px solid #ddd'
+	},
+	textBox: {
+		position:'absolute',
+		bottom:0,
+		left:0,
+		padding:8,
+		background:'#ffffe6',
+		width:100+'%',
+		height: 8+'%',
+		borderTop: '1px solid #ddd'
+	},	
 	nav: {
 		ul: {
 			fontWeight: 100
@@ -163,6 +229,24 @@ export default {
 			fontFamily:'Pathway Gothic One',
 			fontWeight: 100,
 			marginBottom: 0
+		},
+		selected: {
+			padding: 8,
+			background:'#f9f9f9',
+			borderRadius: 2
+		},
+		menuItem: {
+			padding:8,
+			background:'#fff'
+		}
+	},
+	account: {
+		content: {
+			background:'#f9f9f9',
+			minHeight:800
+		},
+		container: {
+			borderTop:'1px solid #ddd', height:140
 		},
 		selected: {
 			padding: 8,

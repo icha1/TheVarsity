@@ -45,26 +45,6 @@ export default {
 			textAlign: 'left'			
 		}
 	},
-	
-	account: {
-		content: {
-			background:'#f9f9f9',
-			minHeight:800
-		},
-		container: {
-			borderTop:'1px solid #ddd', height:140
-		},
-		selected: {
-			padding: 8,
-			background:'#f9f9f9',
-			borderRadius: 2
-		},
-		menuItem: {
-			padding:8,
-			background:'#fff'
-		}
-	},
-	
 	container: {
 		background:'#fff',
 		className: 'comment-wrap clearfix',
