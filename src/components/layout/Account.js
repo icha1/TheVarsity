@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styles from './styles'
-import { EditProfile } from '../view'
+import { EditProfile, TeamFeed, PostFeed } from '../view'
 import { connect } from 'react-redux'
 import { TextUtils } from '../../utils'
 import actions from '../../actions/actions'
@@ -49,6 +49,20 @@ class Account extends Component {
 		})
 	}
 
+	componentDidUpdate(){
+		const user = this.props.user
+		if (user == null)
+			return
+
+		const selected = this.state.selected
+
+		if (selected == 'Teams'){
+			if (this.props.teams[user.id])
+				return
+
+			this.props.fetchProfileTeams(user)
+		}
+	}
 
 	render(){
 		const style = styles.account
@@ -83,7 +97,8 @@ class Account extends Component {
 			)
 		}
 		else if (selected == 'Teams') {
-			content = null
+			// content = null
+			content = (this.props.teams[user.id]) ? <TeamFeed teams={this.props.teams[user.id]} user={user} /> : null
 		}
 		else if (selected == 'Saved') {
 			content = null
@@ -127,13 +142,16 @@ class Account extends Component {
 
 const stateToProps = (state) => {
 	return {
-		user: state.account.currentUser
+		user: state.account.currentUser,
+		teams: state.profile.teams,
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params))
+		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
+		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
+		fetchProfileTeams: (profile) => dispatch(actions.fetchProfileTeams(profile))
 	}
 }
 export default connect(stateToProps, mapDispatchToProps)(Account)
