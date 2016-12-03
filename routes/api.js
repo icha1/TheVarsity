@@ -14,20 +14,6 @@ router.get('/:resource', function(req, res, next){
 		return
 	}
 
-	// var token = req.headers['token']
-	// if (token){
-	// 	console.log('TOKEN == '+token)
-	// 	jwt.verify(token, process.env.SECRET_KEY, function(err, decode){
-	// 		if (err){
-	// 			// invalid token
-	// 			return
-	// 		}
-	// 	})
-	// }
-	// else {
-	// 	console.log('NO TOKEN')
-	// }
-
 	controller
 	.get(req.query, false)
 	.then(function(results){
