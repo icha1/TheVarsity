@@ -84,6 +84,7 @@ class CreatePost extends Component {
 				image: (user.image.length == 0) ? null : user.image,
 				type: 'profile'
 			}
+			updated['saved'] = [user.id]
 			this.setState({post: updated})
 			return
 		}
