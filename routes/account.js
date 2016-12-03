@@ -33,6 +33,24 @@ router.get('/:action', function(req, res, next){
 			return
 		}
 
+//		var token = req.headers['token']
+		// var token = req.session.token
+		// if (token){
+		// 	// console.log('TOKEN == '+token)
+		// 	jwt.verify(token, process.env.SECRET_KEY, function(err, decode){
+		// 		if (err){
+		// 			// invalid token
+		// 			console.log('INVALID TOKEN')
+		// 			return
+		// 		}
+
+		// 		console.log('VALID TOKEN: '+JSON.stringify(decode))
+		// 	})
+		// }
+		// else {
+		// 	console.log('NO TOKEN')
+		// }
+
 		var userId = req.session.user
 		ProfileController
 		.getById(userId)
@@ -59,7 +77,8 @@ router.post('/:action', function(req, res, next){
 		.post(req.body)
 		.then(function(profile){
 			req.session.user = profile.id
-			var token = jwt.sign(profile, process.env.SECRET_KEY, {expiresIn:4000})
+			var token = jwt.sign({id:profile.id}, process.env.SECRET_KEY, {expiresIn:4000})
+			req.session.token = token
 			res.json({
 				confirmation: 'success',
 				user: profile,
@@ -112,7 +131,8 @@ router.post('/:action', function(req, res, next){
 			}
 
 			req.session.user = profile._id
-			var token = jwt.sign(profile.summary(), process.env.SECRET_KEY, {expiresIn:4000})
+			var token = jwt.sign({id:profile.id}, process.env.SECRET_KEY, {expiresIn:4000})
+			req.session.token = token
 			res.json({
 				confirmation: 'success',
 				user: profile.summary(),
