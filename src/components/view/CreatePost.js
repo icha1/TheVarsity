@@ -31,6 +31,7 @@ class CreatePost extends Component {
 			image: (user.image.length == 0) ? null : user.image // TODO: insert placeholder icon
 		}
 
+		updatedPost['saved'] = [user.id]
 		this.setState({
 			post: updatedPost
 		})
