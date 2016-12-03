@@ -60,7 +60,8 @@ export default {
 			textAlign: 'left'			
 		},
 		list: {
-			listStyleType:'none'
+			listStyleType:'none',
+			width: '50%'
 		},
 		unselected: {
 			padding:6,

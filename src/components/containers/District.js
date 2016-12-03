@@ -58,6 +58,7 @@ class District extends Component {
 
 					<div style={{borderTop:'1px solid #ddd', minHeight:140}}>
 						<div style={style.body}>
+							<img style={{width:96,float:'right'}} src={district.image+'=s120-c'} />
 							<span style={style.header}>{district.name}</span><br />
 							<ul style={style.list}>
 								{list}
