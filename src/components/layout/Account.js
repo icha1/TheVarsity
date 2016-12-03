@@ -55,6 +55,12 @@ class Account extends Component {
 			return
 
 		const selected = this.state.selected
+		if (selected == 'Saved'){ // these are posts that the profile saved
+			if (this.props.posts[user.id])
+				return
+
+			this.props.fetchSavedPosts(user)
+		}		
 
 		if (selected == 'Teams'){
 			if (this.props.teams[user.id])
@@ -96,17 +102,13 @@ class Account extends Component {
 				</div>
 			)
 		}
-		else if (selected == 'Teams') {
-			// content = null
+		else if (selected == 'Teams')
 			content = (this.props.teams[user.id]) ? <TeamFeed teams={this.props.teams[user.id]} user={user} /> : null
-		}
-		else if (selected == 'Saved') {
+		else if (selected == 'Saved')
+			content = (this.props.posts[user.id]) ? <PostFeed posts={this.props.posts[user.id]} user={user} /> : null
+		else if (selected == 'Messages')
 			content = null
-		}
-		else if (selected == 'Messages') {
-			content = null
-		}
-
+		
 		return (
 			<div className="clearfix">
 
@@ -143,6 +145,7 @@ class Account extends Component {
 const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
+		posts: state.profile.posts,
 		teams: state.profile.teams,
 	}
 }
