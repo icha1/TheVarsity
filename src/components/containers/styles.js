@@ -94,7 +94,7 @@ export default {
 		},
 		btnLogin: {
 			className: 'button button-xlarge button-circle button-blue'
-		}		
+		}
 	},
 	district: {
 		content: {
