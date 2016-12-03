@@ -9,7 +9,10 @@ export default {
 		className: 'comment-content clearfix'
 	},
 	header: {
-		marginBottom:0
+		marginBottom: 0,
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100		
 	},
 	title: {
 		color:'#333',

@@ -97,7 +97,7 @@ class Account extends Component {
 					{ (user) ? <button onClick={this.editProfile.bind(this)} style={{float:'right'}}>Edit</button> : null }
 					<h2 style={styles.title}>Overview</h2>
 					<hr />
-					<span>{ user.title }</span>
+					<h4 style={styles.header}>{ user.title }</h4>
 					<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
 				</div>
 			)

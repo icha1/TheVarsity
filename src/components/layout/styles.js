@@ -15,7 +15,6 @@ export default {
 		minHeight: 100,
 		resize: 'none'
 	},
-	
 	home: {
 		content: {
 			background:'#f9f9f9',
