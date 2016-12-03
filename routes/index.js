@@ -44,6 +44,14 @@ router.get('/', function(req, res, next) {
 	.checkCurrentUser(req)
 	.then(function(user){
 		reducers['account'] = {currentUser: user, teams:[]} // can be null
+		if (req.cookies.lastsearch) {
+//			console.log('LAST SEARCHED: '+JSON.stringify(req.cookies.lastsearch))
+			var parts = req.cookies.lastsearch.split(',')
+			var lat = parseFloat(parts[0])
+			var lng = parseFloat(parts[1])
+
+			reducers['session'] = reducersIndex.initial('session', {lat:lat, lng:lng})
+		}
 		
 		initialStore = store.configureStore(reducers)
 		var routes = {

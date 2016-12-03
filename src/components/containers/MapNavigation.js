@@ -54,13 +54,15 @@ class MapNavigation extends Component {
 
 		const range = (this.state.zoom >= 16) ? 50 : 600 // make this value dependent on map zoom level
 		const params = {
-//			range: 50,
 			range: range, 
 			limit: 5, // nearby districts also
 			lat: location.lat,
 			lng: location.lng
 		}
 
+		// set cookie so that next time user visits, map loads where left off:
+		const latLng = params.lat+','+params.lng
+		document.cookie = 'lastsearch='+latLng+'; path=/'
 		props.fetchDistrict(params)
 	}
 
