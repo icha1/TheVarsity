@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 
 var ProfileSchema = new mongoose.Schema({
-	username: {type:String, trim:true, default:''},
+	username: {type:String, trim:true, unique:true, default:''},
 	title: {type:String, trim:true, default:''}, // web developer, designer, photographer, etc
 	bio: {type:String, trim:true, default:''},
 	isConfirmed: {type:String, trim:true, default:'pending'}, // yes, no, pending
