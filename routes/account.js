@@ -84,12 +84,6 @@ router.post('/:action', function(req, res, next){
 				user: profile,
 				token: token
 			})
-
-
-			// res.json({
-			// 	confirmation: 'success',
-			// 	user: profile
-			// })
 		})
 		.catch(function(err){
 			res.json({
@@ -100,7 +94,6 @@ router.post('/:action', function(req, res, next){
 			return
 		})
 	}
-
 
 	if (action == 'login'){
 		var email = req.body.email
@@ -147,6 +140,15 @@ router.post('/:action', function(req, res, next){
 
 			return
 		})
+	}
+
+	if (action == 'invite'){
+		var invited = req.body.invited
+		res.json({
+			confirmation: 'success',
+			invited: invited
+		})
+
 	}
 
 })

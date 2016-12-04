@@ -9,10 +9,18 @@ class EditProfile extends Component {
 		super()
 		this.state = {
 			updatedProfile: {
-				changed: false
-
+				changed: false,
+				image: ''
 			}
 		}
+	}
+
+	componentDidMount(){
+		let updated = Object.assign({}, this.state.updatedProfile)
+		updated['image'] = this.props.profile.image
+		this.setState({
+			updatedProfile: updated
+		})
 	}
 
 	btnCloseClicked(event){
@@ -54,7 +62,7 @@ class EditProfile extends Component {
 
 	render(){
 		const profile = this.props.profile
-		const image = (profile.image.length == 0) ? '/images/image-placeholder.png' : profile.image+'=s220-c'
+		const image = (this.state.updatedProfile.image.length == 0) ? '/images/image-placeholder.png' : this.state.updatedProfile.image+'=s220-c'
 
 		return (
 			<div className={styles.post.container.className} style={styles.post.container}>

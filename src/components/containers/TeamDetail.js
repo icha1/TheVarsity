@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { CreateComment, Comment, ProfilePreview, PostFeed } from '../view'
-import { TextUtils } from '../../utils'
+import { TextUtils, APIManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
 
@@ -10,7 +10,7 @@ class TeamDetail extends Component {
 		super()
 		this.state = {
 			selected: 'Overview',
-			invited: [],
+			invited: '', // comma separated string
 			menuItems: [
 				'Overview',
 				'Posts',
@@ -66,6 +66,35 @@ class TeamDetail extends Component {
 	invite(event){
 		event.preventDefault()
 
+		let array = []
+		this.state.invited.split(',').forEach((email, i) => {
+			let isValid = TextUtils.validateEmail(email.trim())
+			if (isValid)
+				array.push(email.trim())
+		})
+
+		if (array.length == 0){
+			alert('Please add at least one valid email.')
+			return
+		}
+
+		APIManager
+		.handlePost('/account/invite', {invited: array})
+		.then(response => {
+//			console.log('INVITED: '+JSON.stringify(response))
+			alert('Thanks for inviting members! They have been notified by email.')
+		})
+		.catch(err => {
+			console.log('ERROR: '+JSON.stringify(err))
+			alert(err)
+		})
+	}
+
+	updateInvited(event){
+		event.preventDefault()
+		this.setState({
+			invited: event.target.value
+		})
 	}
 
 	render(){
@@ -136,7 +165,7 @@ class TeamDetail extends Component {
 						<div style={{textAlign:'left', padding:24}}>
 							<h4 style={styles.team.title}>Invite</h4>
 							To invite members, add their emails below separated by commas:
-							<input type="text" placeholder="example@email.com, example2@email.com" style={{border:'none', background:'#F8F9F9', width:'80%', padding:8, marginTop:6, marginRight:6}} />
+							<input onChange={this.updateInvited.bind(this)} type="text" placeholder="example@email.com, example2@email.com" style={{border:'none', background:'#F8F9F9', width:'80%', padding:8, marginTop:6, marginRight:6}} />
 							<button onClick={this.invite.bind(this)} className="button button-small button-circle button-blue">Invite</button>
 
 						</div>

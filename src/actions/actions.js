@@ -223,12 +223,12 @@ export default {
 		}
 	},
 
-	teamCreated: (team) => {
-		return {
-			type: constants.TEAM_CREATED,
-			team: team
-		}
-	},
+	// teamCreated: (team) => {
+	// 	return {
+	// 		type: constants.TEAM_CREATED,
+	// 		team: team
+	// 	}
+	// },
 
 	createTeam: (team, next) => {
 		return dispatch => {
