@@ -49,13 +49,13 @@ class District extends Component {
 		})
 
 		return (
-			<div className="feature-box center media-box fbox-bg">
+			<div className="feature-box center media-box fbox-bg" style={{marginTop:0, borderTop:'1px solid #ddd'}}>
 				<div className="fbox-desc">
 					<div style={{minHeight:140}}>
 						<div style={style.body}>
-							<img style={{width:96,float:'right'}} src={district.image+'=s120-c'} />
 							<span style={style.header}>{district.name}</span>
 							<hr />
+							<img style={{width:96,float:'right'}} src={district.image+'=s120-c'} />
 							<ul style={style.list}>
 								{list}
 							</ul>

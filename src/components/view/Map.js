@@ -51,7 +51,7 @@ class Map extends Component {
 			})
 		}
 
-		const mapContainer = <div style={{height: '70%', width:'100%'}}></div>
+		const mapContainer = <div style={{height: '60%', width:'100%'}}></div>
 		return (
 		    <GoogleMapLoader
 		        containerElement = { mapContainer }
