@@ -2215,7 +2215,7 @@ body:not(.device-touch) #page-menu nav li a {
     top: 0;
     left: 0;
     z-index: 10;
-    width: 380px;
+    width: 420px;
     height: 100%;
     height: calc(100vh);
     background-color: #FFF;
@@ -2224,13 +2224,13 @@ body:not(.device-touch) #page-menu nav li a {
     overflow: hidden;
   }
   .side-header #header-wrap {
-    width: 420px;
+    width: 460px;
     height: 100%;
     overflow: auto;
     padding-right: 40px;
   }
   .side-header #header .container {
-    width: 380px !important;
+    width: 420px !important;
     padding: 0 30px !important;
     margin: 0 !important;
   }
@@ -2341,7 +2341,7 @@ body:not(.device-touch) #page-menu nav li a {
     transform: rotate(90deg);
   }
   .side-header:not(.open-header) #wrapper {
-    margin: 0 0 0 380px !important;
+    margin: 0 0 0 420px !important;
     width: auto !important;
   }
   .side-header:not(.open-header) #wrapper .container {
@@ -2354,7 +2354,7 @@ body:not(.device-touch) #page-menu nav li a {
     overflow-x: hidden;
   }
   .side-header.open-header #header {
-    left: -380px;
+    left: -420px;
   }
   .side-header.open-header.side-header-open #header {
     left: 0;
@@ -2363,7 +2363,7 @@ body:not(.device-touch) #page-menu nav li a {
     left: 0;
   }
   .side-header.open-header.push-wrapper.side-header-open #wrapper {
-    left: 380px;
+    left: 420px;
   }
   #header-trigger {
     display: none;
@@ -2384,7 +2384,7 @@ body:not(.device-touch) #page-menu nav li a {
     border-radius: 2px;
   }
   .side-header.open-header.side-header-open #header-trigger {
-    left: 400px;
+    left: 440px;
   }
   .side-header.open-header #header-trigger i:nth-child(1),
   .side-header.open-header.side-header-open #header-trigger i:nth-child(2) {
@@ -2410,18 +2410,18 @@ body:not(.device-touch) #page-menu nav li a {
     border-left: 1px solid #EEE;
   }
   .side-header.side-header-right:not(.open-header) #wrapper {
-    margin: 0 380px 0 0 !important;
+    margin: 0 420px 0 0 !important;
   }
   .side-header.side-header-right.open-header #header {
     left: auto;
-    right: -380px;
+    right: -420px;
   }
   .side-header.side-header-right.open-header.side-header-open #header {
     left: auto;
     right: 0;
   }
   .side-header.side-header-right.open-header.push-wrapper.side-header-open #wrapper {
-    left: -380px;
+    left: -420px;
   }
   .side-header.side-header-right.open-header #header-trigger {
     left: auto;
@@ -2429,7 +2429,7 @@ body:not(.device-touch) #page-menu nav li a {
   }
   .side-header.side-header-right.open-header.side-header-open #header-trigger {
     left: auto;
-    right: 400px;
+    right: 440px;
   }
   .side-header.side-header-right.open-header #header,
   .side-header.side-header-right.open-header #header-trigger {

@@ -51,15 +51,11 @@ class District extends Component {
 		return (
 			<div className="feature-box center media-box fbox-bg">
 				<div className="fbox-desc">
-
-					<div style={style.title}>
-						<h3>District</h3>
-					</div>
-
-					<div style={{borderTop:'1px solid #ddd', minHeight:140}}>
+					<div style={{minHeight:140}}>
 						<div style={style.body}>
 							<img style={{width:96,float:'right'}} src={district.image+'=s120-c'} />
-							<span style={style.header}>{district.name}</span><br />
+							<span style={style.header}>{district.name}</span>
+							<hr />
 							<ul style={style.list}>
 								{list}
 							</ul>
