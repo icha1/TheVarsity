@@ -3,6 +3,7 @@ var router = express.Router()
 var ProfileController = require('../controllers/ProfileController')
 var jwt = require('jsonwebtoken')
 var bcrypt = require('bcrypt')
+var EmailUtils = require('../utils/EmailUtils')
 
 router.get('/:action', function(req, res, next){
 	var action = req.params.action
@@ -72,18 +73,28 @@ router.get('/:action', function(req, res, next){
 router.post('/:action', function(req, res, next){
 	var action = req.params.action
 
+	var token = null
+	var p = null
 	if (action == 'register'){
 		ProfileController
 		.post(req.body)
 		.then(function(profile){
+			p = profile
 			req.session.user = profile.id
-			var token = jwt.sign({id:profile.id}, process.env.SECRET_KEY, {expiresIn:4000})
+			token = jwt.sign({id:profile.id}, process.env.SECRET_KEY, {expiresIn:4000})
 			req.session.token = token
+
+			return EmailUtils.sendEmail('info@thegridmedia.com', profile.email, 'The Varsity', 'Welcome to the Varsity')
+		})
+		.then(function(response){
+
 			res.json({
 				confirmation: 'success',
-				user: profile,
+				user: p,
 				token: token
 			})
+
+			return
 		})
 		.catch(function(err){
 			res.json({
