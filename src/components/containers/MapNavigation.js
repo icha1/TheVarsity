@@ -199,7 +199,7 @@ const stateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		fetchDistrict: (params) => dispatch(actions.fetchDistrict(params)),
+		fetchDistrict: params => dispatch(actions.fetchDistrict(params)),
 		fetchTeams: params => dispatch(actions.fetchTeams(params)),
 		commentsReceived: comments => dispatch(actions.commentsReceived(comments)),
 		locationChanged: location => dispatch(actions.locationChanged(location))

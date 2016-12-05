@@ -290,6 +290,8 @@ export default {
 		}
 	},
 
+	// - - - - - - - - - PROFILES - - - - - - - - - 	
+
 	fetchDistrict: (params, next) => {
 		return (dispatch) => {
 			APIManager.handleGet('/api/district', params)
@@ -316,6 +318,24 @@ export default {
 		return {
 			type: constants.DISTRICT_CHANGED,
 			districts: districts
+		}
+	},
+
+	updateDistrict: (district, params) => {
+		return dispatch => {
+			APIManager
+			.handlePut('/api/district/'+district.id, params)
+			.then((response) => {
+				// dispatch({
+				// 	type: constants.PROFILE_UPDDATED,
+				// 	profile: response.result
+				// })
+
+				return response.result
+			})
+			.catch((err) => {
+				alert(JSON.stringify(err))
+			})
 		}
 	},
 
