@@ -223,13 +223,6 @@ export default {
 		}
 	},
 
-	// teamCreated: (team) => {
-	// 	return {
-	// 		type: constants.TEAM_CREATED,
-	// 		team: team
-	// 	}
-	// },
-
 	createTeam: (team, next) => {
 		return dispatch => {
 			APIManager.handlePost('/api/team', team)
@@ -298,7 +291,6 @@ export default {
 	},
 
 	fetchDistrict: (params, next) => {
-//		console.log('ACTIONS - fetchDistrict: '+JSON.stringify(params))
 		return (dispatch) => {
 			APIManager.handleGet('/api/district', params)
 			.then((response) => {
