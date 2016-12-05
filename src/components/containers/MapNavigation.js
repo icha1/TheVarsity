@@ -45,6 +45,10 @@ class MapNavigation extends Component {
 		const distance = this.calculateDistance(location)
 		console.log('Distance: '+JSON.stringify(distance))
 
+		// set cookie so that next time user visits, map loads where left off:
+		const latLng = location.lat+','+location.lng
+		document.cookie = 'lastsearch='+latLng+'; path=/'
+
 		if (distance < 0.01)
 			return
 
@@ -52,7 +56,7 @@ class MapNavigation extends Component {
 		const props = this.props
 		props.locationChanged(location)
 
-		const range = (this.state.zoom >= 16) ? 50 : 600 // make this value dependent on map zoom level
+		const range = (this.state.zoom >= 16) ? 50 : 600 // value dependent on map zoom level
 		const params = {
 			range: range, 
 			limit: 5, // nearby districts also
@@ -60,9 +64,6 @@ class MapNavigation extends Component {
 			lng: location.lng
 		}
 
-		// set cookie so that next time user visits, map loads where left off:
-		const latLng = params.lat+','+params.lng
-		document.cookie = 'lastsearch='+latLng+'; path=/'
 		props.fetchDistrict(params)
 	}
 
