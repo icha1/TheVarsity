@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styles from './styles'
-import { EditProfile, TeamFeed, PostFeed } from '../view'
+import { EditProfile, TeamFeed, PostFeed, Map } from '../view'
 import { connect } from 'react-redux'
 import { TextUtils } from '../../utils'
 import actions from '../../actions/actions'
@@ -10,11 +10,13 @@ class Account extends Component {
 		super()
 		this.state = {
 			showEdit: false,
+			showMap: false,
 			selected: 'Profile',
 			menuItems: [
 				'Profile',
 				'Teams',
 				'Saved',
+				'Districts',
 				'Messages'
 			]
 		}
@@ -49,6 +51,13 @@ class Account extends Component {
 		})
 	}
 
+	toggleMap(event){
+		event.preventDefault()
+		this.setState({
+			showMap: !this.state.showMap
+		})
+	}
+
 	componentDidUpdate(){
 		const user = this.props.user
 		if (user == null)
@@ -75,16 +84,27 @@ class Account extends Component {
 		const user = this.props.user
 		const selected = this.state.selected
 
-		const sideMenu = this.state.menuItems.map((item, i) => {
-			const itemStyle = (item == this.state.selected) ? style.selected : style.menuItem
-			return (
-				<li key={i}>
-					<div style={itemStyle}>
-						<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
-					</div>
-				</li>
-			)
-		})
+		const sideMenu = (
+			<div className="container clearfix">
+				<nav id="primary-menu" style={{paddingTop:96}}>
+					<ul>
+						{
+
+							this.state.menuItems.map((item, i) => {
+								const itemStyle = (item == this.state.selected) ? style.selected : style.menuItem
+								return (
+									<li key={i}>
+										<div style={itemStyle}>
+											<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+										</div>
+									</li>
+								)
+							})
+						}
+					</ul>
+				</nav>
+            </div>
+		)
 
 		let content = null
 		if (this.state.showEdit){
@@ -102,25 +122,33 @@ class Account extends Component {
 				</div>
 			)
 		}
+		else if (selected == 'Districts'){
+			content = (
+				<div className={styles.container.className} style={styles.container}>
+					<button onClick={this.toggleMap.bind(this)} style={{float:'right'}}>Add District</button>
+					<h2 style={styles.title}>Districts</h2>
+					<hr />
+				</div>
+			)
+		}
 		else if (selected == 'Teams')
 			content = (this.props.teams[user.id]) ? <TeamFeed teams={this.props.teams[user.id]} user={user} /> : null
 		else if (selected == 'Saved')
 			content = (this.props.posts[user.id]) ? <PostFeed posts={this.props.posts[user.id]} user={user} /> : null
 		else if (selected == 'Messages')
 			content = null
-		
+
+		const sidebar = (this.state.showMap) ? <Map center={this.props.session.currentLocation} zoom={14} animation={2} /> : sideMenu
+
+
 		return (
 			<div className="clearfix">
 
 				<header id="header" className="no-sticky">
 		            <div id="header-wrap">
-						<div className="container clearfix">
 
-							<nav id="primary-menu" style={{paddingTop:96}}>
-								<ul>{sideMenu}</ul>
-							</nav>
+		            	{ sidebar }
 
-			            </div>
 		            </div>
 				</header>
 
@@ -145,6 +173,7 @@ class Account extends Component {
 const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
+		session: state.session,
 		posts: state.profile.posts,
 		teams: state.profile.teams,
 	}
