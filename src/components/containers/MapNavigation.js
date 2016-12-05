@@ -121,7 +121,7 @@ class MapNavigation extends Component {
 		}
 
 		if (this.state.connected){
-			console.log('DISTRICT: '+JSON.stringify(district))
+//			console.log('DISTRICT: '+JSON.stringify(district))
 			return
 		}
 
@@ -129,7 +129,7 @@ class MapNavigation extends Component {
 			if (this.props.user == null)
 				return
 
-			console.log('BYE')
+//			console.log('BYE')
 			const district = this.props.session.currentDistrict.id
 			const path = '/'+district+'/current/'+this.props.user.id
 			FirebaseManager.post(path, null, () => {
@@ -145,7 +145,7 @@ class MapNavigation extends Component {
 				currentMembers: (err) ? {} : members
 			})
 
-			console.log('CURRENT MEMBERS: '+JSON.stringify(members))
+//			console.log('CURRENT MEMBERS: '+JSON.stringify(members))
 			setTimeout(() => {
 				this.connectToFirebase()
 			}, 500)
@@ -157,11 +157,11 @@ class MapNavigation extends Component {
 		if (user == null)
 			return
 
-		console.log('connectToFirebase: '+JSON.stringify(this.state.currentMembers))
+//		console.log('connectToFirebase: '+JSON.stringify(this.state.currentMembers))
 		if (this.state.currentMembers[user.id] != null) // already there
 			return
-		
-		console.log('connectToFirebase: ')
+
+		// connectToFirebase:		
 		const district = this.props.session.currentDistrict.id
 		const path = '/'+district+'/current/'+user.id
 		const member = {
