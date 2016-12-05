@@ -26,6 +26,11 @@ class District extends Component {
 		this.props.changeSelectedFeed(event.target.id)
 	}
 
+	joinDistrict(event){
+		event.preventDefault()
+		console.log('Join District')
+	}
+
 	render(){
 		const style = styles.district
 		const district = this.props.session.currentDistrict
@@ -42,18 +47,13 @@ class District extends Component {
 			)
 		})
 
-		const recentVisitors = district.recentVisitors
-		const visitors = Object.keys(recentVisitors).map((id, i) => {
-			const visitor = recentVisitors[id].visitor
-			return <ProfilePreview key={visitor.id} profile={visitor} />
-		})
-
 		return (
 			<div className="feature-box center media-box fbox-bg" style={{marginTop:0, borderTop:'1px solid #ddd'}}>
 				<div className="fbox-desc">
 					<div style={{minHeight:140}}>
 						<div style={style.body}>
 							<span style={style.header}>{district.name}</span>
+							<button onClick={this.joinDistrict.bind(this)} style={{float:'right'}}>Join</button>
 							<hr />
 							<img style={{width:96,float:'right'}} src={district.image+'=s120-c'} />
 							<ul style={style.list}>
@@ -63,7 +63,10 @@ class District extends Component {
 					</div>
 
 					<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
-						{ visitors }
+						<div style={style.body}>
+							<span style={style.header}>Nearby Districts</span>
+						</div>
+
 					</div>
 
 				</div>
@@ -74,6 +77,7 @@ class District extends Component {
 
 const stateToProps = (state) => {
 	return {
+		user: state.account.currentUser,
 		session: state.session // currentDistrict, currentLocation, teams, selectedFeed, reload
 	}
 }
