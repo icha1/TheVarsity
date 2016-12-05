@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Feed, MapNavigation, District } from '../containers'
+import { Feed, MapNavigation, District, ProfileList } from '../containers'
 import styles from './styles'
 
 class Home extends Component {
 	render(){
 		const style = styles.home
+
 		return ( 
 			<div className="clearfix">
 
@@ -22,7 +23,9 @@ class Home extends Component {
 						</div>
 
 						<div className="col_one_third col_last">
-							Right Side
+
+							<ProfileList />
+
 						</div>
 
 					</div>

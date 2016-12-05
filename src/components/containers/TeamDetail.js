@@ -162,15 +162,12 @@ class TeamDetail extends Component {
 							}
 						</div>
 
-						<div style={{textAlign:'left', padding:24}}>
+						<div style={{textAlign:'left', borderTop:'1px solid #ddd', padding:24}}>
 							<h4 style={styles.team.title}>Invite</h4>
 							To invite members, add their emails below separated by commas:
 							<input onChange={this.updateInvited.bind(this)} type="text" placeholder="example@email.com, example2@email.com" style={{border:'none', background:'#F8F9F9', width:'80%', padding:8, marginTop:6, marginRight:6}} />
 							<button onClick={this.invite.bind(this)} className="button button-small button-circle button-blue">Invite</button>
-
 						</div>
-
-
 					</div>
 				</div>
 			)			
