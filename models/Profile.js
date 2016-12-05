@@ -8,9 +8,10 @@ var ProfileSchema = new mongoose.Schema({
 	slug: {type:String, trim:true, lowercase:true, default:''},
 	image: {type:String, trim:true, default:process.env.DEFAULT_PROFILE_IMAGE},
 	email: {type:String, trim:true, lowercase:true, default:''},
-	credits: {type:Number, default:0}, // first 3 are free
+	credits: {type:Number, default:0},
 	password: {type:String, trim:true, default:''},
 	subscribers: {type:Array, default:[]},
+	districts: {type:Array, default:[]},
 	social: {type:mongoose.Schema.Types.Mixed, default:{}},
 	viewed: {type:mongoose.Schema.Types.Mixed, default:{}}, // map of profiles that viewed the post
 	timestamp: {type:Date, default:Date.now}
@@ -27,6 +28,7 @@ ProfileSchema.methods.summary = function(){
 		email: this.email,
 		credits: this.credits,
 		subscribers: this.subscribers,
+		districts: this.districts,
 		social: this.social,
 		viewed: this.viewed,
 		timestamp: this.timestamp,
