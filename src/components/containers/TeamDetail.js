@@ -14,7 +14,6 @@ class TeamDetail extends Component {
 			menuItems: [
 				'Overview',
 				'Posts',
-				'Members',
 				'Chat'
 			]
 		}
@@ -144,35 +143,6 @@ class TeamDetail extends Component {
 			content = (list) ? <PostFeed posts={list} user={this.props.user} /> : null
 		}
 
-		if (selected == 'Members'){
-			content = (
-				<div className="feature-box center media-box fbox-bg">
-					<div className="fbox-desc">
-						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
-							<h2 style={styles.team.title}>Members</h2>
-						</div>
-
-						<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
-							{
-								team.members.map((member, i) => {
-									return (
-										<ProfilePreview key={member.id} profile={member} />
-									)
-								})
-							}
-						</div>
-
-						<div style={{textAlign:'left', borderTop:'1px solid #ddd', padding:24}}>
-							<h4 style={styles.team.title}>Invite</h4>
-							To invite members, add their emails below separated by commas:
-							<input onChange={this.updateInvited.bind(this)} type="text" placeholder="example@email.com, example2@email.com" style={{border:'none', background:'#F8F9F9', width:'80%', padding:8, marginTop:6, marginRight:6}} />
-							<button onClick={this.invite.bind(this)} className="button button-small button-circle button-blue">Invite</button>
-						</div>
-					</div>
-				</div>
-			)			
-		}
-
 		if (selected == 'Chat'){
 			
 		}
@@ -206,6 +176,25 @@ class TeamDetail extends Component {
 							{ content }
 						</div>
 
+						<div className="col_one_third col_last">
+							<h3 style={styles.team.title}>Members</h3>
+							<hr style={{marginBottom:0}} />
+							{
+								team.members.map((member, i) => {
+									return (
+										<ProfilePreview key={member.id} profile={member} />
+									)
+								})
+							}
+
+							<div style={{textAlign:'left', borderTop:'1px solid #eee', paddingTop:12, marginTop:24}}>
+								<h4 style={styles.team.title}>Invite</h4>
+								To invite members, add their emails above separated by commas.<br />
+								<input onChange={this.updateInvited.bind(this)} type="text" placeholder="example@email.com, example2@email.com" style={{border:'none', background:'#fff', width:'100%', padding:8, marginTop:6, marginBottom:6}} />
+								<button onClick={this.invite.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Invite</button>
+							</div>
+
+						</div>
 
 					</div>
 				</section>
