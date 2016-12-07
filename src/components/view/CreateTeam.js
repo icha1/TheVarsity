@@ -11,8 +11,7 @@ class CreateTeam extends Component {
 				name: '',
 				description: '',
 				street: '',
-				image: '',
-				invited: ''
+				image: ''
 			}
 		}
 	}
@@ -43,14 +42,6 @@ class CreateTeam extends Component {
 	submitTeam(event){
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.team)
-		let invited = []
-		updated.invited.split(',').forEach((member, i) => {
-			invited.push(member.trim())
-		})
-
-		updated['invited'] = invited
-//		delete updated['invited']
-
 		updated['address'] = {
 			street: updated.street,
 			city: '',
@@ -106,9 +97,6 @@ class CreateTeam extends Component {
 				<br />
 				<label>Address</label>
 				<input id="street" onChange={this.updateTeam.bind(this)} type="text" placeholder="123 Main St." style={styles.post.select} className="form-control" /><br />
-
-				<label>Invite Members</label>
-				<input id="invited" onChange={this.updateTeam.bind(this)} type="text" placeholder="address@example.com, address2@example2.com, address3@example3.com" style={styles.post.select} className="form-control" /><br />
 
 				<label>Social</label>
 				<input id="instagram" onChange={this.updateTeam.bind(this)} type="text" placeholder="Instagram Username" style={styles.post.select} className="form-control" />

@@ -50,14 +50,14 @@ export default {
 			fontFamily:'Pathway Gothic One'
 		},
 		postImage: {
-			maxWidth: 145,
+			maxWidth: 140,
 			marginTop: 12,
 			padding: 3,
 			border: '1px solid #ddd'
 		},
 		input: {
 			color:'#333',
-			fontWeight: 600,
+			fontWeight: 200,
 		    lineHeight: 1.5,
 		    fontSize: 30,
 			fontFamily:'Pathway Gothic One',
