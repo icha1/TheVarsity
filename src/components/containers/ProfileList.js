@@ -5,12 +5,11 @@ import { connect } from 'react-redux'
 class ProfileList extends Component {
 	render(){
 		const district = this.props.session.currentDistrict
-		const recentVisitors = district.recentVisitors
-		const visitors = Object.keys(recentVisitors).map((id, i) => {
-			const visitor = recentVisitors[id].visitor
+		const list = district.recentVisitors
+		let visitors = Object.keys(list).map((id, i) => {
+			const visitor = list[id].visitor
 			return <ProfilePreview key={visitor.id} profile={visitor} />
 		})
-
 
 		return (
 			<div>
