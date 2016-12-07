@@ -137,7 +137,6 @@ class TeamDetail extends Component {
 			)			
 		}
 
-
 		if (selected == 'Posts'){
 			const list = this.props.posts[team.id]
 			content = (list) ? <PostFeed posts={list} user={this.props.user} /> : null
@@ -145,6 +144,26 @@ class TeamDetail extends Component {
 
 		if (selected == 'Chat'){
 			
+		}
+
+		let invite = null
+		if (this.props.user != null){
+			let isMember = false
+			team.members.forEach((member, i) => {
+				if (member.id == this.props.user.id)
+					isMember = true
+			})
+
+			if (isMember == true){
+				invite = (
+					<div style={{textAlign:'left', borderTop:'1px solid #eee', paddingTop:12, marginTop:24}}>
+						<h4 style={styles.team.title}>Invite</h4>
+						To invite members, add their emails above separated by commas.<br />
+						<input onChange={this.updateInvited.bind(this)} type="text" placeholder="example@email.com, example2@email.com" style={{border:'none', background:'#fff', width:'100%', padding:8, marginTop:6, marginBottom:6}} />
+						<button onClick={this.invite.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Invite</button>
+					</div>
+				)
+			}
 		}
 
 		return (
@@ -187,12 +206,7 @@ class TeamDetail extends Component {
 								})
 							}
 
-							<div style={{textAlign:'left', borderTop:'1px solid #eee', paddingTop:12, marginTop:24}}>
-								<h4 style={styles.team.title}>Invite</h4>
-								To invite members, add their emails above separated by commas.<br />
-								<input onChange={this.updateInvited.bind(this)} type="text" placeholder="example@email.com, example2@email.com" style={{border:'none', background:'#fff', width:'100%', padding:8, marginTop:6, marginBottom:6}} />
-								<button onClick={this.invite.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Invite</button>
-							</div>
+							{ invite }
 
 						</div>
 
