@@ -364,9 +364,14 @@ export default {
 		return {
 			type: constants.TOGGLE_LOADER,
 			isLoading: isLoading
-		}		
+		}
+	},
 
+	toggleShowMap: (show) => {
+		return {
+			type: constants.TOGGLE_SHOW_MAP,
+			show: show
+		}
 	}
 	
-
 }

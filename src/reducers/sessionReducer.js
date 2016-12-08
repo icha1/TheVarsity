@@ -3,24 +3,6 @@ import { session } from './initial'
 
 var initialState = Object.assign({}, session.initialState)
 
-// var initialState = {
-// 	selectedFeed: constants.FEED_TYPE_NEWS,
-// 	reload: false,
-// 	showLoading: false,
-// 	teams: [],
-// 	nearby: [], // districts nearby
-// 	currentDistrict: {
-// 		id: null,
-// 		name: '',
-// 		comments: [],
-// 		recentVisitors: {}
-// 	},
-// 	currentLocation: { // default to nyc
-// 		lat: 40.73008847828741,
-// 		lng: -73.99769308314211
-// 	}
-// }
-
 const resetSession = (state, districts) => {
 	let district = null
 	if (districts.length == 0){
@@ -88,6 +70,10 @@ export default (state = initialState, action) => {
 		case constants.TOGGLE_LOADER:
 			newState['showLoading'] = action.isLoading
 			return newState
+
+		case constants.TOGGLE_SHOW_MAP:
+			newState['showMap'] = action.show
+			return newState
 			
 		case constants.DISTRICT_CHANGED:
 			// TODO: check if previous district exists, if so then disconnect firebase reference
@@ -99,6 +85,7 @@ export default (state = initialState, action) => {
 			newState['currentDistrict'] = updatedDistrict
 
 			return newState
+
 
 		default:
 			return state

@@ -6,6 +6,7 @@ export default {
 		selectedFeed: constants.FEED_TYPE_NEWS,
 		reload: false,
 		showLoading: false,
+		showMap: false,
 		teams: [],
 		nearby: [], // districts nearby
 		currentDistrict: {
@@ -30,6 +31,7 @@ export default {
 			selectedFeed: constants.FEED_TYPE_NEWS,
 			reload: false,
 			showLoading: false,
+			showMap: false,
 			teams: [],
 			nearby: [], // districts nearby
 			currentDistrict: {
