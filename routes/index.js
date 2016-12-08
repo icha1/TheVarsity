@@ -7,18 +7,16 @@ var ReactDOMServer = require('react-dom/server')
 
 var ServerApp = require('../public/build/es5/serverapp')
 var store = require('../public/build/es5/stores/store')
+var reducersIndex = require('../public/build/es5/reducers')
 
 // desktop
-var Home = require('../public/build/es5/desktop/layout/Home')
-var Account = require('../public/build/es5/desktop/containers/Account')
-var Detail = require('../public/build/es5/desktop/layout/Detail')
+var DesktopLayout = require('../public/build/es5/desktop/layout')
+var Account = require('../public/build/es5/desktop/containers/Account') // should be in an account layout
 
 // Mobile
+var MobileLayout = require('../public/build/es5/mobile/layout')
 
-
-var reducersIndex = require('../public/build/es5/reducers')
 var controllers = require('../controllers')
-
 var staticPages = {
 	create: 'create',
 	authenticate: 'authenticate'
@@ -51,6 +49,7 @@ matchRoutes = function(req, routes, initialStore){
 
 router.get('/', function(req, res, next) {
 	var template = (isMobile(req)) ? 'index-mobile' : 'index'
+	var layout = (template == 'index') ? DesktopLayout : MobileLayout
 
 	var initialStore = null
 	var reducers = {}
@@ -75,7 +74,7 @@ router.get('/', function(req, res, next) {
 			initial: initialStore,
 			template: template,
 			indexRoute: {
-				component: Home // temporary
+				component: layout.Home
 			}
 		}
 
@@ -178,7 +177,7 @@ router.get('/:page/:slug', function(req, res, next) {
 			component: ServerApp,
 			initial: initialStore,
 			indexRoute: {
-				component: Detail
+				component: DesktopLayout.Detail
 			}
 		}
 

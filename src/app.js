@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux' 
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import store from './stores/store'
+
+// Desktop
 import Main from './desktop/Main'
 import { Account } from './desktop/containers'
 import { Home, Detail } from './desktop/layout'
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+
+// Mobile
+import MobileMain from './mobile/MobileMain'
 
 const initialState = window.__PRELOADED_STATE__
 
