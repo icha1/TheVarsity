@@ -18,6 +18,14 @@ var staticPages = {
 	authenticate: 'authenticate'
 }
 
+isMobile = function (req){
+	// Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13E230 Safari/601.1
+	var userAgent = req.headers['user-agent'].toLowerCase()
+	var parts = userAgent.split(' ')
+	console.log('USER AGENT: '+userAgent)
+	return (parts.indexOf('iphone') >= 0)	
+}
+
 matchRoutes = function(req, routes, initialStore){
 	return new Promise(function(resolve, reject){
 		ReactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps){
@@ -36,6 +44,8 @@ matchRoutes = function(req, routes, initialStore){
 }
 
 router.get('/', function(req, res, next) {
+	var template = (isMobile(req)) ? 'index-mobile' : 'index'
+
 	var initialStore = null
 	var reducers = {}
 	var tags = {title: 'Home'}
@@ -67,7 +77,7 @@ router.get('/', function(req, res, next) {
 	})
 	.then(function(renderProps){
 		var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))
-	    res.render('index', {
+	    res.render(template, {
 	    	react: html,
 	    	tags: tags,
 	    	preloadedState:JSON.stringify(initialStore.getState())
