@@ -7,9 +7,15 @@ var ReactDOMServer = require('react-dom/server')
 
 var ServerApp = require('../public/build/es5/serverapp')
 var store = require('../public/build/es5/stores/store')
+
+// desktop
 var Home = require('../public/build/es5/desktop/layout/Home')
 var Account = require('../public/build/es5/desktop/containers/Account')
 var Detail = require('../public/build/es5/desktop/layout/Detail')
+
+// Mobile
+
+
 var reducersIndex = require('../public/build/es5/reducers')
 var controllers = require('../controllers')
 
@@ -67,6 +73,7 @@ router.get('/', function(req, res, next) {
 			path: '/',
 			component: ServerApp,
 			initial: initialStore,
+			template: template,
 			indexRoute: {
 				component: Home // temporary
 			}
