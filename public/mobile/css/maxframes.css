@@ -49,7 +49,7 @@ td, th {padding: 0;}
 /*-------------------------------------------------------------*/
 .ks-demo-slider { width: 100%; height: 100%;}
 .ks-demo-slider,.ks-carousel-slider { font-size: 25px; font-weight: 300;}
-.ks-demo-slider .swiper-slide, .ks-carousel-slider .swiper-slide { display: -webkit-box; display: -ms-flexbox; display: -webkit-flex  display: flex; -webkit-box-pack: center  -ms-flex-pack: center;   -webkit-justify-content: center; justify-content: center; -webkit-box-align: center  -ms-flex-align: center; -webkit-align-items: center  align-items: center  background: #fff;}
+.ks-demo-slider .swiper-slide, .ks-carousel-slider .swiper-slide { display: -webkit-box; display: -ms-flexbox; display: -webkit-flex;  display: flex; -webkit-box-pack: center;  -ms-flex-pack: center; -webkit-justify-content: center; justify-content: center; -webkit-box-align: center;  -ms-flex-align: center; -webkit-align-items: center;  align-items: center;  background: #fff;}
 .ks-carousel-slider .swiper-slide { box-sizing: border-box; border: 1px solid #ccc; background: #fff;}
 .ks-carousel-slider.ks-carousel-slider-auto .swiper-slide {width: 85%;}
 .ks-carousel-slider.ks-carousel-slider-auto .swiper-slide:nth-child(2n) { width: 70%;}
@@ -58,8 +58,8 @@ td, th {padding: 0;}
 .ks-slider-custom { height: 100%;}
 .ks-slider-custom .swiper-container { background: #000; height: 100%;}
 .ks-slider-custom .swiper-slide { -webkit-background-size: cover; background-size: cover; background-position: center;}
-.ks-slider-custom .swiper-pagination .swiper-pagination-bullet {cursor: pointer;  width: 10px;height: 10px; background: rgba(255, 255, 255, 0); opacity: 1; border-radius: 0; -webkit-transition: 200ms; -moz-transition: 200ms; -ms-transition: 200ms;-o-transition: 200mstransition: 200ms; position: relative; -webkit-transform: scale(0.9);-moz-transform: scale(0.9);transform: scale(0.9);  box-sizing: border-box; border: 1px solid rgba(255, 255, 255, 0.8);}
-.ks-slider-custom .swiper-pagination .swiper-pagination-bullet-active {z-index: 1; border: 1px solid #007aff; -webkit-transform: scale(1.4); -moz-transform: scale(1.4)  transform: scale(1.4);}
+.ks-slider-custom .swiper-pagination .swiper-pagination-bullet {cursor: pointer;  width: 10px;height: 10px; background: rgba(255, 255, 255, 0); opacity: 1; border-radius: 0; -webkit-transition: 200ms; -moz-transition: 200ms; -ms-transition: 200ms;-o-transition: 200ms; transition: 200ms; position: relative; -webkit-transform: scale(0.9);-moz-transform: scale(0.9);transform: scale(0.9);  box-sizing: border-box; border: 1px solid rgba(255, 255, 255, 0.8);}
+.ks-slider-custom .swiper-pagination .swiper-pagination-bullet-active {z-index: 1; border: 1px solid #007aff; -webkit-transform: scale(1.4); -moz-transform: scale(1.4);  transform: scale(1.4);}
 .ks-cube-slider { width: 80%;  height: 70%;  top: 15%;}
 .ks-coverflow-slider {  height: 60%; }
 .ks-coverflow-slider .swiper-slide { width: 65%;}
@@ -186,7 +186,7 @@ h2+p { font-size: 17px;  font-weight: 400;}
 .sidebar .view{ overflow-y: auto}
 .menu li a.item-content{ font-size: 13px; text-transform: uppercase; text-align: left; -webkit-justify-content: flex-start; justify-content: flex-start;}
 .itemmeniinner{padding-right: 16px;  position: relative;  width: 100%;  padding-top: 8px;  padding-bottom: 8px;  min-height: 48px;  box-sizing: border-box;  -webkit-box-flex: 1;  -ms-flex: 1;    min-width: 0;
-    display: -webkit-box; display: -ms-flexbox;  display: -webkit-flex;  display: flex; line-height: 32px  align-self: stretch; vertical-align: middle}
+    display: -webkit-box; display: -ms-flexbox;  display: -webkit-flex;  display: flex; line-height: 32px;  align-self: stretch; vertical-align: middle}
 .itemmeniinner:after{  content: '';  position: absolute;  left: 0;  bottom: 0; right: auto; top: auto; height: 1px; width: 100%; background-color: rgba(0,0,0,.12);display: block;  z-index: 15; -webkit-transform-origin: 50% 100%; transform-origin: 50% 100%;     -webkit-transform: scaleY(.5);  transform: scaleY(.5);}
 .menu li a i{height: 30px;width: 30px;margin-right: 10px;display: inline-block;font-size: 16px;vertical-align: middle;line-height: 30px;color: #bbb5dc;}
 .menu li a span{ vertical-align: middle; line-height: 32px;}
@@ -363,7 +363,7 @@ table tr td, table tr th{ border: 1px solid #dddddd; font-weight: 400; padding: 
 /* scrollbars */
 ::-webkit-scrollbar {
  width: 2px;
-    height: 2px
+ height: 2px;
 }
  
 ::-webkit-scrollbar-track {

@@ -47,6 +47,22 @@ gulp.task('css', function(){
         .pipe(gulp.dest('./public/build/css/'))
 })
 
+gulp.task('css-mobile', function(){
+    return gulp.src(
+            [
+                './public/mobile/css/framework7.material.min.css',
+                './public/mobile/css/framework7.material.colors.min.css',
+                './public/mobile/css/font-awesome.min.css',
+                './public/mobile/css/swipebox.min.css',
+                './public/mobile/css/maxframes.css'
+            ]
+        )
+        .pipe(minifyCSS())
+        .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9'))
+        .pipe(gp_concat('style.min.css'))
+        .pipe(gulp.dest('./public/build/mobile/css/'))
+})
+
 gulp.task('copy', function(){
     return gulp.src(
             ['./public/css/fonts/**']
@@ -69,10 +85,29 @@ gulp.task('build', function(){
         .pipe(gulp.dest('./public/build/'));
 })
 
+gulp.task('build-mobile', function(){
+    return gulp.src(
+            [
+                './public/mobile/js/jquery.min.js',
+                './public/mobile/js/framework7.min.js',
+                './public/mobile/js/jquery.swipebox.js',
+                './public/mobile/js/charts/loader.js',
+                './public/mobile/js/charts/jsapi.js',
+                './public/mobile/js/masonry.pkgd.min.js',
+                './public/mobile/js/maxframes.js',
+            ]
+        )
+        .pipe(gp_concat('gulp-concat-mobile.js'))
+        .pipe(gulp.dest('./public/min/'))
+        .pipe(gp_rename('vendor.min.js'))
+        .pipe(gp_uglify())
+        .pipe(gulp.dest('./public/build/mobile'));
+})
+
 gulp.task('watch', function() {
     gulp.watch(['./public/less/**.less', './src/serverapp.js', './src/*/**.js', './src/*/*/**.js', './src/*/*/*/**.js'], ['less', 'es6-es5'])
 })
 
-gulp.task('prod', ['less', 'css', 'copy', 'build', 'es6-es5'], function(){});
+gulp.task('prod', ['less', 'css', 'css-mobile', 'copy', 'build', 'build-mobile', 'es6-es5'], function(){});
 
-gulp.task('default', ['less', 'css', 'copy', 'build', 'es6-es5', 'watch'], function(){})
+gulp.task('default', ['less', 'css', 'css-mobile', 'copy', 'build', 'build-mobile', 'es6-es5', 'watch'], function(){})
