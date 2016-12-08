@@ -70,6 +70,13 @@ gulp.task('copy', function(){
         .pipe(gulp.dest('./public/build/css/fonts/'))
 })
 
+gulp.task('copy-mobile', function(){
+    return gulp.src(
+            ['./public/mobile/fonts/**']
+        )
+        .pipe(gulp.dest('./public/build/mobile/fonts/'))
+})
+
 gulp.task('build', function(){
     return gulp.src(
     		[
@@ -108,6 +115,13 @@ gulp.task('watch', function() {
     gulp.watch(['./public/less/**.less', './src/serverapp.js', './src/*/**.js', './src/*/*/**.js', './src/*/*/*/**.js'], ['less', 'es6-es5'])
 })
 
-gulp.task('prod', ['less', 'css', 'css-mobile', 'copy', 'build', 'build-mobile', 'es6-es5'], function(){});
+gulp.task('compile-desktop', ['less', 'css', 'copy', 'build'], function(){})
+gulp.task('compile-mobile', ['css-mobile', 'copy-mobile', 'build-mobile'], function(){})
 
-gulp.task('default', ['less', 'css', 'css-mobile', 'copy', 'build', 'build-mobile', 'es6-es5', 'watch'], function(){})
+gulp.task('prod', ['compile-desktop', 'compile-mobile', 'es6-es5'], function(){});
+gulp.task('default', ['compile-desktop', 'compile-mobile', 'es6-es5', 'watch'], function(){})
+
+
+// gulp.task('prod', ['less', 'css', 'css-mobile', 'copy', 'build', 'build-mobile', 'copy-mobile', 'es6-es5'], function(){});
+
+// gulp.task('default', ['less', 'css', 'css-mobile', 'copy', 'build', 'build-mobile', 'copy-mobile', 'es6-es5', 'watch'], function(){})
