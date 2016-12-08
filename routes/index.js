@@ -7,9 +7,9 @@ var ReactDOMServer = require('react-dom/server')
 
 var ServerApp = require('../public/build/es5/serverapp')
 var store = require('../public/build/es5/stores/store')
-var Home = require('../public/build/es5/components/layout/Home')
-var Account = require('../public/build/es5/components/containers/Account')
-var Detail = require('../public/build/es5/components/layout/Detail')
+var Home = require('../public/build/es5/desktop/layout/Home')
+var Account = require('../public/build/es5/desktop/containers/Account')
+var Detail = require('../public/build/es5/desktop/layout/Detail')
 var reducersIndex = require('../public/build/es5/reducers')
 var controllers = require('../controllers')
 
@@ -55,12 +55,11 @@ router.get('/', function(req, res, next) {
 	.then(function(user){
 		reducers['account'] = {currentUser: user, teams:[]} // can be null
 		if (req.cookies.lastsearch) {
-//			console.log('LAST SEARCHED: '+JSON.stringify(req.cookies.lastsearch))
 			var parts = req.cookies.lastsearch.split(',')
 			var lat = parseFloat(parts[0])
 			var lng = parseFloat(parts[1])
 
-			reducers['session'] = reducersIndex.initial('session', {lat:lat, lng:lng})
+			reducers['session'] = reducersIndex.initial('session', {currentLocation:{lat:lat, lng:lng}, template:template})
 		}
 		
 		initialStore = store.configureStore(reducers)

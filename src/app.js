@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux' 
 import store from './stores/store'
-import Main from './components/Main'
-import { Account } from './components/containers'
-import { Home, Detail } from './components/layout'
+import Main from './desktop/Main'
+import { Account } from './desktop/containers'
+import { Home, Detail } from './desktop/layout'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
 const initialState = window.__PRELOADED_STATE__

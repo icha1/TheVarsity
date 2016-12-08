@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Main from './components/Main'
+import Main from './desktop/Main'
 import { Provider } from 'react-redux'
 
 
