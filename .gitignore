@@ -1,5 +1,5 @@
 /node_modules/
-/public/mobile/
+/public/mobile_theme/
 /public/theme/
 .env
 .DS_Store
