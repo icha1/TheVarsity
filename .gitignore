@@ -1,4 +1,5 @@
 /node_modules/
+/public/mobile/
 /public/theme/
 .env
 .DS_Store
