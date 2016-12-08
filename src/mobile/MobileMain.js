@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 
 class MobileMain extends Component {
 
+	componentDidMount(){
+		console.log('MobileMain: ComponentDidMount')
+	}
+
 	render(){
 		return (
 			<div>

@@ -26,7 +26,7 @@ isMobile = function (req){
 	// Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13E230 Safari/601.1
 	var userAgent = req.headers['user-agent'].toLowerCase()
 	var parts = userAgent.split(' ')
-//	console.log('USER AGENT: '+userAgent)
+	console.log('USER AGENT: '+userAgent)
 	return (parts.indexOf('iphone') >= 0)	
 }
 
@@ -59,13 +59,14 @@ router.get('/', function(req, res, next) {
 	.checkCurrentUser(req)
 	.then(function(user){
 		reducers['account'] = {currentUser: user, teams:[]} // can be null
+		var session = {template: template}
 		if (req.cookies.lastsearch) {
 			var parts = req.cookies.lastsearch.split(',')
 			var lat = parseFloat(parts[0])
 			var lng = parseFloat(parts[1])
-
-			reducers['session'] = reducersIndex.initial('session', {currentLocation:{lat:lat, lng:lng}, template:template})
+			session['currentLocation'] = {lat:lat, lng:lng}
 		}
+		reducers['session'] = reducersIndex.initial('session', session)
 		
 		initialStore = store.configureStore(reducers)
 		var routes = {

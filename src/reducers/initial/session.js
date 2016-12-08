@@ -21,6 +21,7 @@ export default {
 	},
 
 	populate: (prestate) => {
+		console.log('TEST POPULATE')
 		if (prestate == null)
 			return null
 
@@ -46,6 +47,8 @@ export default {
 		Object.keys(prestate).forEach((key, i) => {
 			initial[key] = prestate[key]
 		})
+
+		console.log('POPULATE SESSION: '+JSON.stringify(initial))
 
 		return initial
 	}	
