@@ -12,6 +12,7 @@ var ProfileSchema = new mongoose.Schema({
 	password: {type:String, trim:true, default:''},
 	subscribers: {type:Array, default:[]},
 	districts: {type:Array, default:[]},
+	tags: {type:Array, default:[]},
 	social: {type:mongoose.Schema.Types.Mixed, default:{}},
 	viewed: {type:mongoose.Schema.Types.Mixed, default:{}}, // map of profiles that viewed the post
 	timestamp: {type:Date, default:Date.now}
@@ -29,6 +30,7 @@ ProfileSchema.methods.summary = function(){
 		credits: this.credits,
 		subscribers: this.subscribers,
 		districts: this.districts,
+		tags: this.tags,
 		social: this.social,
 		viewed: this.viewed,
 		timestamp: this.timestamp,
