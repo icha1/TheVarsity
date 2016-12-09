@@ -121,6 +121,7 @@ router.get('/:page', function(req, res, next) {
 			path: '/'+page,
 			component: ServerApp,
 			initial: initialStore,
+			template: 'index', // todo: make this conditional upon user agent
 			indexRoute: {
 				component: Account // temporary
 			}
@@ -150,9 +151,6 @@ router.get('/:page/:slug', function(req, res, next) {
 		return
 	}
 
-	// console.log('PAGE == '+page)
-	// console.log('SLUG == '+slug)
-
 	var initialStore = null
 	var reducers = {}
 	var tags = {}
@@ -176,6 +174,7 @@ router.get('/:page/:slug', function(req, res, next) {
 		var routes = {
 			path: '/:page/:slug',
 			component: ServerApp,
+			template: 'index', // todo: make this conditional upon user agent
 			initial: initialStore,
 			indexRoute: {
 				component: DesktopLayout.Detail
