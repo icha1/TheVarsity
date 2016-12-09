@@ -1,19 +1,42 @@
 import React, { Component } from 'react'
 import { ProfilePreview } from '../view'
 import { connect } from 'react-redux'
+import { APIManager } from '../../utils'
+import actions from '../../actions/actions'
 
 class ProfileList extends Component {
+	constructor(){
+		super()
+		this.state = {
+			profiles: null
+		}
+	}
+
+	componentDidUpdate(){
+		const district = this.props.session.currentDistrict
+		if (district.id == null)
+			return
+
+		if (this.props.profiles.districtMap[district.id] != null)
+			return
+
+		this.props.fetchProfiles({districts: district.id})
+	}
+
 	render(){
 		const district = this.props.session.currentDistrict
-		const list = district.recentVisitors
-		let visitors = Object.keys(list).map((id, i) => {
-			const visitor = list[id].visitor
-			return <ProfilePreview key={visitor.id} profile={visitor} />
-		})
+		let profileList = null
+
+		const list = this.props.profiles.districtMap[district.id]
+		if (list != null){
+			profileList = list.map((profile, i) => {
+				return <ProfilePreview key={profile.id} profile={profile} />
+			})
+		}
 
 		return (
 			<div>
-				{ visitors }
+				{ profileList }
 			</div>
 		)
 	}
@@ -22,8 +45,16 @@ class ProfileList extends Component {
 const stateToProps = (state) => {
 	return {
 		session: state.session,
-		user: state.account.currentUser
+		user: state.account.currentUser,
+		profiles: state.profile
 	}
 }
 
-export default connect(stateToProps)(ProfileList)
+const dispatchToProps = (dispatch) => {
+	return {
+		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params))
+
+	}
+}
+
+export default connect(stateToProps, dispatchToProps)(ProfileList)

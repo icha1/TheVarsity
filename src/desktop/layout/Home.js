@@ -23,9 +23,7 @@ class Home extends Component {
 						</div>
 
 						<div className="col_one_third col_last">
-
 							<ProfileList />
-
 						</div>
 
 					</div>

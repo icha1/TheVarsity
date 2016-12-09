@@ -265,6 +265,24 @@ export default {
 		}
 	},
 
+	fetchProfiles: (params) => {
+		return (dispatch) => {
+			APIManager
+			.handleGet('/api/profile', params)
+			.then((response) => {
+				dispatch({
+					type: constants.PROFILES_RECEIVED,
+					profiles: response.results
+				})
+
+				return response.results
+			})
+			.catch((err) => {
+				alert('ERROR: '+err)
+			})
+		}
+	},
+
 	updateProfile: (profile, params) => {
 		return dispatch => {
 			APIManager
