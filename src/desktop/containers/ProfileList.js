@@ -20,6 +20,7 @@ class ProfileList extends Component {
 		if (this.props.profiles.districtMap[district.id] != null)
 			return
 
+		console.log('TEST')
 		this.props.fetchProfiles({districts: district.id})
 	}
 
