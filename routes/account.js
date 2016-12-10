@@ -87,22 +87,19 @@ router.post('/:action', function(req, res, next){
 			return EmailUtils.sendEmail('info@thegridmedia.com', profile.email, 'The Varsity', 'Welcome to the Varsity')
 		})
 		.then(function(response){
-
 			res.json({
 				confirmation: 'success',
 				user: p,
 				token: token
 			})
 
-			return
+			return response
 		})
 		.catch(function(err){
 			res.json({
 				confirmation:'fail',
 				message: err
 			})
-
-			return
 		})
 	}
 
