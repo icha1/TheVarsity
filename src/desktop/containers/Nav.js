@@ -129,26 +129,20 @@ class Nav extends Component {
 			        </Modal.Body>
 		        </Modal>
 
-		        <Modal show={this.state.showRegister} onHide={this.toggleRegister.bind(this)}>
+		        <Modal bsSize="sm" show={this.state.showRegister} onHide={this.toggleRegister.bind(this)}>
 			        <Modal.Body style={style.modal}>
 			        	<div style={{textAlign:'center'}}>
 				        	<img style={style.logo} src='/images/logo_dark.png' />
 				        	<hr />
-			        	</div>
-			        	<div className="col_half">
-			        		<div style={{padding:16, background:'#fff', border:'1px solid #ddd'}}>
-				        		Sign Up
-			        		</div>
+				        	<h4>Sign Up</h4>
 			        	</div>
 
-			        	<div className="col_half col_last">
-				        	<input onChange={this.updateCredentials.bind(this)} id="email" className={style.textField.className} style={style.textField} type="text" placeholder="Email" />
-				        	<input onChange={this.updateCredentials.bind(this)} id="username" className={style.textField.className} style={style.textField} type="text" placeholder="Username" />
-				        	<input onChange={this.updateCredentials.bind(this)} id="password" className={style.textField.className} style={style.textField} type="password" placeholder="Password" />
-							<div style={style.btnLoginContainer}>
-								<a onClick={this.register.bind(this)} href="#" className={style.btnLogin.className}><i className="icon-lock3"></i>Sign Up</a>
-							</div>
-			        	</div>
+			        	<input onChange={this.updateCredentials.bind(this)} id="email" className={style.textField.className} style={style.textField} type="text" placeholder="Email" />
+			        	<input onChange={this.updateCredentials.bind(this)} id="username" className={style.textField.className} style={style.textField} type="text" placeholder="Username" />
+			        	<input onChange={this.updateCredentials.bind(this)} id="password" className={style.textField.className} style={style.textField} type="password" placeholder="Password" />
+						<div style={style.btnLoginContainer}>
+							<a onClick={this.register.bind(this)} href="#" className={style.btnLogin.className}><i className="icon-lock3"></i>Sign Up</a>
+						</div>
 			        </Modal.Body>
 
 		        </Modal>
