@@ -5,7 +5,6 @@ var initialState = Object.assign({}, post.initialState)
 
 const postUpdated = (action, state, post) => {
 	let newState = Object.assign({}, state)
-	let array = Object.assign([], newState.list)
 	let postsMap = Object.assign({}, newState.map)
 	let postsFeed = Object.assign({}, newState.feed)
 
@@ -31,7 +30,6 @@ const postUpdated = (action, state, post) => {
 
 export default (state = initialState, action) => {
 	let newState = Object.assign({}, state)
-	let array = Object.assign([], newState.list)
 	let postsMap = Object.assign({}, newState.map)
 	let postsFeed = Object.assign({}, newState.feed)
 
@@ -50,20 +48,30 @@ export default (state = initialState, action) => {
 
 		case constants.POSTS_RECEIVED:
 			// console.log('POSTS_RECEIVED')
+			let all = (postsFeed['all'] == null) ? [] : postsFeed['all']
+			let news = (postsFeed['news'] == null) ? [] : postsFeed['news']
+			let events = (postsFeed['events'] == null) ? [] : postsFeed['events']
+
 			action.posts.forEach(post => {
 				if (postsMap[post.slug] == null){
 					postsMap[post.slug] = post
-					array.push(post)
 
-					let feedArray = (postsFeed[post.type]==null) ? [] : postsFeed[post.type]
-					feedArray.push(post)
-					postsFeed[post.type] = feedArray
+					// let feedArray = (postsFeed[post.type]==null) ? [] : postsFeed[post.type]
+					// feedArray.push(post)
+					// postsFeed[post.type] = feedArray
 
-					let all = (postsFeed['all']==null) ? [] : postsFeed['all']
 					all.push(post)
-					postsFeed['all'] = all
+					if (post.type == 'news')
+						news.push(post)
+
+					if (post.type == 'events')
+						events.push(post)
 				}
 			})
+
+			postsFeed['all'] = all
+			postsFeed['news'] = news
+			postsFeed['events'] = events
 
 			newState['map'] = postsMap
 			newState['feed'] = postsFeed
@@ -96,11 +104,14 @@ export default (state = initialState, action) => {
 			const post = action.post
 			if (postsMap[post.slug] == null){
 				postsMap[post.slug] = post
-				array.unshift(post)
+
+				let all = (postsFeed['all'] == null) ? [] : postsFeed['all']
+				all.unshift(post)
+				postsFeed['all'] = all				
 
 				let feedArray = (postsFeed[post.type]==null) ? [] : postsFeed[post.type]
 				feedArray.unshift(post) // when creating new post, add straight to top
-				postsFeed[post.type] = feedArray				
+				postsFeed[post.type] = feedArray
 			}
 
 			newState['map'] = postsMap
