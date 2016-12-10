@@ -51,7 +51,7 @@ export default {
 //		    		return
 				}
 				else {
-					resolve(json)
+					resolve(res.body)
 				}
 
 			})
