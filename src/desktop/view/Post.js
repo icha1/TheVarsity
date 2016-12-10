@@ -47,6 +47,7 @@ class Post extends Component {
 			)
 		}
 
+		const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
 		return (
 			<div className={styles.post.container.className} style={style.container}>
 				<div className="comment-meta">
@@ -70,7 +71,7 @@ class Post extends Component {
 					<Link to={'/'+post.author.type+'/'+path} style={style.title}>{ post.author.name }</Link>
 				</h4>
 				<span>{DateUtils.formattedDate(post.timestamp)}</span><br />
-				<a href="#" style={{marginLeft: 0}} className="button button-mini button-circle button-red">{ post.type }</a>
+				<a href="#" style={{marginLeft: 0}} className={btnClass}>{ post.type }</a>
 
 				<div style={{float:'right'}} className="dropdown">
 					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

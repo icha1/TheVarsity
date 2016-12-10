@@ -12,7 +12,7 @@ class District extends Component {
 		super()
 		this.state = {
 			feedOptions: [
-				{name: constants.FEED_TYPE_ALL, display:'All'},
+				{name: constants.FEED_TYPE_ALL, display:'Feed'},
 				{name: constants.FEED_TYPE_TEAM, display:'Teams'},
 				{name: constants.FEED_TYPE_CHAT, display:'Chat'}
 			]
