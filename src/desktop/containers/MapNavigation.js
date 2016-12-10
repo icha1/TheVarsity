@@ -111,45 +111,43 @@ class MapNavigation extends Component {
 
 	componentDidUpdate(){
 		const district = this.props.session.currentDistrict.id
-		if (district == null){
+		if (district == null)
 			return
-		}
 
 		if (this.props.session.teams == null){
 			this.props.fetchTeams({district: district})
 			return
 		}
 
-		if (this.state.connected){
+		if (this.state.connected)
 			return
-		}
 
-		window.onbeforeunload = () => {
-			console.log('BYE')
-			if (this.props.user == null)
-				return
+		// window.onbeforeunload = () => {
+		// 	console.log('BYE')
+		// 	if (this.props.user == null)
+		// 		return
 
-			console.log('Test')
-			const district = this.props.session.currentDistrict.id
-			const path = '/'+district+'/current/'+this.props.user.id
-			FirebaseManager.post(path, null, () => {
+		// 	console.log('Test')
+		// 	const district = this.props.session.currentDistrict.id
+		// 	const path = '/'+district+'/current/'+this.props.user.id
+		// 	FirebaseManager.post(path, null, () => {
 
-			})
-		}
+		// 	})
+		// }
 
-		this.setState({connected: true})
+		// this.setState({connected: true})
 
-		const path = '/'+district+'/current'
-		FirebaseManager.register(path, (err, members) => {
-			this.setState({
-				currentMembers: (err) ? {} : members
-			})
+		// const path = '/'+district+'/current'
+		// FirebaseManager.register(path, (err, members) => {
+		// 	this.setState({
+		// 		currentMembers: (err) ? {} : members
+		// 	})
 
-//			console.log('CURRENT MEMBERS: '+JSON.stringify(members))
-			setTimeout(() => {
-				this.connectToFirebase()
-			}, 500)
-		})
+		// 	console.log('CURRENT MEMBERS: '+JSON.stringify(members))
+		// 	setTimeout(() => {
+		// 		this.connectToFirebase()
+		// 	}, 500)
+		// })
 	}
 
 	connectToFirebase(){
