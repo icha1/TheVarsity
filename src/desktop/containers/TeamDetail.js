@@ -10,7 +10,9 @@ class TeamDetail extends Component {
 		super()
 		this.state = {
 			selected: 'Overview',
+			isEditing: true,
 			invited: '', // comma separated string
+			updatedTeam: {},
 			menuItems: [
 				'Overview',
 				'Posts',
@@ -96,9 +98,52 @@ class TeamDetail extends Component {
 		})
 	}
 
+	toggleEditing(){
+		if (this.state.isEditing){
+			// update team
+
+
+		}
+
+		this.setState({
+			isEditing: !this.state.isEditing
+		})
+	}
+
+	updateTeam(event){
+		event.preventDefault()
+		let updated = Object.assign({}, this.state.updatedTeam)
+		updated[event.target.id] = event.target.value
+		this.setState({
+			updatedTeam: updated
+		})
+	}
+
 	render(){
 		const team = this.props.teams[this.props.slug]
 		const style = styles.team
+
+		let invite = null
+		let btnEdit = null
+		if (this.props.user != null){
+			let isMember = false
+			team.members.forEach((member, i) => {
+				if (member.id == this.props.user.id)
+					isMember = true
+			})
+
+			if (isMember == true){
+				btnEdit = <button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Edit</button>
+				invite = (
+					<div style={{textAlign:'left', borderTop:'1px solid #eee', paddingTop:12, marginTop:24}}>
+						<h4 style={styles.team.title}>Invite</h4>
+						To invite members, add their emails above separated by commas.<br />
+						<input onChange={this.updateInvited.bind(this)} type="text" placeholder="example@email.com, example2@email.com" style={{border:'none', background:'#fff', width:'100%', padding:8, marginTop:6, marginBottom:6}} />
+						<button onClick={this.invite.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Invite</button>
+					</div>
+				)
+			}
+		}
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
 			const itemStyle = (item == this.state.selected) ? style.selected : style.menuItem
@@ -113,11 +158,36 @@ class TeamDetail extends Component {
 
 		let content = null
 		const selected = this.state.selected
-		if (selected == 'Overview'){
+
+		if (this.state.isEditing == true){
 			content = (
 				<div className="feature-box center media-box fbox-bg" style={{background:'url("'+team.image+'")', borderRadius:'5px 5px 8px 8px'}}>
 					<div className="fbox-desc gradient">
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
+							{ btnEdit }
+							<h2 style={styles.team.titleWhite}>Overview</h2>
+							<hr style={{marginBottom:4}} />
+							<div style={{color:'#fff'}}>
+								{ team.address.street }<br />
+								{ (team.social.website) ? <div><a target="_blank" style={{color:'#fff'}} href={team.social.website}>website</a></div> : null }
+								{ this.props.session.currentDistrict.name }
+							</div>
+						</div>
+
+						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24, background:'#fff'}}>
+							<textarea id="description" onChange={this.updateTeam.bind(this)} style={{border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
+						</div>
+					</div>
+				</div>
+			)			
+		}
+
+		else if (selected == 'Overview'){
+			content = (
+				<div className="feature-box center media-box fbox-bg" style={{background:'url("'+team.image+'")', borderRadius:'5px 5px 8px 8px'}}>
+					<div className="fbox-desc gradient">
+						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
+							{ btnEdit }
 							<h2 style={styles.team.titleWhite}>Overview</h2>
 							<hr style={{marginBottom:4}} />
 							<div style={{color:'#fff'}}>
@@ -131,39 +201,18 @@ class TeamDetail extends Component {
 						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24, background:'#fff'}}>
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 						</div>
-
 					</div>
 				</div>
-			)			
+			)
 		}
 
-		if (selected == 'Posts'){
+		else if (selected == 'Posts'){
 			const list = this.props.posts[team.id]
 			content = (list) ? <PostFeed posts={list} user={this.props.user} /> : null
 		}
 
-		if (selected == 'Chat'){
+		else if (selected == 'Chat'){
 			
-		}
-
-		let invite = null
-		if (this.props.user != null){
-			let isMember = false
-			team.members.forEach((member, i) => {
-				if (member.id == this.props.user.id)
-					isMember = true
-			})
-
-			if (isMember == true){
-				invite = (
-					<div style={{textAlign:'left', borderTop:'1px solid #eee', paddingTop:12, marginTop:24}}>
-						<h4 style={styles.team.title}>Invite</h4>
-						To invite members, add their emails above separated by commas.<br />
-						<input onChange={this.updateInvited.bind(this)} type="text" placeholder="example@email.com, example2@email.com" style={{border:'none', background:'#fff', width:'100%', padding:8, marginTop:6, marginBottom:6}} />
-						<button onClick={this.invite.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Invite</button>
-					</div>
-				)
-			}
 		}
 
 		return (
