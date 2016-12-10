@@ -126,28 +126,9 @@ class Feed extends Component {
 	componentDidUpdate(){
 		const session = this.props.session
 		const feed = session.selectedFeed
-		// if (feed == constants.FEED_TYPE_NEWS || feed == constants.FEED_TYPE_EVENT){ 
-		// 	const list = this.props.post.feed[feed]
-		// 	if (list != null) // already there, no need to fetch
-		// 		return
-
-		// 	if (session.currentDistrict.id == null)
-		// 		return null
-
-		// 	if (this.props.post.isFetching) // in the middle of a fetch
-		// 		return null
-
-		// 	const params = {
-		// 		limit: 10,
-		// 		type: feed,
-		// 		district: session.currentDistrict.id
-		// 	}
-
-		// 	this.props.fetchPosts(params)
-		// }
 
 		if (feed == constants.FEED_TYPE_ALL) {
-			console.log('componentDidUpdate: '+constants.FEED_TYPE_ALL)
+//			console.log('componentDidUpdate: '+constants.FEED_TYPE_ALL)
 			const list = this.props.post.feed[feed]
 			if (list != null) // already there, no need to fetch
 				return

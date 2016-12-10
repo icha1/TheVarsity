@@ -129,6 +129,7 @@ class MapNavigation extends Component {
 			if (this.props.user == null)
 				return
 
+			console.log('Test')
 			const district = this.props.session.currentDistrict.id
 			const path = '/'+district+'/current/'+this.props.user.id
 			FirebaseManager.post(path, null, () => {
