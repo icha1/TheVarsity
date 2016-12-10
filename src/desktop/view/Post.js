@@ -22,7 +22,7 @@ class Post extends Component {
 		}
 
 		const path = (post.author.type == 'team') ? post.author.slug : post.author.name
-		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ TextUtils.truncateText(post.title, 35) }</Link> : <a target='_blank' style={style.title} href={post.url}>{TextUtils.truncateText(post.title, 35) }</a>
+		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ TextUtils.truncateText(post.title, 30) }</Link> : <a target='_blank' style={style.title} href={post.url}>{TextUtils.truncateText(post.title, 30) }</a>
 		const numCommentsBadge = (post.numComments == 0) ? null : <span style={{float:'right'}} className="badge">{post.numComments}</span>
 
 		let submenu = null 
@@ -59,7 +59,7 @@ class Post extends Component {
 				<div className={style.content.className} style={style.content}>
 					<div className="col_two_third" style={{marginBottom:4}}>
 						<h2 style={style.header}>{ title }</h2>
-						<p style={{marginTop:0}}>{ TextUtils.truncateText(post.text, 180) }</p>
+						<p style={{marginTop:0}}>{ TextUtils.truncateText(post.text, 120) }</p>
 					</div>
 					<div className="col_one_third col_last" style={{marginBottom:4}}>
 						<img style={style.postImage} src={post.image} />
