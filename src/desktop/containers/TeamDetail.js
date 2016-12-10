@@ -103,7 +103,7 @@ class TeamDetail extends Component {
 			// update team
 			if (Object.keys(this.state.updatedTeam).length > 0){ // 0 if no changes
 				const team = this.props.teams[this.props.slug]
-				this.props.updatedTeam(team, this.state.updatedTeam)
+				this.props.updateTeam(team, this.state.updatedTeam)
 			}
 		}
 
