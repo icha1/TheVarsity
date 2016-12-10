@@ -10,7 +10,7 @@ class TeamDetail extends Component {
 		super()
 		this.state = {
 			selected: 'Overview',
-			isEditing: true,
+			isEditing: false,
 			invited: '', // comma separated string
 			updatedTeam: {},
 			menuItems: [
@@ -101,8 +101,10 @@ class TeamDetail extends Component {
 	toggleEditing(){
 		if (this.state.isEditing){
 			// update team
-
-
+			if (Object.keys(this.state.updatedTeam).length > 0){ // 0 if no changes
+				const team = this.props.teams[this.props.slug]
+				this.props.updatedTeam(team, this.state.updatedTeam)
+			}
 		}
 
 		this.setState({
@@ -175,7 +177,7 @@ class TeamDetail extends Component {
 						</div>
 
 						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24, background:'#fff'}}>
-							<textarea id="description" onChange={this.updateTeam.bind(this)} style={{border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
+							<textarea id="description" onChange={this.updateTeam.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
 						</div>
 					</div>
 				</div>
