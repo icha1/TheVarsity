@@ -15,6 +15,14 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 
 		case constants.PROFILES_RECEIVED:
+			let districtArray = null
+			let districtId = null
+
+			if (action.params.districts != null) { // request for profiles by district:
+				districtId = action.params.districts
+				districtArray = (districtMap[districtId]) ? districtMap[districtId] : []
+			}
+
 			action.profiles.forEach(profile => {
 				if (map[profile.username] == null){
 					map[profile.username] = profile
@@ -25,15 +33,12 @@ export default (state = initialState, action) => {
 					idMap[profile.id] = profile
 				}
 
-				// request for profiles by district:
-				if (action.params.districts != null){
-					const districtId = action.params.districts
-					let districtArray = (districtMap[districtId]) ? districtMap[districtId] : []
-
+				if (districtArray != null){
+					console.log('TEST: '+districtId)
 					if (profile.districts.indexOf(districtId) != -1)
 						districtArray.push(profile)
 					
-					districtMap[districtId] = districtArray
+//					districtMap[districtId] = districtArray
 
 					// profile.districts.forEach((districtId, i) => {
 					// 	let districtArray = (districtMap[districtId]) ? districtMap[districtId] : []
@@ -51,7 +56,10 @@ export default (state = initialState, action) => {
 				}
 			})
 
-//			console.log('PROFILES_RECEIVED: '+JSON.stringify(districtMap))
+			if (action.params.districts != null)  // request for profiles by district:
+				districtMap[districtId] = districtArray
+			
+			console.log('PROFILES_RECEIVED: '+JSON.stringify(districtMap))
 			newState['list'] = array
 			newState['map'] = map
 			newState['idMap'] = idMap
