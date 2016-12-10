@@ -121,15 +121,14 @@ class MapNavigation extends Component {
 		}
 
 		if (this.state.connected){
-//			console.log('DISTRICT: '+JSON.stringify(district))
 			return
 		}
 
 		window.onbeforeunload = () => {
+			console.log('BYE')
 			if (this.props.user == null)
 				return
 
-//			console.log('BYE')
 			const district = this.props.session.currentDistrict.id
 			const path = '/'+district+'/current/'+this.props.user.id
 			FirebaseManager.post(path, null, () => {
