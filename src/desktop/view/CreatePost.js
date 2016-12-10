@@ -42,7 +42,7 @@ class CreatePost extends Component {
 		let updated = Object.assign({}, this.state.post)
 		if (updated.type == constants.FEED_TYPE_NEWS){
 			if (event.target.id == 'title'){ // check if title is url
-				console.log('TITLE = '+event.target.value)
+//				console.log('TITLE = '+event.target.value)
 			    if (event.target.value.indexOf("http://") == 0 || event.target.value.indexOf("https://") == 0) {
 					console.log('FETCH URL = '+event.target.value)
 
