@@ -18,7 +18,7 @@ class ProfilePreview extends Component {
 					{ profile.username }
 				</Link>
 				<br />
-				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px'}}>Software Developer</span>
+				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px'}}>{ profile.title }</span>
 			</div>
 		)
 	}
