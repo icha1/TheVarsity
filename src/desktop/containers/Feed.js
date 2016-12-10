@@ -126,7 +126,28 @@ class Feed extends Component {
 	componentDidUpdate(){
 		const session = this.props.session
 		const feed = session.selectedFeed
-		if (feed == constants.FEED_TYPE_NEWS || feed == constants.FEED_TYPE_EVENT){ 
+		// if (feed == constants.FEED_TYPE_NEWS || feed == constants.FEED_TYPE_EVENT){ 
+		// 	const list = this.props.post.feed[feed]
+		// 	if (list != null) // already there, no need to fetch
+		// 		return
+
+		// 	if (session.currentDistrict.id == null)
+		// 		return null
+
+		// 	if (this.props.post.isFetching) // in the middle of a fetch
+		// 		return null
+
+		// 	const params = {
+		// 		limit: 10,
+		// 		type: feed,
+		// 		district: session.currentDistrict.id
+		// 	}
+
+		// 	this.props.fetchPosts(params)
+		// }
+
+		if (feed == constants.FEED_TYPE_ALL) {
+			console.log('componentDidUpdate: '+constants.FEED_TYPE_ALL)
 			const list = this.props.post.feed[feed]
 			if (list != null) // already there, no need to fetch
 				return
@@ -139,15 +160,10 @@ class Feed extends Component {
 
 			const params = {
 				limit: 10,
-				type: feed,
 				district: session.currentDistrict.id
 			}
 
 			this.props.fetchPosts(params)
-		}
-
-		if (feed == constants.FEED_TYPE_ALL) {
-
 		}		
 
 		if (feed == constants.FEED_TYPE_CHAT){
@@ -179,7 +195,7 @@ class Feed extends Component {
 		const listClass = 'commentlist noborder nomargin nopadding clearfix'
 		const listItemClass = 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1'
 
-		if (feed == constants.FEED_TYPE_NEWS || feed == constants.FEED_TYPE_EVENT){ 
+		if (feed == constants.FEED_TYPE_ALL){ 
 			const list = this.props.post.feed[feed]
 			currentFeed = (list) ? <PostFeed savePost={this.savePost.bind(this)} posts={list} user={this.props.user} /> : null
 
@@ -187,7 +203,7 @@ class Feed extends Component {
 				<ol className={listClass}>
 					<li className={listItemClass} id="li-comment-2">
 						<CreatePost
-							type={this.props.session.selectedFeed}
+							type={this.props.session.selectedFeed} 
 							user={this.props.user}
 							teams={this.props.teams}
 							isLoading={this.toggleLoader.bind(this)}
@@ -195,8 +211,8 @@ class Feed extends Component {
 							cancel={this.toggleShowCreate.bind(this)} />
 					</li>
 				</ol>
-			)			
-		}
+			)
+		}		
 
 		if (feed == constants.FEED_TYPE_TEAM){
 			currentFeed = <TeamFeed teams={this.props.session.teams} user={this.props.user} />

@@ -3,7 +3,7 @@ import constants from '../../constants/constants'
 export default {
 	initialState: {
 		template: 'index', // index or index-mobile
-		selectedFeed: constants.FEED_TYPE_NEWS,
+		selectedFeed: constants.FEED_TYPE_ALL,
 		reload: false,
 		showLoading: false,
 		showMap: false,
@@ -22,13 +22,13 @@ export default {
 	},
 
 	populate: (prestate) => {
-		console.log('TEST POPULATE')
+//		console.log('TEST POPULATE')
 		if (prestate == null)
 			return null
 
 		var initial = {
 			template: 'index',
-			selectedFeed: constants.FEED_TYPE_NEWS,
+			selectedFeed: constants.FEED_TYPE_ALL,
 			reload: false,
 			showLoading: false,
 			showMap: false,
@@ -50,7 +50,7 @@ export default {
 			initial[key] = prestate[key]
 		})
 
-		console.log('POPULATE SESSION: '+JSON.stringify(initial))
+//		console.log('POPULATE SESSION: '+JSON.stringify(initial))
 
 		return initial
 	}	
