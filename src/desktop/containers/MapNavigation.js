@@ -123,11 +123,9 @@ class MapNavigation extends Component {
 			return
 
 		window.onbeforeunload = () => {
-			console.log('BYE')
 			if (this.props.user == null)
 				return
 
-			console.log('Test')
 			const district = this.props.session.currentDistrict.id
 			const path = '/'+district+'/current/'+this.props.user.id
 			FirebaseManager.post(path, null, () => {
@@ -143,7 +141,7 @@ class MapNavigation extends Component {
 				currentMembers: (err) ? {} : members
 			})
 
-			console.log('CURRENT MEMBERS: '+JSON.stringify(members))
+//			console.log('CURRENT MEMBERS: '+JSON.stringify(members))
 			setTimeout(() => {
 				this.connectToFirebase()
 			}, 500)

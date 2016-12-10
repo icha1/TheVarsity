@@ -59,7 +59,7 @@ export default (state = initialState, action) => {
 			if (action.params.districts != null)  // request for profiles by district:
 				districtMap[districtId] = districtArray
 			
-			console.log('PROFILES_RECEIVED: '+JSON.stringify(districtMap))
+//			console.log('PROFILES_RECEIVED: '+JSON.stringify(districtMap))
 			newState['list'] = array
 			newState['map'] = map
 			newState['idMap'] = idMap
