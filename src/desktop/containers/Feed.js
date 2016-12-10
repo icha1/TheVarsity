@@ -203,7 +203,6 @@ class Feed extends Component {
 				<ol className={listClass}>
 					<li className={listItemClass} id="li-comment-2">
 						<CreatePost
-							type={this.props.session.selectedFeed} 
 							user={this.props.user}
 							teams={this.props.teams}
 							isLoading={this.toggleLoader.bind(this)}

@@ -10,8 +10,8 @@ class CreatePost extends Component {
 		this.state = {
 			post: {
 				title: '',
-				text: '', // event, news, etc.
-				type: '',
+				text: '', 
+				type: 'news', // event, news, etc.
 				image: '',
 				author: {
 
@@ -40,7 +40,7 @@ class CreatePost extends Component {
 	updatePost(event){
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.post)
-		if (this.props.type == constants.FEED_TYPE_NEWS){
+		if (updated.type == constants.FEED_TYPE_NEWS){
 			if (event.target.id == 'title'){ // check if title is url
 				console.log('TITLE = '+event.target.value)
 			    if (event.target.value.indexOf("http://") == 0 || event.target.value.indexOf("https://") == 0) {
@@ -126,7 +126,6 @@ class CreatePost extends Component {
 		event.preventDefault()
 
 		let updated = Object.assign({}, this.state.post)
-		updated['type'] = this.props.type
 		this.props.submit(updated)
 	}
 
@@ -139,7 +138,7 @@ class CreatePost extends Component {
 		})
 
 		const icon = (post.author.image == null) ? '/images/profile-icon.png' : post.author.image
-		const placeholder = (this.props.type == constants.FEED_TYPE_EVENT) ? 'Event Title' : 'Title or URL to link'
+		const placeholder = (post.type == constants.FEED_TYPE_EVENT) ? 'Event Title' : 'Title or URL to link'
 
 		return (
 			<div>
@@ -166,7 +165,10 @@ class CreatePost extends Component {
 						<a href='#' style={styles.post.title}>{ post.author.name }</a>
 					</h4>
 					<span>{ DateUtils.today() }</span><br />
-					<a href="#" style={{marginLeft: 0}} className="button button-mini button-circle button-red">{ this.props.type }</a>
+					<select id="type" onChange={this.updatePost.bind(this)} style={{border:'none'}}>
+						<option value="news">News</option>
+						<option value="event">Event</option>
+					</select>
 					<hr />
 					<label>Post From</label>
 					<select id="author" onChange={this.updatePost.bind(this)} style={{border:'none', marginLeft:12}}>
