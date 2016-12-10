@@ -272,7 +272,8 @@ export default {
 			.then((response) => {
 				dispatch({
 					type: constants.PROFILES_RECEIVED,
-					profiles: response.results
+					profiles: response.results,
+					params: params
 				})
 
 				return response.results

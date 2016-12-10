@@ -25,19 +25,30 @@ export default (state = initialState, action) => {
 					idMap[profile.id] = profile
 				}
 
-				profile.districts.forEach((districtId, i) => {
+				// request for profiles by district:
+				if (action.params.districts != null){
+					const districtId = action.params.districts
 					let districtArray = (districtMap[districtId]) ? districtMap[districtId] : []
-					let found = false
-					districtArray.forEach((p, i) => {
-						if (p.id == profile.id)
-							found = true
-					})
 
-					if (found == false)
+					if (profile.districts.indexOf(districtId) != -1)
 						districtArray.push(profile)
-
+					
 					districtMap[districtId] = districtArray
-				})
+
+					// profile.districts.forEach((districtId, i) => {
+					// 	let districtArray = (districtMap[districtId]) ? districtMap[districtId] : []
+					// 	let found = false
+					// 	districtArray.forEach((p, i) => {
+					// 		if (p.id == profile.id)
+					// 			found = true
+					// 	})
+
+					// 	if (found == false)
+					// 		districtArray.push(profile)
+
+					// 	districtMap[districtId] = districtArray
+					// })
+				}
 			})
 
 //			console.log('PROFILES_RECEIVED: '+JSON.stringify(districtMap))
