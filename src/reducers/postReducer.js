@@ -3,29 +3,6 @@ import { post } from './initial'
 
 var initialState = Object.assign({}, post.initialState)
 
-const update = (state, posts) => {
-	var newState = Object.assign({}, state)
-	var array = Object.assign([], newState.list)
-	var postsMap = Object.assign({}, newState.map)
-	var postsFeed = Object.assign({}, newState.feed)
-
-	posts.forEach(post => {
-		if (postsMap[post.slug] == null){
-			postsMap[post.slug] = post
-			array.push(post)
-
-			let feedArray = (postsFeed[post.type]==null) ? [] : postsFeed[post.type]
-			feedArray.push(post)
-			postsFeed[post.type] = feedArray
-		}
-	})
-
-	newState['map'] = postsMap
-	newState['feed'] = postsFeed
-	newState['isFetching'] = false
-	return newState
-}
-
 const postUpdated = (action, state, post) => {
 	let newState = Object.assign({}, state)
 	let array = Object.assign([], newState.list)
@@ -73,7 +50,25 @@ export default (state = initialState, action) => {
 
 		case constants.POSTS_RECEIVED:
 			// console.log('POSTS_RECEIVED')
-			return update(state, action.posts)
+			action.posts.forEach(post => {
+				if (postsMap[post.slug] == null){
+					postsMap[post.slug] = post
+					array.push(post)
+
+					let feedArray = (postsFeed[post.type]==null) ? [] : postsFeed[post.type]
+					feedArray.push(post)
+					postsFeed[post.type] = feedArray
+
+					let all = (postsFeed['all']==null) ? [] : postsFeed['all']
+					all.push(post)
+					postsFeed['all'] = all
+				}
+			})
+
+			newState['map'] = postsMap
+			newState['feed'] = postsFeed
+			newState['isFetching'] = false
+			return newState
 
 		case constants.SAVED_POSTS_RECEIVED:
 			action.posts.forEach((post, i) => {

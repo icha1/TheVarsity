@@ -146,6 +146,10 @@ class Feed extends Component {
 			this.props.fetchPosts(params)
 		}
 
+		if (feed == constants.FEED_TYPE_ALL) {
+
+		}		
+
 		if (feed == constants.FEED_TYPE_CHAT){
 			if (session.currentDistrict.id == null)
 				return null

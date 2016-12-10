@@ -28,6 +28,7 @@ export default {
 	TOGGLE_LOADER: 'TOGGLE_LOADER',
 	TOGGLE_SHOW_MAP: 'TOGGLE_SHOW_MAP',
 
+	FEED_TYPE_ALL: 'all',
 	FEED_TYPE_EVENT: 'event',
 	FEED_TYPE_NEWS: 'news',
 	FEED_TYPE_TEAM: 'team',
