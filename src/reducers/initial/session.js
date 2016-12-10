@@ -12,6 +12,7 @@ export default {
 		currentDistrict: {
 			id: null,
 			name: '',
+			image: '',
 			comments: [],
 			recentVisitors: {}
 		},
@@ -37,6 +38,7 @@ export default {
 			currentDistrict: {
 				id: null,
 				name: '',
+				image: '',
 				comments: [],
 				recentVisitors: {}
 			},
