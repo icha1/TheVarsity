@@ -230,7 +230,7 @@ class Feed extends Component {
 			)
 		}
 
-		const btnCreate = (this.state.showCreate==false && feed!=constants.FEED_TYPE_CHAT) ? <a href="#" onClick={this.toggleShowCreate.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Add {feed}</a> : null
+		const btnCreate = (this.state.showCreate==false && feed!=constants.FEED_TYPE_CHAT) ? <a href="#" onClick={this.toggleShowCreate.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Create</a> : null
 
 		if (feed == constants.FEED_TYPE_CHAT){
 			currentFeed = (
