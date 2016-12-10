@@ -25,9 +25,11 @@ class ProfileList extends Component {
 
 	render(){
 		const district = this.props.session.currentDistrict
-		let profileList = null
+		const list = this.props.profiles.array.filter((profile) => {
+			return (profile.districts.indexOf(district.id) != -1)
+		})
 
-		const list = this.props.profiles.districtMap[district.id]
+		let profileList = null
 		if (list != null){
 			profileList = list.map((profile, i) => {
 				return <ProfilePreview key={profile.id} profile={profile} />

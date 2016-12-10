@@ -3,10 +3,11 @@ import { profile } from './initial'
 
 var initialState = Object.assign({}, profile.initialState)
 
+
 export default (state = initialState, action) => {
 	let newState = Object.assign({}, state)
-	let array = Object.assign([], newState.list)
 	let map = Object.assign({}, newState.map)
+	let array = Object.assign([], newState.array)
 	let idMap = Object.assign({}, newState.idMap)
 	let districtMap = Object.assign({}, newState.districtMap)
 	let posts = Object.assign({}, newState.posts)
@@ -24,9 +25,9 @@ export default (state = initialState, action) => {
 			}
 
 			action.profiles.forEach(profile => {
+				array.push(profile)
 				if (map[profile.username] == null){
 					map[profile.username] = profile
-					array.push(profile)
 				}
 
 				if (idMap[profile.id] == null){
@@ -34,34 +35,17 @@ export default (state = initialState, action) => {
 				}
 
 				if (districtArray != null){
-					console.log('TEST: '+districtId)
 					if (profile.districts.indexOf(districtId) != -1)
-						districtArray.push(profile)
-					
-//					districtMap[districtId] = districtArray
-
-					// profile.districts.forEach((districtId, i) => {
-					// 	let districtArray = (districtMap[districtId]) ? districtMap[districtId] : []
-					// 	let found = false
-					// 	districtArray.forEach((p, i) => {
-					// 		if (p.id == profile.id)
-					// 			found = true
-					// 	})
-
-					// 	if (found == false)
-					// 		districtArray.push(profile)
-
-					// 	districtMap[districtId] = districtArray
-					// })
+						districtArray.push(profile)					
 				}
 			})
 
 			if (action.params.districts != null)  // request for profiles by district:
 				districtMap[districtId] = districtArray
 			
-//			console.log('PROFILES_RECEIVED: '+JSON.stringify(districtMap))
-			newState['list'] = array
+			// console.log('PROFILES_RECEIVED: '+JSON.stringify(districtMap))
 			newState['map'] = map
+			newState['array'] = array
 			newState['idMap'] = idMap
 			newState['districtMap'] = districtMap
 			newState['posts'] = posts
@@ -69,8 +53,27 @@ export default (state = initialState, action) => {
 			return newState
 
 		case constants.PROFILE_UPDDATED:
+			console.log('PROFILE_UPDDATED: '+JSON.stringify(action.profile))
 			map[action.profile.username] = action.profile
 			newState['map'] = map
+
+			// this should be good for most action types:
+			let updatedArray = []
+			let index = -1
+			array.forEach((p, i) => {
+				if (p.id == action.profile.id){
+					updatedArray.push(action.profile)
+					index = i
+				}
+				else {
+					updatedArray.push(p)
+				}
+			})
+
+			if (index == -1)
+				updatedArray.push(action.profile)
+
+			newState['array'] = updatedArray
 			return newState
 
 		case constants.SAVED_POSTS_RECEIVED:

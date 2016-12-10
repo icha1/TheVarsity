@@ -4,7 +4,7 @@ export default {
 		idMap: {}, // organized by id
 		districtMap: {},
 		map: {}, // organized by username
-		list: [],
+		array: [],
 		posts: {}, // posts keyed by profile ids
 		teams: {} // teams keyed by profile ids
 	},
@@ -25,7 +25,7 @@ export default {
 			map: map,
 			idMap: idMap,
 			districtMap: districtMap,
-			list: profiles,
+			array: profiles,
 			posts: {}, // posts keyed by profile ids
 			teams: {} // teams keyed by profile ids			
 		}
