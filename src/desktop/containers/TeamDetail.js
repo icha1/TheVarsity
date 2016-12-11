@@ -165,6 +165,10 @@ class TeamDetail extends Component {
 
 	render(){
 		const team = this.props.teams[this.props.slug]
+		if (team == null){
+			return (<div></div>) // blank while team fetches
+		}
+
 		const style = styles.team
 
 		let invite = null
