@@ -9,6 +9,14 @@ var sha1 = require('sha1')
 router.get('/', function(req, res, next){
 	var url = req.query.url
 
+	if (url == null){
+		res.json({
+			confirmation: 'fail',
+			message: 'Missing url parameter'
+		})
+		return
+	}
+
 	screenshot(url, 'public/images/file.png')
 	.then(function() {
 		// upload to cloudinary:
