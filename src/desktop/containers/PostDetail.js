@@ -198,8 +198,14 @@ class PostDetail extends Component {
 		if (this.state.isEditing == true){
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
-					<button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Done</button>
-					<button onClick={this.toggleEditing.bind(this)} style={{float:'right', marginRight:12}}>Cancel</button>
+					<div style={{lineHeight:18+'px', textAlign:'right'}}>
+						<button onClick={this.toggleEditing.bind(this)} style={{float:'left', marginRight:12}}>Cancel</button>
+						<button onClick={this.toggleEditing.bind(this)} style={{float:'left'}}>Done</button>
+						<img style={{float:'right', marginLeft:10, borderRadius:18}} src={post.author.image+'=s36-c'} />
+						<span>{ post.author.name }</span><br />
+						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span>
+					</div>
+
 					<h2 style={style.title}>
 						{ post.title }
 					</h2>
@@ -213,13 +219,17 @@ class PostDetail extends Component {
 			let btnEdit = null
 			if (user != null){
 				if (user.id == post.author.id)
-					btnEdit = <button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Edit</button>
+					btnEdit = <button onClick={this.toggleEditing.bind(this)} style={{float:'left'}}>Edit</button>
 			}
 
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
-					{ btnEdit } 
-					<span>{ this.state.timestamp }</span>
+					<div style={{lineHeight:18+'px', textAlign:'right'}}>
+						{ btnEdit }
+						<img style={{float:'right', marginLeft:10, borderRadius:18}} src={post.author.image+'=s36-c'} />
+						<span>{ post.author.name }</span><br />
+						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span>
+					</div>
 					<h2 style={style.title}>
 						{ post.title }
 					</h2>
