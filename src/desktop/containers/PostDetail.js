@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
 import actions from '../../actions/actions'
 import { CreateComment, Comment, ProfilePreview } from '../view'
 import { DateUtils, FirebaseManager } from '../../utils'
@@ -10,6 +11,7 @@ class PostDetail extends Component {
 	constructor(){
 		super()
 		this.state = {
+			timestamp: null,
 			selected: 'overview',
 			isEditing: false,
 			comments: [],
@@ -38,7 +40,6 @@ class PostDetail extends Component {
 
 		if (post.type != 'event')
 			return
-		
 
 		// Events Menu
 		this.setState({
@@ -55,6 +56,11 @@ class PostDetail extends Component {
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
 			return
+
+		// sloppy workaround, render timestamp client side:
+		this.setState({
+			timestamp: DateUtils.formattedDate(post.timestamp)
+		})
 
 		FirebaseManager.register('/'+post.id+'/comments', (err, currentComments) => {
 			if (err){
@@ -213,6 +219,7 @@ class PostDetail extends Component {
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
 					{ btnEdit } 
+					<span>{ this.state.timestamp }</span>
 					<h2 style={style.title}>
 						{ post.title }
 					</h2>
