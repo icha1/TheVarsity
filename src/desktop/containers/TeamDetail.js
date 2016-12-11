@@ -26,6 +26,10 @@ class TeamDetail extends Component {
 
 	componentDidMount(){
 		const team = this.props.teams[this.props.slug]
+		if (team == null){
+			this.props.fetchTeams({slug: this.props.slug})
+			return
+		}
 
 		// Track view count:
 		const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
@@ -321,6 +325,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
+		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		fetchTeamPosts: (team) => dispatch(actions.fetchTeamPosts(team)),
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params))
 	}
