@@ -25,8 +25,6 @@ class PostDetail extends Component {
 	}
 
 	componentWillMount(){
-//		console.log('componentWillMount: '+JSON.stringify(this.props.query))
-
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
 			return
@@ -215,6 +213,7 @@ class PostDetail extends Component {
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
 					{ btnEdit } 
+					<span style={{color:'#999'}}>{ DateUtils.formattedDate(post.timestamp) }</span>
 					<h2 style={style.title}>
 						{ post.title }
 					</h2>
