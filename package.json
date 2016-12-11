@@ -51,6 +51,7 @@
     "redux-thunk": "^2.1.0",
     "sendgrid": "^4.7.1",
     "serve-favicon": "~2.3.0",
+    "sha1": "^1.1.1",
     "superagent": "^2.3.0",
     "url-to-image": "^1.0.0",
     "webpack": "^1.13.2",
