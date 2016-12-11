@@ -37,6 +37,7 @@
     "moment": "^2.15.1",
     "mongoose": "^4.6.3",
     "morgan": "~1.7.0",
+    "phantomjs-prebuilt": "^2.1.14",
     "react": "^15.3.2",
     "react-bootstrap": "^0.30.5",
     "react-dom": "^15.3.2",
@@ -51,6 +52,8 @@
     "sendgrid": "^4.7.1",
     "serve-favicon": "~2.3.0",
     "superagent": "^2.3.0",
-    "webpack": "^1.13.2"
+    "url-to-image": "^1.0.0",
+    "webpack": "^1.13.2",
+    "webpage": "^0.3.0"
   }
 }
