@@ -3,72 +3,48 @@ var router = express.Router()
 var screenshot = require('url-to-image')
 var superagent = require('superagent')
 var path = require('path')
+var sha1 = require('sha1')
+
 
 router.get('/', function(req, res, next){
 	var url = req.query.url
 
 	screenshot(url, 'public/images/file.png')
 	.then(function() {
+		// upload to cloudinary:
 
-		// res.json({
-		// 	confirmation: 'success',
-		// 	message: url+' screenshot saved to file.png'
-		// })
+		var cloudinaryUrl = 'https://api.cloudinary.com/v1_1/'+process.env.CLOUDINARY_CLOUD_NAME+'/image/upload'
+        var uploadRequest = superagent.post(cloudinaryUrl)
 
-		superagent
-		.get('https://media-service.appspot.com/api/upload')
-		.query(null)
-		.set('Accept', 'application/json')
-		.end((err, response) => {
-			if (err){ 
+		var filepath = path.join(__dirname, 'public', 'images/file.png').replace('routes/', '')
+        uploadRequest.attach('file', filepath)
+
+		var timestamp = Date.now() / 1000
+		var paramsStr = 'timestamp='+timestamp+'&upload_preset='+process.env.CLOUDINARY_UPLOAD_PRESET+process.env.CLOUDINARY_SECRET
+
+	    uploadRequest.field('timestamp', timestamp)
+	    uploadRequest.field('api_key', process.env.CLOUDINARY_API_KEY)
+	    uploadRequest.field('upload_preset', process.env.CLOUDINARY_UPLOAD_PRESET)
+	    uploadRequest.field('signature', sha1(paramsStr))
+
+        uploadRequest.end((err, resp) => {
+        	if (err){
+		      	console.log('UPLOAD ERROR: '+JSON.stringify(err))
 				res.json({
 					confirmation: 'fail',
 					message: err
 				})
-				return
-			}
+              	return
+        	}
 
-			if (response.body.confirmation != 'success'){
-				res.json({
-					confirmation: 'fail',
-					message: response.body.message
-				})
-	    		// completion({message:res.body.message}, null)
-	    		return
-			}
+	      	var image = resp.body.image
+			console.log('DONE == '+JSON.stringify(resp.body))
 
-	        var uploadRequest = superagent.post(response.body.upload)
-//	        uploadRequest.attach('file', file)
-
-			var filepath = path.join(__dirname, 'public', 'images/file.png').replace('routes/', '')
-			console.log('PATH == '+filepath)
-	        uploadRequest.attach('file', filepath)
-	        uploadRequest.end((err, resp) => {
-	        	if (err){
-					res.json({
-						confirmation: 'fail',
-						message: err
-					})
-
-
-			      	console.log('UPLOAD ERROR: '+JSON.stringify(err))
-//					completion(err, null)
-	              	return
-	        	}
-
-
-		      	var image = resp.body.image
-				console.log('DONE == '+JSON.stringify(resp.body))
-
-				res.json({
-					confirmation: 'success',
-					image: image
-				})
-
-//				completion(null, image)
-	        })
-		})
-
+			res.json({
+				confirmation: 'success',
+				image: resp.body
+			})
+        })
 	})
 	.catch(function(error){
 		res.json({
@@ -76,7 +52,6 @@ router.get('/', function(req, res, next){
 			message: error
 		})
 	})
-
 })
 
 module.exports = router
