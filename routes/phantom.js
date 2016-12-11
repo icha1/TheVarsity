@@ -3,13 +3,14 @@ var router = express.Router()
 var screenshot = require('url-to-image')
 
 router.get('/', function(req, res, next){
+	var url = req.query.url
 
-	screenshot('https://empowerchangenyc.com/', 'public/images/empowerchangenyc.png')
+	screenshot(url, 'public/images/file.png')
 	.done(function() {
 
 		res.json({
 			confirmation: 'success',
-			message: 'https://empowerchangenyc.com/ screenshot saved to empowerchangenyc.png'
+			message: url+' screenshot saved to file.png'
 		})
 
 	})
