@@ -13,7 +13,9 @@ class TeamDetail extends Component {
 			selected: 'Overview',
 			isEditing: false,
 			invited: '', // comma separated string
-			updatedTeam: {},
+			updatedTeam: {
+				changed: false
+			},
 			menuItems: [
 				'Overview',
 				'Feed',
@@ -36,7 +38,13 @@ class TeamDetail extends Component {
 		})
 
 		updatedViewed['total'] = total
-		this.props.updateTeam(team, {viewed: updatedViewed})		
+		this.props.updateTeam(team, {viewed: updatedViewed})
+
+		let updated = Object.assign({}, this.state.updatedTeam)
+		updated['image'] = team.image
+		this.setState({
+			updatedTeam: updated
+		})
 	}
 
 	componentDidUpdate(){
@@ -102,7 +110,7 @@ class TeamDetail extends Component {
 	toggleEditing(){
 		if (this.state.isEditing){
 			// update team
-			if (Object.keys(this.state.updatedTeam).length > 0){ // 0 if no changes
+			if (this.state.updatedTeam.changed == true){ // 0 if no changes
 				const team = this.props.teams[this.props.slug]
 				this.props.updateTeam(team, this.state.updatedTeam)
 			}
@@ -117,6 +125,7 @@ class TeamDetail extends Component {
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.updatedTeam)
 		updated[event.target.id] = event.target.value
+		updated['changed'] = true
 		this.setState({
 			updatedTeam: updated
 		})
@@ -131,6 +140,7 @@ class TeamDetail extends Component {
 
 			let updated = Object.assign({}, this.state.updatedTeam)
 			updated['image'] = image.address
+			updated['changed'] = true
 			this.setState({
 				updatedTeam: updated
 			})
@@ -194,7 +204,7 @@ class TeamDetail extends Component {
 
 						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24, background:'#fff'}}>
 							<Dropzone onDrop={this.uploadImage.bind(this)} style={{marginBottom:4}}>
-								<img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140-c'} />
+								<img style={{padding:3, border:'1px solid #ddd'}} src={this.state.updatedTeam.image+'=s140-c'} />
 								<br />
 								Click to change
 							</Dropzone>
