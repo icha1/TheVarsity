@@ -24,7 +24,7 @@ class ProfileDetail extends Component {
 	componentDidMount(){
 		const profile = this.props.profiles[this.props.slug]
 		if (profile == null){
-			this.props.fetchProfile(this.props.slug)
+			this.props.fetchProfiles({username: this.props.slug})
 			return
 		}
 
@@ -253,7 +253,7 @@ const stateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		fetchProfile: (username) => dispatch(actions.fetchProfile(username)),
+		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
 		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
 		fetchProfileTeams: (profile) => dispatch(actions.fetchProfileTeams(profile)),
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params))

@@ -4,6 +4,7 @@ import actions from '../../actions/actions'
 import { CreateComment, Comment, ProfilePreview } from '../view'
 import { DateUtils, FirebaseManager } from '../../utils'
 import styles from './styles'
+import { Link } from 'react-router'
 
 class PostDetail extends Component {
 	constructor(){
@@ -266,7 +267,6 @@ class PostDetail extends Component {
 						<br />
 					</div>
 
-
 					<div className="feature-box center media-box fbox-bg">
 						<div className="fbox-desc">
 
@@ -306,16 +306,15 @@ class PostDetail extends Component {
 		}
 
 		return (
-			<div className="clearfix">
+			<div className="clearfix">		
 
 				<header id="header" className="no-sticky">
 		            <div id="header-wrap">
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
-								{ (post.type == 'event') ? 'Hosted By' : null }<br />
 								<img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginTop:6}} src={post.author.image+'=s140'} />
 								<h2 style={ style.title }>
-									{ post.author.name }
+									<Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link>
 								</h2>
 								<hr />
 								<nav id="primary-menu">

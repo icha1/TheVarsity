@@ -247,23 +247,23 @@ export default {
 
 	// - - - - - - - - - PROFILES - - - - - - - - - 	
 
-	fetchProfile: (username) => {
-		return (dispatch) => {
-			APIManager
-			.handleGet('/api/profile', {username:username})
-			.then((response) => {
-				dispatch({
-					type: constants.PROFILES_RECEIVED,
-					profiles: response.results
-				})
+	// fetchProfile: (username) => {
+	// 	return (dispatch) => {
+	// 		APIManager
+	// 		.handleGet('/api/profile', {username:username})
+	// 		.then((response) => {
+	// 			dispatch({
+	// 				type: constants.PROFILES_RECEIVED,
+	// 				profiles: response.results
+	// 			})
 
-				return response.results
-			})
-			.catch((err) => {
-				alert(JSON.stringify(err))
-			})
-		}
-	},
+	// 			return response.results
+	// 		})
+	// 		.catch((err) => {
+	// 			alert(JSON.stringify(err))
+	// 		})
+	// 	}
+	// },
 
 	fetchProfiles: (params) => {
 		return (dispatch) => {
