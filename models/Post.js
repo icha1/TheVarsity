@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
 
 var PostSchema = new mongoose.Schema({
 	title: {type:String, trim:true, default:''},
+	status: {type:String, trim:true, default:'live'}, // live or closed
 	slug: {type:String, trim:true, lowercase:true, default:''},
 	url: {type:String, trim:true, default:''}, // for news posts
 	code: {type:String, trim:true, default:''}, // this is a unique identifier from instagram
@@ -25,6 +26,7 @@ var PostSchema = new mongoose.Schema({
 PostSchema.methods.summary = function(){
 	var summary = {
 		title: this.title,
+		status: this.status,
 		slug: this.slug,
 		url: this.url,
 		code: this.code,
