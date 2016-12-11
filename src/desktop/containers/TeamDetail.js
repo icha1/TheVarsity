@@ -271,8 +271,6 @@ class TeamDetail extends Component {
 							<div style={{paddingTop:96}}>
 								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140-c'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
-								<a href="#" className="button button-border button-rounded button-blue"><i className="icon-bookmark2"></i>Subscribe</a>
-
 								<hr />
 								<nav id="primary-menu">
 									<ul>{sideMenu}</ul>
