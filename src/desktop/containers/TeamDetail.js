@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Dropzone from 'react-dropzone'
 import { CreateComment, Comment, ProfilePreview, PostFeed } from '../view'
 import { TextUtils, APIManager } from '../../utils'
 import actions from '../../actions/actions'
@@ -15,7 +16,7 @@ class TeamDetail extends Component {
 			updatedTeam: {},
 			menuItems: [
 				'Overview',
-				'Posts',
+				'Feed',
 				'Chat'
 			]
 		}
@@ -44,7 +45,7 @@ class TeamDetail extends Component {
 			return
 
 		const selected = this.state.selected
-		if (selected == 'Posts'){
+		if (selected == 'Feed'){
 			if (this.props.posts[team.id] == null)
 				this.props.fetchTeamPosts(team)
 		}
@@ -121,6 +122,21 @@ class TeamDetail extends Component {
 		})
 	}
 
+	uploadImage(files){
+		APIManager.upload(files[0], (err, image) => {
+			if (err){
+				alert(err)
+				return
+			}
+
+			let updated = Object.assign({}, this.state.updatedTeam)
+			updated['image'] = image.address
+			this.setState({
+				updatedTeam: updated
+			})
+		})
+	}
+
 	render(){
 		const team = this.props.teams[this.props.slug]
 		const style = styles.team
@@ -177,6 +193,11 @@ class TeamDetail extends Component {
 						</div>
 
 						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24, background:'#fff'}}>
+							<Dropzone onDrop={this.uploadImage.bind(this)} style={{marginBottom:4}}>
+								<img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140-c'} />
+								<br />
+								Click to change
+							</Dropzone>
 							<textarea id="description" onChange={this.updateTeam.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
 						</div>
 					</div>
@@ -201,6 +222,7 @@ class TeamDetail extends Component {
 						</div>
 
 						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24, background:'#fff'}}>
+							{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140-c'} /> }
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 						</div>
 					</div>
@@ -208,7 +230,7 @@ class TeamDetail extends Component {
 			)
 		}
 
-		else if (selected == 'Posts'){
+		else if (selected == 'Feed'){
 			const list = this.props.posts[team.id]
 			content = (list) ? <PostFeed posts={list} user={this.props.user} /> : null
 		}
@@ -224,7 +246,7 @@ class TeamDetail extends Component {
 		            <div id="header-wrap">
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
-								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140'} /> }
+								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140-c'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
 								<a href="#" className="button button-border button-rounded button-blue"><i className="icon-bookmark2"></i>Subscribe</a>
 
@@ -258,7 +280,6 @@ class TeamDetail extends Component {
 							}
 
 							{ invite }
-
 						</div>
 
 					</div>
