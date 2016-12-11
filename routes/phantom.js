@@ -6,11 +6,19 @@ router.get('/', function(req, res, next){
 	var url = req.query.url
 
 	screenshot(url, 'public/images/file.png')
-	.done(function() {
+	.then(function() {
 
 		res.json({
 			confirmation: 'success',
 			message: url+' screenshot saved to file.png'
+		})
+
+	})
+	.catch(function(err){
+
+		res.json({
+			confirmation: 'fail',
+			message: err
 		})
 
 	})
