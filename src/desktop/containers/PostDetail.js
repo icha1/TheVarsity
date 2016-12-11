@@ -10,8 +10,12 @@ class PostDetail extends Component {
 		super()
 		this.state = {
 			selected: 'overview',
+			isEditing: false,
 			comments: [],
 			numTickets: 1,
+			updatedPost: {
+				changed: false
+			},
 			menuItems: [
 				{name:'Overview', component:'Posts'},
 				{name:'Chat', component:'ManageNotifications'}
@@ -143,8 +147,33 @@ class PostDetail extends Component {
 		})
 	}
 
+	toggleEditing(){
+		if (this.state.isEditing){
+			// update post
+			if (this.state.updatedPost.changed == true){
+				const post = this.props.posts[this.props.slug]
+				this.props.updatePost(post, this.state.updatedPost)
+			}
+		}
+
+		this.setState({
+			isEditing: !this.state.isEditing
+		})
+	}
+
+	updatePost(event){
+		event.preventDefault()
+		let updated = Object.assign({}, this.state.updatedPost)
+		updated[event.target.id] = event.target.value
+		updated['changed'] = true
+		this.setState({
+			updatedPost: updated
+		})
+	}
+
 	render(){
 		const style = styles.post
+		const user = this.props.user // can be null
 		const post = this.props.posts[this.props.slug]
 		const selected = this.state.selected.toLowerCase()
 
@@ -159,11 +188,32 @@ class PostDetail extends Component {
 			)
 		})
 
-
 		let content = null
-		if (selected == 'overview'){ // overview
+
+		if (this.state.isEditing == true){
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
+					<button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Done</button>
+					<button onClick={this.toggleEditing.bind(this)} style={{float:'right', marginRight:12}}>Cancel</button>
+					<h2 style={style.title}>
+						{ post.title }
+					</h2>
+					<hr />
+					<textarea id="text" onChange={this.updatePost.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={post.text}></textarea>
+					<img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} />
+				</div>
+			)
+		}
+		else if (selected == 'overview'){ // overview
+			let btnEdit = null
+			if (user != null){
+				if (user.id == post.author.id)
+					btnEdit = <button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Edit</button>
+			}
+
+			content = (
+				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
+					{ btnEdit } 
 					<h2 style={style.title}>
 						{ post.title }
 					</h2>
@@ -173,8 +223,7 @@ class PostDetail extends Component {
 				</div>
 			)
 		}
-
-		if (selected == 'attend'){ // attend
+		else if (selected == 'attend'){ // attend
 			const rsvpList = (post.eventDetails.rsvp == null) ? [] : Object.keys(post.eventDetails.rsvp)
 
 			content = (
@@ -243,8 +292,7 @@ class PostDetail extends Component {
 				</div>
 			)
 		}
-
-		if (selected == 'chat'){ // chat
+		else if (selected == 'chat'){ // chat
 			content = (
 				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
 					<CreateComment onCreate={this.submitComment.bind(this)} />
