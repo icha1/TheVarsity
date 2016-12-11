@@ -18,8 +18,8 @@ class TeamDetail extends Component {
 			},
 			menuItems: [
 				'Overview',
-				'Feed',
-				'Chat'
+				'Feed'
+//				'Chat'
 			]
 		}
 	}
@@ -210,28 +210,24 @@ class TeamDetail extends Component {
 
 		if (this.state.isEditing == true){
 			content = (
-				<div className="feature-box center media-box fbox-bg" style={{background:'url("'+team.image+'")', borderRadius:'5px 5px 8px 8px'}}>
-					<div className="fbox-desc gradient">
+				<div className="feature-box center media-box fbox-bg" style={{background:'#f9f9f9', borderRadius:'5px 5px 8px 8px'}}>
+					<div className="fbox-desc">
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
 							<button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Done</button>
 							<button onClick={this.cancelEditing.bind(this)} style={{float:'right', marginRight:12}}>Cancel</button>
-							<h2 style={styles.team.titleWhite}>Overview</h2>
-							<hr style={{marginBottom:4}} />
-							<div style={{color:'#fff'}}>
-								{ team.address.street }<br />
-								{ (team.social.website) ? <div><a target="_blank" style={{color:'#fff'}} href={team.social.website}>website</a></div> : null }
-								{ this.props.session.currentDistrict.name }
-							</div>
-						</div>
+							<h2 style={styles.team.title}>Overview</h2>
+							<hr />
 
-						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24, background:'#fff'}}>
-							<Dropzone onDrop={this.uploadImage.bind(this)} style={{marginBottom:4}}>
-								<img style={{padding:3, border:'1px solid #ddd'}} src={this.state.updatedTeam.image+'=s140-c'} />
-								<br />
-								Click to change
-							</Dropzone>
+							<div style={{textAlign:'center', marginTop:24}}>
+								<Dropzone onDrop={this.uploadImage.bind(this)} style={{marginBottom:4}}>
+									<img src={this.state.updatedTeam.image+'=s260'} />
+									<br />
+									Click to change
+								</Dropzone>
+							</div>
 							<textarea id="description" onChange={this.updateTeam.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
 						</div>
+
 					</div>
 				</div>
 			)			
@@ -239,24 +235,19 @@ class TeamDetail extends Component {
 
 		else if (selected == 'Overview'){
 			content = (
-				<div className="feature-box center media-box fbox-bg" style={{background:'url("'+team.image+'")', borderRadius:'5px 5px 8px 8px'}}>
-					<div className="fbox-desc gradient">
+				<div className="feature-box center media-box fbox-bg" style={{background:'#f9f9f9', borderRadius:'5px 5px 8px 8px'}}>
+					<div className="fbox-desc">
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
 							{ btnEdit }
-							<h2 style={styles.team.titleWhite}>Overview</h2>
-							<hr style={{marginBottom:4}} />
-							<div style={{color:'#fff'}}>
-								{ team.address.street }<br />
-								{ (team.social.website) ? <div><a target="_blank" style={{color:'#fff'}} href={team.social.website}>website</a></div> : null }
-								{ this.props.session.currentDistrict.name }
+							<h2 style={styles.team.title}>Overview</h2>
+							<hr />
+
+							<div style={{textAlign:'center', marginTop:24}}>
+								{ (team.image.length == 0) ? null : <img src={team.image+'=s260'} /> }
 							</div>
-
-						</div>
-
-						<div style={{borderTop:'1px solid #ddd', textAlign:'left', padding:24, background:'#fff'}}>
-							{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140-c'} /> }
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 						</div>
+
 					</div>
 				</div>
 			)
