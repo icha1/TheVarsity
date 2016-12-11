@@ -213,7 +213,6 @@ class PostDetail extends Component {
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
 					{ btnEdit } 
-					<span style={{color:'#999'}}>{ DateUtils.formattedDate(post.timestamp) }</span>
 					<h2 style={style.title}>
 						{ post.title }
 					</h2>
