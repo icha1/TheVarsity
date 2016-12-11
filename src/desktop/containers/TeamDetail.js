@@ -164,6 +164,12 @@ class TeamDetail extends Component {
 		})
 	}
 
+	scrapeWebsite(event){
+		event.preventDefault()
+		console.log('scrapeWebsite: ')
+
+	}
+
 	render(){
 		const team = this.props.teams[this.props.slug]
 		if (team == null){
@@ -214,6 +220,7 @@ class TeamDetail extends Component {
 					<div className="fbox-desc">
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
 							<button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Done</button>
+							{ (team.social.website == null) ? null : <button onClick={this.scrapeWebsite.bind(this)} style={{float:'right', marginRight:12}}>Use Website</button> }
 							<button onClick={this.cancelEditing.bind(this)} style={{float:'right', marginRight:12}}>Cancel</button>
 							<h2 style={styles.team.title}>Overview</h2>
 							<hr />
