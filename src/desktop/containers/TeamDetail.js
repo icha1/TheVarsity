@@ -121,6 +121,18 @@ class TeamDetail extends Component {
 		})
 	}
 
+	cancelEditing(){
+		const team = this.props.teams[this.props.slug]
+
+		this.setState({
+			isEditing: false,
+			updatedTeam: {
+				changed: false,
+				image: team.image
+			}
+		})
+	}
+
 	updateTeam(event){
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.updatedTeam)
@@ -192,7 +204,8 @@ class TeamDetail extends Component {
 				<div className="feature-box center media-box fbox-bg" style={{background:'url("'+team.image+'")', borderRadius:'5px 5px 8px 8px'}}>
 					<div className="fbox-desc gradient">
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
-							{ btnEdit }
+							<button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Done</button>
+							<button onClick={this.cancelEditing.bind(this)} style={{float:'right', marginRight:12}}>Cancel</button>
 							<h2 style={styles.team.titleWhite}>Overview</h2>
 							<hr style={{marginBottom:4}} />
 							<div style={{color:'#fff'}}>
