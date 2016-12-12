@@ -213,7 +213,7 @@ class PostDetail extends Component {
 					</h2>
 					<hr style={{marginBottom:6}} />
 					{ btnType }
-					<textarea id="text" onChange={this.updatePost.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={post.text}></textarea>
+					<textarea id="text" onChange={this.updatePost.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6, resize:'none'}} defaultValue={post.text}></textarea>
 					<img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} />
 				</div>
 			)
@@ -240,7 +240,9 @@ class PostDetail extends Component {
 					<hr style={{marginBottom:6}} />
 					{ btnType }
 					<p className="lead" style={{fontSize:16, marginTop:8}}>{ post.text }</p>
-					<img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} />
+					{ ( post.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} /> }
+					<textarea style={{marginTop:16, marginBottom:6, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:120, background:'#f9f9f9', padding:6, resize: 'none'}} placeholder='Reply'></textarea>
+					<button>Submit Reply</button>
 				</div>
 			)
 		}
