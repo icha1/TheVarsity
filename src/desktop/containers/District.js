@@ -80,7 +80,6 @@ class District extends Component {
 			)
 		})
 
-		// const districtImage = (district.image.length == 0) ? null : <img style={{width:96, float:'right'}} src={district.image+'=s120-c'} />
 		let districtImage = null
 		if (district.id != null)
 			districtImage = (district.image.length == 0) ? null : <img style={{width:96, float:'right'}} src={district.image+'=s120-c'} />
