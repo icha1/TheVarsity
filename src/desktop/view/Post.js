@@ -48,6 +48,7 @@ class Post extends Component {
 		}
 
 		const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
+		const colClass = (post.image.length == 0) ? 'col_full col_last' : 'col_two_third'
 		return (
 			<div className={styles.post.container.className} style={style.container}>
 				<div className="comment-meta">
@@ -57,13 +58,17 @@ class Post extends Component {
 					</div>
 				</div>
 				<div className={style.content.className} style={style.content}>
-					<div className="col_two_third" style={{marginBottom:4}}>
+					<div className={colClass} style={{marginBottom:4}}>
 						<h2 style={style.header}>{ title }</h2>
 						<p style={{marginTop:0}}>{ TextUtils.truncateText(post.text, 120) }</p>
 					</div>
-					<div className="col_one_third col_last" style={{marginBottom:4}}>
-						<img style={style.postImage} src={post.image} />
-					</div>
+
+					{ (post.image.length == 0) ? null :
+						<div className="col_one_third col_last" style={{marginBottom:4}}>
+							<img style={style.postImage} src={post.image} />
+						</div>
+					}
+
 				</div>
 				<hr />
 
