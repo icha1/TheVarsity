@@ -236,8 +236,9 @@ export default {
 				return result
 			})
 			.then((result) => {
-				next(result)
-				return
+				if (next != null)
+					next(result)
+				return result
 			})
 			.catch((err) => {
 				alert(err)

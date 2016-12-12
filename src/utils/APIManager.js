@@ -43,17 +43,16 @@ export default {
 			.set('Accept', 'application/json')
 			.end((err, res) => {
 				if (err){ 
-					reject('ERROR: '+JSON.stringify(err))
-//					return
+					reject(err)
+					return
 				} 
-				else if (res.body.confirmation != 'success'){
+
+				if (res.body.confirmation != 'success'){
 					reject({message:res.body.message})
-//		    		return
-				}
-				else {
-					resolve(res.body)
+		    		return
 				}
 
+				resolve(res.body)
 			})
 		})
 	},
