@@ -14,6 +14,7 @@ class TeamDetail extends Component {
 			isEditing: false,
 			invited: '', // comma separated string
 			updatedTeam: {
+				useWebsite: false,
 				changed: false
 			},
 			menuItems: [
@@ -166,8 +167,40 @@ class TeamDetail extends Component {
 
 	scrapeWebsite(event){
 		event.preventDefault()
-		console.log('scrapeWebsite: ')
+		const team = this.props.teams[this.props.slug]
+		if (team.social.website.length == 0)
+			return
 
+		let updated = Object.assign({}, this.state.updatedTeam)
+		updated['useWebsite'] = true
+
+		// already there
+		if (team.screenshot.length > 0){
+			updated['screenshot'] = team.screenshot
+			this.setState({
+				updatedTeam: updated
+			})
+
+			return
+		}
+
+		console.log('scrapeWebsite: '+team.social.website)
+
+		APIManager
+		.handleGet('/phantom', {url: team.social.website})
+		.then(response => {
+//			console.log('PHANTOM JS: '+JSON.stringify(response))
+			updated['screenshot'] = response.image['secure_url']
+			this.setState({
+				updatedTeam: updated
+			})
+
+			this.props.updateTeam(team, {screenshot: updated.screenshot})
+		})
+		.catch(err => {
+			console.log('PHANTOM JS ERROR: '+JSON.stringify(err))
+
+		})
 	}
 
 	render(){
@@ -215,6 +248,23 @@ class TeamDetail extends Component {
 		const selected = this.state.selected
 
 		if (this.state.isEditing == true){
+			let details = null
+			if (this.state.updatedTeam.useWebsite){
+				details = <img src={this.state.updatedTeam.screenshot} />
+			}
+			else {
+				details = (
+					<div style={{textAlign:'center', marginTop:24}}>
+						<Dropzone onDrop={this.uploadImage.bind(this)} style={{marginBottom:4}}>
+							<img src={this.state.updatedTeam.image+'=s260'} />
+							<br />
+							Click to change
+						</Dropzone>
+						<textarea id="description" onChange={this.updateTeam.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
+					</div>
+				)
+			}
+
 			content = (
 				<div className="feature-box center media-box fbox-bg" style={{background:'#f9f9f9', borderRadius:'5px 5px 8px 8px'}}>
 					<div className="fbox-desc">
@@ -225,14 +275,7 @@ class TeamDetail extends Component {
 							<h2 style={styles.team.title}>Overview</h2>
 							<hr />
 
-							<div style={{textAlign:'center', marginTop:24}}>
-								<Dropzone onDrop={this.uploadImage.bind(this)} style={{marginBottom:4}}>
-									<img src={this.state.updatedTeam.image+'=s260'} />
-									<br />
-									Click to change
-								</Dropzone>
-							</div>
-							<textarea id="description" onChange={this.updateTeam.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
+							{ details }
 						</div>
 
 					</div>
@@ -241,6 +284,19 @@ class TeamDetail extends Component {
 		}
 
 		else if (selected == 'Overview'){
+			let details = null
+			if (this.state.updatedTeam.useWebsite){
+				details = <img src={team.screenshot} />
+			}
+			else {
+				details = (
+					<div style={{textAlign:'center', marginTop:24}}>
+						{ (team.image.length == 0) ? null : <img src={team.image+'=s260'} /> }
+						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+					</div>
+				)
+			}
+
 			content = (
 				<div className="feature-box center media-box fbox-bg" style={{background:'#f9f9f9', borderRadius:'5px 5px 8px 8px'}}>
 					<div className="fbox-desc">
@@ -249,10 +305,7 @@ class TeamDetail extends Component {
 							<h2 style={styles.team.title}>Overview</h2>
 							<hr />
 
-							<div style={{textAlign:'center', marginTop:24}}>
-								{ (team.image.length == 0) ? null : <img src={team.image+'=s260'} /> }
-							</div>
-							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+							{details}
 						</div>
 
 					</div>
