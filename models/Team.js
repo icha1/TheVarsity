@@ -6,6 +6,7 @@ var TeamSchema = new mongoose.Schema({
 	invited: {type:Array, default:[]},
 	type: {type:String, trim:true, default:''},
 	slug: {type:String, trim:true, lowercase:true, default:''},
+	screenshot: {type:String, trim:true, default:''}, // screenshot of website
 	image: {type:String, trim:true, default:''},
 	images: {type:Array, default:[]},
 	district: {type:String, trim:true, default:''},
@@ -28,6 +29,7 @@ TeamSchema.methods.summary = function(){
 		invited: this.invited,
 		type: this.type,
 		slug: this.slug,
+		screenshot: this.screenshot,
 		image: this.image,
 		images: this.images,
 		district: this.district,
