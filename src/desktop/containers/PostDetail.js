@@ -208,9 +208,8 @@ class PostDetail extends Component {
 						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span>
 					</div>
 
-					<h2 style={style.title}>
-						{ post.title }
-					</h2>
+					<input id="title" onChange={this.updatePost.bind(this)} defaultValue={post.title} placeholder="Title" style={{marginTop:12, marginBottom:7, border:'none', fontSize:16, color:'#555', width:100+'%', background:'#f9f9f9', padding:6}}  />
+						
 					<hr style={{marginBottom:6}} />
 					{ btnType }
 					<textarea id="text" onChange={this.updatePost.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6, resize:'none'}} defaultValue={post.text}></textarea>
