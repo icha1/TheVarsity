@@ -311,24 +311,22 @@ export default {
 
 	// - - - - - - - - - PROFILES - - - - - - - - - 	
 
-	fetchDistrict: (params, next) => {
+	fetchDistrict: (params) => {
 		return (dispatch) => {
-			APIManager.handleGet('/api/district', params)
+			APIManager
+			.handleGet('/api/district', params)
 			.then((response) => {
 				const results = response.results
+//				console.log(JSON.stringify(response))
 				dispatch({
 					type: constants.DISTRICT_CHANGED,
 					districts: results					
 				})
 
-				return results
-			})
-			.then((results) => {
-				if (next != null)
-					return next()
+				return response
 			})
 			.catch((err) => {
-				alert(err)
+				alert('ERROR: '+err)
 			})
 		}
 	},

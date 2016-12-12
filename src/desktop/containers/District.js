@@ -80,7 +80,11 @@ class District extends Component {
 			)
 		})
 
-		const districtImage = (district.image.length == 0) ? null : <img style={{width:96, float:'right'}} src={district.image+'=s120-c'} />
+		// const districtImage = (district.image.length == 0) ? null : <img style={{width:96, float:'right'}} src={district.image+'=s120-c'} />
+		let districtImage = null
+		if (district.id != null)
+			districtImage = (district.image.length == 0) ? null : <img style={{width:96, float:'right'}} src={district.image+'=s120-c'} />
+
 
 		return (
 			<div className="feature-box center media-box fbox-bg" style={{marginTop:0, borderTop:'1px solid #ddd'}}>
