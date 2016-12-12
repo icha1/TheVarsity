@@ -227,7 +227,6 @@ class ProfileDetail extends Component {
 										<i className="icon-instagram"></i>
 										<i className="icon-instagram"></i>
 									</a>
-
 								</div>
 
 							</div>

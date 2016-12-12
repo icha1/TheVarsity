@@ -335,6 +335,18 @@ class TeamDetail extends Component {
 								<nav id="primary-menu">
 									<ul>{sideMenu}</ul>
 								</nav>
+								
+								<div className="clearfix visible-md visible-lg">
+									<a href="#" className="social-icon si-small si-borderless si-facebook">
+										<i className="icon-facebook"></i>
+										<i className="icon-facebook"></i>
+									</a>
+
+									<a href="#" className="social-icon si-small si-borderless si-instagram">
+										<i className="icon-instagram"></i>
+										<i className="icon-instagram"></i>
+									</a>
+								</div>
 
 								{ (team.social.instagram == null) ? null : <a href={'/scrape?team='+team.id}>Scrape</a> }
 							</div>
