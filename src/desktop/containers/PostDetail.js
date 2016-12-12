@@ -227,12 +227,10 @@ class PostDetail extends Component {
 					<div style={{lineHeight:18+'px', textAlign:'right'}}>
 						{ btnEdit }
 						<img style={{float:'right', marginLeft:10, borderRadius:18}} src={post.author.image+'=s36-c'} />
-						<span>{ post.author.name }</span><br />
+						<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
 						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span>
 					</div>
-					<h2 style={style.title}>
-						{ post.title }
-					</h2>
+					<h2 style={style.title}>{ post.title }</h2>
 					<hr />
 					<p className="lead" style={{fontSize:16}}>{ post.text }</p>
 					<img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} />
@@ -284,11 +282,9 @@ class PostDetail extends Component {
 
 					<div className="feature-box center media-box fbox-bg">
 						<div className="fbox-desc">
-
 							<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
 								<h2 style={{fontFamily:'Pathway Gothic One', marginBottom:0}}>Attending</h2>
 							</div>
-
 
 							<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
 									{
