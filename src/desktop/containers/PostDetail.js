@@ -235,7 +235,11 @@ class PostDetail extends Component {
 						<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
 						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
 					</div>
-					<h2 style={style.title}>{ post.title }</h2>
+
+
+					<h2 style={style.title}>
+						{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
+					</h2>
 					<hr style={{marginBottom:6}} />
 					{ btnType }
 					<p className="lead" style={{fontSize:16, marginTop:8}}>{ post.text }</p>
