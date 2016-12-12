@@ -196,6 +196,8 @@ class PostDetail extends Component {
 		let content = null
 
 		if (this.state.isEditing == true){
+			const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
+			const btnType = <a href="#" style={{marginLeft: 0}} className={btnClass}>{ post.type }</a>
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
 					<div style={{lineHeight:18+'px', textAlign:'right'}}>
@@ -209,18 +211,22 @@ class PostDetail extends Component {
 					<h2 style={style.title}>
 						{ post.title }
 					</h2>
-					<hr />
+					<hr style={{marginBottom:6}} />
+					{ btnType }
 					<textarea id="text" onChange={this.updatePost.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={post.text}></textarea>
 					<img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} />
 				</div>
 			)
 		}
-		else if (selected == 'overview'){ // overview
+		else if (selected == 'overview'){
 			let btnEdit = null
 			if (user != null){
 				if (user.id == post.author.id)
 					btnEdit = <button onClick={this.toggleEditing.bind(this)} style={{float:'left'}}>Edit</button>
 			}
+
+			const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
+			const btnType = <a href="#" style={{marginLeft: 0}} className={btnClass}>{ post.type }</a>
 
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
@@ -228,11 +234,12 @@ class PostDetail extends Component {
 						{ btnEdit }
 						<img style={{float:'right', marginLeft:10, borderRadius:18}} src={post.author.image+'=s36-c'} />
 						<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
-						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span>
+						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
 					</div>
 					<h2 style={style.title}>{ post.title }</h2>
-					<hr />
-					<p className="lead" style={{fontSize:16}}>{ post.text }</p>
+					<hr style={{marginBottom:6}} />
+					{ btnType }
+					<p className="lead" style={{fontSize:16, marginTop:8}}>{ post.text }</p>
 					<img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} />
 				</div>
 			)
