@@ -24,6 +24,7 @@ class MapNavigation extends Component {
 
 		const props = this.props
 		const params = {
+			range: 50, 
 			limit: 5,
 			lat: props.session.currentLocation.lat,
 			lng: props.session.currentLocation.lng
