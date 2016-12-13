@@ -76,9 +76,14 @@ class Feed extends Component {
 		address['state'] = district.state
 		team['address'] = address
 
-		this.props.createTeam(team, (result) => {
+		this.props.createTeam(team)
+		.then((result) => {
 			window.scrollTo(0, 0)
 			this.setState({showCreate: false})
+			return
+		})
+		.catch(err => {
+			alert(err)
 		})
 	}
 
@@ -145,7 +150,7 @@ class Feed extends Component {
 			}
 
 			this.props.fetchPosts(params)
-		}		
+		}
 
 		if (feed == constants.FEED_TYPE_CHAT){
 			if (session.currentDistrict.id == null)

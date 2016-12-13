@@ -1,6 +1,41 @@
 import constants from '../constants/constants'
 import { APIManager } from '../utils'
 
+
+const postData = (path, data, actionType, payloadKey) => {
+	return (dispatch) => APIManager
+		.handlePost(path, data)
+		.then((response) => {
+			const result = response.result
+			dispatch({
+				type: actionType,
+				[payloadKey]: result
+			})
+
+			return result
+		})
+		.catch((err) => {
+			alert(err.message)
+		})
+}
+
+const getData = (path, params, actionType, payloadKey) => {
+	return (dispatch) => APIManager
+		.handleGet(path, params)
+		.then((response) => {
+			const data = response.results || response.result
+			dispatch({
+				type: actionType,
+				[payloadKey]: data
+			})
+
+			return data
+		})
+		.catch((err) => {
+			alert(err.message)
+		})
+}
+
 export default {
 	currentUserReceived: (user) => {
 		return {
@@ -165,28 +200,12 @@ export default {
 
 	fetchTeams: (params) => {
 		return dispatch => {
-			APIManager.handleGet('/api/team', params)
-			.then((response) => {
-				const results = response.results
-				dispatch({
-					type: constants.TEAMS_RECEIVED,
-					teams: results
-				})
-
-				return results
-			})
-			.then((results) => {
-
-			})
-			.catch((err) => {
-				alert(err.message)
-			})
+			return dispatch(getData('/api/team', params, constants.TEAMS_RECEIVED, 'teams'))
 		}
 	},
 
 	fetchProfileTeams: (profile) => {
 		return (dispatch) => {
-
 			APIManager
 			.handleGet('/api/team', {'members.id':profile.id})
 			.then((response) => {
@@ -223,48 +242,13 @@ export default {
 		}
 	},
 
-	createTeam: (team, next) => {
+	createTeam: (team) => {
 		return dispatch => {
-			APIManager.handlePost('/api/team', team)
-			.then((response) => {
-				const result = response.result
-				dispatch({
-					type: constants.TEAM_CREATED,
-					team: result					
-				})
-
-				return result
-			})
-			.then((result) => {
-				if (next != null)
-					next(result)
-				return result
-			})
-			.catch((err) => {
-				alert(err)
-			})
+			return dispatch(postData('/api/team', team, constants.TEAM_CREATED, 'team'))
 		}
 	},
 
 	// - - - - - - - - - PROFILES - - - - - - - - - 	
-
-	// fetchProfile: (username) => {
-	// 	return (dispatch) => {
-	// 		APIManager
-	// 		.handleGet('/api/profile', {username:username})
-	// 		.then((response) => {
-	// 			dispatch({
-	// 				type: constants.PROFILES_RECEIVED,
-	// 				profiles: response.results
-	// 			})
-
-	// 			return response.results
-	// 		})
-	// 		.catch((err) => {
-	// 			alert(JSON.stringify(err))
-	// 		})
-	// 	}
-	// },
 
 	fetchProfiles: (params) => {
 		return (dispatch) => {
@@ -312,23 +296,10 @@ export default {
 
 	// - - - - - - - - - PROFILES - - - - - - - - - 	
 
-	fetchDistrict: (params) => {
-		return (dispatch) => {
-			APIManager
-			.handleGet('/api/district', params)
-			.then((response) => {
-				const results = response.results
-//				console.log(JSON.stringify(response))
-				dispatch({
-					type: constants.DISTRICT_CHANGED,
-					districts: results					
-				})
 
-				return response
-			})
-			.catch((err) => {
-				alert('ERROR: '+err)
-			})
+	fetchDistrict: (params) => {
+		return dispatch => {
+			return dispatch(getData('/api/district', params, constants.DISTRICT_CHANGED, 'districts'))
 		}
 	},
 
