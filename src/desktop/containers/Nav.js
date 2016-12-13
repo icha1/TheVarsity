@@ -10,6 +10,8 @@ class Nav extends Component {
 	constructor(props, context){
 		super(props, context)
 		this.sendCredentials = this.sendCredentials.bind(this)
+		this.login = this.login.bind(this)
+		this.register = this.register.bind(this)
 		this.state = {
 			showLogin: false,
 			showRegister: false,
@@ -52,12 +54,36 @@ class Nav extends Component {
 		if (event)
 			event.preventDefault()
 
+		// validate fields
+		if (this.state.credentials.email.length == 0){
+			alert('Please enter your email')
+			return
+		}
+		if (this.state.credentials.password.length == 0){
+			alert('Please enter your password')
+			return
+		}
+
 		this.sendCredentials('/account/login')
 	}
 
 	register(event){
 		if (event)
 			event.preventDefault()
+
+		// validate fields
+		if (this.state.credentials.email.length == 0){
+			alert('Please enter your email')
+			return
+		}
+		if (this.state.credentials.username.length == 0){
+			alert('Please enter your username')
+			return
+		}
+		if (this.state.credentials.password.length == 0){
+			alert('Please enter your password')
+			return
+		}
 
 		this.sendCredentials('/account/register')
 	}
@@ -71,13 +97,22 @@ class Nav extends Component {
 				showLogin: false
 			})
 
-//			store.currentStore().dispatch(actions.currentUserReceived(result.user))
 			this.props.currentUserReceived(result.user)
 			browserHistory.push('/account')
 		})
 		.catch((err) => {
 			alert(err.message)
 		})
+	}
+
+	keyPress(action, event){
+		if (event.charCode != 13)
+			return
+
+		if (action == 'register')
+			this.register()
+		else
+			this.login()
 	}
 
 	render(){
@@ -122,7 +157,7 @@ class Nav extends Component {
 			        	</div>
 
 			        	<input onChange={this.updateCredentials.bind(this)} id="email" className={style.textField.className} style={style.textField} type="text" placeholder="Email" />
-			        	<input onChange={this.updateCredentials.bind(this)} id="password" className={style.textField.className} style={style.textField} type="password" placeholder="Password" />
+			        	<input onChange={this.updateCredentials.bind(this)} id="password" onKeyPress={this.keyPress.bind(this, 'login')} className={style.textField.className} style={style.textField} type="password" placeholder="Password" />
 						<div style={style.btnLoginContainer}>
 							<a onClick={this.login.bind(this)} href="#" className={style.btnLogin.className}><i className="icon-lock3"></i>Log In</a>
 						</div>
@@ -139,7 +174,7 @@ class Nav extends Component {
 
 			        	<input onChange={this.updateCredentials.bind(this)} id="email" className={style.textField.className} style={style.textField} type="text" placeholder="Email" />
 			        	<input onChange={this.updateCredentials.bind(this)} id="username" className={style.textField.className} style={style.textField} type="text" placeholder="Username" />
-			        	<input onChange={this.updateCredentials.bind(this)} id="password" className={style.textField.className} style={style.textField} type="password" placeholder="Password" />
+			        	<input onChange={this.updateCredentials.bind(this)} onKeyPress={this.keyPress.bind(this, 'register')} id="password" className={style.textField.className} style={style.textField} type="password" placeholder="Password" />
 						<div style={style.btnLoginContainer}>
 							<a onClick={this.register.bind(this)} href="#" className={style.btnLogin.className}><i className="icon-lock3"></i>Sign Up</a>
 						</div>
