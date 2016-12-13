@@ -42,7 +42,6 @@ class Post extends Component {
 					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=attend'}>Attend</Link></li>
 					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
 					{ (saved) ? <li style={style.listItem}><a href="#">Saved</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
-
 				</ul>
 			)
 		}
@@ -54,7 +53,10 @@ class Post extends Component {
 				<div className="comment-meta">
 					<div className="comment-author vcard">
 						<span className="comment-avatar clearfix">
-						<img alt='The Varsity' src={post.author.image+'=s120-c'} className='avatar avatar-60 photo' height='60' width='60' /></span>
+							<Link to={'/'+post.author.type+'/'+path}>
+								<img alt='The Varsity' src={post.author.image+'=s120-c'} className='avatar avatar-60 photo' height='60' width='60' />
+							</Link>
+						</span>
 					</div>
 				</div>
 				<div className={style.content.className} style={style.content}>
@@ -75,8 +77,9 @@ class Post extends Component {
 				<h4 style={style.header}>
 					<Link to={'/'+post.author.type+'/'+path} style={style.title}>{ post.author.name }</Link>
 				</h4>
-				<span>{DateUtils.formattedDate(post.timestamp)}</span><br />
-				<a href="#" style={{marginLeft: 0}} className={btnClass}>{ post.type }</a>
+				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px'}}>{ DateUtils.formattedDate(post.timestamp) }</span>
+				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px', marginLeft:6, marginRight:6}}>|</span>
+				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px'}}>{ TextUtils.capitalize(post.type) }</span>
 
 				<div style={{float:'right'}} className="dropdown">
 					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

@@ -13,7 +13,9 @@ class ProfilePreview extends Component {
 
 		return (
 			<div style={{padding:16}}>
-				<img style={{float:'left', marginRight:12, borderRadius:22, width:44}} src={image} />
+				<Link to={'/profile/'+profile.username}>
+					<img style={{float:'left', marginRight:12, borderRadius:22, width:44}} src={image} />
+				</Link>
 				<Link style={titleStyle} to={'/profile/'+profile.username}>
 					{ profile.username }
 				</Link>
