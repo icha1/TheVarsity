@@ -79,10 +79,7 @@ router.post('/:action', function(req, res, next){
 		ProfileController
 		.get({email: req.body.email})
 		.then(function(profiles){
-			if (profiles == 0)
-				return ProfileController.post(req.body)
-			else 
-				return profiles[0] // already registered
+			return (profiles == 0) ? ProfileController.post(req.body) : profiles[0]
 		})
 		.then(function(profile){
 			p = profile
