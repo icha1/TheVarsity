@@ -12,7 +12,6 @@ class Home extends Component {
 				<header id="header" className="no-sticky">
 		            <div id="header-wrap">
 						<MapNavigation />
-						<District />
 		            </div>
 				</header>
 
@@ -23,6 +22,7 @@ class Home extends Component {
 						</div>
 
 						<div className="col_one_third col_last">
+							<District />
 							<ProfileList />
 						</div>
 

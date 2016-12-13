@@ -38,7 +38,7 @@ class ProfileList extends Component {
 
 		return (
 			<div>
-				<input style={{width:100+'%', border:'none', padding:6}} type="text" placeholder="Search" />
+				<input style={{width:100+'%', marginTop:16, border:'none', padding:6}} type="text" placeholder="Search" />
 				<hr />
 				{ profileList }
 			</div>

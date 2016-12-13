@@ -64,9 +64,9 @@ class District extends Component {
 		let btn = null
 		if (this.props.user != null){
 			if (this.props.user.districts.indexOf(district.id) == -1)			
-				btn = <button onClick={this.joinDistrict.bind(this)} style={{float:'right'}}>Join</button>
+				btn = <button onClick={this.joinDistrict.bind(this)} className="button button-border button-border-thin button-dirtygreen" style={{width:'100%'}}>Join District</button>
 			else
-				btn = <button onClick={this.leaveDistrict.bind(this)} style={{float:'right'}}>Leave District</button>
+				btn = <button onClick={this.leaveDistrict.bind(this)} className="button button-border button-border-thin button-dirtygreen" style={{width:'100%'}}>Leave District</button>
 		}
 
 		const list = this.state.feedOptions.map((feed, i) => {
@@ -82,29 +82,22 @@ class District extends Component {
 
 		let districtImage = null
 		if (district.id != null)
-			districtImage = (district.image.length == 0) ? null : <img style={{width:96, float:'right'}} src={district.image+'=s120-c'} />
-
+			districtImage = (district.image.length == 0) ? null : <img style={{maxWidth:96, float:'right'}} src={district.image+'=s120-c'} />
 
 		return (
 			<div className="feature-box center media-box fbox-bg" style={{marginTop:0, borderTop:'1px solid #ddd'}}>
 				<div className="fbox-desc">
 					<div style={{minHeight:140}}>
 						<div style={style.body}>
-							<span style={style.header}>{district.name}</span>
-							{ btn }
+							<span style={style.header}>{district.name} District</span>
 							<hr />
 							{ districtImage }
 							<ul style={style.list}>
 								{list}
 							</ul>
-						</div>
-					</div>
+							{ btn }
 
-					<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
-						<div style={style.body}>
-							<span style={style.header}>Nearby Districts</span>
 						</div>
-
 					</div>
 
 				</div>
