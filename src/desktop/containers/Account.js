@@ -58,6 +58,19 @@ class Account extends Component {
 		})
 	}
 
+	unsavePost(post){
+		const user = this.props.user
+		if (user == null){
+			alert('Please register or log in.')
+			return
+		}
+
+		if (post.saved.indexOf(user.id) == -1)
+			return		
+
+		this.props.unsavePost(post, user)
+	}
+
 	componentDidUpdate(){
 		const user = this.props.user
 		if (user == null)
@@ -134,7 +147,7 @@ class Account extends Component {
 		else if (selected == 'Teams')
 			content = (this.props.teams[user.id]) ? <TeamFeed teams={this.props.teams[user.id]} user={user} /> : null
 		else if (selected == 'Saved')
-			content = (this.props.posts[user.id]) ? <PostFeed posts={this.props.posts[user.id]} user={user} /> : null
+			content = (this.props.posts[user.id]) ? <PostFeed posts={this.props.posts[user.id]} unsavePost={this.unsavePost.bind(this)} user={user} /> : null
 		else if (selected == 'Messages')
 			content = null
 
@@ -146,9 +159,7 @@ class Account extends Component {
 
 				<header id="header" className="no-sticky">
 		            <div id="header-wrap">
-
 		            	{ sidebar }
-
 		            </div>
 				</header>
 
@@ -175,7 +186,7 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		session: state.session,
 		posts: state.profile.posts,
-		teams: state.profile.teams,
+		teams: state.profile.teams
 	}
 }
 
@@ -183,6 +194,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
 		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
+		unsavePost: (post, profile) => dispatch(actions.unsavePost(post, profile)),
 		fetchProfileTeams: (profile) => dispatch(actions.fetchProfileTeams(profile))
 	}
 }

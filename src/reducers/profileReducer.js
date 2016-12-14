@@ -92,8 +92,18 @@ export default (state = initialState, action) => {
 			if (saved == null) // dont' do anything. refresh feed completely on page load
 				return newState
 
-			saved.push(action.post)
-			posts[action.profile.id] = saved
+			let a = []
+			saved.forEach((post, i) => {
+				if (post.id == action.post.id){
+					if (action.post.saved.indexOf(action.profile.id) != -1)
+						a.push(action.post)
+				}
+				else {
+					a.push(post)
+				}
+			})
+
+			posts[action.profile.id] = a
 			newState['posts'] = posts
 			return newState
 
