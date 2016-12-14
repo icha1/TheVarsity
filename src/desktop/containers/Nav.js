@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styles from './styles'
 import { Modal } from 'react-bootstrap'
-import { APIManager } from '../../utils'
+import { APIManager, TextUtils } from '../../utils'
 import { Link, browserHistory } from 'react-router'
 import actions from '../../actions/actions'
 import { connect } from 'react-redux'
@@ -76,6 +76,10 @@ class Nav extends Component {
 			alert('Please enter your email')
 			return
 		}
+		if (TextUtils.validateEmail(this.state.credentials.email) == false){
+			alert('Please enter a valid email')
+			return
+		}		
 		if (this.state.credentials.username.length == 0){
 			alert('Please enter your username')
 			return
