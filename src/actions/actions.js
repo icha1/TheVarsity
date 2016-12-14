@@ -36,6 +36,23 @@ const getData = (path, params, actionType, payloadKey) => {
 		})
 }
 
+const putData = (path, data, actionType, payloadKey) => {
+	return (dispatch) => APIManager
+		.handlePut(path, data)
+		.then((response) => {
+			const result = response.result
+			dispatch({
+				type: actionType,
+				[payloadKey]: result
+			})
+
+			return result
+		})
+		.catch((err) => {
+			alert(err.message)
+		})
+}
+
 export default {
 	currentUserReceived: (user) => {
 		return {
@@ -48,24 +65,7 @@ export default {
 
 	fetchPosts: (params) => {
 		return dispatch => {
-			dispatch({
-				type: constants.FETCH_POSTS,
-				feed: params.type
-			})
-
-			APIManager.handleGet('/api/post', params)
-			.then((response) => {
-				const results = response.results
-				dispatch({
-					type: constants.POSTS_RECEIVED,
-					posts: response.results
-				})
-
-				return results
-			})
-			.catch((err) => {
-				alert(err.message)
-			})
+			return dispatch(getData('/api/post', params, constants.POSTS_RECEIVED, 'posts'))
 		}
 	},
 
@@ -125,16 +125,7 @@ export default {
 
 	updatePost: (post, params) => {
 		return dispatch => {
-			APIManager.handlePut('/api/post/'+post.id, params)
-			.then((response) => {
-				dispatch({
-					type: constants.POST_UPDATED,
-					post: response.result
-				})
-			})
-			.catch((err) => {
-				alert(err.message)
-			})
+			return dispatch(putData('/api/post/'+post.id, params, constants.POST_UPDATED, 'post'))
 		}
 	},
 
@@ -256,19 +247,7 @@ export default {
 
 	updateTeam: (team, params) => {
 		return dispatch => {
-			APIManager.handlePut('/api/team/'+team.id, params)
-			.then((response) => {
-				let result = response.result
-				dispatch({
-					type: constants.TEAM_UPDATED,
-					team: result
-				})
-
-				return result
-			})
-			.catch((err) => {
-				alert(err.message)
-			})
+			return dispatch(putData('/api/team/'+team.id, params, constants.TEAM_UPDATED, 'team'))
 		}
 	},
 
@@ -301,19 +280,7 @@ export default {
 
 	updateProfile: (profile, params) => {
 		return dispatch => {
-			APIManager
-			.handlePut('/api/profile/'+profile.id, params)
-			.then((response) => {
-				dispatch({
-					type: constants.PROFILE_UPDDATED,
-					profile: response.result
-				})
-
-				return response.result
-			})
-			.catch((err) => {
-				alert(JSON.stringify(err))
-			})
+			return dispatch(putData('/api/profile/'+profile.id, params, constants.PROFILE_UPDDATED, 'profile'))
 		}
 	},
 
@@ -337,24 +304,6 @@ export default {
 		return {
 			type: constants.DISTRICT_CHANGED,
 			districts: districts
-		}
-	},
-
-	updateDistrict: (district, params) => {
-		return dispatch => {
-			APIManager
-			.handlePut('/api/district/'+district.id, params)
-			.then((response) => {
-				// dispatch({
-				// 	type: constants.PROFILE_UPDDATED,
-				// 	profile: response.result
-				// })
-
-				return response.result
-			})
-			.catch((err) => {
-				alert(JSON.stringify(err))
-			})
 		}
 	},
 
