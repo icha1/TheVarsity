@@ -128,6 +128,19 @@ class Feed extends Component {
 		this.props.savePost(post, user)
 	}
 
+	unsavePost(post){
+		const user = this.props.user
+		if (user == null){
+			alert('Please register or log in.')
+			return
+		}
+
+		if (post.saved.indexOf(user.id) == -1)
+			return		
+
+		this.props.unsavePost(post, user)
+	}
+
 	componentDidUpdate(){
 		const session = this.props.session
 		const feed = session.selectedFeed
@@ -183,7 +196,7 @@ class Feed extends Component {
 
 		if (feed == constants.FEED_TYPE_ALL){ 
 			const list = this.props.post.feed[feed]
-			currentFeed = (list) ? <PostFeed savePost={this.savePost.bind(this)} posts={list} user={this.props.user} /> : null
+			currentFeed = (list) ? <PostFeed savePost={this.savePost.bind(this)} unsavePost={this.unsavePost.bind(this)} posts={list} user={this.props.user} /> : null
 
 			create = (
 				<ol className={listClass}>
@@ -254,6 +267,7 @@ const mapDispatchToProps = (dispatch) => {
 		postsReceived: posts => dispatch(actions.postsReceived(posts)),
 		postCreated: post => dispatch(actions.postCreated(post)),
 		savePost: (post, profile) => dispatch(actions.savePost(post, profile)),
+		unsavePost: (post, profile) => dispatch(actions.unsavePost(post, profile)),
 		commentsReceived: comments => dispatch(actions.commentsReceived(comments)),
 		toggleLoader: isLoading => dispatch(actions.toggleLoader(isLoading)),
 		createTeam: (team, next) => dispatch(actions.createTeam(team, next))

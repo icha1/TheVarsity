@@ -13,6 +13,17 @@ const postUpdated = (action, state, post) => {
 
 	// updated feed object:
 	const type = action.post.type // event, news
+	let all = (postsFeed['all'] == null) ? [] : postsFeed['all']
+	let array = []
+	all.forEach((post, i) => {
+		if (post.id == action.post.id)
+			array.push(action.post) // insert updated post
+		else 
+			array.push(post)
+	})	
+	postsFeed['all'] = array
+
+
 	let feedArray = (postsFeed[type]==null) ? [] : postsFeed[type]
 	let updatedFeedArray = []
 	feedArray.forEach((post, i) => {

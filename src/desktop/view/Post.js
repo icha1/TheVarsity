@@ -10,6 +10,11 @@ class Post extends Component {
 		this.props.savePost(this.props.post)
 	}
 
+	unsave(event){
+		event.preventDefault()
+		this.props.unsavePost(this.props.post)
+	}
+
 	render(){
 		const post = this.props.post
 		const user = this.props.user // can be null
@@ -31,7 +36,7 @@ class Post extends Component {
 				<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
 					<li style={style.listItem}><a href="#">Share</a></li>
 					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
-					{ (saved) ? <li style={style.listItem}><a href="#">Saved</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
+					{ (saved) ? <li style={style.listItem}><a onClick={this.unsave.bind(this)} href="#">Unsave</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
 				</ul>
 			)
 		}
@@ -41,7 +46,7 @@ class Post extends Component {
 					<li style={style.listItem}><a href="#">Share</a></li>
 					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=attend'}>Attend</Link></li>
 					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
-					{ (saved) ? <li style={style.listItem}><a href="#">Saved</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
+					{ (saved) ? <li style={style.listItem}><a onClick={this.unsave.bind(this)} href="#">Unsave</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
 				</ul>
 			)
 		}
