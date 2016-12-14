@@ -149,7 +149,7 @@ export default {
 				return APIManager.handlePut('/api/post/'+post.id, result)
 			})
 			.then((updated) => {
-				console.log('UPDATED: '+JSON.stringify(updated))
+//				console.log('UPDATED: '+JSON.stringify(updated))
 				dispatch({
 					type: constants.POST_SAVED,
 					profile: profile,
