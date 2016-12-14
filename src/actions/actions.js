@@ -172,6 +172,7 @@ export default {
 					id: profile.id,
 					username: profile.username,
 					image: profile.image,
+					title: profile.title,
 					qty: qty
 				}
 
