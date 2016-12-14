@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import actions from '../../actions/actions'
+import constants from '../../constants/constants'
 import { CreateComment, Comment, ProfilePreview } from '../view'
 import { DateUtils, FirebaseManager } from '../../utils'
 import styles from './styles'
@@ -58,9 +59,7 @@ class PostDetail extends Component {
 			return
 
 		// sloppy workaround, render timestamp client side:
-		this.setState({
-			timestamp: DateUtils.formattedDate(post.timestamp)
-		})
+		this.setState({timestamp: DateUtils.formattedDate(post.timestamp)})
 
 		FirebaseManager.register('/'+post.id+'/comments', (err, currentComments) => {
 			if (err){
@@ -299,14 +298,12 @@ class PostDetail extends Component {
 							</div>
 
 							<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
-									{
-										rsvpList.map((attendeeId, i) => {
-											const attendee = post.eventDetails.rsvp[attendeeId]
-											return (
-												<ProfilePreview key={attendee.id} profile={attendee} />
-											)
-										})
-									}
+								{
+									rsvpList.map((attendeeId, i) => {
+										const attendee = post.eventDetails.rsvp[attendeeId]
+										return <ProfilePreview key={attendee.id} profile={attendee} />
+									})
+								}
 							</div>
 
 						</div>
@@ -327,6 +324,8 @@ class PostDetail extends Component {
 				</div>
 			)
 		}
+
+		const feed = this.props.feed[constants.FEED_TYPE_ALL]
 
 		return (
 			<div className="clearfix">		
@@ -358,6 +357,13 @@ class PostDetail extends Component {
 
 						<div className="col_one_third col_last">
 							Right Side
+							<ol>
+								{ (feed == null) ? null :
+									feed.map((post, i) => {
+										return <li key={post.id}>{post.title}</li>
+									})
+								}
+							</ol>
 						</div>
 					</div>
 
@@ -373,6 +379,7 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		session: state.session,
 		posts: state.post.map,
+		feed: state.post.feed,
 		teams: state.team.map
 	}
 }
