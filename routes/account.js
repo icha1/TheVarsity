@@ -1,7 +1,6 @@
 var express = require('express')
 var router = express.Router()
 var ProfileController = require('../controllers/ProfileController')
-var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
 var utils = require('../utils')
 
