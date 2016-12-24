@@ -2,8 +2,8 @@ var express = require('express')
 var router = express.Router()
 var ProfileController = require('../controllers/ProfileController')
 var jwt = require('jsonwebtoken')
-var bcrypt = require('bcrypt')
-var EmailUtils = require('../utils/EmailUtils')
+var bcrypt = require('bcryptjs')
+var utils = require('../utils')
 
 router.get('/:action', function(req, res, next){
 	var action = req.params.action
@@ -25,7 +25,7 @@ router.get('/:action', function(req, res, next){
 			return
 		}
 
-		if (req.session.user == null){
+		if (req.session.token == null){
 			res.json({
 				confirmation: 'fail',
 				message: 'User not logged in'
@@ -38,7 +38,7 @@ router.get('/:action', function(req, res, next){
 		// var token = req.session.token
 		// if (token){
 		// 	// console.log('TOKEN == '+token)
-		// 	jwt.verify(token, process.env.SECRET_KEY, function(err, decode){
+		// 	jwt.verify(token, process.env.TOKEN_SECRET, function(err, decode){
 		// 		if (err){
 		// 			// invalid token
 		// 			console.log('INVALID TOKEN')
@@ -52,9 +52,11 @@ router.get('/:action', function(req, res, next){
 		// 	console.log('NO TOKEN')
 		// }
 
-		var userId = req.session.user
-		ProfileController
-		.getById(userId)
+		utils.JWT.verify(req.session.token, process.env.TOKEN_SECRET)
+		.then(function(decode){
+			var userId = decode.id
+			return ProfileController.getById(userId)
+		})
 		.then(function(profile){
 			res.json({
 				confirmation: 'success',
@@ -64,7 +66,7 @@ router.get('/:action', function(req, res, next){
 		.catch(function(err){
 			res.json({
 				confirmation: 'fail',
-				message: err
+				message: err.message || err
 			})
 		})
 	}
@@ -84,10 +86,10 @@ router.post('/:action', function(req, res, next){
 		.then(function(profile){
 			p = profile
 			req.session.user = profile.id
-			token = jwt.sign({id:profile.id}, process.env.SECRET_KEY, {expiresIn:4000})
+			token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
 			req.session.token = token
 
-			return EmailUtils.sendEmail('info@thegridmedia.com', profile.email, 'The Varsity', 'Welcome to the Varsity')
+			return utils.EmailUtils.sendEmail('info@thegridmedia.com', profile.email, 'The Varsity', 'Welcome to the Varsity')
 		})
 		.then(function(response){
 			res.json({
@@ -101,7 +103,7 @@ router.post('/:action', function(req, res, next){
 		.catch(function(err){
 			res.json({
 				confirmation:'fail',
-				message: err
+				message: err.message || err
 			})
 		})
 	}
@@ -135,7 +137,7 @@ router.post('/:action', function(req, res, next){
 			}
 
 			req.session.user = profile._id
-			var token = jwt.sign({id:profile.id}, process.env.SECRET_KEY, {expiresIn:4000})
+			var token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
 			req.session.token = token
 			res.json({
 				confirmation: 'success',
@@ -146,7 +148,7 @@ router.post('/:action', function(req, res, next){
 		.catch(function(err){
 			res.json({
 				confirmation:'fail',
-				message: err
+				message: err.message || err
 			})
 
 			return

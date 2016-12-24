@@ -1,7 +1,7 @@
 var Profile = require('../models/Profile')
 var mongoose = require('mongoose')
 var Promise = require('bluebird')
-var bcrypt = require('bcrypt')
+var bcrypt = require('bcryptjs')
 
 module.exports = {
 	login: function(params, completion){

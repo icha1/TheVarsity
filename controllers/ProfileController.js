@@ -1,7 +1,7 @@
 var Profile = require('../models/Profile')
 var TextUtils = require('../utils/TextUtils')
 var Promise = require('bluebird')
-var bcrypt = require('bcrypt')
+var bcrypt = require('bcryptjs')
 
 module.exports = {
 	get: function(params, isRaw){
