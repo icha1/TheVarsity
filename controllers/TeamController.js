@@ -1,7 +1,5 @@
 var Team = require('../models/Team')
-var Request = require('../utils/Request')
-var Resource = require('../utils/Resource')
-var TextUtils = require('../utils/TextUtils')
+var utils = require('../utils')
 var Promise = require('bluebird')
 
 module.exports = {
@@ -39,7 +37,7 @@ module.exports = {
 					return
 				}
 
-				resolve(Resource.convertToJson(teams))
+				resolve(utils.Resource.convertToJson(teams))
 			})
 		})
 	},
@@ -60,7 +58,7 @@ module.exports = {
 	post: function(params){
 		return new Promise(function(resolve, reject){
 			if (params.slug == null) // might already be assigned
-				params['slug'] = TextUtils.slugVersion(params.name)+'-'+TextUtils.randomString(8)
+				params['slug'] = utils.TextUtils.slugVersion(params.name)+'-'+utils.TextUtils.randomString(8)
 
 			var address = params.address
 		    var url = 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -70,7 +68,7 @@ module.exports = {
 		    	key:process.env.GOOGLE_MAPS_API_KEY
 		    }
 
-		    Request.get(url, mapsQuery)
+		    utils.Request.get(url, mapsQuery)
 		    .then(function(response){
 		    	var results = response.results
 		    	var locationInfo = results[0]
