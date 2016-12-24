@@ -1,5 +1,4 @@
 var Profile = require('../models/Profile')
-var mongoose = require('mongoose')
 var Promise = require('bluebird')
 var bcrypt = require('bcryptjs')
 var utils = require('../utils')
