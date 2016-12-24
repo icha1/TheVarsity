@@ -2,6 +2,7 @@ var Profile = require('../models/Profile')
 var mongoose = require('mongoose')
 var Promise = require('bluebird')
 var bcrypt = require('bcryptjs')
+var utils = require('../utils')
 
 module.exports = {
 	login: function(params, completion){
@@ -40,56 +41,33 @@ module.exports = {
 				return
 			}
 
-			if (req.session.user == null){
+			if (req.session.token == null){
 				resolve(null)
 				return
 			}
 
-			var userId = req.session.user
-			Profile.findById(userId, function(err, profile){
-				if (err){
-					req.session.reset()
-					resolve(null)
-					return
-				}
-				
-				if (profile == null){
-					req.session.reset()
-					resolve(null)
-					return
-				}
+			utils.JWT.verify(req.session.token, process.env.TOKEN_SECRET)
+			.then(function(decode){
+				Profile.findById(decode.id, function(err, profile){
+					if (err){
+						req.session.reset()
+						resolve(null)
+						return
+					}
+					
+					if (profile == null){
+						req.session.reset()
+						resolve(null)
+						return
+					}
 
-				resolve(profile.summary())
+					resolve(profile.summary())
+				})
+			})
+			.catch(function(err){
+				resolve(null)
 			})
 		})
-
-
-		// if (req.session == null){
-		// 	completion({message:'User not logged in.'}, null)
-		// 	return
-		// }
-
-		// if (req.session.user == null){
-		// 	completion({message:'User not logged in.'}, null)
-		// 	return
-		// }
-		
-		// var userId = req.session.user
-		// Profile.findById(userId, function(err, profile){
-		// 	if (err){
-		// 		req.session.reset()
-		// 		completion({message:'Profile '+userId+' not found'}, null)
-		// 		return
-		// 	}
-			
-		// 	if (profile == null){
-		// 		req.session.reset()
-		// 		completion({message:'Profile '+userId+' not found'}, null)
-		// 		return
-		// 	}
-
-		// 	completion(null, profile.summary())
-		// })
 	}, 
 
 	currentUser: function(req){
