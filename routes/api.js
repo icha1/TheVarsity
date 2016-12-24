@@ -15,7 +15,7 @@ router.get('/:resource', function(req, res, next){
 	}
 
 	controller
-	.get(req.query, false)
+	.get(req.query, false, req.session.token)
 	.then(function(results){
 		res.json({
 			confirmation: 'success',
@@ -48,7 +48,7 @@ router.get('/:resource/:id', function(req, res, next){
 	}
 
 	controller
-	.getById(id)
+	.getById(id, req.session.token)
 	.then(function(result){
 		res.json({
 			confirmation: 'success',
@@ -80,7 +80,7 @@ router.post('/:resource', function(req, res, next){
 	}
 
 	controller
-	.post(req.body)
+	.post(req.body, req.session.token)
 	.then(function(result){
 		res.json({
 			confirmation: 'success',
@@ -113,7 +113,7 @@ router.put('/:resource/:id', function(req, res, next){
 	}
 
 	controller
-	.put(id, req.body)
+	.put(id, req.body, req.session.token)
 	.then(function(result){
 		res.json({
 			confirmation: 'success',
@@ -146,7 +146,7 @@ router.delete('/:resource/:id', function(req, res, next){
 	}
 
 	controller
-	.delete(id)
+	.delete(id, req.session.token)
 	.then(function(){
 		res.json({
 			confirmation: 'success'
