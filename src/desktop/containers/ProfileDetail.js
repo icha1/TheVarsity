@@ -205,8 +205,7 @@ class ProfileDetail extends Component {
 
 		return (
 			<div className="clearfix">
-
-				<header id="header" className="no-sticky">
+				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 		            <div id="header-wrap">
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
@@ -231,11 +230,10 @@ class ProfileDetail extends Component {
 
 							</div>
 			            </div>
-
 		            </div>
 				</header>
 
-				<section id="content" style={{background:'#f9f9f9', minHeight:800}}>
+				<section id="content" style={{background:'#fff', minHeight:800}}>
 					<div className="content-wrap container clearfix">
 						<div className="col_two_third">
 							{ content }

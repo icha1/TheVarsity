@@ -161,7 +161,8 @@ export default {
 		title: {
 			color:'#333',
 			fontFamily:'Pathway Gothic One',
-			fontWeight: 100
+			fontWeight: 100,
+			marginBottom: 0
 		},
 		postImage: {
 			marginTop: 12
