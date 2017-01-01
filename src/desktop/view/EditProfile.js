@@ -70,6 +70,8 @@ class EditProfile extends Component {
 				<h2 style={styles.post.title}>Update Profile</h2>
 				<Dropzone onDrop={this.uploadImage.bind(this)} style={{marginBottom:4}}>
 					<img style={styles.post.postImage} src={image} />
+					<br />
+					(Click to Change)
 				</Dropzone>
 				<hr />
 				<input type="text" id="title" placeholder="Title (Web Designer, Photographer, etc)" style={{border:'none', background:'#F8F9F9', width:'100%', padding:8, marginBottom:12}} onChange={this.updateProfile.bind(this)} defaultValue={profile.title} />
