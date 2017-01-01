@@ -175,12 +175,14 @@ class ProfileDetail extends Component {
 			}
 
 			content = (
-				<div className={styles.post.container.className} style={style.container}>
-					{ btnEdit }
-					<h2 style={styles.post.title}>Overview</h2>
-					<hr />
-					<h4 style={styles.header}>{ profile.title }</h4>
-					<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
+				<div className="feature-box center media-box fbox-bg">
+					<div style={{textAlign:'left', padding:24}}>
+						{ btnEdit }
+						<h2 style={styles.post.title}>Overview</h2>
+						<hr />
+						<h4 style={styles.header}>{ profile.title }</h4>
+						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
+					</div>
 				</div>
 			)
 		}
