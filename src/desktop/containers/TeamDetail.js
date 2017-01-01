@@ -19,7 +19,8 @@ class TeamDetail extends Component {
 			},
 			menuItems: [
 				'Overview',
-				'Feed'
+				'Feed',
+				'Members'
 //				'Chat'
 			]
 		}
@@ -314,6 +315,25 @@ class TeamDetail extends Component {
 			content = (list) ? <PostFeed posts={list} user={this.props.user} /> : null
 		}
 
+		else if (selected == 'Members'){
+			content = (
+				<div className="feature-box center media-box fbox-bg">
+					<div style={{textAlign:'left', padding:24}}>
+						<h2 style={styles.team.title}>Members</h2>
+						<hr />
+						{ team.members.map((member, i) => {
+								return (
+									<ProfilePreview key={member.id} profile={member} />
+								)
+							})
+						}
+
+						{ invite }
+					</div>
+				</div>
+			)
+		}
+
 		else if (selected == 'Chat'){
 			
 		}
@@ -345,17 +365,9 @@ class TeamDetail extends Component {
 						</div>
 
 						<div className="col_one_third col_last">
-							<h3 style={styles.team.title}>Members</h3>
+							<h3 style={styles.team.title}>Sidebar</h3>
 							<hr style={{marginBottom:0}} />
-							{
-								team.members.map((member, i) => {
-									return (
-										<ProfilePreview key={member.id} profile={member} />
-									)
-								})
-							}
 
-							{ invite }
 						</div>
 
 					</div>
