@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
+import { Link } from 'react-router'
 
 class FeaturedTeams extends Component {
 
@@ -18,10 +19,12 @@ class FeaturedTeams extends Component {
 				{ (teams == null) ? null : this.props.teams.map((team, i) => {
 						return (
 							<div key={i} style={{padding:16}}>
-								<img style={localStyle.image} src={team.image+'=s44-c'} />
-								<a style={localStyle.detailHeader} href="#">
+								<Link to={'/team/'+team.slug}>
+									<img style={localStyle.image} src={team.image+'=s44-c'} />
+								</Link>
+								<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
 									{team.name}
-								</a>
+								</Link>
 								<br />
 								<span style={localStyle.subtext}>{team.members.length} members</span>
 							</div>
