@@ -46,8 +46,12 @@ module.exports = {
 
 	post: function(params){
 		return new Promise(function(resolve, reject){
-			params['password'] = bcrypt.hashSync(params.password, 10)
-			params['slug'] = TextUtils.slugVersion(params.username)
+			if (params.password != null)
+				params['password'] = bcrypt.hashSync(params.password, 10)
+
+			if (params.username != null)
+				params['slug'] = TextUtils.slugVersion(params.username)
+
 			Profile.create(params, function(err, profile){
 				if (err){
 					reject(err)
@@ -61,6 +65,12 @@ module.exports = {
 
 	put: function(id, params){
 		return new Promise(function(resolve, reject){
+			if (params.password != null)
+				params['password'] = bcrypt.hashSync(params.password, 10)
+
+			if (params.username != null)
+				params['slug'] = TextUtils.slugVersion(params.username)
+						
 			Profile.findByIdAndUpdate(id, params, {new:true}, function(err, profile){
 				if (err){
 					reject(err)

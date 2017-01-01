@@ -1,6 +1,5 @@
 var Post = require('../models/Post')
-var Resource = require('../utils/Resource')
-var TextUtils = require('../utils/TextUtils')
+var utils = require('../utils')
 var Promise = require('bluebird')
 
 module.exports = {
@@ -39,7 +38,7 @@ module.exports = {
 					return
 				}
 
-				resolve(Resource.convertToJson(posts))
+				resolve(utils.Resource.convertToJson(posts))
 			})
 		})
 	},
@@ -60,7 +59,7 @@ module.exports = {
 	post: function(params){
 		return new Promise(function(resolve, reject){
 			if (params.slug == null) // might already be assigned
-				params['slug'] = TextUtils.slugVersion(params.title)
+				params['slug'] = utils.TextUtils.slugVersion(params.title)
 
 			Post.create(params, function(err, post){
 				if (err){
@@ -73,15 +72,31 @@ module.exports = {
 		})
 	},
 
-	put: function(id, params){
+	put: function(id, params, token){
 		return new Promise(function(resolve, reject){
-			Post.findByIdAndUpdate(id, params, {new:true}, function(err, post){
-				if (err){
-					reject(err)
-					return
-				}
+			if (token == null){
+				reject({message: 'Unauthorized'})
+				return
+			}
 
-				resolve(post.summary())
+			utils.JWT.verify(token, process.env.TOKEN_SECRET)
+			.then(function(decode){
+				var userId = decode.id
+				console.log('USER ID: '+userId)
+				// TODO: check if user is authorized to change post
+
+				Post.findByIdAndUpdate(id, params, {new:true}, function(err, post){
+					if (err){
+						reject(err)
+						return
+					}
+
+					resolve(post.summary())
+				})
+			})
+			.catch(function(err){
+				reject(err)
+				return
 			})
 		})
 	},

@@ -17,8 +17,8 @@ export default {
 	},
 	home: {
 		content: {
-			background:'#f9f9f9',
-			minHeight:800
+			background:'#fff',
+			paddingTop: 32
 		},
 		container: {
 			borderTop:'1px solid #ddd', height:140
@@ -61,6 +61,11 @@ export default {
 		fontFamily:'Pathway Gothic One',
 		fontWeight: 100
 	},
+	titleWhite: {
+		color:'#fff',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100
+	},	
 	postImage: {
 		marginTop: 12
 	},
@@ -109,6 +114,10 @@ export default {
 		width:100+'%',
 		height: 8+'%',
 		borderTop: '1px solid #ddd'
-	}		
+	},
+	paragraph: {
+		fontWeight: 100,
+		fontSize: 18
+	}
 
 }
