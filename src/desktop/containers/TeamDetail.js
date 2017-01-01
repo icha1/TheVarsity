@@ -291,7 +291,6 @@ class TeamDetail extends Component {
 			else {
 				details = (
 					<div style={{textAlign:'left', marginTop:24}}>
-						{ (team.image.length == 0) ? null : <img src={team.image+'=s260'} /> }
 						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 					</div>
 				)
@@ -321,7 +320,6 @@ class TeamDetail extends Component {
 
 		return (
 			<div className="clearfix">
-
 				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 		            <div id="header-wrap">
 						<div className="container clearfix">
