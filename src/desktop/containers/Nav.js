@@ -142,7 +142,8 @@ class Nav extends Component {
 						</div>
 						<nav className="one-page-menu">
 							<ul style={style.ul}>
-								<li><a href="#"><div>About</div></a></li>
+								<li><a href="/"><div>About</div></a></li>
+								<li><a href="/"><div>Contact</div></a></li>
 								{ joinLink }
 								{ loginLink }
 								{ accountLink }
