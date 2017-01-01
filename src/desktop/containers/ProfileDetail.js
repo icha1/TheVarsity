@@ -242,7 +242,12 @@ class ProfileDetail extends Component {
 						</div>
 
 						<div className="col_one_third col_last">
-							Right Side
+							<h3 style={styles.team.title}>Accept Invitation</h3>
+							<hr style={{marginBottom:0}} />
+
+							<input style={localStyle.input} type="text" placeholder="Email" />
+							<input style={localStyle.input} type="text" placeholder="Invite Code" />
+				            <a href="#" className="button button-circle" style={localStyle.btnBlue}>Submit</a>
 						</div>
 
 					</div>
@@ -253,6 +258,23 @@ class ProfileDetail extends Component {
 	}
 }
 
+const localStyle = {
+	input: {
+		color:'#333',
+		background: '#f9f9f9',
+		marginBottom: 12,
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 20,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%'
+	},
+	btnBlue: {
+		backgroundColor:'rgb(91, 192, 222)'
+	}
+}
 const stateToProps = (state) => {
 	return {
 		profiles: state.profile.map,
