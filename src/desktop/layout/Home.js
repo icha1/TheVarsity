@@ -60,7 +60,7 @@ class Home extends Component {
 
 			            <div className="col_one_third">
 			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
-			                    <h4 style={styles.title}>Better Opportunities</h4>
+			                    <h4 style={localStyle.titleWhite}>Better Opportunities</h4>
 			                </div>
 			                <img style={localStyle.image} src="/images/satellite-2.png" />
 			                <p style={styles.paragraphWhite}>
@@ -71,7 +71,7 @@ class Home extends Component {
 
 			            <div className="col_one_third">
 			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
-			                    <h4 style={styles.title}>Stronger Connections</h4>
+			                    <h4 style={localStyle.titleWhite}>Stronger Connections</h4>
 			                </div>
 			                <img style={localStyle.image} src="/images/kithen.jpg" />
 			                <p style={styles.paragraphWhite}>
@@ -82,7 +82,7 @@ class Home extends Component {
 
 			            <div className="col_one_third col_last">
 			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
-			                    <h4 style={styles.title}>More Revenue</h4>
+			                    <h4 style={localStyle.titleWhite}>More Revenue</h4>
 			                </div>
 			                <img style={localStyle.image} src="/images/meetup.jpg" />
 			                <p style={styles.paragraphWhite}>
@@ -147,6 +147,12 @@ const localStyle = {
 		border: '1px solid #ddd',
 		padding: 3,
 		marginBottom: 16
+	},
+	titleWhite: {
+		color:'#fff',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		borderBottom: '2px solid #fff'
 	}
 }
 
