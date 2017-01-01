@@ -32,7 +32,6 @@ class FeaturedTeams extends Component {
 					})
 				}
 			</div>
-
 		)
 	}
 }
