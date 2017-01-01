@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Feed, MapNavigation, District, ProfileList } from '../containers'
+import { Feed, MapNavigation, District, ProfileList, FeaturedTeams } from '../containers'
 import styles from './styles'
 
 class Home extends Component {
@@ -10,6 +10,13 @@ class Home extends Component {
 			<div className="clearfix">
 				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 		            <div id="header-wrap">
+
+						<div className="container clearfix">
+							<div style={{paddingTop:96}}>
+								<input style={localStyle.inputWhite} type="text" placeholder="Search" />
+								<FeaturedTeams />
+				            </div>
+			            </div>
 
 		            </div>
 				</header>
@@ -119,7 +126,19 @@ const localStyle = {
 		padding: 6,
 		fontWeight: 100,
 	    lineHeight: 1.5,
-	    fontSize: 22,
+	    fontSize: 20,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%'
+	},
+	inputWhite: {
+		color:'#333',
+		background: '#fff',
+		marginBottom: 12,
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 20,
 		fontFamily:'Pathway Gothic One',
 		border: 'none',
 		width: 100+'%'
