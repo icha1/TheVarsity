@@ -118,6 +118,11 @@ export default {
 	paragraph: {
 		fontWeight: 100,
 		fontSize: 18
+	},
+	paragraphWhite: {
+		fontWeight: 100,
+		fontSize: 18,
+		color: '#fff'
 	}
 
 }

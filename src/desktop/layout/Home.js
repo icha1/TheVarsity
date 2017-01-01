@@ -24,7 +24,7 @@ class Home extends Component {
 			    <section className="page-section section parallax dark" style={{background: 'url("/images/office-3.jpg") center', overflow:'visible', margin:0}} data-height-lg="425" data-height-md="425" data-height-sm="450" data-height-xs="450" data-height-xxs="450">
 			        <div className="vertical-middle">
 			            <div className="heading-block center nobottomborder">
-			                <h1 style={styles.titleWhite} data-animate="fadeInUp">Become a Full Stack Developer</h1>
+			                <h1 style={styles.titleWhite} data-animate="fadeInUp">The Varsity</h1>
 			                <span style={{fontWeight:100}} data-animate="fadeInUp" data-delay="300">
 			                	Find Your Next Job or Hire <br />Through The Varsity in 2017
 			                </span>
@@ -51,20 +51,19 @@ class Home extends Component {
 						<div className="col_one_third col_last" style={{textAlign:'right'}}>
 							<img style={localStyle.image} src="/images/girls.jpg" />
 						</div>
-
 					</div>
 				</section>
 
-			    <section style={{background:'#fff', borderTop:'1px solid #ddd'}} id="section-about" className="page-section notopmargin nobottommargin section">
+			    <section style={{background:'#2e3842', borderTop:'1px solid #ddd'}} id="section-about" className="page-section notopmargin nobottommargin section">
 			        <div className="container clearfix">
-					    <h2 style={styles.title}>The Varsity Advantage</h2>
+					    <h2 style={styles.titleWhite}>The Varsity Advantage</h2>
 
 			            <div className="col_one_third">
 			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
 			                    <h4 style={styles.title}>Better Opportunities</h4>
 			                </div>
-			                <img style={localStyle.image}  src="/images/satellite-2.png" />
-			                <p style={styles.paragraph}>
+			                <img style={localStyle.image} src="/images/satellite-2.png" />
+			                <p style={styles.paragraphWhite}>
 								Every group has a bulletin board where professional opportunities are posted. Hiring companies 
 								can better target specific skillsets by posting in the right groups.
 			                </p>
@@ -74,8 +73,8 @@ class Home extends Component {
 			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
 			                    <h4 style={styles.title}>Stronger Connections</h4>
 			                </div>
-			                <img style={{marginBottom:12}} src="/images/kithen.jpg" />
-			                <p style={styles.paragraph}>
+			                <img style={localStyle.image} src="/images/kithen.jpg" />
+			                <p style={styles.paragraphWhite}>
 								Groups are maintained by members through invite-only. No more spam from salesman, recruiters, 
 								and such. The Varsity cuts out the noise.                
 			                </p>
@@ -86,7 +85,7 @@ class Home extends Component {
 			                    <h4 style={styles.title}>More Revenue</h4>
 			                </div>
 			                <img style={localStyle.image} src="/images/meetup.jpg" />
-			                <p style={styles.paragraph}>
+			                <p style={styles.paragraphWhite}>
 								Group admins can charge fees for posting to the bulletin board. Fees go directly to the group 
 								moderator. * This is a premium feature.
 			                </p>
