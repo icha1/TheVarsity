@@ -290,7 +290,7 @@ class TeamDetail extends Component {
 			}
 			else {
 				details = (
-					<div style={{textAlign:'center', marginTop:24}}>
+					<div style={{textAlign:'left', marginTop:24}}>
 						{ (team.image.length == 0) ? null : <img src={team.image+'=s260'} /> }
 						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 					</div>
@@ -298,16 +298,13 @@ class TeamDetail extends Component {
 			}
 
 			content = (
-				<div className="feature-box center media-box fbox-bg" style={{background:'#f9f9f9', borderRadius:'5px 5px 8px 8px'}}>
-					<div className="fbox-desc">
-						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
-							{ btnEdit }
-							<h2 style={styles.team.title}>Overview</h2>
-							<hr />
+				<div className="feature-box center media-box fbox-bg">
+					<div style={{textAlign:'left', padding:24}}>
+						{ btnEdit }
+						<h2 style={styles.team.title}>Overview</h2>
+						<hr />
 
-							{details}
-						</div>
-
+						{details}
 					</div>
 				</div>
 			)
@@ -325,7 +322,7 @@ class TeamDetail extends Component {
 		return (
 			<div className="clearfix">
 
-				<header id="header" className="no-sticky">
+				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 		            <div id="header-wrap">
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
@@ -336,18 +333,6 @@ class TeamDetail extends Component {
 									<ul>{sideMenu}</ul>
 								</nav>
 								
-								<div className="clearfix visible-md visible-lg">
-									<a href="#" className="social-icon si-small si-borderless si-facebook">
-										<i className="icon-facebook"></i>
-										<i className="icon-facebook"></i>
-									</a>
-
-									<a href="#" className="social-icon si-small si-borderless si-instagram">
-										<i className="icon-instagram"></i>
-										<i className="icon-instagram"></i>
-									</a>
-								</div>
-
 								{ (team.social.instagram == null) ? null : <a href={'/scrape?team='+team.id}>Scrape</a> }
 							</div>
 			            </div>
@@ -355,7 +340,7 @@ class TeamDetail extends Component {
 		            </div>
 				</header>
 
-				<section id="content" style={{background:'#f9f9f9', minHeight:800}}>
+				<section id="content" style={{background:'#fff', minHeight:800}}>
 					<div className="content-wrap container clearfix">
 						<div className="col_two_third">
 							{ content }
