@@ -95,9 +95,6 @@ class CreateTeam extends Component {
 					</div>
 				</div>
 				<br />
-				<label>Address</label>
-				<input id="street" onChange={this.updateTeam.bind(this)} type="text" placeholder="123 Main St." style={styles.post.select} className="form-control" /><br />
-
 				<label>Social</label>
 				<input id="instagram" onChange={this.updateTeam.bind(this)} type="text" placeholder="Instagram Username" style={styles.post.select} className="form-control" />
 				<input id="facebook" onChange={this.updateTeam.bind(this)} type="text" placeholder="Facebook Page Name" style={styles.post.select} className="form-control" />

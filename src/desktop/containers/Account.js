@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styles from './styles'
-import { EditProfile, TeamFeed, PostFeed, Map } from '../view'
+import { EditProfile, TeamFeed, CreateTeam, PostFeed, Map } from '../view'
 import { connect } from 'react-redux'
 import { TextUtils } from '../../utils'
 import actions from '../../actions/actions'
@@ -15,8 +15,6 @@ class Account extends Component {
 			menuItems: [
 				'Profile',
 				'Teams',
-				'Saved',
-				'Districts',
 				'Messages'
 			]
 		}
@@ -71,6 +69,25 @@ class Account extends Component {
 		this.props.unsavePost(post, user)
 	}
 
+	createTeam(team){
+		if (this.props.user == null){
+			alert('Please log in or register to create a team.')
+			return
+		}
+
+		team['members'] = [{id: this.props.user.id, username: this.props.user.username, image: this.props.user.image}]
+		this.props.createTeam(team)
+		.then((result) => {
+			console.log('TEAM CREATED: '+JSON.stringify(result))
+			// window.scrollTo(0, 0)
+			// this.setState({showCreate: false})
+			return
+		})
+		.catch(err => {
+			alert(err)
+		})
+	}
+
 	componentDidUpdate(){
 		const user = this.props.user
 		if (user == null)
@@ -101,9 +118,7 @@ class Account extends Component {
 			<div className="container clearfix">
 				<nav id="primary-menu" style={{paddingTop:96}}>
 					<ul>
-						{
-
-							this.state.menuItems.map((item, i) => {
+						{ this.state.menuItems.map((item, i) => {
 								const itemStyle = (item == this.state.selected) ? style.selected : style.menuItem
 								return (
 									<li key={i}>
@@ -135,19 +150,19 @@ class Account extends Component {
 				</div>
 			)
 		}
-		else if (selected == 'Districts'){
+
+		else if (selected == 'Teams'){
 			content = (
-				<div className={styles.container.className} style={styles.container}>
-					<button onClick={this.toggleMap.bind(this)} style={{float:'right'}}>Add District</button>
-					<h2 style={styles.title}>Districts</h2>
-					<hr />
+				<div>
+					{ (this.props.teams[user.id]) ? <TeamFeed teams={this.props.teams[user.id]} user={user} /> : null }
+					<CreateTeam
+						user={this.props.user} 
+						submit={this.createTeam.bind(this)} />
+
 				</div>
 			)
+
 		}
-		else if (selected == 'Teams')
-			content = (this.props.teams[user.id]) ? <TeamFeed teams={this.props.teams[user.id]} user={user} /> : null
-		else if (selected == 'Saved')
-			content = (this.props.posts[user.id]) ? <PostFeed posts={this.props.posts[user.id]} unsavePost={this.unsavePost.bind(this)} user={user} /> : null
 		else if (selected == 'Messages')
 			content = null
 
@@ -195,7 +210,8 @@ const mapDispatchToProps = (dispatch) => {
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
 		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
 		unsavePost: (post, profile) => dispatch(actions.unsavePost(post, profile)),
-		fetchProfileTeams: (profile) => dispatch(actions.fetchProfileTeams(profile))
+		fetchProfileTeams: (profile) => dispatch(actions.fetchProfileTeams(profile)),
+		createTeam: (team) => dispatch(actions.createTeam(team))
 	}
 }
 export default connect(stateToProps, mapDispatchToProps)(Account)

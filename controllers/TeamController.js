@@ -55,63 +55,79 @@ module.exports = {
 		})
 	},
 
+	// post: function(params){
+	// 	return new Promise(function(resolve, reject){
+	// 		if (params.slug == null) // might already be assigned
+	// 			params['slug'] = utils.TextUtils.slugVersion(params.name)+'-'+utils.TextUtils.randomString(8)
+
+	// 		var address = params.address
+	// 	    var url = 'https://maps.googleapis.com/maps/api/geocode/json'
+	// 	    var query = address.street+','+address.city+','+address.state
+	// 	    var mapsQuery = {
+	// 	    	address: query,
+	// 	    	key:process.env.GOOGLE_MAPS_API_KEY
+	// 	    }
+
+	// 	    utils.Request.get(url, mapsQuery)
+	// 	    .then(function(response){
+	// 	    	var results = response.results
+	// 	    	var locationInfo = results[0]
+	// 	    	var geometry = locationInfo.geometry
+	// 	    	var location = geometry.location
+	// 	    	var geo = [location.lat, location.lng]
+	// 	    	params['geo'] = geo
+
+	// 	    	var address_components = locationInfo['address_components'] // this is an array
+	// 	    	if (address_components != null){ // find zip code...
+
+	// 	    		var zip = ''
+	// 		    	for (var i=0; i<address_components.length; i++){
+	// 		    		var component = address_components[i]
+	// 		    		var types = component['types'] // this is an array
+	// 		    		if (types == null)
+	// 		    			continue
+
+	// 		    		var value = component['long_name']
+	// 		    		if (value == null)
+	// 		    			continue
+
+	// 		    		if (types.indexOf('postal_code') != -1)
+	// 				    	zip = value.toLowerCase()
+	// 		    	}
+
+	// 			    params['zip'] = zip
+	// 	    	}
+
+	// 			Team.create(params, function(err, team){
+	// 				if (err){
+	// 					reject(err)
+	// 					return
+	// 				}
+
+	// 				resolve(team.summary())
+	// 			})
+	// 	    })
+	// 	    .catch(function(err){
+	// 	    	console.log('ERROR: '+err)
+	// 	    	reject(err)
+	// 			return
+	// 	    })
+	// 	})
+	// },
+
 	post: function(params){
 		return new Promise(function(resolve, reject){
 			if (params.slug == null) // might already be assigned
 				params['slug'] = utils.TextUtils.slugVersion(params.name)+'-'+utils.TextUtils.randomString(8)
 
-			var address = params.address
-		    var url = 'https://maps.googleapis.com/maps/api/geocode/json'
-		    var query = address.street+','+address.city+','+address.state
-		    var mapsQuery = {
-		    	address: query,
-		    	key:process.env.GOOGLE_MAPS_API_KEY
-		    }
+			Team.create(params, function(err, team){
+				if (err){
+					reject(err)
+					return
+				}
 
-		    utils.Request.get(url, mapsQuery)
-		    .then(function(response){
-		    	var results = response.results
-		    	var locationInfo = results[0]
-		    	var geometry = locationInfo.geometry
-		    	var location = geometry.location
-		    	var geo = [location.lat, location.lng]
-		    	params['geo'] = geo
-
-		    	var address_components = locationInfo['address_components'] // this is an array
-		    	if (address_components != null){ // find zip code...
-
-		    		var zip = ''
-			    	for (var i=0; i<address_components.length; i++){
-			    		var component = address_components[i]
-			    		var types = component['types'] // this is an array
-			    		if (types == null)
-			    			continue
-
-			    		var value = component['long_name']
-			    		if (value == null)
-			    			continue
-
-			    		if (types.indexOf('postal_code') != -1)
-					    	zip = value.toLowerCase()
-			    	}
-
-				    params['zip'] = zip
-		    	}
-
-				Team.create(params, function(err, team){
-					if (err){
-						reject(err)
-						return
-					}
-
-					resolve(team.summary())
-				})
-		    })
-		    .catch(function(err){
-		    	console.log('ERROR: '+err)
-		    	reject(err)
-				return
-		    })
+				resolve(team.summary())
+			})
 		})
 	},
 
