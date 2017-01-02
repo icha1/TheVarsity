@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
+import { Modal } from 'react-bootstrap'
 import { CreateComment, Comment, ProfilePreview, PostFeed } from '../view'
 import { TextUtils, APIManager } from '../../utils'
 import actions from '../../actions/actions'
@@ -13,6 +14,7 @@ class TeamDetail extends Component {
 			selected: 'Overview',
 			isEditing: false,
 			invited: '', // comma separated string
+			showInvite: false,
 			updatedTeam: {
 				useWebsite: false,
 				changed: false
@@ -111,6 +113,12 @@ class TeamDetail extends Component {
 		event.preventDefault()
 		this.setState({
 			invited: event.target.value
+		})
+	}
+
+	toggleInvite(){
+		this.setState({
+			showInvite: !this.state.showInvite
 		})
 	}
 
@@ -223,14 +231,7 @@ class TeamDetail extends Component {
 
 			if (isMember == true){
 				btnEdit = <button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Edit</button>
-				invite = (
-					<div style={{textAlign:'left', borderTop:'1px solid #eee', paddingTop:12, marginTop:24}}>
-						<h4 style={styles.team.title}>Invite</h4>
-						To invite members, add their emails above separated by commas.<br />
-						<input onChange={this.updateInvited.bind(this)} type="text" placeholder="example@email.com, example2@email.com" style={{border:'none', background:'#fff', width:'100%', padding:8, marginTop:6, marginBottom:6}} />
-						<button onClick={this.invite.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Invite</button>
-					</div>
-				)
+				invite = <button onClick={this.toggleInvite.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Invite Member</button>
 			}
 		}
 
@@ -319,6 +320,7 @@ class TeamDetail extends Component {
 			content = (
 				<div className="feature-box center media-box fbox-bg">
 					<div style={{textAlign:'left', padding:24}}>
+						{ invite }
 						<h2 style={styles.team.title}>Members</h2>
 						<hr />
 						{ team.members.map((member, i) => {
@@ -328,7 +330,6 @@ class TeamDetail extends Component {
 							})
 						}
 
-						{ invite }
 					</div>
 				</div>
 			)
@@ -375,6 +376,23 @@ class TeamDetail extends Component {
 
 					</div>
 				</section>
+
+		        <Modal bsSize="sm" show={this.state.showInvite} onHide={this.toggleInvite.bind(this)}>
+			        <Modal.Body style={styles.nav.modal}>
+			        	<div style={{textAlign:'center'}}>
+				        	<img style={styles.nav.logo} src='/images/logo_dark.png' />
+				        	<hr />
+				        	<h4>Invite Member</h4>
+			        	</div>
+
+			        	<input id="name" className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Name" />
+			        	<input id="email" className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Email" />
+						<div style={styles.nav.btnLoginContainer}>
+							<a href="#" className={styles.nav.btnLogin.className}><i className="icon-lock3"></i>Invite</a>
+						</div>
+			        </Modal.Body>
+		        </Modal>
+
 			</div>
 		)
 	}
