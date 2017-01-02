@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 class FeaturedTeams extends Component {
 
 	componentDidMount(){
-		this.props.fetchTeams({limit: 5, featured:'yes'})
+		this.props.fetchTeams({limit: 5, status:'featured'})
 	}
 
 	render(){
