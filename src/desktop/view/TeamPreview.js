@@ -28,7 +28,7 @@ class TeamPreview extends Component {
 				</div>
 				<hr />
 
-				<h4 style={styles.post.header}>{ team.address.street }</h4>
+				<h4 style={styles.post.header}>Category</h4>
 				<span>{ team.members.length } members</span><br />
 				<div style={{float:'right'}} className="dropdown">
 					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

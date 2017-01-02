@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Feed, MapNavigation, District, ProfileList, FeaturedTeams } from '../containers'
+import { Feed, MapNavigation, District, ProfileList, FeaturedTeams, Redeem } from '../containers'
 import styles from './styles'
 
 class Home extends Component {
@@ -105,11 +105,8 @@ class Home extends Component {
 						</div>
 
 						<div className="col_half col_last" style={{textAlign:'right'}}>
-							<input style={localStyle.input} type="text" placeholder="Email" />
-							<input style={localStyle.input} type="text" placeholder="Invite Code" />
-				            <a href="#" className="button button-circle" style={{backgroundColor:'rgb(91, 192, 222)'}}>Submit</a>
+							<Redeem />
 						</div>
-
 					</div>
 				</section>
 			</div>

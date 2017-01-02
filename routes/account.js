@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var ProfileController = require('../controllers/ProfileController')
+var controllers = require('../controllers')
 var bcrypt = require('bcryptjs')
 var utils = require('../utils')
 
@@ -58,6 +59,7 @@ router.post('/:action', function(req, res, next){
 
 	var token = null
 	var p = null
+
 	if (action == 'register'){
 		ProfileController
 		.get({email: req.body.email})
@@ -134,13 +136,61 @@ router.post('/:action', function(req, res, next){
 		})
 	}
 
-	if (action == 'invite'){
-		var invited = req.body.invited
-		res.json({
-			confirmation: 'success',
-			invited: invited
-		})
+	if (action == 'redeem'){ // redeem invitation
 
+		var invitation = null
+		var hostTeam = null
+
+		controllers.invitation
+		.get(req.body, true)
+		.then(function(invitations){ // should return only one
+			if (invitations.length == 0)
+				throw new Error('Invitation Not Found. Check the invitation code.')
+			
+			invitation = invitations[0]
+			return invitation
+		})
+		.then(function(invitation){
+			return controllers.team.getById(invitation.team.id)
+		})
+		.then(function(team){
+			hostTeam = team
+
+			// create new profile, update team with new member:
+			var profileParams = {
+				password: invitation.code,
+				username: invitation.name
+			}
+
+			return controllers.profile.post(profileParams) // create new profile
+		})
+		.then(function(profile){
+			var members = hostTeam.members
+			members.push({
+				id: profile.id,
+				username: profile.username,
+				image: profile.image
+			})
+
+			hostTeam['members'] = members
+			var token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
+			req.session.token = token
+
+			res.json({
+				confirmation: 'success',
+				result: hostTeam,
+				user: profile,
+				token: token
+			})
+
+			hostTeam.save()
+		})
+		.catch(function(err){
+			res.json({
+				confirmation: 'fail',
+				message: err
+			})
+		})
 	}
 
 })

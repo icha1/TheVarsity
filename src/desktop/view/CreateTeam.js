@@ -17,9 +17,13 @@ class CreateTeam extends Component {
 	}
 
 	uploadImage(files){
-		this.props.isLoading(true)
+		if (this.props.isLoading)
+			this.props.isLoading(true)
+
 		APIManager.upload(files[0], (err, image) => {
-			this.props.isLoading(false)
+			if (this.props.isLoading)
+				this.props.isLoading(false)
+
 			if (err){
 				alert(err)
 				return

@@ -1,23 +1,22 @@
 import constants from '../constants/constants'
 import { APIManager } from '../utils'
 
-
 const postData = (path, data, actionType, payloadKey) => {
 	return (dispatch) => APIManager
 		.handlePost(path, data)
 		.then((response) => {
-			const result = response.result
 			if (actionType != null){
 				dispatch({
 					type: actionType,
-					[payloadKey]: result
+					[payloadKey]: response.result
 				})
 			}
 
-			return result
+			return response
 		})
 		.catch((err) => {
-			alert(err.message)
+//			console.log('POST ERROR: '+JSON.stringify(err))
+			throw err
 		})
 }
 
@@ -28,13 +27,15 @@ const getData = (path, params, actionType, payloadKey) => {
 			const data = response.results || response.result
 			dispatch({
 				type: actionType,
-				[payloadKey]: data
+				[payloadKey]: data,
+				params: params
 			})
 
 			return data
 		})
 		.catch((err) => {
-			alert(err.message)
+//			alert(err.message)
+			throw err
 		})
 }
 
@@ -51,7 +52,8 @@ const putData = (path, data, actionType, payloadKey) => {
 			return result
 		})
 		.catch((err) => {
-			alert(err.message)
+//			alert(err.message)
+			throw err
 		})
 }
 
@@ -227,26 +229,6 @@ export default {
 		}
 	},
 
-	fetchProfileTeams: (profile) => {
-		return (dispatch) => {
-			APIManager
-			.handleGet('/api/team', {'members.id':profile.id})
-			.then((response) => {
-				let results = response.results
-				dispatch({
-					type: constants.PROFILE_TEAMS_RECEIVED,
-					teams: results,
-					profile: profile
-				})
-
-				return results
-			})
-			.catch((err) => {
-				alert(JSON.stringify(err))
-			})
-		}
-	},
-
 	updateTeam: (team, params) => {
 		return dispatch => {
 			return dispatch(putData('/api/team/'+team.id, params, constants.TEAM_UPDATED, 'team'))
@@ -262,6 +244,12 @@ export default {
 	sendInvitation: (params) => {
 		return dispatch => {
 			return dispatch(postData('/api/invitation', params, null, 'invitation'))
+		}
+	},
+
+	redeemInvitation: (invitation) => {
+		return dispatch => {
+			return dispatch(postData('/account/redeem', invitation, null, 'invitation'))
 		}
 	},
 

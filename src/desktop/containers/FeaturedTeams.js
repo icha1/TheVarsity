@@ -6,13 +6,11 @@ import { Link } from 'react-router'
 class FeaturedTeams extends Component {
 
 	componentDidMount(){
-		this.props.fetchTeams({limit: 5})
-
-
+		this.props.fetchTeams({limit: 5, featured:'yes'})
 	}
 
 	render(){
-		const teams = this.props.teams
+		const teams = this.props.teams['featured']
 
 		return (
 			<div>
@@ -59,7 +57,7 @@ const localStyle = {
 
 const stateToProps = (state) => {
 	return {
-		teams: state.team.list
+		teams: state.team
 	}
 }
 

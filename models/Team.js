@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
 
 var TeamSchema = new mongoose.Schema({
 	name: {type:String, trim:true, default:''},
+	featured: {type:String, trim:true, default:'no'},
 	members: {type:Array, default:[]},
 	invited: {type:Array, default:[]},
 	type: {type:String, trim:true, default:''},
@@ -26,24 +27,26 @@ var TeamSchema = new mongoose.Schema({
 TeamSchema.methods.summary = function(){
 	var summary = {
 		name: this.name,
+		featured: this.featured,
 		members: this.members,
-		invited: this.invited,
 		type: this.type,
 		slug: this.slug,
-		screenshot: this.screenshot,
 		image: this.image,
 		images: this.images,
-		district: this.district,
 		description: this.description,
-		subscribers: this.subscribers,
 		tags: this.tags,
-		social: this.social,
-		address: this.address,
-		viewed: this.viewed,
 		geo: this.geo,
 		timestamp: this.timestamp,
 		schema: 'team',
 		id: this._id.toString()
+		
+//		invited: this.invited,
+//		screenshot: this.screenshot,
+//		district: this.district,
+//		subscribers: this.subscribers,
+//		social: this.social,
+//		address: this.address,
+//		viewed: this.viewed,
 	}
 
 	return summary

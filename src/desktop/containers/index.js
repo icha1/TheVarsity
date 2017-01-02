@@ -8,6 +8,7 @@ import ProfileList from './ProfileList'
 import ProfileDetail from './ProfileDetail'
 import District from './District'
 import Account from './Account'
+import Redeem from './Redeem'
 
 export {
 	Nav,
@@ -19,5 +20,6 @@ export {
 	PostDetail,
 	ProfileDetail,
 	District,
-	Account
+	Account,
+	Redeem
 }

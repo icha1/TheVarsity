@@ -105,7 +105,7 @@ class Account extends Component {
 			if (this.props.teams[user.id])
 				return
 
-			this.props.fetchProfileTeams(user)
+			this.props.fetchTeams({'members.id': user.id})
 		}
 	}
 
@@ -201,7 +201,7 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		session: state.session,
 		posts: state.profile.posts,
-		teams: state.profile.teams
+		teams: state.team
 	}
 }
 
@@ -210,7 +210,7 @@ const mapDispatchToProps = (dispatch) => {
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
 		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
 		unsavePost: (post, profile) => dispatch(actions.unsavePost(post, profile)),
-		fetchProfileTeams: (profile) => dispatch(actions.fetchProfileTeams(profile)),
+		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		createTeam: (team) => dispatch(actions.createTeam(team))
 	}
 }

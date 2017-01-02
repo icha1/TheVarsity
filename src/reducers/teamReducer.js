@@ -3,23 +3,6 @@ import { team } from './initial'
 
 var initialState = Object.assign({}, team.initialState)
 
-const update = (state, teams) => {
-	var newState = Object.assign({}, state)
-	var array = (newState.list == null) ? [] : Object.assign([], newState.list)
-	var teamsMap = Object.assign({}, newState.map)
-
-	teams.forEach(team => {
-		if (teamsMap[team.slug] == null){
-			teamsMap[team.slug] = team
-			array.push(team)
-		}
-	})
-
-	newState['list'] = array
-	newState['map'] = teamsMap
-	return newState
-}
-
 export default (state = initialState, action) => {
 	let newState = Object.assign({}, state)
 	let array = (newState.list == null) ? [] : Object.assign([], newState.list)
@@ -28,7 +11,22 @@ export default (state = initialState, action) => {
 
 	switch (action.type) {
 		case constants.TEAMS_RECEIVED:
-			return update(state, action.teams)
+//			return update(state, action.teams)
+//			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.params))
+			const keys = Object.keys(action.params)
+
+			action.teams.forEach((team, i) => {
+				newState[team.slug] = team
+			})
+
+			keys.forEach((key, i) => {
+				if (key != 'limit'){ // ignore this key
+					let value = action.params[key]
+					newState[value] = action.teams
+				}
+			})
+
+			return newState
 
 		case constants.TEAM_CREATED:
 			teamsMap[action.team.slug] = action.team

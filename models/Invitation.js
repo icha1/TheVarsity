@@ -6,6 +6,7 @@ var InvitationSchema = new mongoose.Schema({
 	code: {type:String, trim:true, default:''},
 	from: {type:mongoose.Schema.Types.Mixed, default:{}}, // id, email
 	team: {type:mongoose.Schema.Types.Mixed, default:{}}, // have to be invited to a team
+	status: {type:String, trim:true, default:'open'},
 	timestamp: {type:Date, default:Date.now}
 })
 
@@ -16,6 +17,7 @@ InvitationSchema.methods.summary = function(){
 		email: this.email,
 		code: this.code,
 		team: this.team,
+		status: this.status,
 		timestamp: this.timestamp,
 		schema: 'invitation',
 		id: this._id.toString()

@@ -366,7 +366,6 @@ class TeamDetail extends Component {
 									<ul>{sideMenu}</ul>
 								</nav>
 								
-								{ (team.social.instagram == null) ? null : <a href={'/scrape?team='+team.id}>Scrape</a> }
 							</div>
 			            </div>
 
@@ -434,7 +433,7 @@ const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
 		session: state.session, // currentDistrict, currentLocation, teams, selectedFeed, reload
-		teams: state.team.map,
+		teams: state.team,
 		posts: state.team.posts
 	}
 }

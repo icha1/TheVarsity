@@ -48,7 +48,7 @@ export default {
 				} 
 
 				if (res.body.confirmation != 'success'){
-					reject({message:res.body.message})
+					reject(new Error(res.body.message))
 		    		return
 				}
 
@@ -71,7 +71,7 @@ export default {
 				
 				const json = res.body
 				if (json.confirmation != 'success'){
-					reject({message:json.message})
+					reject(new Error(json.message))
 		    		return
 				}
 
