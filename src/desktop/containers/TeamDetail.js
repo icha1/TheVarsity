@@ -388,7 +388,7 @@ class TeamDetail extends Component {
 			        	<input id="name" className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Name" />
 			        	<input id="email" className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Email" />
 						<div style={styles.nav.btnLoginContainer}>
-							<a href="#" className={styles.nav.btnLogin.className}><i className="icon-lock3"></i>Invite</a>
+							<a href="#" className={styles.nav.btnLogin.className}><i className="icon-lock3"></i>Send</a>
 						</div>
 			        </Modal.Body>
 		        </Modal>
