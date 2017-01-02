@@ -15,7 +15,6 @@ const postData = (path, data, actionType, payloadKey) => {
 			return response
 		})
 		.catch((err) => {
-//			console.log('POST ERROR: '+JSON.stringify(err))
 			throw err
 		})
 }
@@ -34,7 +33,6 @@ const getData = (path, params, actionType, payloadKey) => {
 			return data
 		})
 		.catch((err) => {
-//			alert(err.message)
 			throw err
 		})
 }
@@ -52,7 +50,6 @@ const putData = (path, data, actionType, payloadKey) => {
 			return result
 		})
 		.catch((err) => {
-//			alert(err.message)
 			throw err
 		})
 }
