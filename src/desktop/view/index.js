@@ -9,6 +9,7 @@ import CreatePost from './CreatePost'
 import CreateTeam from './CreateTeam'
 import ProfilePreview from './ProfilePreview'
 import EditProfile from './EditProfile'
+import Redeem from './Redeem'
 
 export {
 	Map,
@@ -21,5 +22,6 @@ export {
 	CreatePost,
 	CreateTeam,
 	ProfilePreview,
-	EditProfile
+	EditProfile,
+	Redeem
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Feed, MapNavigation, District, ProfileList, FeaturedTeams, Redeem } from '../containers'
+import { Feed, MapNavigation, District, ProfileList, FeaturedTeams, Section } from '../containers'
+import { Redeem } from '../view'
 import styles from './styles'
 
 class Home extends Component {
@@ -93,22 +94,8 @@ class Home extends Component {
 			        </div>
 			    </section>
 
-				<section style={{background:'#fff', borderTop:'1px solid #ddd', paddingTop:32}}>
-					<div className="content-wrap container clearfix">
-		                <h2 style={styles.title}>Redeem Invite Code</h2>
-						<div className="col_half" style={styles.paragraph}>
-							We are currently beta testing The Varsity in preparation for a January 2017 release. 
-							Join our beta and receive free, unlimited premium access when we launch.
-							<br /><br />
-							Premium members can collect fees on any group they create when hiring companies post 
-							opportunities to the bulletin board.
-						</div>
+			    <Section content="redeem" />
 
-						<div className="col_half col_last" style={{textAlign:'right'}}>
-							<Redeem />
-						</div>
-					</div>
-				</section>
 			</div>
 		)
 	}

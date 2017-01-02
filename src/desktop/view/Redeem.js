@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import actions from '../../actions/actions'
 
 class Redeem extends Component {
-
 	constructor(){
 		super()
 		this.state = {
-			showError: false,
 			invitation: {
 				email: '',
 				code: ''
@@ -27,17 +23,8 @@ class Redeem extends Component {
 	redeemInvitation(event){
 		event.preventDefault()
 
-		this.props.redeemInvitation(this.state.invitation)
-		.then((response) => {
-			console.log('REDEEM: '+JSON.stringify(response))
-
-		})
-		.catch((err) => {
-//			console.log('ERROR: ' + err.message)
-			this.setState({
-				showError: true
-			})
-		})
+		if (this.props.submitInvite != null)
+			this.props.submitInvite(this.state.invitation)
 	}
 
 	render(){
@@ -47,7 +34,7 @@ class Redeem extends Component {
 				<input id="code" onChange={this.updateInvitation.bind(this)} style={localStyle.input} type="text" placeholder="Invite Code" />
 	            <a href="#" onClick={this.redeemInvitation.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
 	            <br />
-	            { (this.state.showError) ? <span style={localStyle.error}>Error: Invitation Not Found. Check Email or Invite Code.</span> : null }
+	            { (this.props.error) ? <span style={localStyle.error}>Error: Invitation Not Found. Check Email or Invite Code.</span> : null }
 
 			</div>
 		)
@@ -75,17 +62,4 @@ const localStyle = {
 	}
 }
 
-const stateToProps = (state) => {
-	return {
-
-	}
-}
-
-const dispatchToProps = (dispatch) => {
-	return {
-		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
-	}
-
-}
-
-export default connect(stateToProps, dispatchToProps)(Redeem)
+export default Redeem

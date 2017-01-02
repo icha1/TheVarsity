@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { Modal } from 'react-bootstrap'
-import { CreateComment, Comment, ProfilePreview, PostFeed } from '../view'
+import { CreateComment, Comment, ProfilePreview, PostFeed, Redeem } from '../view'
 import { TextUtils, APIManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -187,6 +187,21 @@ class TeamDetail extends Component {
 			})
 		})
 	}
+
+	redeemInvitation(invitation){
+		this.props.redeemInvitation(invitation)
+		.then((response) => {
+			console.log('REDEEM: '+JSON.stringify(response))
+
+		})
+		.catch((err) => {
+			console.log('ERROR: ' + err)
+			this.setState({
+				error: err
+			})
+		})
+	}
+
 
 	scrapeWebsite(event){
 		event.preventDefault()
@@ -380,11 +395,8 @@ class TeamDetail extends Component {
 
 						<div className="col_one_third col_last">
 							<h3 style={styles.team.title}>Accept Invitation</h3>
-							<hr style={{marginBottom:0}} />
-
-							<input style={localStyle.input} type="text" placeholder="Email" />
-							<input style={localStyle.input} type="text" placeholder="Invite Code" />
-				            <a href="#" className="button button-circle" style={localStyle.btnBlue}>Submit</a>
+							<hr style={{marginBottom:12}} />
+							<Redeem error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />
 						</div>
 
 					</div>
@@ -443,7 +455,8 @@ const dispatchToProps = (dispatch) => {
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		fetchTeamPosts: (team) => dispatch(actions.fetchTeamPosts(team)),
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params)),
-		sendInvitation: (params) => dispatch(actions.sendInvitation(params))
+		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
+		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
 	}
 }
 

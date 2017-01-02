@@ -8,7 +8,7 @@ import ProfileList from './ProfileList'
 import ProfileDetail from './ProfileDetail'
 import District from './District'
 import Account from './Account'
-import Redeem from './Redeem'
+import Section from './Section'
 
 export {
 	Nav,
@@ -21,5 +21,5 @@ export {
 	ProfileDetail,
 	District,
 	Account,
-	Redeem
+	Section
 }
