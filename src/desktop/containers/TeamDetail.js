@@ -10,11 +10,15 @@ import styles from './styles'
 class TeamDetail extends Component {
 	constructor(){
 		super()
+		this.inviteMember = this.inviteMember.bind(this)
 		this.state = {
 			selected: 'Overview',
 			isEditing: false,
-			invited: '', // comma separated string
 			showInvite: false,
+			invitation: {
+				name: '',
+				email: ''
+			},
 			updatedTeam: {
 				useWebsite: false,
 				changed: false
@@ -82,45 +86,69 @@ class TeamDetail extends Component {
 		console.log('Subscribe')
 	}
 
-	invite(event){
-		event.preventDefault()
+	// invite(event){
+	// 	event.preventDefault()
 
-		let array = []
-		this.state.invited.split(',').forEach((email, i) => {
-			let isValid = TextUtils.validateEmail(email.trim())
-			if (isValid)
-				array.push(email.trim())
-		})
+	// 	let array = []
+	// 	this.state.invited.split(',').forEach((email, i) => {
+	// 		let isValid = TextUtils.validateEmail(email.trim())
+	// 		if (isValid)
+	// 			array.push(email.trim())
+	// 	})
 
-		if (array.length == 0){
-			alert('Please add at least one valid email.')
+	// 	if (array.length == 0){
+	// 		alert('Please add at least one valid email.')
+	// 		return
+	// 	}
+
+	// 	APIManager
+	// 	.handlePost('/account/invite', {invited: array})
+	// 	.then(response => {
+	// 		alert('Thanks for inviting members! They have been notified by email.')
+	// 	})
+	// 	.catch(err => {
+	// 		console.log('ERROR: '+JSON.stringify(err))
+	// 		alert(err)
+	// 	})
+	// }
+
+	inviteMember(event){
+		if (event)
+			event.preventDefault()
+		console.log('Invite Member: '+JSON.stringify(this.state.invitation))
+
+//		this.props.inviteMember()
+	}
+
+	keyPress(action, event){
+		if (event.charCode != 13)
 			return
-		}
 
-		APIManager
-		.handlePost('/account/invite', {invited: array})
-		.then(response => {
-//			console.log('INVITED: '+JSON.stringify(response))
-			alert('Thanks for inviting members! They have been notified by email.')
-		})
-		.catch(err => {
-			console.log('ERROR: '+JSON.stringify(err))
-			alert(err)
-		})
-	}
+		if (action == 'invite')
+			this.inviteMember()
+	}	
 
-	updateInvited(event){
-		event.preventDefault()
+	updateInvitation(event){
+		let updated = Object.assign({}, this.state.invitation)
+		updated[event.target.id] = event.target.value
 		this.setState({
-			invited: event.target.value
+			invitation: updated
 		})
 	}
+
+	// updateInvited(event){
+	// 	event.preventDefault()
+	// 	this.setState({
+	// 		invited: event.target.value
+	// 	})
+	// }
 
 	toggleInvite(){
 		this.setState({
 			showInvite: !this.state.showInvite
 		})
 	}
+
 
 	toggleEditing(){
 		if (this.state.isEditing){
@@ -385,10 +413,10 @@ class TeamDetail extends Component {
 				        	<h4>Invite Member</h4>
 			        	</div>
 
-			        	<input id="name" className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Name" />
-			        	<input id="email" className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Email" />
+			        	<input id="name" onChange={this.updateInvitation.bind(this)} className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Name" />
+			        	<input id="email" onChange={this.updateInvitation.bind(this)} onKeyPress={this.keyPress.bind(this, 'invite')} className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Email" />
 						<div style={styles.nav.btnLoginContainer}>
-							<a href="#" className={styles.nav.btnLogin.className}><i className="icon-lock3"></i>Send</a>
+							<a href="#" onClick={this.inviteMember.bind(this)} className={styles.nav.btnLogin.className}><i className="icon-lock3"></i>Send</a>
 						</div>
 			        </Modal.Body>
 		        </Modal>
@@ -429,7 +457,8 @@ const dispatchToProps = (dispatch) => {
 	return {
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		fetchTeamPosts: (team) => dispatch(actions.fetchTeamPosts(team)),
-		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params))
+		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params)),
+		sendInvitation: (params) => dispatch(actions.sendInvitation(params))
 	}
 }
 
