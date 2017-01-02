@@ -14,7 +14,7 @@ class FeaturedTeams extends Component {
 
 		return (
 			<div>
-				{ (teams == null) ? null : this.props.teams.map((team, i) => {
+				{ (teams == null) ? null : teams.map((team, i) => {
 						return (
 							<div key={i} style={{padding:16}}>
 								<Link to={'/team/'+team.slug}>
