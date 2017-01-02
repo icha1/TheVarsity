@@ -7,10 +7,12 @@ const postData = (path, data, actionType, payloadKey) => {
 		.handlePost(path, data)
 		.then((response) => {
 			const result = response.result
-			dispatch({
-				type: actionType,
-				[payloadKey]: result
-			})
+			if (actionType != null){
+				dispatch({
+					type: actionType,
+					[payloadKey]: result
+				})
+			}
 
 			return result
 		})
@@ -254,6 +256,12 @@ export default {
 	createTeam: (team) => {
 		return dispatch => {
 			return dispatch(postData('/api/team', team, constants.TEAM_CREATED, 'team'))
+		}
+	},
+
+	sendInvitation: (params) => {
+		return dispatch => {
+			return dispatch(postData('/api/invitation', params, null, 'invitation'))
 		}
 	},
 

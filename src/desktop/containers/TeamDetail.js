@@ -81,43 +81,36 @@ class TeamDetail extends Component {
 		})
 	}
 
-	subscribe(event){
-		event.preventDefault()
-		console.log('Subscribe')
-	}
-
-	// invite(event){
-	// 	event.preventDefault()
-
-	// 	let array = []
-	// 	this.state.invited.split(',').forEach((email, i) => {
-	// 		let isValid = TextUtils.validateEmail(email.trim())
-	// 		if (isValid)
-	// 			array.push(email.trim())
-	// 	})
-
-	// 	if (array.length == 0){
-	// 		alert('Please add at least one valid email.')
-	// 		return
-	// 	}
-
-	// 	APIManager
-	// 	.handlePost('/account/invite', {invited: array})
-	// 	.then(response => {
-	// 		alert('Thanks for inviting members! They have been notified by email.')
-	// 	})
-	// 	.catch(err => {
-	// 		console.log('ERROR: '+JSON.stringify(err))
-	// 		alert(err)
-	// 	})
-	// }
-
 	inviteMember(event){
 		if (event)
 			event.preventDefault()
-		console.log('Invite Member: '+JSON.stringify(this.state.invitation))
 
-//		this.props.inviteMember()
+		let updated = Object.assign({}, this.state.invitation)
+		updated['from'] = {
+			id: this.props.user.id,
+			email: this.props.user.email,
+			image: this.props.user.image
+		}
+
+		const team = this.props.teams[this.props.slug]
+		updated['team'] = {
+			id: team.id,
+			name: team.name,
+			image: team.image
+		}
+
+		this.props.sendInvitation(updated)
+		.then((response) => {
+			this.setState({
+				showInvite: false
+			})
+			
+//			console.log('Invitation Sent: '+JSON.stringify(response))
+			alert('Invitation Sent!')
+		})
+		.catch((err) => {
+			console.log('ERROR: '+JSON.stringify(err))
+		})
 	}
 
 	keyPress(action, event){
@@ -135,13 +128,6 @@ class TeamDetail extends Component {
 			invitation: updated
 		})
 	}
-
-	// updateInvited(event){
-	// 	event.preventDefault()
-	// 	this.setState({
-	// 		invited: event.target.value
-	// 	})
-	// }
 
 	toggleInvite(){
 		this.setState({
