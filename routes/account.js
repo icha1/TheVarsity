@@ -166,7 +166,7 @@ router.post('/:action', function(req, res, next){
 			return ProfileController.post(profileParams) // create new profile
 		})
 		.then(function(profile){
-			console.log('TEST 4')
+//			console.log('TEST 4')
 			var members = hostTeam.members
 			members.push({
 				id: profile.id,

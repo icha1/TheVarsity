@@ -29,9 +29,10 @@ class Section extends Component {
 	redeemInvitation(invitation){
 		this.props.redeemInvitation(invitation)
 		.then((response) => {
-			console.log('REDEEM: '+JSON.stringify(response))
-			const team = response.team
-			browserHistory.push('/team/'+team.slug)
+			console.log('REDEEM: '+JSON.stringify(response)) // returns 'team' and 'user'
+			// const team = response.team
+			// browserHistory.push('/team/'+team.slug)
+			window.location.href = '/account'
 		})
 		.catch((err) => {
 			console.log('ERROR -- ' + err)
