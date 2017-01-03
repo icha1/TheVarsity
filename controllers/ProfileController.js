@@ -46,19 +46,34 @@ module.exports = {
 
 	post: function(params){
 		return new Promise(function(resolve, reject){
-			if (params.password != null)
-				params['password'] = bcrypt.hashSync(params.password, 10)
-
-			if (params.username != null)
-				params['slug'] = TextUtils.slugVersion(params.username)
-
-			Profile.create(params, function(err, profile){
+			Profile.find({email: params.email}, function(err, profiles){
 				if (err){
 					reject(err)
 					return
 				}
 
-				resolve(profile.summary())
+				if (profiles.length > 0){ // profile already exisits
+					var profile = profiles[0]
+					resolve(profile.summary())
+					return
+				}
+
+				else { // this is what should happen:
+					if (params.password != null)
+						params['password'] = bcrypt.hashSync(params.password, 10)
+
+					if (params.username != null)
+						params['slug'] = TextUtils.slugVersion(params.username) + TextUtils.randomString(6)
+
+					Profile.create(params, function(error, profile){
+						if (error){
+							reject(error)
+							return
+						}
+
+						resolve(profile.summary())
+					})
+				}
 			})
 		})
 	},

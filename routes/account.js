@@ -137,7 +137,6 @@ router.post('/:action', function(req, res, next){
 	}
 
 	if (action == 'redeem'){ // redeem invitation
-
 		var invitation = null
 		var hostTeam = null
 
@@ -145,13 +144,13 @@ router.post('/:action', function(req, res, next){
 		.get(req.body, true)
 		.then(function(invitations){ // should return only one
 			if (invitations.length == 0)
-				throw new Error('Invitation Not Found. Check the invitation code.')
+				throw new Error('Invitation Not Found. Check the email or invitation code.')
 			
 			invitation = invitations[0]
 			return invitation
 		})
 		.then(function(invitation){
-			return controllers.team.getById(invitation.team.id)
+			return controllers.team.getById(invitation.team.id, true)
 		})
 		.then(function(team){
 			hostTeam = team
@@ -159,12 +158,15 @@ router.post('/:action', function(req, res, next){
 			// create new profile, update team with new member:
 			var profileParams = {
 				password: invitation.code,
+				email: invitation.email,
 				username: invitation.name
 			}
 
-			return controllers.profile.post(profileParams) // create new profile
+//			console.log('TEST 1: '+JSON.stringify(profileParams))
+			return ProfileController.post(profileParams) // create new profile
 		})
 		.then(function(profile){
+			console.log('TEST 4')
 			var members = hostTeam.members
 			members.push({
 				id: profile.id,
@@ -173,12 +175,14 @@ router.post('/:action', function(req, res, next){
 			})
 
 			hostTeam['members'] = members
+			hostTeam.markModified('members')
+
 			var token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
 			req.session.token = token
 
 			res.json({
 				confirmation: 'success',
-				result: hostTeam,
+				team: hostTeam,
 				user: profile,
 				token: token
 			})
@@ -186,9 +190,11 @@ router.post('/:action', function(req, res, next){
 			hostTeam.save()
 		})
 		.catch(function(err){
+			console.log('Account Router - Error: '+JSON.stringify(err))
+			var msg = err.errmsg || err.message || err
 			res.json({
 				confirmation: 'fail',
-				message: err
+				message: msg
 			})
 		})
 	}

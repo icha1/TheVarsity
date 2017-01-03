@@ -40,23 +40,23 @@ class TeamDetail extends Component {
 		}
 
 		// Track view count:
-		const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
-		let updatedViewed = Object.assign({}, team.viewed)
-		updatedViewed[userId] = (updatedViewed[userId] == null) ? 1 : updatedViewed[userId]+1
-		let total = 0
-		Object.keys(updatedViewed).forEach((key, i) => {
-			if (key != 'total')
-				total += updatedViewed[key]
-		})
+		// const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
+		// let updatedViewed = Object.assign({}, team.viewed)
+		// updatedViewed[userId] = (updatedViewed[userId] == null) ? 1 : updatedViewed[userId]+1
+		// let total = 0
+		// Object.keys(updatedViewed).forEach((key, i) => {
+		// 	if (key != 'total')
+		// 		total += updatedViewed[key]
+		// })
 
-		updatedViewed['total'] = total
-		this.props.updateTeam(team, {viewed: updatedViewed})
+		// updatedViewed['total'] = total
+		// this.props.updateTeam(team, {viewed: updatedViewed})
 
-		let updated = Object.assign({}, this.state.updatedTeam)
-		updated['image'] = team.image
-		this.setState({
-			updatedTeam: updated
-		})
+		// let updated = Object.assign({}, this.state.updatedTeam)
+		// updated['image'] = team.image
+		// this.setState({
+		// 	updatedTeam: updated
+		// })
 	}
 
 	componentDidUpdate(){
@@ -98,6 +98,8 @@ class TeamDetail extends Component {
 			name: team.name,
 			image: team.image
 		}
+
+		updated['code'] = TextUtils.randomString(8)
 
 		this.props.sendInvitation(updated)
 		.then((response) => {

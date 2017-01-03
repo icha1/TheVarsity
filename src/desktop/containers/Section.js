@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { Redeem } from '../view'
+import { browserHistory } from 'react-router'
 
 class Section extends Component {
 
@@ -29,10 +30,11 @@ class Section extends Component {
 		this.props.redeemInvitation(invitation)
 		.then((response) => {
 			console.log('REDEEM: '+JSON.stringify(response))
-
+			const team = response.team
+			browserHistory.push('/team/'+team.slug)
 		})
 		.catch((err) => {
-			console.log('ERROR: ' + err)
+			console.log('ERROR -- ' + err)
 			this.setState({
 				error: err
 			})

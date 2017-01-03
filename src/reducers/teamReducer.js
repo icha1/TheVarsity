@@ -19,12 +19,17 @@ export default (state = initialState, action) => {
 				newState[team.slug] = team
 			})
 
-			keys.forEach((key, i) => {
-				if (key != 'limit'){ // ignore this key
-					let value = action.params[key]
-					newState[value] = action.teams
-				}
-			})
+			for (let i=0; i<keys.length; i++){
+				let key = keys[i]
+				if (key == 'limit')
+					continue
+
+				if (key == 'slug') // this was already covered in first loop
+					continue
+
+				let value = action.params[key]
+				newState[value] = action.teams
+			}
 
 			return newState
 

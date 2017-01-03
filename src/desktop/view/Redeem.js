@@ -34,7 +34,7 @@ class Redeem extends Component {
 				<input id="code" onChange={this.updateInvitation.bind(this)} style={localStyle.input} type="text" placeholder="Invite Code" />
 	            <a href="#" onClick={this.redeemInvitation.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
 	            <br />
-	            { (this.props.error) ? <span style={localStyle.error}>Error: Invitation Not Found. Check Email or Invite Code.</span> : null }
+	            { (this.props.error) ? <span style={localStyle.error}>{ ''+this.props.error }</span> : null }
 
 			</div>
 		)
