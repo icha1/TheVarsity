@@ -94,11 +94,13 @@ class Post extends Component {
 
 const localStyle = {
 	detail: {
+		float:'right',
 		fontWeight:100,
 		fontSize:12,
 		lineHeight:12+'px'
 	},
 	separator: {
+		float:'right',
 		fontWeight:100,
 		fontSize:12,
 		lineHeight:12+'px',
