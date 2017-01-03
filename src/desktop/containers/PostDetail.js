@@ -338,7 +338,7 @@ class PostDetail extends Component {
 								<h2 style={ style.title }>
 									<Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link>
 								</h2>
-								<hr />
+								<hr className="hidden-xs" />
 								<nav id="primary-menu">
 									<ul>{ sideMenu }</ul>
 								</nav>

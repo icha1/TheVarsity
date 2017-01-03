@@ -66,7 +66,7 @@ class Post extends Component {
 				</div>
 				<div className={style.content.className} style={style.content}>
 					<div className={colClass} style={{marginBottom:4}}>
-						<h2 style={style.header}>{ title }</h2>
+						<h3 style={style.header}>{ title }</h3>
 						<p style={{marginTop:0}}>{ TextUtils.truncateText(post.text, 120) }</p>
 					</div>
 
@@ -95,12 +95,14 @@ class Post extends Component {
 const localStyle = {
 	detail: {
 		float:'right',
+		color: '#1265A8',
 		fontWeight:100,
 		fontSize:12,
 		lineHeight:12+'px'
 	},
 	separator: {
 		float:'right',
+		color: '#1265A8',
 		fontWeight:100,
 		fontSize:12,
 		lineHeight:12+'px',

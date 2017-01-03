@@ -376,7 +376,7 @@ class TeamDetail extends Component {
 							<div style={{paddingTop:96}}>
 								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140-c'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
-								<hr />
+								<hr className="hidden-xs" />
 								<nav id="primary-menu">
 									<ul>{sideMenu}</ul>
 								</nav>
@@ -390,7 +390,7 @@ class TeamDetail extends Component {
 						<div className="col_two_third">
 
 							{ content }
-							
+
 						</div>
 
 						<div className="col_one_third col_last">
