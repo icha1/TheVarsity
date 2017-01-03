@@ -144,7 +144,6 @@ class Nav extends Component {
 							<ul style={style.ul}>
 								<li><a href="/"><div>About</div></a></li>
 								<li><a href="/"><div>Contact</div></a></li>
-								{ joinLink }
 								{ loginLink }
 								{ accountLink }
 							</ul>
