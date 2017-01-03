@@ -22,6 +22,15 @@ class Redeem extends Component {
 
 	redeemInvitation(event){
 		event.preventDefault()
+		if (this.state.invitation.email.length == 0){
+			alert('Please enter your email.')
+			return
+		}
+
+		if (this.state.invitation.code.length == 0){
+			alert('Please enter the invite code.')
+			return
+		}
 
 		if (this.props.submitInvite != null)
 			this.props.submitInvite(this.state.invitation)
@@ -35,13 +44,18 @@ class Redeem extends Component {
 	            <a href="#" onClick={this.redeemInvitation.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
 	            <br />
 	            { (this.props.error) ? <span style={localStyle.error}>{ ''+this.props.error }</span> : null }
-
 			</div>
 		)
 	}
 }
 
 const localStyle = {
+	btnBlue: {
+		backgroundColor:'rgb(91, 192, 222)'
+	},
+	error: {
+		color: 'red'
+	},
 	input: {
 		color:'#333',
 		background: '#f9f9f9',
@@ -53,12 +67,6 @@ const localStyle = {
 		fontFamily:'Pathway Gothic One',
 		border: 'none',
 		width: 100+'%'
-	},
-	btnBlue: {
-		backgroundColor:'rgb(91, 192, 222)'
-	},
-	error: {
-		color: 'red'
 	}
 }
 

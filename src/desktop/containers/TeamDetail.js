@@ -20,7 +20,6 @@ class TeamDetail extends Component {
 				email: ''
 			},
 			updatedTeam: {
-				useWebsite: false,
 				changed: false
 			},
 			menuItems: [
@@ -39,6 +38,12 @@ class TeamDetail extends Component {
 			return
 		}
 
+		let updated = Object.assign({}, this.state.updatedTeam)
+		updated['image'] = team.image
+		this.setState({
+			updatedTeam: updated
+		})
+
 		// Track view count:
 		// const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
 		// let updatedViewed = Object.assign({}, team.viewed)
@@ -51,18 +56,20 @@ class TeamDetail extends Component {
 
 		// updatedViewed['total'] = total
 		// this.props.updateTeam(team, {viewed: updatedViewed})
-
-		// let updated = Object.assign({}, this.state.updatedTeam)
-		// updated['image'] = team.image
-		// this.setState({
-		// 	updatedTeam: updated
-		// })
 	}
 
 	componentDidUpdate(){
 		const team = this.props.teams[this.props.slug]
 		if (team == null)
 			return
+
+		if (this.state.updatedTeam.image == null){
+			let updated = Object.assign({}, this.state.updatedTeam)
+			updated['image'] = team.image
+			this.setState({
+				updatedTeam: updated
+			})
+		}
 
 		const selected = this.state.selected
 		if (selected == 'Feed'){
@@ -194,7 +201,7 @@ class TeamDetail extends Component {
 		this.props.redeemInvitation(invitation)
 		.then((response) => {
 			console.log('REDEEM: '+JSON.stringify(response))
-
+			window.location.href = '/account' // this is just easier for now
 		})
 		.catch((err) => {
 			console.log('ERROR: ' + err)
@@ -203,7 +210,6 @@ class TeamDetail extends Component {
 			})
 		})
 	}
-
 
 	scrapeWebsite(event){
 		event.preventDefault()
@@ -281,62 +287,40 @@ class TeamDetail extends Component {
 		const selected = this.state.selected
 
 		if (this.state.isEditing == true){
-			let details = null
-			if (this.state.updatedTeam.useWebsite){
-				details = <img src={this.state.updatedTeam.screenshot} />
-			}
-			else {
-				details = (
-					<div style={{textAlign:'center', marginTop:24}}>
-						<Dropzone onDrop={this.uploadImage.bind(this)} style={{marginBottom:4}}>
-							<img src={this.state.updatedTeam.image+'=s260'} />
-							<br />
-							Click to change
-						</Dropzone>
-						<textarea id="description" onChange={this.updateTeam.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
-					</div>
-				)
-			}
-
 			content = (
 				<div className="feature-box center media-box fbox-bg" style={{background:'#f9f9f9', borderRadius:'5px 5px 8px 8px'}}>
 					<div className="fbox-desc">
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
 							<button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Done</button>
-							{ (team.social.website == null) ? null : <button onClick={this.scrapeWebsite.bind(this)} style={{float:'right', marginRight:12}}>Use Website</button> }
 							<button onClick={this.cancelEditing.bind(this)} style={{float:'right', marginRight:12}}>Cancel</button>
 							<h2 style={styles.team.title}>Overview</h2>
 							<hr />
 
-							{ details }
+							<div style={{textAlign:'center', marginTop:24}}>
+								<Dropzone onDrop={this.uploadImage.bind(this)} style={{marginBottom:4}}>
+									<img src={this.state.updatedTeam.image+'=s260'} />
+									<br />
+									Click to change
+								</Dropzone>
+								<textarea id="description" onChange={this.updateTeam.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
+							</div>
 						</div>
-
 					</div>
 				</div>
 			)			
 		}
 
 		else if (selected == 'Overview'){
-			let details = null
-			if (this.state.updatedTeam.useWebsite){
-				details = <img src={team.screenshot} />
-			}
-			else {
-				details = (
-					<div style={{textAlign:'left', marginTop:24}}>
-						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
-					</div>
-				)
-			}
-
 			content = (
 				<div className="feature-box center media-box fbox-bg">
 					<div style={{textAlign:'left', padding:24}}>
 						{ btnEdit }
 						<h2 style={styles.team.title}>Overview</h2>
 						<hr />
+						<div style={{textAlign:'left', marginTop:24}}>
+							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+						</div>
 
-						{details}
 					</div>
 				</div>
 			)
@@ -360,7 +344,6 @@ class TeamDetail extends Component {
 								)
 							})
 						}
-
 					</div>
 				</div>
 			)
@@ -382,10 +365,8 @@ class TeamDetail extends Component {
 								<nav id="primary-menu">
 									<ul>{sideMenu}</ul>
 								</nav>
-								
 							</div>
 			            </div>
-
 		            </div>
 				</header>
 
@@ -422,24 +403,6 @@ class TeamDetail extends Component {
 
 			</div>
 		)
-	}
-}
-
-const localStyle = {
-	input: {
-		color:'#333',
-		background: '#f9f9f9',
-		marginBottom: 12,
-		padding: 6,
-		fontWeight: 100,
-	    lineHeight: 1.5,
-	    fontSize: 20,
-		fontFamily:'Pathway Gothic One',
-		border: 'none',
-		width: 100+'%'
-	},
-	btnBlue: {
-		backgroundColor:'rgb(91, 192, 222)'
 	}
 }
 
