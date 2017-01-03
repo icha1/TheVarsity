@@ -75,12 +75,14 @@ class Account extends Component {
 			return
 		}
 
-		team['members'] = [{id: this.props.user.id, username: this.props.user.username, image: this.props.user.image}]
+		const membersList = [{id: this.props.user.id, username: this.props.user.username, image: this.props.user.image}]
+		team['members'] = membersList
+		team['admins'] = membersList
 		this.props.createTeam(team)
-		.then((result) => {
-			console.log('TEAM CREATED: '+JSON.stringify(result))
-			// window.scrollTo(0, 0)
-			// this.setState({showCreate: false})
+		.then((response) => {
+//			console.log('TEAM CREATED: '+JSON.stringify(response))
+			const result = response.result
+			window.location.href = '/team/'+result.slug
 			return
 		})
 		.catch(err => {
@@ -155,6 +157,8 @@ class Account extends Component {
 			content = (
 				<div>
 					{ (this.props.teams[user.id]) ? <TeamFeed teams={this.props.teams[user.id]} user={user} /> : null }
+		            <h2 style={styles.title}>Create Team</h2>
+					<hr />
 					<CreateTeam
 						user={this.props.user} 
 						submit={this.createTeam.bind(this)} />

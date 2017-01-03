@@ -7,7 +7,7 @@ import styles from './styles'
 class TeamFeed extends Component {
 
 	render(){
-		const listClass = 'commentlist noborder nomargin nopadding clearfix'
+		const listClass = 'commentlist noborder notopmargin nopadding clearfix'
 		const listItemClass = 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1'
 
 		const list = (this.props.teams) ? this.props.teams : []

@@ -13,6 +13,7 @@ var TeamSchema = new mongoose.Schema({
 	district: {type:String, trim:true, default:''},
 	description: {type:String, trim:true, default:''},
 	subscribers: {type:Array, default:[]},
+	admins: {type:Array, default:[]},
 	tags: {type:Array, default:[]},
 	social: {type:mongoose.Schema.Types.Mixed, default:{}},
 	address: {type:mongoose.Schema.Types.Mixed, default:{}}, // street, city, state, zip
@@ -34,6 +35,7 @@ TeamSchema.methods.summary = function(){
 		image: this.image,
 		images: this.images,
 		description: this.description,
+		admins: this.admins,
 		tags: this.tags,
 		geo: this.geo,
 		timestamp: this.timestamp,

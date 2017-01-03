@@ -10,6 +10,7 @@ import styles from './styles'
 class TeamDetail extends Component {
 	constructor(){
 		super()
+		this.memberFound = this.memberFound.bind(this)
 		this.inviteMember = this.inviteMember.bind(this)
 		this.state = {
 			selected: 'Overview',
@@ -245,8 +246,17 @@ class TeamDetail extends Component {
 		})
 		.catch(err => {
 			console.log('PHANTOM JS ERROR: '+JSON.stringify(err))
-
 		})
+	}
+
+	memberFound(profile, list){
+		let isFound = false
+		list.forEach((member, i) => {
+			if (member.id == profile.id)
+				isFound = true
+		})
+
+		return isFound
 	}
 
 	render(){
@@ -260,16 +270,11 @@ class TeamDetail extends Component {
 		let invite = null
 		let btnEdit = null
 		if (this.props.user != null){
-			let isMember = false
-			team.members.forEach((member, i) => {
-				if (member.id == this.props.user.id)
-					isMember = true
-			})
-
-			if (isMember == true){
-				btnEdit = <button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Edit</button>
-				invite = <button onClick={this.toggleInvite.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Invite Member</button>
-			}
+			if (this.memberFound(this.props.user, team.members))
+				invite = <button onClick={this.toggleInvite.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Invite Member</button>
+			
+			if (this.memberFound(this.props.user, team.admins))
+				btnEdit = <button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Edit</button>
 		}
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
@@ -291,8 +296,8 @@ class TeamDetail extends Component {
 				<div className="feature-box center media-box fbox-bg" style={{background:'#f9f9f9', borderRadius:'5px 5px 8px 8px'}}>
 					<div className="fbox-desc">
 						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
-							<button onClick={this.toggleEditing.bind(this)} style={{float:'right'}}>Done</button>
-							<button onClick={this.cancelEditing.bind(this)} style={{float:'right', marginRight:12}}>Cancel</button>
+							<button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Done</button>
+							<button onClick={this.cancelEditing.bind(this)} style={{float:'right', marginRight:12}} className={localStyle.btnBlue.className}>Cancel</button>
 							<h2 style={styles.team.title}>Overview</h2>
 							<hr />
 
@@ -320,7 +325,6 @@ class TeamDetail extends Component {
 						<div style={{textAlign:'left', marginTop:24}}>
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 						</div>
-
 					</div>
 				</div>
 			)
@@ -403,6 +407,13 @@ class TeamDetail extends Component {
 
 			</div>
 		)
+	}
+}
+
+const localStyle = {
+	btnBlue: {
+		float: 'right',
+		className: 'button button-small button-circle button-blue'
 	}
 }
 
