@@ -23,6 +23,13 @@ class TeamDetail extends Component {
 			updatedTeam: {
 				changed: false
 			},
+			post: {
+				title: '',
+				text: '', 
+				type: 'news', // event, news, job, etc.
+				image: '',
+				author: {}
+			},
 			menuItems: [
 				'Overview',
 				'Feed',
@@ -212,40 +219,75 @@ class TeamDetail extends Component {
 		})
 	}
 
-	scrapeWebsite(event){
+// 	scrapeWebsite(event){
+// 		event.preventDefault()
+// 		const team = this.props.teams[this.props.slug]
+// 		if (team.social.website.length == 0)
+// 			return
+
+// 		let updated = Object.assign({}, this.state.updatedTeam)
+// 		updated['useWebsite'] = true
+
+// 		// already there
+// 		if (team.screenshot.length > 0){
+// 			updated['screenshot'] = team.screenshot
+// 			this.setState({
+// 				updatedTeam: updated
+// 			})
+
+// 			return
+// 		}
+
+// 		console.log('scrapeWebsite: '+team.social.website)
+
+// 		APIManager
+// 		.handleGet('/phantom', {url: team.social.website})
+// 		.then(response => {
+// //			console.log('PHANTOM JS: '+JSON.stringify(response))
+// 			updated['screenshot'] = response.image['secure_url']
+// 			this.setState({
+// 				updatedTeam: updated
+// 			})
+
+// 			this.props.updateTeam(team, {screenshot: updated.screenshot})
+// 		})
+// 		.catch(err => {
+// 			console.log('PHANTOM JS ERROR: '+JSON.stringify(err))
+// 		})
+// 	}
+
+	updatePost(event){
 		event.preventDefault()
-		const team = this.props.teams[this.props.slug]
-		if (team.social.website.length == 0)
-			return
+		let updated = Object.assign({}, this.state.post)
+		updated[event.target.id] = event.target.value
+		this.setState({
+			post: updated
+		})
+	}
 
-		let updated = Object.assign({}, this.state.updatedTeam)
-		updated['useWebsite'] = true
+	submitPost(event){
+		event.preventDefault()
+		let updated = Object.assign({}, this.state.post)
 
-		// already there
-		if (team.screenshot.length > 0){
-			updated['screenshot'] = team.screenshot
-			this.setState({
-				updatedTeam: updated
-			})
-
-			return
+		const user = this.props.user
+		updated['saved'] = [user.id]
+		updated['author'] = {
+			id: user.id,
+			name: user.username,
+			slug: user.username,
+			image: (user.image.length == 0) ? null : user.image,
+			type: 'profile'
 		}
 
-		console.log('scrapeWebsite: '+team.social.website)
+		const team = this.props.teams[this.props.slug]
+		updated['teams'] = [team.id]
 
-		APIManager
-		.handleGet('/phantom', {url: team.social.website})
+		this.props.createPost(updated)
 		.then(response => {
-//			console.log('PHANTOM JS: '+JSON.stringify(response))
-			updated['screenshot'] = response.image['secure_url']
-			this.setState({
-				updatedTeam: updated
-			})
-
-			this.props.updateTeam(team, {screenshot: updated.screenshot})
+			console.log('Post CREATED: '+JSON.stringify(response))
 		})
 		.catch(err => {
-			console.log('PHANTOM JS ERROR: '+JSON.stringify(err))
+			alert(err)
 		})
 	}
 
@@ -368,6 +410,21 @@ class TeamDetail extends Component {
 			
 		}
 
+		const submitPost = (
+			<div>
+				<h3 style={styles.team.title}>Submit Post</h3>
+				<hr style={{marginBottom:12}} />
+				{ (this.props.user == null) ? <div>Please log in to submit a post.</div> :
+					<div>
+						<input id="title" onChange={this.updatePost.bind(this)} style={localStyle.input} type="text" placeholder="Title" />
+						<textarea id="text" onChange={this.updatePost.bind(this)} style={localStyle.textarea} placeholder="Text"></textarea>
+			            <a href="#" onClick={this.submitPost.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
+			            <br />
+					</div>
+				}
+			</div>
+		)
+
 		return (
 			<div className="clearfix">
 				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
@@ -388,15 +445,17 @@ class TeamDetail extends Component {
 				<section id="content" style={{background:'#fff', minHeight:800}}>
 					<div className="content-wrap container clearfix">
 						<div className="col_two_third">
-
 							{ content }
-
 						</div>
 
 						<div className="col_one_third col_last">
-							<h3 style={styles.team.title}>Accept Invitation</h3>
-							<hr style={{marginBottom:12}} />
-							<Redeem error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />
+							{ (selected == 'Feed') ? <div>{ submitPost }</div> :
+								<div>
+									<h3 style={styles.team.title}>Accept Invitation</h3>
+									<hr style={{marginBottom:12}} />
+									<Redeem error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />								
+								</div>
+							}
 						</div>
 
 					</div>
@@ -427,6 +486,31 @@ const localStyle = {
 	btnBlue: {
 		float: 'right',
 		className: 'button button-small button-circle button-blue'
+	},
+	input: {
+		color:'#333',
+		background: '#f9f9f9',
+		marginBottom: 12,
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 20,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%'
+	},
+	textarea: {
+		color:'#333',
+		background: '#f9f9f9',
+		marginBottom: 12,
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 16,
+		border: 'none',
+		width: 100+'%',
+		fontFamily:'Pathway Gothic One',
+		minHeight: 220
 	}
 }
 
@@ -445,7 +529,8 @@ const dispatchToProps = (dispatch) => {
 		fetchTeamPosts: (team) => dispatch(actions.fetchTeamPosts(team)),
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params)),
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
-		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
+		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation)),
+		createPost: (params) => dispatch(actions.createPost(params))
 	}
 }
 

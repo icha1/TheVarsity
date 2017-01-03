@@ -64,6 +64,12 @@ export default {
 
 	// - - - - - - - - - POSTS - - - - - - - - - 
 
+	createPost: (params) => {
+		return dispatch => {
+			return dispatch(postData('/api/post', params, constants.POST_CREATED, 'post'))
+		}
+	},
+
 	fetchPosts: (params) => {
 		return dispatch => {
 			return dispatch(getData('/api/post', params, constants.POSTS_RECEIVED, 'posts'))
@@ -92,7 +98,8 @@ export default {
 	fetchTeamPosts: (team) => {
 		return (dispatch) => {
 			APIManager
-			.handleGet('/api/post', {'author.id':team.id})
+//			.handleGet('/api/post', {'author.id':team.id})
+			.handleGet('/api/post', {'teams':team.id})
 			.then((response) => {
 //				console.log('FETCH TEAM POSTS: '+team.id+' == '+JSON.stringify(response))
 				let results = response.results
