@@ -332,7 +332,18 @@ class TeamDetail extends Component {
 
 		else if (selected == 'Feed'){
 			const list = this.props.posts[team.id]
-			content = (list) ? <PostFeed posts={list} user={this.props.user} /> : null
+			content = (
+				<div className="feature-box center media-box fbox-bg">
+					<div style={{textAlign:'left', padding:24}}>
+						<h2 style={styles.team.title}>Feed</h2>
+						<hr />
+						<div style={{textAlign:'left', marginTop:24}}>
+							{ (list) ? <PostFeed posts={list} user={this.props.user} /> : null }
+						</div>
+					</div>
+				</div>
+			)
+
 		}
 
 		else if (selected == 'Members'){

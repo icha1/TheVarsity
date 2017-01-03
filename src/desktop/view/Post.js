@@ -75,17 +75,12 @@ class Post extends Component {
 							<img style={style.postImage} src={post.image} />
 						</div>
 					}
-
 				</div>
-				<hr />
-
-				<h4 style={style.header}>
-					<Link to={'/'+post.author.type+'/'+path} style={style.title}>{ post.author.name }</Link>
-				</h4>
+				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px'}}><Link to={'/'+post.author.type+'/'+path} style={style.title}>{ post.author.name }</Link></span>
+				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px', marginLeft:6, marginRight:6}}>|</span>
 				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px'}}>{ DateUtils.formattedDate(post.timestamp) }</span>
 				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px', marginLeft:6, marginRight:6}}>|</span>
 				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px'}}>{ TextUtils.capitalize(post.type) }</span>
-
 				<div style={{float:'right'}} className="dropdown">
 					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						<img style={{width:32, float:'right'}} src="/images/dots.png" />
