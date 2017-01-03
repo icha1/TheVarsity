@@ -35,17 +35,18 @@ PostSchema.methods.summary = function(){
 		video: this.video,
 		text: this.text,
 		type: this.type,
-		district: this.district,
 		saved: this.saved,
 		teams: this.teams,
 		numComments: this.numComments,
-		viewed: this.viewed,
 		author: this.author,
-		eventDetails: this.eventDetails,
-		geo: this.geo,
 		timestamp: this.timestamp,
 		schema: 'post',
 		id: this._id.toString()
+
+//		district: this.district,
+//		viewed: this.viewed,
+//		eventDetails: this.eventDetails,
+//		geo: this.geo,
 	}
 
 	return summary
