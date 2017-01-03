@@ -388,7 +388,9 @@ class TeamDetail extends Component {
 				<section id="content" style={{background:'#fff', minHeight:800}}>
 					<div className="content-wrap container clearfix">
 						<div className="col_two_third">
+
 							{ content }
+							
 						</div>
 
 						<div className="col_one_third col_last">
