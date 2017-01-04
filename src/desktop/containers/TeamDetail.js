@@ -426,7 +426,8 @@ class TeamDetail extends Component {
 				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 		            <div id="header-wrap">
 						<div className="container clearfix">
-							<div style={{paddingTop:96}}>
+							<div className="hidden-xs" style={{paddingTop:96}}></div>
+							<div>
 								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140-c'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
 								<hr className="hidden-xs" />

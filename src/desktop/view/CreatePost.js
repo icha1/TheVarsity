@@ -151,4 +151,5 @@ const localStyle = {
 		minHeight: 220
 	}
 }
+
 export default CreatePost

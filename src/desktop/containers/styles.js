@@ -246,7 +246,7 @@ export default {
 	},
 	account: {
 		content: {
-			background:'#f9f9f9',
+			background:'#fff',
 			minHeight:800
 		},
 		container: {
@@ -254,12 +254,12 @@ export default {
 		},
 		selected: {
 			padding: 8,
-			background:'#f9f9f9',
+			background:'#fff',
 			borderRadius: 2
 		},
 		menuItem: {
 			padding:8,
-			background:'#fff'
+			background:'#f9f9f9'
 		}
 	}	
 }

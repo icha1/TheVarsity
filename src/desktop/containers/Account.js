@@ -14,7 +14,7 @@ class Account extends Component {
 			selected: 'Teams',
 			menuItems: [
 				'Teams',
-				'Profile',
+//				'Profile',
 				'Messages'
 			]
 		}
@@ -129,13 +129,13 @@ class Account extends Component {
 
 		const sideMenu = (
 			<div className="container clearfix">
-				<nav id="primary-menu" style={{paddingTop:96}}>
+				<div className="hidden-xs" style={{paddingTop:96}}></div>
+				<nav id="primary-menu">
 					<ul>
 						{ this.state.menuItems.map((item, i) => {
-								const itemStyle = (item == this.state.selected) ? style.selected : style.menuItem
 								return (
 									<li key={i}>
-										<div style={itemStyle}>
+										<div style={(item == this.state.selected) ? style.selected : style.menuItem}>
 											<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
 										</div>
 									</li>
@@ -148,23 +148,7 @@ class Account extends Component {
 		)
 
 		let content = null
-		if (this.state.showEdit){
-			content = <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} />
-		}
-
-		else if (selected == 'Profile') {
-			content = (
-				<div className={styles.container.className} style={styles.container}>
-					{ (user) ? <button onClick={this.editProfile.bind(this)} style={{float:'right'}}>Edit</button> : null }
-					<h2 style={styles.title}>Overview</h2>
-					<hr />
-					<h4 style={styles.header}>{ user.title }</h4>
-					<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
-				</div>
-			)
-		}
-
-		else if (selected == 'Teams'){
+		if (selected == 'Teams'){
 			content = (
 				<div>
 					{ (this.props.teams[user.id]) ? <TeamFeed teams={this.props.teams[user.id]} user={user} /> : null }
@@ -176,18 +160,15 @@ class Account extends Component {
 
 				</div>
 			)
-
 		}
 		else if (selected == 'Messages')
 			content = null
 
 		const sidebar = (this.state.showMap) ? <Map center={this.props.session.currentLocation} zoom={14} animation={2} /> : sideMenu
 
-
 		return (
 			<div className="clearfix">
-
-				<header id="header" className="no-sticky">
+				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 		            <div id="header-wrap">
 		            	{ sidebar }
 		            </div>
@@ -201,7 +182,18 @@ class Account extends Component {
 						</div>
 
 						<div className="col_one_third col_last">
-							Right Side
+							<div>
+								{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+								<h3 style={styles.team.title}>Profile</h3>
+								<hr style={{marginBottom:12}} />
+								{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
+									<div>
+										<h4 style={styles.header}>{ user.title }</h4>
+										<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+										<img src={user.image+'=s220-c'} />
+									</div>
+								}
+							</div>
 						</div>
 
 					</div>
