@@ -81,20 +81,27 @@ class Account extends Component {
 	}
 
 	createTeam(team){
-		if (this.props.user == null){
+		const user =  this.props.user
+		if (user == null){
 			alert('Please log in or register to create a team.')
 			return
 		}
 
-		const membersList = [{id: this.props.user.id, username: this.props.user.username, image: this.props.user.image}]
+		const membersList = [{id: user.id, username: user.username, image: user.image}]
 		team['members'] = membersList
 		team['admins'] = membersList
+		let slug = null
+
 		this.props.createTeam(team)
 		.then((response) => {
-//			console.log('TEAM CREATED: '+JSON.stringify(response))
 			const result = response.result
-			window.location.href = '/team/'+result.slug
-			return
+			slug = result.slug
+			let teamsArray = user.teams
+			teamsArray.push(result.id)
+			return this.props.updateProfile(user, {teams: teamsArray}) // update profile with teams array
+		})
+		.then(resp => { // this is the updated profile
+			window.location.href = '/team/'+slug
 		})
 		.catch(err => {
 			alert(err)

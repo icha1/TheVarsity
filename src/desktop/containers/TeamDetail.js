@@ -59,26 +59,6 @@ class TeamDetail extends Component {
 		// this.props.updateTeam(team, {viewed: updatedViewed})
 	}
 
-	componentDidUpdate(){
-		const team = this.props.teams[this.props.slug]
-		if (team == null)
-			return
-
-		if (this.state.updatedTeam.image == null){
-			let updated = Object.assign({}, this.state.updatedTeam)
-			updated['image'] = team.image
-			this.setState({
-				updatedTeam: updated
-			})
-		}
-
-		const selected = this.state.selected
-		if (selected == 'Feed'){
-			if (this.props.posts[team.id] == null)
-				this.props.fetchPosts({teams: team.id})
-		}
-	}
-
 	selectItem(item, event){
 		event.preventDefault()
 		window.scrollTo(0, 0)
@@ -260,19 +240,7 @@ class TeamDetail extends Component {
 // 		})
 // 	}
 
-	// updatePost(event){
-	// 	event.preventDefault()
-	// 	let updated = Object.assign({}, this.state.post)
-	// 	updated[event.target.id] = event.target.value
-	// 	this.setState({
-	// 		post: updated
-	// 	})
-	// }
-
 	submitPost(post){
-//		event.preventDefault()
-//		let updated = Object.assign({}, this.state.post)
-
 		const user = this.props.user
 		post['saved'] = [user.id]
 		post['author'] = {
@@ -304,6 +272,34 @@ class TeamDetail extends Component {
 
 		return isFound
 	}
+
+
+	componentDidUpdate(){
+		const team = this.props.teams[this.props.slug]
+		if (team == null)
+			return
+
+		if (this.state.updatedTeam.image == null){
+			let updated = Object.assign({}, this.state.updatedTeam)
+			updated['image'] = team.image
+			this.setState({
+				updatedTeam: updated
+			})
+		}
+
+		const selected = this.state.selected
+		if (selected == 'Feed'){
+			if (this.props.posts[team.id] == null)
+				this.props.fetchPosts({teams: team.id})
+		}
+
+		if (selected == 'Members'){
+			if (this.props.profiles[team.id] == null)
+				this.props.fetchProfiles({teams: team.id})
+//				console.log('FETCH MEMBERS: ')
+		}
+	}
+
 
 	render(){
 		const team = this.props.teams[this.props.slug]
@@ -392,18 +388,21 @@ class TeamDetail extends Component {
 		}
 
 		else if (selected == 'Members'){
+			const members = this.props.profiles[team.id]
 			content = (
 				<div className="feature-box center media-box fbox-bg">
 					<div style={{textAlign:'left', padding:24}}>
 						{ invite }
 						<h2 style={styles.team.title}>Members</h2>
 						<hr />
-						{ team.members.map((member, i) => {
+
+						{ (members == null) ? null : members.map((member, i) => {
 								return (
 									<ProfilePreview key={member.id} profile={member} />
 								)
 							})
 						}
+
 					</div>
 				</div>
 			)
@@ -516,12 +515,14 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		session: state.session, // currentDistrict, currentLocation, teams, selectedFeed, reload
 		teams: state.team,
-		posts: state.post
+		posts: state.post,
+		profiles: state.profile
 	}
 }
 
 const dispatchToProps = (dispatch) => {
 	return {
+		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params)),

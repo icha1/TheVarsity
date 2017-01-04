@@ -230,24 +230,33 @@ export default {
 
 	// - - - - - - - - - PROFILES - - - - - - - - - 	
 
-	fetchProfiles: (params) => {
-		return (dispatch) => {
-			APIManager
-			.handleGet('/api/profile', params)
-			.then((response) => {
-				dispatch({
-					type: constants.PROFILES_RECEIVED,
-					profiles: response.results,
-					params: params
-				})
+	// fetchProfiles: (params) => {
+	// 	return (dispatch) => {
+	// 		APIManager
+	// 		.handleGet('/api/profile', params)
+	// 		.then((response) => {
+	// 			dispatch({
+	// 				type: constants.PROFILES_RECEIVED,
+	// 				profiles: response.results,
+	// 				params: params
+	// 			})
 
-				return response.results
-			})
-			.catch((err) => {
-				alert('ERROR: '+err)
-			})
+	// 			return response.results
+	// 		})
+	// 		.catch((err) => {
+	// 			alert('ERROR: '+err)
+	// 		})
+	// 	}
+	// },
+
+	// - - - - - - - - - PROFILES - - - - - - - - - 	
+
+	fetchProfiles: (params) => {
+		return dispatch => {
+			return dispatch(getData('/api/profile', params, constants.PROFILES_RECEIVED, 'profiles'))
 		}
 	},
+
 
 	updateProfile: (profile, params) => {
 		return dispatch => {
@@ -261,8 +270,6 @@ export default {
 			profiles: profiles
 		}
 	},
-
-	// - - - - - - - - - PROFILES - - - - - - - - - 	
 
 
 	fetchDistrict: (params) => {

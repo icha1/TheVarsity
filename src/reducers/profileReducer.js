@@ -16,44 +16,29 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 
 		case constants.PROFILES_RECEIVED:
-			let districtArray = null
-			let districtId = null
+//			console.log('PROFILES_RECEIVED: '+JSON.stringify(action.profiles))
 
-			if (action.params.districts != null) { // request for profiles by district:
-				districtId = action.params.districts
-				districtArray = (districtMap[districtId]) ? districtMap[districtId] : []
-			}
-
-			action.profiles.forEach(profile => {
-				array.push(profile)
-				if (map[profile.username] == null){
-					map[profile.username] = profile
-				}
-
-				if (idMap[profile.id] == null){
-					idMap[profile.id] = profile
-				}
-
-				if (districtArray != null){
-					if (profile.districts.indexOf(districtId) != -1)
-						districtArray.push(profile)					
-				}
+			action.profiles.forEach((profile, i) => {
+				newState[profile.slug] = profile
 			})
 
-			if (action.params.districts != null)  // request for profiles by district:
-				districtMap[districtId] = districtArray
-			
-			// console.log('PROFILES_RECEIVED: '+JSON.stringify(districtMap))
-			newState['map'] = map
-			newState['array'] = array
-			newState['idMap'] = idMap
-			newState['districtMap'] = districtMap
-			newState['posts'] = posts
-			newState['teams'] = teams
+			const keys = Object.keys(action.params)
+			for (let i=0; i<keys.length; i++){
+				let key = keys[i]
+				if (key == 'limit')
+					continue
+
+				if (key == 'slug') // this was already covered in first loop
+					continue
+
+				let value = action.params[key]
+				newState[value] = action.profiles
+			}
+
 			return newState
 
 		case constants.PROFILE_UPDDATED:
-			console.log('PROFILE_UPDDATED: '+JSON.stringify(action.profile))
+//			console.log('PROFILE_UPDDATED: '+JSON.stringify(action.profile))
 			map[action.profile.username] = action.profile
 			newState['map'] = map
 
