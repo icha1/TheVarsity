@@ -71,7 +71,7 @@ class Post extends Component {
 					</div>
 
 					{ (post.image.length == 0) ? null :
-						<div className="col_one_third col_last" style={{marginBottom:4}}>
+						<div className="col_one_third col_last" style={{marginBottom:4, textAlign:'right'}}>
 							<img style={style.postImage} src={post.image} />
 						</div>
 					}
