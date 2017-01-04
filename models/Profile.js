@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
 var ProfileSchema = new mongoose.Schema({
 	username: {type:String, trim:true, default:''},
 	title: {type:String, trim:true, default:''}, // web developer, designer, photographer, etc
+	badge: {type:Number, default:0}, // indicates # or unread messages
 	bio: {type:String, trim:true, default:''},
 	isConfirmed: {type:String, trim:true, default:'pending'}, // yes, no, pending
 	slug: {type:String, trim:true, lowercase:true, unique:true, default:''},
@@ -22,6 +23,7 @@ var ProfileSchema = new mongoose.Schema({
 ProfileSchema.methods.summary = function(){
 	var summary = {
 		username: this.username,
+		badge: this.badge,
 		title: this.title,
 		bio: this.bio,
 		isConfirmed: this.isConfirmed,
