@@ -26,7 +26,6 @@ class Post extends Component {
 				saved = true
 		}
 
-//		const path = (post.author.type == 'team') ? post.author.slug : post.author.slug
 		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ TextUtils.truncateText(post.title, 30) }</Link> : <a target='_blank' style={style.title} href={post.url}>{TextUtils.truncateText(post.title, 30) }</a>
 		const numCommentsBadge = (post.numComments == 0) ? null : <span style={{float:'right'}} className="badge">{post.numComments}</span>
 
@@ -66,17 +65,24 @@ class Post extends Component {
 					</ul>
 
 				</div>
-				<span style={localStyle.detail}><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span>
+				<span style={localStyle.detailRed}><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span>
 				<span style={localStyle.separator}>|</span>
 				<span style={localStyle.detail}>{ DateUtils.formattedDate(post.timestamp) }</span>
 				<span style={localStyle.separator}>|</span>
-				<span style={localStyle.detail}>{ TextUtils.capitalize(post.type) }</span>
+				<span style={localStyle.detail}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments</Link></span>
 			</div>
 		)
 	}
 }
 
 const localStyle = {
+	detailRed: {
+		float:'right',
+		color: 'red',
+		fontWeight:400,
+		fontSize:12,
+		lineHeight:12+'px'
+	},
 	detail: {
 		float:'right',
 		color: '#1265A8',

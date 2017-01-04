@@ -18,7 +18,7 @@ class ProfilePreview extends Component {
 								<Link style={{color:'#333'}} to={'/profile/'+profile.slug}>{ profile.username }</Link>
 		                    </h4>
 		                    <br />
-							{ (profile.title.length == 0) ? 'Title' : profile.title }
+							{ (profile.title.length == 0) ? 'No title' : profile.title }
 		                </div>
 						<hr />
 						<p style={localStyle.paragraph}>
