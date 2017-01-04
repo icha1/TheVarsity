@@ -44,7 +44,10 @@ module.exports = {
 		})
 	},
 
-	post: function(params){
+	post: function(params, isRaw){
+		if (isRaw == null)
+			isRaw = false
+		
 		return new Promise(function(resolve, reject){
 			Profile.find({email: params.email}, function(err, profiles){
 				if (err){
@@ -54,7 +57,8 @@ module.exports = {
 
 				if (profiles.length > 0){ // profile already exisits
 					var profile = profiles[0]
-					resolve(profile.summary())
+					var result = (isRaw) ? profile : profile.summary()
+					resolve(result)
 					return
 				}
 
@@ -71,7 +75,8 @@ module.exports = {
 							return
 						}
 
-						resolve(profile.summary())
+						var result = (isRaw) ? profile : profile.summary()
+						resolve(result)
 					})
 				}
 			})

@@ -162,8 +162,7 @@ router.post('/:action', function(req, res, next){
 				username: invitation.name
 			}
 
-//			console.log('TEST 1: '+JSON.stringify(profileParams))
-			return ProfileController.post(profileParams) // create new profile
+			return ProfileController.post(profileParams, true) // create new profile, return raw version
 		})
 		.then(function(profile){
 //			console.log('TEST 4')
@@ -177,17 +176,23 @@ router.post('/:action', function(req, res, next){
 			hostTeam['members'] = members
 			hostTeam.markModified('members')
 
+			var teamsArray = profile.teams
+			teamsArray.push(hostTeam._id.toString())
+			profile['teams'] = teamsArray
+			profile.markModified('teams')
+
 			var token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
 			req.session.token = token
 
 			res.json({
 				confirmation: 'success',
-				team: hostTeam,
-				user: profile,
+				team: hostTeam.summary(),
+				user: profile.summary(),
 				token: token
 			})
 
 			hostTeam.save()
+			profile.save()
 		})
 		.catch(function(err){
 			console.log('Account Router - Error: '+JSON.stringify(err))
