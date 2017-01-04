@@ -288,8 +288,7 @@ class TeamDetail extends Component {
 
 		this.props.createPost(post)
 		.then(response => {
-			console.log('Post CREATED: '+JSON.stringify(response))
-			
+//			console.log('Post CREATED: '+JSON.stringify(response))
 		})
 		.catch(err => {
 			alert(err)
