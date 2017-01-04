@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { Modal } from 'react-bootstrap'
-import { CreateComment, Comment, ProfilePreview, PostFeed, Redeem } from '../view'
+import { CreatePost, CreateComment, Comment, ProfilePreview, PostFeed, Redeem } from '../view'
 import { TextUtils, APIManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -22,13 +22,6 @@ class TeamDetail extends Component {
 			},
 			updatedTeam: {
 				changed: false
-			},
-			post: {
-				title: '',
-				text: '', 
-				type: 'news', // event, news, job, etc.
-				image: '',
-				author: {}
 			},
 			menuItems: [
 				'Feed',
@@ -267,22 +260,22 @@ class TeamDetail extends Component {
 // 		})
 // 	}
 
-	updatePost(event){
-		event.preventDefault()
-		let updated = Object.assign({}, this.state.post)
-		updated[event.target.id] = event.target.value
-		this.setState({
-			post: updated
-		})
-	}
+	// updatePost(event){
+	// 	event.preventDefault()
+	// 	let updated = Object.assign({}, this.state.post)
+	// 	updated[event.target.id] = event.target.value
+	// 	this.setState({
+	// 		post: updated
+	// 	})
+	// }
 
-	submitPost(event){
-		event.preventDefault()
-		let updated = Object.assign({}, this.state.post)
+	submitPost(post){
+//		event.preventDefault()
+//		let updated = Object.assign({}, this.state.post)
 
 		const user = this.props.user
-		updated['saved'] = [user.id]
-		updated['author'] = {
+		post['saved'] = [user.id]
+		post['author'] = {
 			id: user.id,
 			name: user.username,
 			slug: user.username,
@@ -291,20 +284,12 @@ class TeamDetail extends Component {
 		}
 
 		const team = this.props.teams[this.props.slug]
-		updated['teams'] = [team.id]
+		post['teams'] = [team.id]
 
-		this.props.createPost(updated)
+		this.props.createPost(post)
 		.then(response => {
-//			console.log('Post CREATED: '+JSON.stringify(response))
-			this.setState({ // clear post
-				post: {
-					title: '',
-					text: '', 
-					type: 'news', // event, news, job, etc.
-					image: '',
-					author: {}
-				}
-			})
+			console.log('Post CREATED: '+JSON.stringify(response))
+			
 		})
 		.catch(err => {
 			alert(err)
@@ -433,26 +418,9 @@ class TeamDetail extends Component {
 			<div>
 				<h3 style={styles.team.title}>Submit Post</h3>
 				<hr style={{marginBottom:12}} />
-				{ (this.props.user == null) ? <div>Please log in to submit a post.</div> :
-					<div>
-						<input id="title" value={this.state.post.title} onChange={this.updatePost.bind(this)} style={localStyle.input} type="text" placeholder="Title" />
-						<textarea id="text" value={this.state.post.text} onChange={this.updatePost.bind(this)} style={localStyle.textarea} placeholder="Text"></textarea>
-
-						<Dropzone onDrop={this.uploadImage.bind(this, 'post')} className="clearfix visible-md visible-lg">
-							{ (this.state.post.image.length > 0) ? <div><img src={this.state.post.image+'=s72-c'} /><br />Click to Change</div> :
-								<button className="social-icon si-small si-borderless si-instagram">
-									<i className="icon-instagram"></i>
-									<i className="icon-instagram"></i>
-								</button>
-							}
-						</Dropzone>
-
-			            <a href="#" onClick={this.submitPost.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
-			            <br />
-					</div>
-				}
+				{ (this.props.user == null) ? <div>Please log in to submit a post.</div> : <CreatePost submit={this.submitPost.bind(this)} /> }
 			</div>
-		)
+		) 
 
 		return (
 			<div className="clearfix">

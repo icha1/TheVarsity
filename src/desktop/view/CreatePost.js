@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
+import Loading from 'react-loading' // http://cezarywojtkowski.com/react-loading/
 import constants from '../../constants/constants'
 import { APIManager, DateUtils } from '../../utils'
 import styles from './styles'
@@ -8,111 +9,67 @@ class CreatePost extends Component {
 	constructor(){
 		super()
 		this.state = {
+			isLoading: false,
 			post: {
 				title: '',
 				text: '', 
 				type: 'news', // event, news, etc.
 				image: '',
-				author: {
-
-				}
+				author: {}
 			}
 		}
-	}
-
-	componentDidMount(){
-		const user = this.props.user
-		let updatedPost = Object.assign({}, this.state.post)
-		updatedPost['author'] = {
-			id: user.id,
-			type: 'profile',
-			slug: user.username,
-			name: user.username,
-			image: (user.image.length == 0) ? null : user.image // TODO: insert placeholder icon
-		}
-
-		updatedPost['saved'] = [user.id]
-		this.setState({
-			post: updatedPost
-		})
 	}
 
 	updatePost(event){
 		event.preventDefault()
+		const value = event.target.value
 		let updated = Object.assign({}, this.state.post)
-		if (updated.type == constants.FEED_TYPE_NEWS){
-			if (event.target.id == 'title'){ // check if title is url
-//				console.log('TITLE = '+event.target.value)
-			    if (event.target.value.indexOf("http://") == 0 || event.target.value.indexOf("https://") == 0) {
-					console.log('FETCH URL = '+event.target.value)
-
-					const params = {
-						url: event.target.value
-					}
-
-					APIManager
-					.handleGet('/tags', params)
-					.then((response) => {
-						const tags = response.tags // title, image, description
-						updated['title'] = tags.title
-						updated['image'] = tags.image
-						updated['text'] = tags.description
-						updated['url'] = tags.url
-						this.setState({post: updated})
-					})
-					.catch((err) => {
-
-					})
-					return
-			    }
-			}
-		}
-
-
-		if (event.target.id != 'author'){
-			updated[event.target.id] = event.target.value
+		if (event.target.id != 'title'){
+		    updated[event.target.id] = value
 			this.setState({post: updated})
 			return
 		}
 
-		console.log('author = '+event.target.value)
-		if (event.target.value == this.props.user.id){
-			const user = this.props.user
-			updated['author'] = {
-				id: user.id,
-				name: user.username,
-				slug: user.username,
-				image: (user.image.length == 0) ? null : user.image,
-				type: 'profile'
-			}
-			updated['saved'] = [user.id]
+		// check if title is url
+		const isUrl = (value.indexOf("http://") == 0 || value.indexOf("https://") == 0)
+		if (isUrl == false){
+	    	updated['title'] = value
 			this.setState({post: updated})
 			return
 		}
 
-		const team = this.props.teams[event.target.value]
+//		console.log('SCRAPE = '+value)
+		this.setState({isLoading: true})
+		APIManager
+		.handleGet('/tags', {url: value})
+		.then((response) => {
+			const tags = response.tags // title, image, description
+			updated['title'] = tags.title
+			updated['image'] = tags.image
+			updated['text'] = tags.description
+			updated['url'] = tags.url
+			this.setState({
+				isLoading: false,
+				post: updated
+			})
+		})
+		.catch((err) => {
 
-		updated['author'] = {
-			id: team.id,
-			name: team.name,
-			slug: team.slug,
-			image: (team.image.length == 0) ? null : team.image,
-			type: 'team'
-		}
-		this.setState({post: updated})
+		})
 	}
 
 	uploadImage(files){
-		this.props.isLoading(true)
+		this.setState({isLoading: true})
+
 		APIManager.upload(files[0], (err, image) => {
-			this.props.isLoading(false)
+		this.setState({isLoading: false})
 			if (err){
 				alert(err)
 				return
 			}
 
 			let updated = Object.assign({}, this.state.post)
-			updated['image'] = image.address+'=s220-c'
+			updated['image'] = image.address
 			this.setState({post: updated})
 		})
 	}
@@ -124,65 +81,74 @@ class CreatePost extends Component {
 
 	submitPost(event){
 		event.preventDefault()
-
 		let updated = Object.assign({}, this.state.post)
 		this.props.submit(updated)
 	}
 
 	render(){
 		const post = this.state.post
-		const image = (post.image.length == 0) ? '/images/image-placeholder.png' : post.image
-		const usernameOption = (this.props.user == null) ? null : <option value={this.props.user.id}>{ this.props.user.username }</option>
-		const teamList = this.props.teams.map((team, i) => {
-			return <option key={i} value={i}>{ team.name }</option>
-		})
-
-		const icon = (post.author.image == null) ? '/images/profile-icon.png' : post.author.image
-		const placeholder = (post.type == constants.FEED_TYPE_EVENT) ? 'Event Title' : 'Title or URL to link'
-
+		let image = null
+		if (post.image.length > 0)
+			image = (post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s220-c'
+		
 		return (
 			<div>
-				<div className={styles.post.container.className} style={styles.post.container}>
-					<div className="comment-meta">
-						<div className="comment-author vcard">
-							<span className="comment-avatar clearfix">
-							<img alt='The Varsity' src={icon} className='avatar avatar-60 photo' height='60' width='60' /></span>
-						</div>
+				<input id="title" value={post.title} onChange={this.updatePost.bind(this)} style={localStyle.input} type="text" placeholder="Title or URL" />
+				<select style={localStyle.input} className="form-control" id="type" onChange={this.updatePost.bind(this)}>
+					<option value="news">News</option>
+					<option value="hiring">Hiring</option>
+				</select>
+				<textarea id="text" value={post.text} onChange={this.updatePost.bind(this)} style={localStyle.textarea} placeholder="Text"></textarea>
+
+				<Dropzone onDrop={this.uploadImage.bind(this)} className="clearfix visible-md visible-lg">
+					{ (post.image.length > 0) ? <div><img src={image} /><br />Click to Change</div> :
+						<button className="social-icon si-small si-borderless si-instagram">
+							<i className="icon-instagram"></i>
+							<i className="icon-instagram"></i>
+						</button>
+					}
+
+					<div style={{float:'right', width:50+'%'}}>
+						{ (this.state.isLoading) ? <Loading type='bars' color='#333' /> : null }
 					</div>
+				</Dropzone>
 
-					<div className={styles.post.content.className} style={styles.post.content}>
-						<div className="col_two_third" style={{marginBottom:4}}>
-							<input id="title" onChange={this.updatePost.bind(this)} type="text" value={post.title} placeholder={placeholder} style={styles.post.input} /><br />
-							<textarea id="text" onChange={this.updatePost.bind(this)} value={post.text} placeholder="Text" style={styles.post.textarea}></textarea><br />					
-						</div>
-
-						<Dropzone onDrop={this.uploadImage.bind(this)} className="col_one_third col_last" style={{marginBottom:4}}>
-							<img style={styles.post.postImage} src={image} />
-						</Dropzone>
-					</div>
-					<hr />
-					<h4 style={styles.post.header}>
-						<a href='#' style={styles.post.title}>{ post.author.name }</a>
-					</h4>
-					<span>{ DateUtils.today() }</span><br />
-					<select id="type" onChange={this.updatePost.bind(this)} style={{border:'none'}}>
-						<option value="news">News</option>
-						<option value="event">Event</option>
-					</select>
-					<hr />
-					<label>Post From</label>
-					<select id="author" onChange={this.updatePost.bind(this)} style={{border:'none', marginLeft:12}}>
-						{ usernameOption }
-						{ teamList }
-					</select>
-				</div>
-				<br />
-
-				<a href="#" onClick={this.submitPost.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Submit</a>
-				<a href="#" onClick={this.cancel.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Cancel</a>
+	            <a href="#" onClick={this.submitPost.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
+	            <br />
 			</div>
 		)
 	}
 }
 
+const localStyle = {
+	btnBlue: {
+		float: 'right',
+		className: 'button button-small button-circle button-blue'
+	},
+	input: {
+		color:'#333',
+		background: '#f9f9f9',
+		marginBottom: 12,
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 20,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%'
+	},
+	textarea: {
+		color:'#333',
+		background: '#f9f9f9',
+		marginBottom: 12,
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 16,
+		border: 'none',
+		width: 100+'%',
+		fontFamily:'Pathway Gothic One',
+		minHeight: 220
+	}
+}
 export default CreatePost
