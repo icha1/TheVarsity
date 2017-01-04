@@ -49,7 +49,7 @@ class ProfileDetail extends Component {
 			if (this.props.teams[profile.id])
 				return
 
-			this.props.fetchProfileTeams(profile)
+			this.props.fetchTeams({'members.id':profile.id})
 		}
 
 		if (selected == 'Direct Message'){
@@ -277,10 +277,10 @@ const localStyle = {
 }
 const stateToProps = (state) => {
 	return {
+		user: state.account.currentUser,
 		profiles: state.profile.map,
 		posts: state.profile.posts,
-		teams: state.profile.teams,
-		user: state.account.currentUser,
+		teams: state.team,
 		session: state.session
 	}
 }
@@ -289,7 +289,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
 		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
-		fetchProfileTeams: (profile) => dispatch(actions.fetchProfileTeams(profile)),
+		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params))
 	}
 }
