@@ -99,6 +99,12 @@ export default {
 			marginTop: 10
 		}
 	},
+	image: {
+		maxWidth: 120,
+		marginTop: 0,
+		padding: 3,
+		border: '1px solid #ddd'
+	},
 	loader: {
 	    lines: 13,
 	    length: 20,

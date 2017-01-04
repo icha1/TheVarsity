@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Loading from 'react-loading' // http://cezarywojtkowski.com/react-loading/
 import Dropzone from 'react-dropzone'
 import { APIManager, DateUtils } from '../../utils'
 import styles from './styles'
@@ -7,22 +8,26 @@ class CreateTeam extends Component {
 	constructor(){
 		super()
 		this.state = {
+			isLoading: false,
 			team: {
 				name: '',
+				type: 'software',
 				description: '',
-				street: '',
-				image: ''
+				// street: '',
+				image: '',
 			}
 		}
 	}
 
 	uploadImage(files){
-		if (this.props.isLoading)
-			this.props.isLoading(true)
+		this.setState({
+			isLoading: true
+		})
 
 		APIManager.upload(files[0], (err, image) => {
-			if (this.props.isLoading)
-				this.props.isLoading(false)
+			this.setState({
+				isLoading: false
+			})
 
 			if (err){
 				alert(err)
@@ -46,24 +51,6 @@ class CreateTeam extends Component {
 	submitTeam(event){
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.team)
-		updated['address'] = {
-			street: updated.street,
-			city: '',
-			state: ''
-		}
-		
-		delete updated['street']
-
-		updated['social'] = {
-			instagram: updated.instagram,
-			facebook: updated.facebook,
-			website: updated.website,
-		}
-
-		delete updated['instagram']
-		delete updated['facebook']
-		delete updated['website']
-
 		this.props.submit(updated)
 	}
 
@@ -93,15 +80,27 @@ class CreateTeam extends Component {
 							<textarea id="description" onChange={this.updateTeam.bind(this)} placeholder="Description" style={styles.post.textarea}></textarea><br />					
 						</div>
 
-						<Dropzone onDrop={this.uploadImage.bind(this)} className="col_one_third col_last" style={{marginBottom:4}}>
-							<img style={styles.post.postImage} src={image} />
+						<Dropzone onDrop={this.uploadImage.bind(this)} className="col_one_third col_last" style={{marginBottom:4, textAlign:'right'}}>
+							<img style={styles.image} src={image} />
+							<div style={{float:'right', width:50+'%'}}>
+								{ (this.state.isLoading) ? <Loading type='bars' color='#333' /> : null }
+							</div>
 						</Dropzone>
 					</div>
 				</div>
 				<br />
-				<label>Social</label>
-				<input id="instagram" onChange={this.updateTeam.bind(this)} type="text" placeholder="Instagram Username" style={styles.post.select} className="form-control" />
-				<input id="website" onChange={this.updateTeam.bind(this)} type="text" placeholder="http://www.yourwebsite.com" style={styles.post.select} className="form-control" />
+				<label>Category</label>
+				<select style={{border:'1px solid #ddd'}} className="form-control" id="category" onChange={this.updateTeam.bind(this)}>
+					<option value="software">Software</option>
+					<option value="graphic design">Graphic Design</option>
+					<option value="fashion">Fashion</option>
+					<option value="social media">Social Media Marketing</option>
+					<option value="real estate">Real Estate</option>
+					<option value="entertainment">Entertainment</option>
+					<option value="legal">Legal</option>
+					<option value="personal training">Personal Training</option>
+					<option value="other">Other (enter below)</option>
+				</select>
 
 				<br />
 				<a href="#" onClick={this.submitTeam.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create Team</a>

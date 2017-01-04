@@ -22,14 +22,14 @@ class TeamPreview extends Component {
 						</h2>
 						<p style={{marginTop:0}}>{ TextUtils.truncateText(team.description, 220) }</p>
 					</div>
-					<div className="col_one_third col_last" style={{marginBottom:4}}>
-						<img style={styles.post.postImage} src={team.image} />
+					<div className="col_one_third col_last" style={{marginBottom:4, textAlign:'right'}}>
+						<img style={styles.image} src={team.image} />
 					</div>
 				</div>
 				<hr />
 
 				<h4 style={styles.post.header}>Category</h4>
-				<span>{ team.members.length } members</span><br />
+				<span>{ TextUtils.capitalize(team.type) }</span><br />
 				<div style={{float:'right'}} className="dropdown">
 					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						<img style={{width:32, float:'right'}} src="/images/dots.png" />
