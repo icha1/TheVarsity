@@ -71,7 +71,7 @@ class Post extends Component {
 					</div>
 
 					{ (post.image.length == 0) ? null :
-						<div className="col_one_third col_last" style={{marginBottom:4, textAlign:'right'}}>
+						<div className="col_one_third col_last" style={{marginBottom:8, textAlign:'right'}}>
 							<img style={style.postImage} src={post.image} />
 						</div>
 					}
@@ -104,8 +104,8 @@ const localStyle = {
 		float:'right',
 		color: '#1265A8',
 		fontWeight:100,
-		fontSize:12,
-		lineHeight:12+'px',
+		fontSize:10,
+		lineHeight:10+'px',
 		marginLeft:6,
 		marginRight:6
 	}

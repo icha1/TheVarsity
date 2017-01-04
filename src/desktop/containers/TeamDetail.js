@@ -189,19 +189,30 @@ class TeamDetail extends Component {
 		})
 	}
 
-	uploadImage(files){
+	uploadImage(source, files){
+//		console.log('uploadImage: '+source)
+
 		APIManager.upload(files[0], (err, image) => {
 			if (err){
 				alert(err)
 				return
 			}
 
-			let updated = Object.assign({}, this.state.updatedTeam)
-			updated['image'] = image.address
-			updated['changed'] = true
-			this.setState({
-				updatedTeam: updated
-			})
+			if (source == 'team'){
+				let updated = Object.assign({}, this.state.updatedTeam)
+				updated['image'] = image.address
+				updated['changed'] = true
+				this.setState({
+					updatedTeam: updated
+				})
+			}
+			else if (source == 'post'){
+				let updated = Object.assign({}, this.state.post)
+				updated['image'] = image.address
+				this.setState({
+					post: updated
+				})
+			}
 		})
 	}
 
@@ -284,7 +295,16 @@ class TeamDetail extends Component {
 
 		this.props.createPost(updated)
 		.then(response => {
-			console.log('Post CREATED: '+JSON.stringify(response))
+//			console.log('Post CREATED: '+JSON.stringify(response))
+			this.setState({ // clear post
+				post: {
+					title: '',
+					text: '', 
+					type: 'news', // event, news, job, etc.
+					image: '',
+					author: {}
+				}
+			})
 		})
 		.catch(err => {
 			alert(err)
@@ -344,7 +364,7 @@ class TeamDetail extends Component {
 							<hr />
 
 							<div style={{textAlign:'center', marginTop:24}}>
-								<Dropzone onDrop={this.uploadImage.bind(this)} style={{marginBottom:4}}>
+								<Dropzone onDrop={this.uploadImage.bind(this, 'team')} style={{marginBottom:4}}>
 									<img src={this.state.updatedTeam.image+'=s260'} />
 									<br />
 									Click to change
@@ -415,8 +435,18 @@ class TeamDetail extends Component {
 				<hr style={{marginBottom:12}} />
 				{ (this.props.user == null) ? <div>Please log in to submit a post.</div> :
 					<div>
-						<input id="title" onChange={this.updatePost.bind(this)} style={localStyle.input} type="text" placeholder="Title" />
-						<textarea id="text" onChange={this.updatePost.bind(this)} style={localStyle.textarea} placeholder="Text"></textarea>
+						<input id="title" value={this.state.post.title} onChange={this.updatePost.bind(this)} style={localStyle.input} type="text" placeholder="Title" />
+						<textarea id="text" value={this.state.post.text} onChange={this.updatePost.bind(this)} style={localStyle.textarea} placeholder="Text"></textarea>
+
+						<Dropzone onDrop={this.uploadImage.bind(this, 'post')} className="clearfix visible-md visible-lg">
+							{ (this.state.post.image.length > 0) ? <div><img src={this.state.post.image+'=s72-c'} /><br />Click to Change</div> :
+								<button className="social-icon si-small si-borderless si-instagram">
+									<i className="icon-instagram"></i>
+									<i className="icon-instagram"></i>
+								</button>
+							}
+						</Dropzone>
+
 			            <a href="#" onClick={this.submitPost.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
 			            <br />
 					</div>
