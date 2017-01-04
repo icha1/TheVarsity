@@ -11,13 +11,24 @@ class Account extends Component {
 		this.state = {
 			showEdit: false,
 			showMap: false,
-			selected: 'Profile',
+			selected: 'Teams',
 			menuItems: [
-				'Profile',
 				'Teams',
+				'Profile',
 				'Messages'
 			]
 		}
+	}
+
+	componentDidMount(){
+		const user = this.props.user
+		if (user == null)
+			return
+
+		if (this.props.teams[user.id])
+			return
+
+		this.props.fetchTeams({'members.id': user.id}) // fetch teams if necessary
 	}
 
 	selectItem(item, event){
