@@ -13,16 +13,25 @@ class ProfilePreview extends Component {
 
 		return (
 			<div style={{padding:16}}>
-				<Link to={'/profile/'+profile.username}>
-					<img style={{float:'left', marginRight:12, borderRadius:22, width:44}} src={image} />
+				<Link to={'/profile/'+profile.slug}>
+					<img style={localStyle.image} src={image} />
 				</Link>
-				<Link style={titleStyle} to={'/profile/'+profile.username}>
+				<Link style={titleStyle} to={'/profile/'+profile.slug}>
 					{ profile.username }
 				</Link>
 				<br />
 				<span style={{fontWeight:100, fontSize:14, lineHeight:14+'px'}}>{ profile.title }</span>
 			</div>
 		)
+	}
+}
+
+const localStyle = {
+	image: {
+		float:'left',
+		marginRight:12,
+		borderRadius:22,
+		width:44
 	}
 }
 

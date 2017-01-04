@@ -22,6 +22,7 @@ class ProfileDetail extends Component {
 	}
 
 	componentDidMount(){
+//		console.log('componentDidMount: ')
 		const profile = this.props.profiles[this.props.slug]
 		if (profile == null){
 			this.props.fetchProfiles({username: this.props.slug})
@@ -278,7 +279,7 @@ const localStyle = {
 const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
-		profiles: state.profile.map,
+		profiles: state.profile,
 		posts: state.profile.posts,
 		teams: state.team,
 		session: state.session

@@ -26,7 +26,7 @@ class Post extends Component {
 				saved = true
 		}
 
-		const path = (post.author.type == 'team') ? post.author.slug : post.author.name
+//		const path = (post.author.type == 'team') ? post.author.slug : post.author.slug
 		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ TextUtils.truncateText(post.title, 30) }</Link> : <a target='_blank' style={style.title} href={post.url}>{TextUtils.truncateText(post.title, 30) }</a>
 		const numCommentsBadge = (post.numComments == 0) ? null : <span style={{float:'right'}} className="badge">{post.numComments}</span>
 
@@ -37,7 +37,7 @@ class Post extends Component {
 				<div className="comment-meta">
 					<div className="comment-author vcard">
 						<span className="comment-avatar clearfix">
-							<Link to={'/'+post.author.type+'/'+path}>
+							<Link to={'/'+post.author.type+'/'+post.author.slug}>
 								<img alt='The Varsity' src={post.author.image+'=s120-c'} className='avatar avatar-60 photo' height='60' width='60' />
 							</Link>
 						</span>
@@ -66,7 +66,7 @@ class Post extends Component {
 					</ul>
 
 				</div>
-				<span style={localStyle.detail}><Link to={'/'+post.author.type+'/'+path}>{ post.author.name }</Link></span>
+				<span style={localStyle.detail}><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span>
 				<span style={localStyle.separator}>|</span>
 				<span style={localStyle.detail}>{ DateUtils.formattedDate(post.timestamp) }</span>
 				<span style={localStyle.separator}>|</span>
