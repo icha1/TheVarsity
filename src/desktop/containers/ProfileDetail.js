@@ -25,7 +25,7 @@ class ProfileDetail extends Component {
 //		console.log('componentDidMount: ')
 		const profile = this.props.profiles[this.props.slug]
 		if (profile == null){
-			this.props.fetchProfiles({username: this.props.slug})
+			this.props.fetchProfiles({slug: this.props.slug})
 			return
 		}
 
