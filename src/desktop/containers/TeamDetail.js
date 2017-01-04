@@ -82,7 +82,7 @@ class TeamDetail extends Component {
 		const selected = this.state.selected
 		if (selected == 'Feed'){
 			if (this.props.posts[team.id] == null)
-				this.props.fetchTeamPosts(team)
+				this.props.fetchPosts({teams: team.id})
 		}
 	}
 
@@ -385,7 +385,6 @@ class TeamDetail extends Component {
 					</div>
 				</div>
 			)
-
 		}
 
 		else if (selected == 'Members'){
@@ -519,14 +518,14 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		session: state.session, // currentDistrict, currentLocation, teams, selectedFeed, reload
 		teams: state.team,
-		posts: state.team.posts
+		posts: state.post
 	}
 }
 
 const dispatchToProps = (dispatch) => {
 	return {
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
-		fetchTeamPosts: (team) => dispatch(actions.fetchTeamPosts(team)),
+		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params)),
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
 		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation)),

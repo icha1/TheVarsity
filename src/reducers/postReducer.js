@@ -45,7 +45,6 @@ export default (state = initialState, action) => {
 	let postsFeed = Object.assign({}, newState.feed)
 
 	switch (action.type) {
-
 		case constants.FETCH_POSTS:
 			newState['isFetching'] = true
 
@@ -54,39 +53,26 @@ export default (state = initialState, action) => {
 			// rerender infinitely on Feed component
 			postsFeed[action.feed] = []
 			newState['feed'] = postsFeed
-
 			return newState
 
 		case constants.POSTS_RECEIVED:
-			// console.log('POSTS_RECEIVED')
-			let all = (postsFeed['all'] == null) ? [] : postsFeed['all']
-			let news = (postsFeed['news'] == null) ? [] : postsFeed['news']
-			let events = (postsFeed['events'] == null) ? [] : postsFeed['events']
-
-			action.posts.forEach(post => {
-				if (postsMap[post.slug] == null){
-					postsMap[post.slug] = post
-
-					// let feedArray = (postsFeed[post.type]==null) ? [] : postsFeed[post.type]
-					// feedArray.push(post)
-					// postsFeed[post.type] = feedArray
-
-					all.push(post)
-					if (post.type == 'news')
-						news.push(post)
-
-					if (post.type == 'events')
-						events.push(post)
-				}
+			const keys = Object.keys(action.params)
+			action.posts.forEach((post, i) => {
+				newState[post.slug] = post
 			})
 
-			postsFeed['all'] = all
-			postsFeed['news'] = news
-			postsFeed['events'] = events
+			for (let i=0; i<keys.length; i++){
+				let key = keys[i]
+				if (key == 'limit')
+					continue
 
-			newState['map'] = postsMap
-			newState['feed'] = postsFeed
-			newState['isFetching'] = false
+				if (key == 'slug') // this was already covered in first loop
+					continue
+
+				let value = action.params[key]
+				newState[value] = action.posts
+			}
+
 			return newState
 
 		case constants.SAVED_POSTS_RECEIVED:
@@ -113,23 +99,17 @@ export default (state = initialState, action) => {
 
 		case constants.POST_CREATED:
 			const post = action.post
-			if (postsMap[post.slug] == null){
-				postsMap[post.slug] = post
+			newState[post.slug] = post
 
-				let all = (postsFeed['all'] == null) ? [] : postsFeed['all']
-				all.unshift(post)
-				postsFeed['all'] = all				
+			post.teams.forEach((teamId, i) => {
+				let teamArray = newState[teamId]
+				if (teamArray != null){
+					teamArray.unshift(post)
+					newState[teamId] = teamArray
+				}
+			})
 
-				let feedArray = (postsFeed[post.type]==null) ? [] : postsFeed[post.type]
-				feedArray.unshift(post) // when creating new post, add straight to top
-				postsFeed[post.type] = feedArray
-			}
-
-			newState['map'] = postsMap
-			newState['feed'] = postsFeed
-			newState['isFetching'] = false
-
-			return newState
+			return newState		
 
 		case constants.DISTRICT_CHANGED: // when district changes, reset current posts
 			newState['map'] = {}

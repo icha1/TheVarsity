@@ -95,39 +95,10 @@ export default {
 		}
 	},
 
-	fetchTeamPosts: (team) => {
-		return (dispatch) => {
-			APIManager
-//			.handleGet('/api/post', {'author.id':team.id})
-			.handleGet('/api/post', {'teams':team.id})
-			.then((response) => {
-//				console.log('FETCH TEAM POSTS: '+team.id+' == '+JSON.stringify(response))
-				let results = response.results
-				dispatch({
-					type: constants.TEAM_POSTS_RECEIVED,
-					team: team,
-					posts: results
-				})
-
-				return results
-			})
-			.catch((err) => {
-				alert(err.message)
-			})
-		}
-	},
-
 	postsReceived: (posts) => {
 		return {
 			type: constants.POSTS_RECEIVED,
 			posts: posts
-		}
-	},
-
-	postCreated: (post) => {
-		return {
-			type: constants.POST_CREATED,
-			post: post
 		}
 	},
 

@@ -61,28 +61,28 @@ class PostDetail extends Component {
 		// sloppy workaround, render timestamp client side:
 		this.setState({timestamp: DateUtils.formattedDate(post.timestamp)})
 
-		FirebaseManager.register('/'+post.id+'/comments', (err, currentComments) => {
-			if (err){
-				return
-			}
+		// FirebaseManager.register('/'+post.id+'/comments', (err, currentComments) => {
+		// 	if (err){
+		// 		return
+		// 	}
 
-			this.setState({
-				comments: currentComments.reverse()
-			})
-		})
+		// 	this.setState({
+		// 		comments: currentComments.reverse()
+		// 	})
+		// })
 
-		// Track view count:
-		const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
-		let updatedViewed = Object.assign({}, post.viewed)
-		updatedViewed[userId] = (updatedViewed[userId] == null) ? 1 : updatedViewed[userId]+1
-		let total = 0
-		Object.keys(updatedViewed).forEach((key, i) => {
-			if (key != 'total')
-				total += updatedViewed[key]
-		})
+		// // Track view count:
+		// const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
+		// let updatedViewed = Object.assign({}, post.viewed)
+		// updatedViewed[userId] = (updatedViewed[userId] == null) ? 1 : updatedViewed[userId]+1
+		// let total = 0
+		// Object.keys(updatedViewed).forEach((key, i) => {
+		// 	if (key != 'total')
+		// 		total += updatedViewed[key]
+		// })
 
-		updatedViewed['total'] = total
-		this.props.updatePost(post, {viewed: updatedViewed})
+		// updatedViewed['total'] = total
+		// this.props.updatePost(post, {viewed: updatedViewed})
 	}
 
 	selectItem(name, event){
@@ -378,7 +378,7 @@ const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
 		session: state.session,
-		posts: state.post.map,
+		posts: state.post,
 		feed: state.post.feed,
 		teams: state.team.map
 	}
