@@ -13,7 +13,7 @@ class TeamDetail extends Component {
 		this.memberFound = this.memberFound.bind(this)
 		this.inviteMember = this.inviteMember.bind(this)
 		this.state = {
-			selected: 'Overview',
+			selected: 'Feed',
 			isEditing: false,
 			showInvite: false,
 			invitation: {
@@ -31,8 +31,8 @@ class TeamDetail extends Component {
 				author: {}
 			},
 			menuItems: [
-				'Overview',
 				'Feed',
+				'Overview',
 				'Members'
 //				'Chat'
 			]
