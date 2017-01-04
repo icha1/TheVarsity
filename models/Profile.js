@@ -29,15 +29,16 @@ ProfileSchema.methods.summary = function(){
 		image: this.image,
 		email: this.email,
 		credits: this.credits,
-		subscribers: this.subscribers,
-		districts: this.districts,
 		teams: this.teams,
 		tags: this.tags,
-		social: this.social,
-		viewed: this.viewed,
 		timestamp: this.timestamp,
 		schema: 'profile',
 		id: this._id.toString()
+
+		// subscribers: this.subscribers,
+		// districts: this.districts,
+		// social: this.social,
+		// viewed: this.viewed,		
 	}
 
 	return summary
