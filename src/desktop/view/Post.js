@@ -30,27 +30,6 @@ class Post extends Component {
 		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ TextUtils.truncateText(post.title, 30) }</Link> : <a target='_blank' style={style.title} href={post.url}>{TextUtils.truncateText(post.title, 30) }</a>
 		const numCommentsBadge = (post.numComments == 0) ? null : <span style={{float:'right'}} className="badge">{post.numComments}</span>
 
-		let submenu = null 
-		if (post.type == 'news'){
-			submenu = (
-				<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-					<li style={style.listItem}><a href="#">Share</a></li>
-					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
-					{ (saved) ? <li style={style.listItem}><a onClick={this.unsave.bind(this)} href="#">Unsave</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
-				</ul>
-			)
-		}
-		else {
-			submenu = (
-				<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-					<li style={style.listItem}><a href="#">Share</a></li>
-					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=attend'}>Attend</Link></li>
-					<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
-					{ (saved) ? <li style={style.listItem}><a onClick={this.unsave.bind(this)} href="#">Unsave</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
-				</ul>
-			)
-		}
-
 		const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
 		const colClass = (post.image.length == 0) ? 'col_full col_last' : 'col_two_third'
 		return (
@@ -80,7 +59,12 @@ class Post extends Component {
 					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						<img style={{width:32, float:'right'}} src="/images/dots.png" />
 					</a>
-					{ submenu }
+					<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+						<li style={style.listItem}><a href="#">Share</a></li>
+						<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
+						{ (saved) ? <li style={style.listItem}><a onClick={this.unsave.bind(this)} href="#">Unsave</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
+					</ul>
+
 				</div>
 				<span style={localStyle.detail}><Link to={'/'+post.author.type+'/'+path}>{ post.author.name }</Link></span>
 				<span style={localStyle.separator}>|</span>
