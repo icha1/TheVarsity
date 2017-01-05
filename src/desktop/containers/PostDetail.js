@@ -175,20 +175,20 @@ class PostDetail extends Component {
 			let btnEdit = null
 			if (user != null){
 				if (user.id == post.author.id)
-					btnEdit = <button onClick={this.toggleEditing.bind(this)} className="button button-mini button-circle button-blue" style={{float:'left'}}>Edit</button>
+					btnEdit = <button onClick={this.toggleEditing.bind(this)} className="button button-mini button-circle button-blue" style={{float:'rigt'}}>Edit</button>
 			}
 
 			const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
 			content = (
 				<div className="feature-box center media-box fbox-bg">
 					<div style={{lineHeight:18+'px', textAlign:'right'}}>
-						{ btnEdit }
 						<img style={{float:'right', marginLeft:10, borderRadius:18}} src={post.author.image+'=s36-c'} />
 						<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
 						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
 					</div>
 
 					<div style={{textAlign:'left', padding:24}}>
+						{ btnEdit }
 						<h2 style={styles.team.title}>
 							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
