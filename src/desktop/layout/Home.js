@@ -32,13 +32,15 @@ class Home extends Component {
 			                <br /><br />
 
 			                <div data-animate="fadeIn" data-delay="800">
-				                <a href="#" className="button button-circle" style={{backgroundColor:'rgb(91, 192, 222)'}}>Learn More</a>
-			                </div>                          
+								<ul className="one-page-menu" data-easing="easeInOutExpo" data-speed="750" data-offset="25">
+									<li><a href="#" data-href="#section-about" className="button button-circle" style={{backgroundColor:'rgb(91, 192, 222)'}}>Learn More</a></li>
+								</ul>
+			                </div>
 			            </div>
 			        </div>
 			    </section>
 
-				<section style={{background:'#fff', paddingTop:32}}>
+				<section id="section-about" style={{background:'#fff', paddingTop:32}} className="page-section">
 					<div className="content-wrap container clearfix">
 		                <h2 style={styles.title}>What Is The Varsity</h2>
 						<div className="col_two_third" style={styles.paragraph}>
@@ -55,7 +57,7 @@ class Home extends Component {
 					</div>
 				</section>
 
-			    <section style={{background:'#2e3842', borderTop:'1px solid #ddd'}} id="section-about" className="page-section notopmargin nobottommargin section">
+			    <section style={{background:'#2e3842', borderTop:'1px solid #ddd'}} className="page-section notopmargin nobottommargin section">
 			        <div className="container clearfix">
 					    <h2 style={styles.titleWhite}>The Varsity Advantage</h2>
 
