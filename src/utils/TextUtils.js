@@ -23,6 +23,10 @@ export default {
 	    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi
 		html = html.replace(exp, "<a href='$1' target='_blank' style='color:red'>$1</a>")
 
+	    const emailRe = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		html = html.replace(emailRe, "<a href='mailto:$1' target='_blank' style='color:red'>$1</a>")
+
+
         return html
 	},
 
