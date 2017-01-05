@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { Link } from 'react-router'
+import { TextUtils } from '../../utils'
 
 class FeaturedTeams extends Component {
 
@@ -24,7 +25,7 @@ class FeaturedTeams extends Component {
 									{team.name}
 								</Link>
 								<br />
-								<span style={localStyle.subtext}>{team.members.length} members</span>
+								<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
 							</div>
 						)
 					})
