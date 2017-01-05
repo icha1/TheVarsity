@@ -71,6 +71,7 @@ class EditProfile extends Component {
 		return (
 			<div>
 				<input type="text" id="title" placeholder="Title (Photographer, etc)" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={profile.title} />
+				<input type="text" id="username" placeholder="Username" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={profile.username} />
 				<textarea id="bio" placeholder="Bio" onChange={this.updateProfile.bind(this)} style={localStyle.textarea} defaultValue={profile.bio}></textarea>
 				<Dropzone onDrop={this.uploadImage.bind(this)} className="clearfix visible-md visible-lg">
 					{ (this.state.updatedProfile.image.length > 0) ? <div><img src={image} /><br />Click to Change</div> :
