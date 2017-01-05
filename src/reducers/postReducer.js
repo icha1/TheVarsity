@@ -92,7 +92,10 @@ export default (state = initialState, action) => {
 			return newState
 
 		case constants.POST_SAVED: // basically the same a POST_UPDATED
-			return postUpdated(action, state, post)
+			newState[action.post.slug] = action.post
+			return newState
+
+//			return postUpdated(action, state, post)
 
 		case constants.POST_UPDATED:
 			return postUpdated(action, state, post)

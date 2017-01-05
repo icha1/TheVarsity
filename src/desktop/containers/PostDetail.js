@@ -188,10 +188,10 @@ class PostDetail extends Component {
 					</div>
 
 					<div style={{textAlign:'left', padding:24}}>
-						{ btnEdit }
 						<h2 style={styles.team.title}>
 							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
+						{ btnEdit }
 						<hr />
 						<div style={{textAlign:'left', marginTop:24}}>
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
