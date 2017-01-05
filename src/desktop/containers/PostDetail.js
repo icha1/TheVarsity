@@ -155,8 +155,8 @@ class PostDetail extends Component {
 			content = (
 				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
 					<div style={{lineHeight:18+'px', textAlign:'right'}}>
-						<button onClick={this.toggleEditing.bind(this)} style={{float:'left', marginRight:12}}>Cancel</button>
-						<button onClick={this.toggleEditing.bind(this)} style={{float:'left'}}>Done</button>
+						<button className="button button-mini button-circle button-blue" onClick={this.toggleEditing.bind(this)} style={{float:'left', marginRight:12}}>Cancel</button>
+						<button className="button button-mini button-circle button-green" onClick={this.toggleEditing.bind(this)} style={{float:'left'}}>Done</button>
 						<img style={{float:'right', marginLeft:10, borderRadius:18}} src={post.author.image+'=s36-c'} />
 						<span>{ post.author.name }</span><br />
 						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span>
@@ -175,7 +175,7 @@ class PostDetail extends Component {
 			let btnEdit = null
 			if (user != null){
 				if (user.id == post.author.id)
-					btnEdit = <button onClick={this.toggleEditing.bind(this)} style={{float:'left'}}>Edit</button>
+					btnEdit = <button onClick={this.toggleEditing.bind(this)} className="button button-mini button-circle button-blue" style={{float:'left'}}>Edit</button>
 			}
 
 			const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
@@ -189,7 +189,6 @@ class PostDetail extends Component {
 					</div>
 
 					<div style={{textAlign:'left', padding:24}}>
-						{ btnEdit }
 						<h2 style={styles.team.title}>
 							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
