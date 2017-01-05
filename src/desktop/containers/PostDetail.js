@@ -175,7 +175,7 @@ class PostDetail extends Component {
 			let btnEdit = null
 			if (user != null){
 				if (user.id == post.author.id)
-					btnEdit = <button onClick={this.toggleEditing.bind(this)} className="button button-mini button-circle button-blue" style={{float:'rigt'}}>Edit</button>
+					btnEdit = <button onClick={this.toggleEditing.bind(this)} className="button button-mini button-circle button-blue" style={{float:'right'}}>Edit</button>
 			}
 
 			const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
@@ -188,15 +188,15 @@ class PostDetail extends Component {
 					</div>
 
 					<div style={{textAlign:'left', padding:24}}>
+						{ btnEdit }
 						<h2 style={styles.team.title}>
 							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
-						{ btnEdit }
 						<hr />
+						{ ( post.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} /> }
 						<div style={{textAlign:'left', marginTop:24}}>
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
 						</div>
-						{ ( post.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} /> }
 						<textarea style={{marginTop:16, marginBottom:6, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:120, background:'#f9f9f9', padding:6, resize: 'none'}} placeholder='Reply'></textarea>
 						<button className="button button-mini button-circle button-green">Submit Reply</button>
 					</div>
