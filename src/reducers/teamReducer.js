@@ -42,10 +42,9 @@ export default (state = initialState, action) => {
 			return newState
 
 		case constants.TEAM_UPDATED:
-			teamsMap[action.team.slug] = action.team
-			// array.unshift(action.team)
-
-			newState['map'] = teamsMap		
+			// teamsMap[action.team.slug] = action.team
+			// newState['map'] = teamsMap
+			newState[action.team.slug] = action.team
 			return newState
 
 		case constants.TEAM_POSTS_RECEIVED:
