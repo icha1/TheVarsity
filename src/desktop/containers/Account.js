@@ -29,9 +29,11 @@ class Account extends Component {
 			return
 
 		if (user.isConfirmed != 'yes'){
-			this.setState({
-				showModal: true
-			})
+			setTimeout(() => {
+				this.setState({
+					showModal: true
+				})
+			}, 750)			
 		}
 
 		if (this.props.teams[user.id])
@@ -43,7 +45,6 @@ class Account extends Component {
 	selectItem(item, event){
 		event.preventDefault()
 
-		// const item = this.state.menuItems
 		this.setState({
 			selected: item,
 			showEdit: false

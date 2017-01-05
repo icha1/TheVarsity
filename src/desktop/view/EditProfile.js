@@ -12,7 +12,11 @@ class EditProfile extends Component {
 			isLoading: false,
 			updatedProfile: {
 				changed: false,
-				image: ''
+				image: '',
+				location: {
+					city:'',
+					state:''
+				}
 			}
 		}
 	}
@@ -20,6 +24,9 @@ class EditProfile extends Component {
 	componentDidMount(){
 		let updated = Object.assign({}, this.state.updatedProfile)
 		updated['image'] = this.props.profile.image
+		if (this.props.profile.location != null)
+			updated['location'] = Object.assign({}, this.props.profile.location)
+		
 		this.setState({
 			updatedProfile: updated
 		})
@@ -39,8 +46,17 @@ class EditProfile extends Component {
 
 	updateProfile(event){
 		let updated = Object.assign({}, this.state.updatedProfile)
-		updated[event.target.id] = event.target.value
 		updated['changed'] = true
+		const key = event.target.id
+		if (key == 'city' || key == 'state'){
+			let updatedLocation = Object.assign({}, updated.location)
+			updatedLocation[key] = event.target.value
+			updated['location'] = updatedLocation
+		}
+		else {
+			updated[key] = event.target.value
+		}
+
 		this.setState({
 			updatedProfile: updated
 		})
@@ -66,12 +82,21 @@ class EditProfile extends Component {
 
 	render(){
 		const profile = this.props.profile
+		const location = profile.location || {city:'', state:''}
 		const image = (this.state.updatedProfile.image.length == 0) ? '/images/image-placeholder.png' : this.state.updatedProfile.image+'=s220-c'
 
 		return (
 			<div>
 				<input type="text" id="title" placeholder="Title (Photographer, etc)" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={profile.title} />
 				<input type="text" id="username" placeholder="Username" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={profile.username} />
+				<input type="text" id="city" placeholder="City" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={location.city} />
+				<select style={localStyle.input} defaultValue={location.state} id="state" onChange={this.updateProfile.bind(this)}>
+					{
+						statesList.map((state, i) => {
+							return <option key={state.abbreviation} value={state.abbreviation.toLowerCase()}>{state.name}</option>
+						})
+					}
+				</select>
 				<textarea id="bio" placeholder="Bio" onChange={this.updateProfile.bind(this)} style={localStyle.textarea} defaultValue={profile.bio}></textarea>
 				<Dropzone onDrop={this.uploadImage.bind(this)} className="clearfix visible-md visible-lg">
 					{ (this.state.updatedProfile.image.length > 0) ? <div><img src={image} /><br />Click to Change</div> :
@@ -121,5 +146,220 @@ const localStyle = {
 		minHeight: 220
 	}
 }
+
+const statesList = [
+    {
+        "name": "Alabama",
+        "abbreviation": "AL"
+    },
+    {
+        "name": "Alaska",
+        "abbreviation": "AK"
+    },
+    {
+        "name": "Arizona",
+        "abbreviation": "AZ"
+    },
+    {
+        "name": "Arkansas",
+        "abbreviation": "AR"
+    },
+    {
+        "name": "California",
+        "abbreviation": "CA"
+    },
+    {
+        "name": "Colorado",
+        "abbreviation": "CO"
+    },
+    {
+        "name": "Connecticut",
+        "abbreviation": "CT"
+    },
+    {
+        "name": "Delaware",
+        "abbreviation": "DE"
+    },
+    {
+        "name": "District Of Columbia",
+        "abbreviation": "DC"
+    },
+    {
+        "name": "Florida",
+        "abbreviation": "FL"
+    },
+    {
+        "name": "Georgia",
+        "abbreviation": "GA"
+    },
+    {
+        "name": "Hawaii",
+        "abbreviation": "HI"
+    },
+    {
+        "name": "Idaho",
+        "abbreviation": "ID"
+    },
+    {
+        "name": "Illinois",
+        "abbreviation": "IL"
+    },
+    {
+        "name": "Indiana",
+        "abbreviation": "IN"
+    },
+    {
+        "name": "Iowa",
+        "abbreviation": "IA"
+    },
+    {
+        "name": "Kansas",
+        "abbreviation": "KS"
+    },
+    {
+        "name": "Kentucky",
+        "abbreviation": "KY"
+    },
+    {
+        "name": "Louisiana",
+        "abbreviation": "LA"
+    },
+    {
+        "name": "Maine",
+        "abbreviation": "ME"
+    },
+    {
+        "name": "Maryland",
+        "abbreviation": "MD"
+    },
+    {
+        "name": "Massachusetts",
+        "abbreviation": "MA"
+    },
+    {
+        "name": "Michigan",
+        "abbreviation": "MI"
+    },
+    {
+        "name": "Minnesota",
+        "abbreviation": "MN"
+    },
+    {
+        "name": "Mississippi",
+        "abbreviation": "MS"
+    },
+    {
+        "name": "Missouri",
+        "abbreviation": "MO"
+    },
+    {
+        "name": "Montana",
+        "abbreviation": "MT"
+    },
+    {
+        "name": "Nebraska",
+        "abbreviation": "NE"
+    },
+    {
+        "name": "Nevada",
+        "abbreviation": "NV"
+    },
+    {
+        "name": "New Hampshire",
+        "abbreviation": "NH"
+    },
+    {
+        "name": "New Jersey",
+        "abbreviation": "NJ"
+    },
+    {
+        "name": "New Mexico",
+        "abbreviation": "NM"
+    },
+    {
+        "name": "New York",
+        "abbreviation": "NY"
+    },
+    {
+        "name": "North Carolina",
+        "abbreviation": "NC"
+    },
+    {
+        "name": "North Dakota",
+        "abbreviation": "ND"
+    },
+    {
+        "name": "Ohio",
+        "abbreviation": "OH"
+    },
+    {
+        "name": "Oklahoma",
+        "abbreviation": "OK"
+    },
+    {
+        "name": "Oregon",
+        "abbreviation": "OR"
+    },
+    {
+        "name": "Pennsylvania",
+        "abbreviation": "PA"
+    },
+    {
+        "name": "Puerto Rico",
+        "abbreviation": "PR"
+    },
+    {
+        "name": "Rhode Island",
+        "abbreviation": "RI"
+    },
+    {
+        "name": "South Carolina",
+        "abbreviation": "SC"
+    },
+    {
+        "name": "South Dakota",
+        "abbreviation": "SD"
+    },
+    {
+        "name": "Tennessee",
+        "abbreviation": "TN"
+    },
+    {
+        "name": "Texas",
+        "abbreviation": "TX"
+    },
+    {
+        "name": "Utah",
+        "abbreviation": "UT"
+    },
+    {
+        "name": "Vermont",
+        "abbreviation": "VT"
+    },
+    {
+        "name": "Virgin Islands",
+        "abbreviation": "VI"
+    },
+    {
+        "name": "Virginia",
+        "abbreviation": "VA"
+    },
+    {
+        "name": "Washington",
+        "abbreviation": "WA"
+    },
+    {
+        "name": "West Virginia",
+        "abbreviation": "WV"
+    },
+    {
+        "name": "Wisconsin",
+        "abbreviation": "WI"
+    },
+    {
+        "name": "Wyoming",
+        "abbreviation": "WY"
+    }
+]
 
 export default EditProfile

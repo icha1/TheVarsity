@@ -15,6 +15,7 @@ var ProfileSchema = new mongoose.Schema({
 	teams: {type:Array, default:[]},
 	districts: {type:Array, default:[]},
 	tags: {type:Array, default:[]},
+	location: {type:mongoose.Schema.Types.Mixed, default:{}},
 	social: {type:mongoose.Schema.Types.Mixed, default:{}},
 	viewed: {type:mongoose.Schema.Types.Mixed, default:{}}, // map of profiles that viewed the post
 	timestamp: {type:Date, default:Date.now}
@@ -33,6 +34,7 @@ ProfileSchema.methods.summary = function(){
 		credits: this.credits,
 		teams: this.teams,
 		tags: this.tags,
+		location: this.location,
 		timestamp: this.timestamp,
 		schema: 'profile',
 		id: this._id.toString()
