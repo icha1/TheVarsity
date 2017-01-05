@@ -190,7 +190,7 @@ class PostDetail extends Component {
 							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
 						<hr />
-						{ ( post.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right'}} src={post.image} /> }
+						{ ( post.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image+'=s240' : post.image} /> }
 						<div style={{textAlign:'left', marginTop:24}}>
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
 						</div>
