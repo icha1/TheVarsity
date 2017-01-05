@@ -4,7 +4,7 @@ import moment from 'moment'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
 import { CreateComment, Comment, ProfilePreview } from '../view'
-import { DateUtils, FirebaseManager } from '../../utils'
+import { DateUtils, FirebaseManager, TextUtils } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
 
@@ -16,13 +16,12 @@ class PostDetail extends Component {
 			selected: 'overview',
 			isEditing: false,
 			comments: [],
-			numTickets: 1,
 			updatedPost: {
 				changed: false
 			},
 			menuItems: [
-				{name:'Overview', component:'Posts'},
-				{name:'Chat', component:'ManageNotifications'}
+				'Overview',
+				'Chat'
 			]
 		}
 	}
@@ -38,18 +37,6 @@ class PostDetail extends Component {
 				selected: selected
 			})
 		}
-
-		if (post.type != 'event')
-			return
-
-		// Events Menu
-		this.setState({
-			menuItems: [
-				{name:'Overview', component:'Posts'},
-				{name:'Attend', component:'CreatePost'},
-				{name:'Chat', component:'ManageNotifications'}
-			]
-		})
 	}
 
 	componentDidMount(){
@@ -85,12 +72,12 @@ class PostDetail extends Component {
 		// this.props.updatePost(post, {viewed: updatedViewed})
 	}
 
-	selectItem(name, event){
+	selectItem(item, event){
 		event.preventDefault()
 		window.scrollTo(0, 0)
 
 		this.setState({
-			selected: name
+			selected: item
 		})
 	}
 
@@ -117,37 +104,6 @@ class PostDetail extends Component {
 		FirebaseManager.post(path, updated, () => {
 			this.props.updatePost(post, {numComments: this.state.comments.length})
 //			console.log('callback test') // TODO: post comment to API
-		})
-	}
-
-	attendEvent(event){
-		event.preventDefault()
-
-		if (this.props.user == null){
-			alert('Please register or log in to attend this event.')
-			return
-		}
-
-		const post = this.props.posts[this.props.slug]
-		if (post == null)
-			return
-
-		const rsvp = (post.eventDetails.rsvp == null) ? {} : post.eventDetails.rsvp
-		if (rsvp[this.props.user.id] != null){
-			alert('You are already registered for this event.')
-			return
-		}
-
-		// download fresh copy of post, update rsvp list, send put call:
-		this.props.attendEvent(post, this.props.user, this.state.numTickets)
-	}
-
-	updateNumTickets(event){
-		event.preventDefault()
-		console.log('updateRsvp: '+event.target.value)
-
-		this.setState({
-			numTickets: event.target.value
 		})
 	}
 
@@ -182,11 +138,10 @@ class PostDetail extends Component {
 		const selected = this.state.selected.toLowerCase()
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
-			const itemStyle = (item.name == selected) ? styles.team.selected : styles.team.menuItem
 			return (
 				<li key={i}>
-					<div style={itemStyle}>
-						<a onClick={this.selectItem.bind(this, item.name)} href="#"><div>{item.name}</div></a>
+					<div style={ (item.toLowerCase() == selected) ? styles.account.selected : styles.account.menuItem }>
+						<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
 					</div>
 				</li>
 			)
@@ -224,10 +179,8 @@ class PostDetail extends Component {
 			}
 
 			const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
-			const btnType = <a href="#" style={{marginLeft: 0}} className={btnClass}>{ post.type }</a>
-
 			content = (
-				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
+				<div className="feature-box center media-box fbox-bg">
 					<div style={{lineHeight:18+'px', textAlign:'right'}}>
 						{ btnEdit }
 						<img style={{float:'right', marginLeft:10, borderRadius:18}} src={post.author.image+'=s36-c'} />
@@ -235,80 +188,19 @@ class PostDetail extends Component {
 						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
 					</div>
 
-
-					<h2 style={style.title}>
-						{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
-					</h2>
-					<hr style={{marginBottom:6}} />
-					{ btnType }
-					<p className="lead" style={{fontSize:16, marginTop:8}}>{ post.text }</p>
-					{ ( post.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} /> }
-					<textarea style={{marginTop:16, marginBottom:6, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:120, background:'#f9f9f9', padding:6, resize: 'none'}} placeholder='Reply'></textarea>
-					<button>Submit Reply</button>
-				</div>
-			)
-		}
-		else if (selected == 'attend'){ // attend
-			const rsvpList = (post.eventDetails.rsvp == null) ? [] : Object.keys(post.eventDetails.rsvp)
-
-			content = (
-				<div>
-					<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
-						<h2 style={style.title}>
-							Attend { post.title }
+					<div style={{textAlign:'left', padding:24}}>
+						{ btnEdit }
+						<h2 style={styles.team.title}>
+							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
 						<hr />
-						<table className="table table-striped">
-							<thead>
-								<tr>
-									<td><strong>Type</strong></td>
-									<td><strong>Price</strong></td>
-									<td><strong>QTY</strong></td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>General</td>
-									<td>Free</td>
-									<td>
-										<select onChange={this.updateNumTickets.bind(this)} style={{background:'#fff'}}>
-											<option value='1'>1</option>
-											<option value='2'>2</option>
-											<option value='3'>3</option>
-											<option value='4'>4</option>
-											<option value='5'>5</option>
-											<option value='6'>6</option>
-											<option value='7'>7</option>
-											<option value='8'>8</option>
-											<option value='9'>9</option>
-											<option value='10'>10</option>
-										</select>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<a href="#" onClick={this.attendEvent.bind(this)} style={{float:'right', margin:0}} className='button button-small button-circle button-blue clearfix'>RSVP</a>
-						<br />
-					</div>
-
-					<div className="feature-box center media-box fbox-bg">
-						<div className="fbox-desc">
-							<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
-								<h2 style={{fontFamily:'Pathway Gothic One', marginBottom:0}}>Attending</h2>
-							</div>
-
-							<div style={{borderTop:'1px solid #ddd', textAlign:'left'}}>
-								{
-									rsvpList.map((attendeeId, i) => {
-										const attendee = post.eventDetails.rsvp[attendeeId]
-										return <ProfilePreview key={attendee.id} profile={attendee} />
-									})
-								}
-							</div>
-
+						<div style={{textAlign:'left', marginTop:24}}>
+							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
 						</div>
+						{ ( post.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} /> }
+						<textarea style={{marginTop:16, marginBottom:6, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:120, background:'#f9f9f9', padding:6, resize: 'none'}} placeholder='Reply'></textarea>
+						<button className="button button-mini button-circle button-green">Submit Reply</button>
 					</div>
-
 				</div>
 			)
 		}
@@ -328,9 +220,8 @@ class PostDetail extends Component {
 		const feed = this.props.feed[constants.FEED_TYPE_ALL]
 
 		return (
-			<div className="clearfix">		
-
-				<header id="header" className="no-sticky">
+			<div className="clearfix">
+				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 		            <div id="header-wrap">
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
@@ -349,7 +240,7 @@ class PostDetail extends Component {
 		            </div>
 				</header>
 
-				<section id="content" style={{background:'#f9f9f9', minHeight:800}}>
+				<section id="content" style={{background:'#fff', minHeight:800}}>
 					<div className="content-wrap container clearfix">
 						<div className="col_two_third">
 							{ content }
