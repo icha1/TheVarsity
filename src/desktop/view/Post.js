@@ -45,7 +45,7 @@ class Post extends Component {
 				<div className={style.content.className} style={style.content}>
 					<div className={colClass} style={{marginBottom:4}}>
 						<h3 style={style.header}>{ title }</h3>
-						<p style={{marginTop:0}}>{ TextUtils.truncateText(post.text, 120) }</p>
+						<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
 					</div>
 
 					{ (post.image.length == 0) ? null :
