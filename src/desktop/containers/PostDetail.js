@@ -157,9 +157,6 @@ class PostDetail extends Component {
 					<div style={{lineHeight:18+'px', textAlign:'right'}}>
 						<button className="button button-mini button-circle button-blue" onClick={this.toggleEditing.bind(this)} style={{float:'left', marginRight:12}}>Cancel</button>
 						<button className="button button-mini button-circle button-green" onClick={this.toggleEditing.bind(this)} style={{float:'left'}}>Done</button>
-						<img style={{float:'right', marginLeft:10, borderRadius:18}} src={post.author.image+'=s36-c'} />
-						<span>{ post.author.name }</span><br />
-						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span>
 					</div>
 
 					<input id="title" onChange={this.updatePost.bind(this)} defaultValue={post.title} placeholder="Title" style={{marginTop:12, marginBottom:7, border:'none', fontSize:16, color:'#555', width:100+'%', background:'#f9f9f9', padding:6}}  />
