@@ -90,7 +90,9 @@ class Home extends Component {
 			                <img style={localStyle.image} src="/images/meetup.jpg" />
 			                <p style={styles.paragraphWhite}>
 								Group admins can charge fees for posting to the bulletin board. Fees go directly to the group 
-								moderator. * This is a premium feature.
+								moderator.
+								<br />
+								* This is a premium feature.
 			                </p>
 			            </div>
 			        </div>

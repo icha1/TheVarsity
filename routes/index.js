@@ -48,7 +48,8 @@ matchRoutes = function(req, routes, initialStore){
 }
 
 router.get('/', function(req, res, next) {
-	var template = (isMobile(req)) ? 'index-mobile' : 'index'
+//	var template = (isMobile(req)) ? 'index-mobile' : 'index'
+	var template = 'index'
 	var layout = (template == 'index') ? DesktopLayout : MobileLayout
 
 	var initialStore = null
