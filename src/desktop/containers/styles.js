@@ -93,7 +93,7 @@ export default {
 			marginTop:24
 		},
 		btnLogin: {
-			className: 'button button-xlarge button-circle button-blue'
+			className: 'button button-circle button-blue'
 		}
 	},
 	district: {

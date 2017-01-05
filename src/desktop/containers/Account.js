@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
-import styles from './styles'
+import { Modal } from 'react-bootstrap'
 import { EditProfile, TeamFeed, CreateTeam, PostFeed, Map } from '../view'
 import { connect } from 'react-redux'
 import { TextUtils } from '../../utils'
 import actions from '../../actions/actions'
+import styles from './styles'
 
 class Account extends Component {
 	constructor(){
 		super()
 		this.state = {
+			showModal: false,
 			showEdit: false,
 			showMap: false,
 			selected: 'Teams',
@@ -16,7 +18,8 @@ class Account extends Component {
 				'Teams',
 //				'Profile',
 				'Messages'
-			]
+			],
+			passwords: {}
 		}
 	}
 
@@ -24,6 +27,12 @@ class Account extends Component {
 		const user = this.props.user
 		if (user == null)
 			return
+
+		if (user.isConfirmed != 'yes'){
+			this.setState({
+				showModal: true
+			})
+		}
 
 		if (this.props.teams[user.id])
 			return
@@ -67,6 +76,12 @@ class Account extends Component {
 		})
 	}
 
+	toggleModal(){
+		this.setState({
+			showModal: !this.state.showModal
+		})
+	}
+
 	unsavePost(post){
 		const user = this.props.user
 		if (user == null){
@@ -106,6 +121,54 @@ class Account extends Component {
 		.catch(err => {
 			alert(err)
 		})
+	}
+
+	updatePassword(event){
+		let updated = Object.assign({}, this.state.passwords)
+		updated[event.target.id] = event.target.value
+		this.setState({
+			passwords: updated
+		})
+	}
+
+	submitPassword(event){
+		event.preventDefault()
+//		console.log('submitPassword: '+JSON.stringify(this.state.passwords))
+
+		let passwords = this.state.passwords
+		if (passwords.password1 == null){
+			alert('Please complete both fields.')
+			return
+		}
+
+		if (passwords.password2 == null){
+			alert('Please complete both fields.')
+			return
+		}
+
+		if (passwords.password1 !== passwords.password2){
+			alert('Passwords do not match.')
+			return
+		}
+
+		const user = this.props.user
+		if (user == null)
+			return
+
+		const params = {
+			isConfirmed: 'yes',
+			password: passwords.password1
+		}
+
+		this.setState({showModal: false})
+		this.props.updateProfile(user, params)
+		.then(result => {
+//			console.log('PROFILE UPDATED: '+JSON.stringify(result))
+		})
+		.catch(err => {
+			alert(err)
+		})
+
 	}
 
 	componentDidUpdate(){
@@ -164,7 +227,6 @@ class Account extends Component {
 					<CreateTeam
 						user={this.props.user} 
 						submit={this.createTeam.bind(this)} />
-
 				</div>
 			)
 		}
@@ -205,6 +267,23 @@ class Account extends Component {
 
 					</div>
 				</section>
+
+		        <Modal bsSize="sm" show={this.state.showModal} onHide={this.toggleModal.bind(this)}>
+			        <Modal.Body style={styles.nav.modal}>
+			        	<div style={{textAlign:'center'}}>
+				        	<img style={styles.nav.logo} src='/images/logo_dark.png' />
+				        	<hr />
+				        	<h4>Set Password</h4>
+			        	</div>
+
+			        	<input id="password1" onChange={this.updatePassword.bind(this)} className={styles.nav.textField.className} style={styles.nav.textField} type="password" placeholder="Password" />
+			        	<input id="password2" onChange={this.updatePassword.bind(this)} className={styles.nav.textField.className} style={styles.nav.textField} type="password" placeholder="Repeat Password" />
+						<div style={styles.nav.btnLoginContainer}>
+							<a href="#" onClick={this.submitPassword.bind(this)} className={styles.nav.btnLogin.className}><i className="icon-lock3"></i>Update Password</a>
+						</div>
+			        </Modal.Body>
+		        </Modal>
+
 			</div>
 		)
 	}
