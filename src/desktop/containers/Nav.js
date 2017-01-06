@@ -15,6 +15,7 @@ class Nav extends Component {
 		this.state = {
 			showLogin: false,
 			showRegister: false,
+			showFeedback: false,
 			credentials: {
 				email: '',
 				username: '',
@@ -37,8 +38,17 @@ class Nav extends Component {
 			event.preventDefault()
 		
 		this.setState({
-			showRegister: !this.state.showRegister
+			showRegister: !this.state.showRegister,
 		})		
+	}
+
+	toggleFeedback(event){
+		if (event)
+			event.preventDefault()
+		
+		this.setState({
+			showFeedback: !this.state.showFeedback,
+		})
 	}
 
 	updateCredentials(event){
@@ -48,6 +58,11 @@ class Nav extends Component {
 		this.setState({
 			credentials: updatedCredentials
 		})
+	}
+
+	sendFeedback(event){
+		console.log('sendFeedback: '+window.location.pathname)
+
 	}
 
 	login(event){
@@ -143,7 +158,7 @@ class Nav extends Component {
 						<nav className="one-page-menu">
 							<ul style={style.ul}>
 								<li><a href="/"><div>About</div></a></li>
-								<li><a href="/"><div>Contact</div></a></li>
+								<li><a onClick={this.toggleFeedback.bind(this)} href="#"><div>Feedback</div></a></li>
 								{ loginLink }
 								{ accountLink }
 							</ul>
@@ -183,10 +198,31 @@ class Nav extends Component {
 							<a onClick={this.register.bind(this)} href="#" className={style.btnLogin.className}><i className="icon-lock3"></i>Sign Up</a>
 						</div>
 			        </Modal.Body>
-
 		        </Modal>
+
+		        <Modal show={this.state.showFeedback} onHide={this.toggleFeedback.bind(this)}>
+			        <Modal.Body style={style.modal}>
+			        	<div style={{textAlign:'center'}}>
+				        	<img style={style.logo} src='/images/logo_dark.png' />
+				        	<hr />
+				        	<h4>Feedback</h4>
+			        	</div>
+
+			        	<textarea className={style.textField.className} style={localStyle.textarea}></textarea>
+						<div style={style.btnLoginContainer}>
+							<a onClick={this.sendFeedback.bind(this)} href="#" className={style.btnLogin.className}>Submit</a>
+						</div>
+			        </Modal.Body>
+		        </Modal>		        
 			</div>
 		)
+	}
+}
+
+const localStyle = {
+	textarea: {
+		border: '1px solid #ddd',
+		minHeight: 160
 	}
 }
 
