@@ -51,6 +51,19 @@ class CreateTeam extends Component {
 	submitTeam(event){
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.team)
+		if (updated.name.length == 0){
+			alert('Please enter a team name.')
+			return
+		}
+
+		if (updated.name.description == 0){
+			alert('Please enter a team description.')
+			return
+		}
+
+		if (updated.otherCategory != null)
+			updated['type'] = updated.otherCategory
+
 		this.props.submit(updated)
 	}
 
@@ -90,7 +103,7 @@ class CreateTeam extends Component {
 				</div>
 				<br />
 				<label>Category</label>
-				<select style={{border:'1px solid #ddd'}} className="form-control" id="category" onChange={this.updateTeam.bind(this)}>
+				<select style={{border:'1px solid #ddd'}} className="form-control" id="type" onChange={this.updateTeam.bind(this)}>
 					<option value="software">Software</option>
 					<option value="graphic design">Graphic Design</option>
 					<option value="fashion">Fashion</option>
@@ -101,7 +114,7 @@ class CreateTeam extends Component {
 					<option value="personal training">Personal Training</option>
 					<option value="other">Other (enter below)</option>
 				</select>
-
+				{ (this.state.team.type == 'other') ? <input id="otherCategory" onChange={this.updateTeam.bind(this)} type="text" placeholder="Category" className="form-control" style={{marginTop:16, border:'1px solid #ddd'}} /> : null}
 				<br />
 				<a href="#" onClick={this.submitTeam.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create</a>
 			</div>
