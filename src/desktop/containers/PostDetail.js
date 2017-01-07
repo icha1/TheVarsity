@@ -76,6 +76,20 @@ class PostDetail extends Component {
 		// this.props.updatePost(post, {viewed: updatedViewed})
 	}
 
+	componentDidUpdate(){
+		const post = this.props.posts[this.props.slug]
+		if (post == null)
+			return
+
+		const author = this.props.profiles[post.author.slug]
+		if (author == null)
+			return
+
+		const teams = this.props.teams[post.author.id] // can be null
+		if (teams == null)
+			this.props.fetchTeams({'members.id': post.author.id})
+	}
+
 	selectItem(item, event){
 		event.preventDefault()
 		window.scrollTo(0, 0)
@@ -221,6 +235,7 @@ class PostDetail extends Component {
 		}
 
 //		const feed = this.props.posts[post.teams[0]]
+		const teams = this.props.teams[post.author.id] // can be null
 
 		return (
 			<div className="clearfix">
@@ -243,9 +258,24 @@ class PostDetail extends Component {
 
 								<hr className="hidden-xs" />
 								<nav id="primary-menu">
-									<ul>
-										<li>Teams</li>
-									</ul>
+
+				{ (teams == null) ? null : teams.map((team, i) => {
+						return (
+							<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
+								<Link to={'/team/'+team.slug}>
+									<img style={localStyle.image} src={team.image+'=s44-c'} />
+								</Link>
+								<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
+									{team.name}
+								</Link>
+								<br />
+								<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
+							</div>
+						)
+					})
+				}
+
+
 								</nav>
 
 							</div>
@@ -271,12 +301,33 @@ class PostDetail extends Component {
 	}
 }
 
+const localStyle = {
+	detailHeader: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		fontSize: 18,
+		lineHeight: 10+'px'
+	},
+	image: {
+		float:'left',
+		marginRight:12,
+		borderRadius:22,
+		width:44
+	},
+	subtext: {
+		fontWeight:100,
+		fontSize:14,
+		lineHeight:14+'px'
+	}
+}
+
 const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
 		session: state.session,
 		posts: state.post,
-		teams: state.team.map,
+		teams: state.team,
 		profiles: state.profile
 	}
 }
@@ -285,7 +336,8 @@ const dispatchToProps = (dispatch) => {
 	return {
 //		attendEvent: (post, profile, qty) => dispatch(actions.attendEvent(post, profile, qty)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
-		fetchProfile: (id) => dispatch(actions.fetchProfile(id))
+		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
+		fetchTeams: (params) => dispatch(actions.fetchTeams(params))
 	}
 
 }

@@ -17,7 +17,7 @@ class FeaturedTeams extends Component {
 			<div>
 				{ (teams == null) ? null : teams.map((team, i) => {
 						return (
-							<div key={i} style={{padding:16}}>
+							<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
 								<Link to={'/team/'+team.slug}>
 									<img style={localStyle.image} src={team.image+'=s44-c'} />
 								</Link>
