@@ -140,7 +140,7 @@ class ProfileDetail extends Component {
 		let image = null
 		if (profile != null){
 			username = profile.username
-			image = (profile.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={profile.image+'=s140'} />
+			image = (profile.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={profile.image+'=s140-c'} />
 		}
 
 
