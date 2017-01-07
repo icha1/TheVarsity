@@ -13,6 +13,7 @@ class Account extends Component {
 			showModal: false,
 			showEdit: false,
 			showMap: false,
+			showCreateTeam: false,
 			selected: 'Teams',
 			menuItems: [
 				'Teams',
@@ -70,16 +71,22 @@ class Account extends Component {
 		})
 	}
 
-	toggleMap(event){
-		event.preventDefault()
-		this.setState({
-			showMap: !this.state.showMap
-		})
-	}
+	// toggleMap(event){
+	// 	event.preventDefault()
+	// 	this.setState({
+	// 		showMap: !this.state.showMap
+	// 	})
+	// }
 
 	toggleModal(){
 		this.setState({
 			showModal: !this.state.showModal
+		})
+	}
+
+	toggleCreateTeam(){
+		this.setState({
+			showCreateTeam: !this.state.showCreateTeam
 		})
 	}
 
@@ -223,11 +230,15 @@ class Account extends Component {
 			content = (
 				<div>
 					{ (this.props.teams[user.id]) ? <TeamFeed teams={this.props.teams[user.id]} user={user} /> : null }
-		            <h2 style={styles.title}>Create Team</h2>
-					<hr />
-					<CreateTeam
-						user={this.props.user} 
-						submit={this.createTeam.bind(this)} />
+					{ (!this.state.showCreateTeam) ? <button onClick={this.toggleCreateTeam.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Create Team</button> : 
+						<div>
+				            <h2 style={styles.title}>Create Team</h2>
+							<hr />
+							<CreateTeam
+								user={this.props.user} 
+								submit={this.createTeam.bind(this)} />
+						</div>
+					}
 				</div>
 			)
 		}
