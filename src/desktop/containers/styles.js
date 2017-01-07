@@ -8,6 +8,11 @@ export default {
 		textAlign:'left',
 		className: 'comment-content clearfix'
 	},
+	main: {
+		textAlign: 'left',
+		padding: 24,
+		paddingTop: 0
+	},
 	header: {
 		marginBottom: 0,
 		color:'#333',

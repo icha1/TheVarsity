@@ -337,7 +337,7 @@ class TeamDetail extends Component {
 			content = (
 				<div className="feature-box center media-box fbox-bg" style={{background:'#f9f9f9', borderRadius:'5px 5px 8px 8px'}}>
 					<div className="fbox-desc">
-						<div style={{textAlign:'left', padding:24, borderTop:'1px solid #ddd'}}>
+						<div style={{textAlign:'left', padding:24, paddingTop:0, borderTop:'1px solid #ddd'}}>
 							<button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Done</button>
 							<button onClick={this.cancelEditing.bind(this)} style={{float:'right', marginRight:12}} className={localStyle.btnBlue.className}>Cancel</button>
 							<h2 style={styles.team.title}>Overview</h2>
@@ -360,7 +360,7 @@ class TeamDetail extends Component {
 		else if (selected == 'Overview'){
 			content = (
 				<div className="feature-box center media-box fbox-bg">
-					<div style={{textAlign:'left', padding:24}}>
+					<div style={styles.main}>
 						{ btnEdit }
 						<h2 style={styles.team.title}>Overview</h2>
 						<hr />
@@ -376,7 +376,7 @@ class TeamDetail extends Component {
 			const list = this.props.posts[team.id]
 			content = (
 				<div className="feature-box center media-box fbox-bg">
-					<div style={{textAlign:'left', padding:24}}>
+					<div style={styles.main}>
 						<h2 style={styles.team.title}>Feed</h2>
 						<hr />
 						<div style={{textAlign:'left', marginTop:24}}>
@@ -391,7 +391,7 @@ class TeamDetail extends Component {
 			const members = this.props.profiles[team.id]
 			content = (
 				<div className="feature-box center media-box fbox-bg">
-					<div style={{textAlign:'left', padding:24}}>
+					<div style={styles.main}>
 						{ invite }
 						<h2 style={styles.team.title}>Members</h2>
 						<hr />

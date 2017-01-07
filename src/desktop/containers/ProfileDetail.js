@@ -177,7 +177,7 @@ class ProfileDetail extends Component {
 
 			content = (
 				<div className="feature-box center media-box fbox-bg">
-					<div style={{textAlign:'left', padding:24}}>
+					<div style={styles.main}>
 						{ btnEdit }
 						<h2 style={styles.post.title}>Overview</h2>
 						<hr />
