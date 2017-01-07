@@ -213,7 +213,7 @@ class PostDetail extends Component {
 			)
 		}
 
-		const feed = this.props.feed[constants.FEED_TYPE_ALL]
+//		const feed = this.props.posts[post.teams[0]]
 
 		return (
 			<div className="clearfix">
@@ -243,14 +243,7 @@ class PostDetail extends Component {
 						</div>
 
 						<div className="col_one_third col_last">
-							Right Side
-							<ol>
-								{ (feed == null) ? null :
-									feed.map((post, i) => {
-										return <li key={post.id}>{post.title}</li>
-									})
-								}
-							</ol>
+
 						</div>
 					</div>
 
@@ -266,14 +259,13 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		session: state.session,
 		posts: state.post,
-		feed: state.post.feed,
 		teams: state.team.map
 	}
 }
 
 const dispatchToProps = (dispatch) => {
 	return {
-		attendEvent: (post, profile, qty) => dispatch(actions.attendEvent(post, profile, qty)),
+//		attendEvent: (post, profile, qty) => dispatch(actions.attendEvent(post, profile, qty)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params))
 	}
 
