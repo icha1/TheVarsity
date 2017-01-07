@@ -19,6 +19,10 @@ export default {
 		fontFamily:'Pathway Gothic One',
 		fontWeight: 100		
 	},
+	paragraph: {
+		color:'#333',
+		fontWeight: 100		
+	},
 	title: {
 		color:'#333',
 		fontFamily:'Pathway Gothic One',
@@ -72,7 +76,19 @@ export default {
 		width:100+'%',
 		height: 8+'%',
 		borderTop: '1px solid #ddd'
-	},	
+	},
+	replyBox: {
+		marginTop:16,
+		marginBottom:6,
+		border:'none', 
+		fontSize:16,
+		color:'#555',
+		width:100+'%',
+		minHeight:120,
+		background:'#f9f9f9',
+		padding:6,
+		resize: 'none'
+	},
 	nav: {
 		ul: {
 			fontWeight: 100

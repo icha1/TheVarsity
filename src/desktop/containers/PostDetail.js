@@ -45,6 +45,10 @@ class PostDetail extends Component {
 		if (post == null)
 			return
 
+		const author = this.props.profiles[post.author.slug]
+		if (author == null)
+			this.props.fetchProfile(post.author.id)
+
 		// sloppy workaround, render timestamp client side:
 		this.setState({timestamp: DateUtils.formattedDate(post.timestamp)})
 
@@ -135,17 +139,19 @@ class PostDetail extends Component {
 		const style = styles.post
 		const user = this.props.user // can be null
 		const post = this.props.posts[this.props.slug]
+		const author = this.props.profiles[post.author.slug]
+
 		const selected = this.state.selected.toLowerCase()
 
-		const sideMenu = this.state.menuItems.map((item, i) => {
-			return (
-				<li key={i}>
-					<div style={ (item.toLowerCase() == selected) ? styles.account.selected : styles.account.menuItem }>
-						<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
-					</div>
-				</li>
-			)
-		})
+		// const sideMenu = this.state.menuItems.map((item, i) => {
+		// 	return (
+		// 		<li key={i}>
+		// 			<div style={ (item.toLowerCase() == selected) ? styles.account.selected : styles.account.menuItem }>
+		// 				<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+		// 			</div>
+		// 		</li>
+		// 	)
+		// })
 
 		let content = null
 
@@ -190,11 +196,12 @@ class PostDetail extends Component {
 							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
 						<hr />
-						{ ( post.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image+'=s240' : post.image} /> }
+						{ ( post.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} /> }
 						<div style={{textAlign:'left', marginTop:24}}>
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
 						</div>
-						<textarea style={{marginTop:16, marginBottom:6, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:120, background:'#f9f9f9', padding:6, resize: 'none'}} placeholder='Reply'></textarea>
+						<hr />
+						<textarea style={styles.replyBox} placeholder='Reply'></textarea>
 						<button className="button button-mini button-circle button-green">Submit Reply</button>
 					</div>
 				</div>
@@ -221,13 +228,24 @@ class PostDetail extends Component {
 		            <div id="header-wrap">
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}>
-								<img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginTop:6}} src={post.author.image+'=s140'} />
-								<h2 style={ style.title }>
-									<Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link>
-								</h2>
+								{ (author == null) ? null : 
+									<div>
+										<img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginTop:6}} src={author.image+'=s140'} />
+										<h2 style={ style.title }>
+											<Link to={'/profile/'+author.slug}>{ author.username }</Link>
+										</h2>
+										<span style={styles.paragraph}>{ author.title }</span><br />
+										<span style={styles.paragraph}>{ TextUtils.capitalize(author.location.city) }</span>
+										<br />
+										<Link to={'/profile/'+author.slug}  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>View Profile</Link>
+									</div>
+								}
+
 								<hr className="hidden-xs" />
 								<nav id="primary-menu">
-									<ul>{ sideMenu }</ul>
+									<ul>
+										<li>Teams</li>
+									</ul>
 								</nav>
 
 							</div>
@@ -246,7 +264,6 @@ class PostDetail extends Component {
 
 						</div>
 					</div>
-
 				</section>
 
 			</div>
@@ -259,14 +276,16 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		session: state.session,
 		posts: state.post,
-		teams: state.team.map
+		teams: state.team.map,
+		profiles: state.profile
 	}
 }
 
 const dispatchToProps = (dispatch) => {
 	return {
 //		attendEvent: (post, profile, qty) => dispatch(actions.attendEvent(post, profile, qty)),
-		updatePost: (post, params) => dispatch(actions.updatePost(post, params))
+		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
+		fetchProfile: (id) => dispatch(actions.fetchProfile(id))
 	}
 
 }

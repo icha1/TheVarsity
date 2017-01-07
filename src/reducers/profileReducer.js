@@ -37,6 +37,10 @@ export default (state = initialState, action) => {
 
 			return newState
 
+		case constants.PROFILE_RECEIVED:
+			newState[action.profile.slug] = action.profile
+			return newState
+
 		case constants.PROFILE_UPDDATED:
 //			console.log('PROFILE_UPDDATED: '+JSON.stringify(action.profile))
 			map[action.profile.username] = action.profile

@@ -161,40 +161,40 @@ export default {
 		}
 	},
 
-	attendEvent: (post, profile, qty) => {
-		return dispatch => {
-			APIManager.handleGet('/api/post/'+post.id, null)
-			.then((response) => {
-				const result = response.result
-				let eventDetails = Object.assign({}, result.eventDetails)
-				const attendee = {
-					id: profile.id,
-					username: profile.username,
-					image: profile.image,
-					title: profile.title,
-					qty: qty
-				}
+	// attendEvent: (post, profile, qty) => {
+	// 	return dispatch => {
+	// 		APIManager.handleGet('/api/post/'+post.id, null)
+	// 		.then((response) => {
+	// 			const result = response.result
+	// 			let eventDetails = Object.assign({}, result.eventDetails)
+	// 			const attendee = {
+	// 				id: profile.id,
+	// 				username: profile.username,
+	// 				image: profile.image,
+	// 				title: profile.title,
+	// 				qty: qty
+	// 			}
 
-				let rsvp = (eventDetails.rsvp) ? Object.assign({}, eventDetails.rsvp) : {}
-				rsvp[attendee.id] = attendee
-				eventDetails['rsvp'] = rsvp
-				eventDetails['count'] = Object.keys(rsvp).length
+	// 			let rsvp = (eventDetails.rsvp) ? Object.assign({}, eventDetails.rsvp) : {}
+	// 			rsvp[attendee.id] = attendee
+	// 			eventDetails['rsvp'] = rsvp
+	// 			eventDetails['count'] = Object.keys(rsvp).length
 
-				result['eventDetails'] = eventDetails
-				return APIManager.handlePut('/api/post/'+post.id, result)
-			})
-			.then((updated) => {
-				console.log('UPDATED: '+JSON.stringify(updated))
-				dispatch({
-					type: constants.POST_UPDATED,
-					post: updated.result
-				})
-			})
-			.catch((err) => {
-				alert(err.message)
-			})
-		}
-	},
+	// 			result['eventDetails'] = eventDetails
+	// 			return APIManager.handlePut('/api/post/'+post.id, result)
+	// 		})
+	// 		.then((updated) => {
+	// 			console.log('UPDATED: '+JSON.stringify(updated))
+	// 			dispatch({
+	// 				type: constants.POST_UPDATED,
+	// 				post: updated.result
+	// 			})
+	// 		})
+	// 		.catch((err) => {
+	// 			alert(err.message)
+	// 		})
+	// 	}
+	// },
 
 	// - - - - - - - - - TEAMS - - - - - - - - - 
 
@@ -257,6 +257,11 @@ export default {
 		}
 	},
 
+	fetchProfile: (id) => {
+		return dispatch => {
+			return dispatch(getData('/api/profile/'+id, null, constants.PROFILE_RECEIVED, 'profile'))
+		}
+	},
 
 	updateProfile: (profile, params) => {
 		return dispatch => {
