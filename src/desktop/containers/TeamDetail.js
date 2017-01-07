@@ -427,8 +427,9 @@ class TeamDetail extends Component {
 						<div className="container clearfix">
 							<div className="hidden-xs" style={{paddingTop:96}}></div>
 							<div>
-								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={team.image+'=s140-c'} /> }
+								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={team.image+'=s140-c'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
+								<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
 								<hr className="hidden-xs" />
 								<nav id="primary-menu">
 									<ul>{sideMenu}</ul>
