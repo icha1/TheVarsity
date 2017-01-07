@@ -4,9 +4,43 @@ var ProfileController = require('../controllers/ProfileController')
 var controllers = require('../controllers')
 var bcrypt = require('bcryptjs')
 var utils = require('../utils')
+var Promise = require('bluebird')
+var fs = require('fs')
+
+var fetchFile = function(path){
+	return new Promise(function (resolve, reject){
+		fs.readFile(path, 'utf8', function (err, data) {
+			if (err) {reject(err) }
+			else { resolve(data) }
+		})
+	})
+}
 
 router.get('/:action', function(req, res, next){
 	var action = req.params.action
+
+	if (action == 'email'){
+		var path = 'public/email/invite.html'
+		fetchFile(path)
+		.then(function(data){
+			return utils.EmailUtils.sendEmail('dkwon@velocity360.io', 'dan.kwon234@gmail.com', 'Test Invite', data)
+		})
+		.then(function(response){
+			res.json({
+				confirmation: 'success',
+				response: response
+			})
+
+			return
+		})
+		.catch(function(err){
+//			console.log('ERROR: '+err)
+			res.json({
+				confirmation: 'fail',
+				message: err || err.message
+			})
+		})
+	}
 
 	if (action == 'logout'){
 		req.session.reset()
