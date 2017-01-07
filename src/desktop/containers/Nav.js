@@ -20,6 +20,11 @@ class Nav extends Component {
 				email: '',
 				username: '',
 				password: ''
+			},
+			feedback: {
+				path: '',
+				comment: '',
+				profile: {}
 			}
 		}
 	}
@@ -60,9 +65,37 @@ class Nav extends Component {
 		})
 	}
 
-	sendFeedback(event){
-		console.log('sendFeedback: '+window.location.pathname)
+	updateFeedback(event){
+		let updated = Object.assign({}, this.state.feedback)
+		updated[event.target.id] = event.target.value
 
+		this.setState({
+			feedback: updated
+		})
+	}
+
+	sendFeedback(event){
+		event.preventDefault()
+//		console.log('sendFeedback: '+window.location.pathname)
+		let updated = Object.assign({}, this.state.feedback)
+		updated['path'] = window.location.pathname
+		if (this.props.user != null){
+			updated['profile'] = {
+				id: this.props.user.id,
+				username: this.props.user.username
+			}			
+		}
+
+		this.setState({showFeedback: false})
+
+		APIManager.handlePost('/api/feedback', updated)
+		.then(response => {
+			console.log(JSON.stringify(response))
+			alert('Thanks for your feedback!')
+		})
+		.catch((err) => {
+
+		})
 	}
 
 	login(event){
@@ -208,7 +241,7 @@ class Nav extends Component {
 				        	<h4>Feedback</h4>
 			        	</div>
 
-			        	<textarea className={style.textField.className} style={localStyle.textarea}></textarea>
+			        	<textarea id="comment" onChange={this.updateFeedback.bind(this)} className={style.textField.className} style={localStyle.textarea}></textarea>
 						<div style={style.btnLoginContainer}>
 							<a onClick={this.sendFeedback.bind(this)} href="#" className={style.btnLogin.className}>Submit</a>
 						</div>

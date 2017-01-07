@@ -136,6 +136,24 @@ router.post('/:action', function(req, res, next){
 		})
 	}
 
+	if (action == 'feedback'){ // beta testing
+		controllers.feedback
+		.post(req.body)
+		.then(function(result){
+			res.json({
+				confirmation: 'success',
+				result: result
+			})
+		})
+		.catch(function(err){
+			var msg = err.errmsg || err.message || err
+			res.json({
+				confirmation: 'fail',
+				message: msg
+			})
+		})
+	}
+
 	if (action == 'redeem'){ // redeem invitation
 		var invitation = null
 		var hostTeam = null
