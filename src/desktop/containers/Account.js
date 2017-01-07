@@ -17,7 +17,6 @@ class Account extends Component {
 			selected: 'Teams',
 			menuItems: [
 				'Teams',
-//				'Profile',
 				'Messages'
 			],
 			passwords: {}
@@ -70,13 +69,6 @@ class Account extends Component {
 			showEdit: !this.state.showEdit
 		})
 	}
-
-	// toggleMap(event){
-	// 	event.preventDefault()
-	// 	this.setState({
-	// 		showMap: !this.state.showMap
-	// 	})
-	// }
 
 	toggleModal(){
 		this.setState({
@@ -227,18 +219,26 @@ class Account extends Component {
 
 		let content = null
 		if (selected == 'Teams'){
+			const teamList = (this.props.teams[user.id] == null) ? null : (
+				<div style={{textAlign:'left', marginTop:24}}>
+					<TeamFeed teams={this.props.teams[user.id]} user={user} />
+				</div>
+			)
+
 			content = (
-				<div>
-					{ (this.props.teams[user.id]) ? <TeamFeed teams={this.props.teams[user.id]} user={user} /> : null }
-					{ (!this.state.showCreateTeam) ? <button onClick={this.toggleCreateTeam.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Create Team</button> : 
-						<div>
-				            <h2 style={styles.title}>Create Team</h2>
-							<hr />
-							<CreateTeam
-								user={this.props.user} 
-								submit={this.createTeam.bind(this)} />
-						</div>
-					}
+				<div className="feature-box center media-box fbox-bg">
+					<div style={styles.main}>
+						<button onClick={this.toggleCreateTeam.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">{ (this.state.showCreateTeam) ? 'Cancel' : 'Create Team'}</button>
+						<h2 style={styles.team.title}>Teams</h2>
+						<hr />
+						{ (!this.state.showCreateTeam) ? teamList :
+							<div>
+								<CreateTeam
+									user={this.props.user} 
+									submit={this.createTeam.bind(this)} />
+							</div>
+						}
+					</div>
 				</div>
 			)
 		}

@@ -66,7 +66,7 @@ class CreateTeam extends Component {
 
 		return (
 			<div>
-				<div className={styles.post.container.className} style={styles.post.container}>
+				<div className={localStyle.container.className} style={localStyle.container}>
 					<div className="comment-meta">
 						<div className="comment-author vcard">
 							<span className="comment-avatar clearfix">
@@ -76,7 +76,7 @@ class CreateTeam extends Component {
 
 					<div className={styles.post.content.className} style={styles.post.content}>
 						<div className="col_two_third" style={{marginBottom:4}}>
-							<input id="name" onChange={this.updateTeam.bind(this)} type="text" placeholder="Team Name" style={styles.post.input} /><br />
+							<input id="name" onChange={this.updateTeam.bind(this)} type="text" placeholder="Team Name" style={localStyle.input} /><br />
 							<textarea id="description" onChange={this.updateTeam.bind(this)} placeholder="Description" style={styles.post.textarea}></textarea><br />					
 						</div>
 
@@ -103,10 +103,28 @@ class CreateTeam extends Component {
 				</select>
 
 				<br />
-				<a href="#" onClick={this.submitTeam.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create Team</a>
+				<a href="#" onClick={this.submitTeam.bind(this)} style={styles.post.btnAdd} className={styles.post.btnAdd.className}>Create</a>
 			</div>
 		)
 	}
+}
+
+const localStyle = {
+	container: {
+		background: '#fff',
+		className: 'comment-wrap clearfix',
+		paddingLeft: 48
+	},
+	input: {
+		color:'#333',
+		fontWeight: 200,
+	    lineHeight: 1.5,
+	    fontSize: 30,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%',
+		marginTop: 0
+	}	
 }
 
 export default CreateTeam
