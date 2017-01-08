@@ -357,7 +357,15 @@ class TeamDetail extends Component {
 
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
-					<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+					<div className="hidden-xs">
+						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+					</div>
+
+					{/* mobile UI*/}
+					<div className="visible-xs" style={{padding:'0px 24px 0px 24px'}}>
+						{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginBottom:12}} src={team.image+'=s160-c'} /> }
+						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+					</div>
 				</div>
 			)
 		}
@@ -425,7 +433,6 @@ class TeamDetail extends Component {
 					<section id="content" style={{background:'#fff', minHeight:800}}>
 						<div className="content-wrap container clearfix">
 							<div className="col_two_third">
-
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
 										{ btnEdit } 
@@ -435,7 +442,6 @@ class TeamDetail extends Component {
 										{ content }
 									</div>
 								</div>
-
 							</div>
 
 							<div className="col_one_third col_last">
@@ -469,6 +475,7 @@ class TeamDetail extends Component {
 							<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
 						</div>
 					</div>
+
 					{ content }
 				</div>
 				{ /* end mobile UI */ }
