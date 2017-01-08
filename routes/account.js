@@ -20,7 +20,8 @@ router.get('/:action', function(req, res, next){
 	var action = req.params.action
 
 	if (action == 'email'){
-		var path = 'public/email/templates/product_announcement/product-announcement.html'
+//		var path = 'public/email/templates/product_announcement/product-announcement.html'
+		var path = 'public/email/templates/newsletter/newsletter.html'
 		fetchFile(path)
 		.then(function(data){
 			return utils.EmailUtils.sendEmail('dkwon@velocity360.io', 'dan.kwon234@gmail.com', 'Test Invite', data)
