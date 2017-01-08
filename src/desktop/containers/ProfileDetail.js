@@ -183,8 +183,17 @@ class ProfileDetail extends Component {
 
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
-					<h4 style={styles.header}>{ profile.title }</h4>
-					<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
+					<div className="hidden-xs">
+						<h4 style={styles.header}>{ profile.title }</h4>
+						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
+					</div>
+
+					{ /* mobile UI*/ }
+					<div className="visible-xs" style={{padding:'0px 24px 0px 24px'}}>
+						{ (profile.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginBottom:12}} src={profile.image+'=s160-c'} /> }
+						<h4 style={styles.header}>{ profile.title }</h4>
+						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
+					</div>
 				</div>
 			)
 		}
