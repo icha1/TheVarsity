@@ -420,62 +420,65 @@ class TeamDetail extends Component {
 		) 
 
 		return (
-			<div className="clearfix">
-				<header id="header" className="no-sticky hidden-xs" style={{background:'#f9f9f9'}}>
-		            <div id="header-wrap">
-						<div className="container clearfix">
-							<div style={{paddingTop:96}}></div>
-							<div>
-								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={team.image+'=s140-c'} /> }
-								<h2 style={style.title}>{ team.name }</h2>
-								<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
-								<hr />
-								<nav id="primary-menu">
-									<ul>{sideMenu}</ul>
-								</nav>
-							</div>
-			            </div>
-		            </div>
-				</header>
-
-				<section id="content" style={{background:'#fff', minHeight:800}}>
-					{ /* mobile UI */ }
-					<div className="visible-xs">
-						<div className="row" style={{background:'#f9f9f9', padding:16, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
-							<div style={{textAlign:'left', paddingLeft:16}} className="col-xs-6">
-								<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
-									<option value="Feed">Feed</option>
-									<option value="Overview">Overview</option>
-									<option value="Members">Members</option>
-								</select>
-							</div>
-
-							<div style={{textAlign:'right', paddingRight:16}} className="col-xs-6">
-								{ (team.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={team.image+'=s48-c'} /> }
-								<h3 style={style.title}>{ team.name }</h3>
-								<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
-							</div>
-						</div>
-						{ content }
-					</div>
-
-					<div className="content-wrap container clearfix hidden-xs">
-						<div className="col_two_third">
-							{ content }
-						</div>
-
-						<div className="col_one_third col_last">
-							{ (selected == 'Feed') ? <div>{ submitPost }</div> :
+			<div>
+				<div className="clearfix hidden-xs">
+					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
+			            <div id="header-wrap">
+							<div className="container clearfix">
+								<div style={{paddingTop:96}}></div>
 								<div>
-									<h3 style={styles.team.title}>Accept Invitation</h3>
-									<hr style={{marginBottom:12}} />
-									<Redeem error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />								
+									{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={team.image+'=s140-c'} /> }
+									<h2 style={style.title}>{ team.name }</h2>
+									<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
+									<hr />
+									<nav id="primary-menu">
+										<ul>{sideMenu}</ul>
+									</nav>
 								</div>
-							}
+				            </div>
+			            </div>
+					</header>
+
+					<section id="content" style={{background:'#fff', minHeight:800}}>
+						<div className="content-wrap container clearfix">
+							<div className="col_two_third">
+								{ content }
+							</div>
+
+							<div className="col_one_third col_last">
+								{ (selected == 'Feed') ? <div>{ submitPost }</div> :
+									<div>
+										<h3 style={styles.team.title}>Accept Invitation</h3>
+										<hr style={{marginBottom:12}} />
+										<Redeem error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />								
+									</div>
+								}
+							</div>
+
+						</div>
+					</section>
+				</div>
+
+				{ /* mobile UI */ }
+				<div className="clearfix visible-xs row">
+					<div className="row" style={{background:'#f9f9f9', padding:16, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
+						<div style={{textAlign:'left', paddingLeft:16}} className="col-xs-6">
+							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
+								<option value="Feed">Feed</option>
+								<option value="Overview">Overview</option>
+								<option value="Members">Members</option>
+							</select>
 						</div>
 
+						<div style={{textAlign:'right', paddingRight:16}} className="col-xs-6">
+							{ (team.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={team.image+'=s48-c'} /> }
+							<h3 style={style.title}>{ team.name }</h3>
+							<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
+						</div>
 					</div>
-				</section>
+					{ content }
+				</div>
+				{ /* end mobile UI */ }
 
 		        <Modal bsSize="sm" show={this.state.showInvite} onHide={this.toggleInvite.bind(this)}>
 			        <Modal.Body style={styles.nav.modal}>
