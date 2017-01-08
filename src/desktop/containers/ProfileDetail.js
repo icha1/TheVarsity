@@ -212,11 +212,23 @@ class ProfileDetail extends Component {
 					</div>
 				</div>
 			)
-
 		}
 		
 		else if (selected == 'Teams' && profile != null){
-			content = (this.props.teams[profile.id]) ? <TeamFeed teams={this.props.teams[profile.id]} user={currentUser} /> : null			
+			let teams = (this.props.teams[profile.id]) ? <TeamFeed teams={this.props.teams[profile.id]} user={currentUser} /> : null
+			content = (
+				<div style={{textAlign:'left', marginTop:24}}>
+					<div className="hidden-xs">
+						{teams}
+					</div>
+
+					{ /* mobile UI*/ }
+					<div className="visible-xs" style={{padding:0}}>
+						{teams}
+					</div>
+				</div>
+			)
+
 		}
 		
 		else if (selected == 'Direct Message' && profile != null){
