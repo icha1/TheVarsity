@@ -62,10 +62,9 @@ class TeamDetail extends Component {
 	selectItem(item, event){
 		event.preventDefault()
 		window.scrollTo(0, 0)
-
 		this.setState({
 			isEditing: false,
-			selected: item
+			selected: (event.target.id == 'select') ? event.target.value : item
 		})
 	}
 
@@ -440,10 +439,20 @@ class TeamDetail extends Component {
 				</header>
 
 				<section id="content" style={{background:'#fff', minHeight:800}}>
-					<div className="visible-xs" style={{background:'#f9f9f9', padding:16, paddingRight:28, borderBottom:'1px solid #ddd', textAlign:'right', lineHeight:10+'px'}}>
-						{ (team.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={team.image+'=s48-c'} /> }
-						<h3 style={style.title}>{ team.name }</h3>
-						<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
+					<div className="row visible-xs" style={{background:'#f9f9f9', padding:16, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
+						<div style={{textAlign:'left', paddingLeft:16}} className="col-xs-6">
+							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
+								<option value="Feed">Feed</option>
+								<option value="Overview">Overview</option>
+								<option value="Members">Members</option>
+							</select>
+						</div>
+
+						<div style={{textAlign:'right', paddingRight:16}} className="col-xs-6">
+							{ (team.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={team.image+'=s48-c'} /> }
+							<h3 style={style.title}>{ team.name }</h3>
+							<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
+						</div>
 					</div>
 
 					<div className="content-wrap container clearfix">
@@ -490,17 +499,16 @@ const localStyle = {
 		float: 'right',
 		className: 'button button-small button-circle button-blue'
 	},
-	input: {
-		color:'#333',
-		background: '#f9f9f9',
-		marginBottom: 12,
+	select: {
+		color: '#333',
+		background: '#fff',
 		padding: 6,
 		fontWeight: 100,
-	    lineHeight: 1.5,
 	    fontSize: 20,
-		fontFamily:'Pathway Gothic One',
-		border: 'none',
-		width: 100+'%'
+		width: 100+'%',
+		marginTop: 6,
+		fontFamily: 'Pathway Gothic One',
+		border: 'none'
 	},
 	textarea: {
 		color:'#333',
