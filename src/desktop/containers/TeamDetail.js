@@ -327,24 +327,17 @@ class TeamDetail extends Component {
 
 		if (this.state.isEditing == true){
 			content = (
-				<div className="feature-box center media-box fbox-bg" style={{background:'#f9f9f9', borderRadius:'5px 5px 8px 8px'}}>
-					<div className="fbox-desc">
-						<div style={{textAlign:'left', padding:24, paddingTop:0, borderTop:'1px solid #ddd'}}>
-							<button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Done</button>
-							<button onClick={this.cancelEditing.bind(this)} style={{float:'right', marginRight:12}} className={localStyle.btnBlue.className}>Cancel</button>
-							<h2 style={styles.team.title}>Overview</h2>
-							<hr />
-
-							<div style={{textAlign:'center', marginTop:24}}>
-								<Dropzone onDrop={this.uploadImage.bind(this, 'team')} style={{marginBottom:4}}>
-									<img src={this.state.updatedTeam.image+'=s260'} />
-									<br />
-									Click to change
-								</Dropzone>
-								<textarea id="description" onChange={this.updateTeam.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
-							</div>
-						</div>
+				<div style={{textAlign:'left'}}>
+					<div style={{marginTop:24}}>
+						<Dropzone onDrop={this.uploadImage.bind(this, 'team')} style={{marginBottom:4}}>
+							<img src={this.state.updatedTeam.image+'=s260'} />
+							<br />
+							Click to change
+						</Dropzone>
+						<textarea id="description" onChange={this.updateTeam.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
 					</div>
+					<button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Done</button>
+					<button onClick={this.cancelEditing.bind(this)} style={{float:'right', marginRight:12}} className={localStyle.btnBlue.className}>Cancel</button>
 				</div>
 			)			
 		}
