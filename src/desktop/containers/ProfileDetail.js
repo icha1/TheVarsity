@@ -198,11 +198,26 @@ class ProfileDetail extends Component {
 			)
 		}
 
-		else if (selected == 'Feed' && profile != null)
-			content = (this.props.posts[profile.id]) ? <PostFeed posts={this.props.posts[profile.id]} user={currentUser} /> : null
+		else if (selected == 'Feed' && profile != null){
+			let feed = (this.props.posts[profile.id]) ? <PostFeed posts={this.props.posts[profile.id]} user={currentUser} /> : null
+			content = (
+				<div style={{textAlign:'left', marginTop:24}}>
+					<div className="hidden-xs">
+						{feed}
+					</div>
+
+					{ /* mobile UI*/ }
+					<div className="visible-xs" style={{padding:0}}>
+						{feed}
+					</div>
+				</div>
+			)
+
+		}
 		
-		else if (selected == 'Teams' && profile != null)
-			content = (this.props.teams[profile.id]) ? <TeamFeed teams={this.props.teams[profile.id]} user={currentUser} /> : null
+		else if (selected == 'Teams' && profile != null){
+			content = (this.props.teams[profile.id]) ? <TeamFeed teams={this.props.teams[profile.id]} user={currentUser} /> : null			
+		}
 		
 		else if (selected == 'Direct Message' && profile != null){
 			content = (
