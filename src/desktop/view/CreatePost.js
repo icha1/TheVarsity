@@ -81,6 +81,16 @@ class CreatePost extends Component {
 
 	submitPost(event){
 		event.preventDefault()
+		if (this.state.post.title.length == 0){
+			alert('Please enter a title.')
+			return
+		}
+
+		if (this.state.post.text.length == 0){
+			alert('Please enter text for your post.')
+			return
+		}
+
 		let updated = Object.assign({}, this.state.post)
 		this.props.submit(updated)
 	}
