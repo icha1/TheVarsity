@@ -439,23 +439,27 @@ class TeamDetail extends Component {
 				</header>
 
 				<section id="content" style={{background:'#fff', minHeight:800}}>
-					<div className="row visible-xs" style={{background:'#f9f9f9', padding:16, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
-						<div style={{textAlign:'left', paddingLeft:16}} className="col-xs-6">
-							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
-								<option value="Feed">Feed</option>
-								<option value="Overview">Overview</option>
-								<option value="Members">Members</option>
-							</select>
-						</div>
+					{ /* mobile UI */ }
+					<div className="visible-xs">
+						<div className="row" style={{background:'#f9f9f9', padding:16, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
+							<div style={{textAlign:'left', paddingLeft:16}} className="col-xs-6">
+								<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
+									<option value="Feed">Feed</option>
+									<option value="Overview">Overview</option>
+									<option value="Members">Members</option>
+								</select>
+							</div>
 
-						<div style={{textAlign:'right', paddingRight:16}} className="col-xs-6">
-							{ (team.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={team.image+'=s48-c'} /> }
-							<h3 style={style.title}>{ team.name }</h3>
-							<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
+							<div style={{textAlign:'right', paddingRight:16}} className="col-xs-6">
+								{ (team.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={team.image+'=s48-c'} /> }
+								<h3 style={style.title}>{ team.name }</h3>
+								<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
+							</div>
 						</div>
+						{ content }
 					</div>
 
-					<div className="content-wrap container clearfix">
+					<div className="content-wrap container clearfix hidden-xs">
 						<div className="col_two_third">
 							{ content }
 						</div>
