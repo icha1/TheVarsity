@@ -362,8 +362,8 @@ class TeamDetail extends Component {
 				<div className="feature-box center media-box fbox-bg">
 					<div style={styles.main}>
 						{ btnEdit }
-						<h2 style={styles.team.title}>Overview</h2>
-						<hr />
+						<h2 className="hidden-xs" style={styles.team.title}>Overview</h2>
+						<hr className="hidden-xs" />
 						<div style={{textAlign:'left', marginTop:24}}>
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 						</div>
@@ -377,8 +377,8 @@ class TeamDetail extends Component {
 			content = (
 				<div className="feature-box center media-box fbox-bg">
 					<div style={styles.main}>
-						<h2 style={styles.team.title}>Feed</h2>
-						<hr />
+						<h2 className="hidden-xs" style={styles.team.title}>Feed</h2>
+						<hr className="hidden-xs" />
 						<div style={{textAlign:'left', marginTop:24}}>
 							{ (list) ? <PostFeed posts={list} user={this.props.user} /> : null }
 						</div>
@@ -393,8 +393,8 @@ class TeamDetail extends Component {
 				<div className="feature-box center media-box fbox-bg">
 					<div style={styles.main}>
 						{ invite }
-						<h2 style={styles.team.title}>Members</h2>
-						<hr />
+						<h2 className="hidden-xs" style={styles.team.title}>Members</h2>
+						<hr className="hidden-xs" />
 
 						{ (members == null) ? null : members.map((member, i) => {
 								return (
@@ -422,15 +422,15 @@ class TeamDetail extends Component {
 
 		return (
 			<div className="clearfix">
-				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
+				<header id="header" className="no-sticky hidden-xs" style={{background:'#f9f9f9'}}>
 		            <div id="header-wrap">
 						<div className="container clearfix">
-							<div className="hidden-xs" style={{paddingTop:96}}></div>
+							<div style={{paddingTop:96}}></div>
 							<div>
 								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={team.image+'=s140-c'} /> }
 								<h2 style={style.title}>{ team.name }</h2>
 								<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
-								<hr className="hidden-xs" />
+								<hr />
 								<nav id="primary-menu">
 									<ul>{sideMenu}</ul>
 								</nav>
@@ -440,6 +440,12 @@ class TeamDetail extends Component {
 				</header>
 
 				<section id="content" style={{background:'#fff', minHeight:800}}>
+					<div className="visible-xs" style={{background:'#f9f9f9', padding:16, borderBottom:'1px solid #ddd', textAlign:'right', lineHeight:10+'px'}}>
+						{ (team.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12, marginRight:12}} src={team.image+'=s48-c'} /> }
+						<h3 style={style.title}>{ team.name }</h3>
+						<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
+					</div>
+
 					<div className="content-wrap container clearfix">
 						<div className="col_two_third">
 							{ content }
