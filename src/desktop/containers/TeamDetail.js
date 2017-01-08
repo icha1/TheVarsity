@@ -310,13 +310,6 @@ class TeamDetail extends Component {
 
 		let invite = null
 		let btnEdit = null
-		if (this.props.user != null){
-			if (this.memberFound(this.props.user, team.members))
-				invite = <button onClick={this.toggleInvite.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Invite Member</button>
-			
-			if (this.memberFound(this.props.user, team.admins))
-				btnEdit = <button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Edit</button>
-		}
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
 			const itemStyle = (item == this.state.selected) ? style.selected : style.menuItem
@@ -357,16 +350,14 @@ class TeamDetail extends Component {
 		}
 
 		else if (selected == 'Overview'){
+			if (this.props.user != null){
+				if (this.memberFound(this.props.user, team.admins))
+					btnEdit = <button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Edit</button>
+			}
+
 			content = (
-				<div className="feature-box center media-box fbox-bg">
-					<div style={styles.main}>
-						{ btnEdit }
-						<h2 className="hidden-xs" style={styles.team.title}>Overview</h2>
-						<hr className="hidden-xs" />
-						<div style={{textAlign:'left', marginTop:24}}>
-							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
-						</div>
-					</div>
+				<div style={{textAlign:'left', marginTop:24}}>
+					<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 				</div>
 			)
 		}
@@ -374,35 +365,27 @@ class TeamDetail extends Component {
 		else if (selected == 'Feed'){
 			const list = this.props.posts[team.id]
 			content = (
-				<div className="feature-box center media-box fbox-bg">
-					<div style={styles.main}>
-						<h2 className="hidden-xs" style={styles.team.title}>Feed</h2>
-						<hr className="hidden-xs" />
-						<div style={{textAlign:'left', marginTop:24}}>
-							{ (list) ? <PostFeed posts={list} user={this.props.user} /> : null }
-						</div>
-					</div>
+				<div style={{textAlign:'left', marginTop:24}}>
+					{ (list) ? <PostFeed posts={list} user={this.props.user} /> : null }
 				</div>
 			)
 		}
 
 		else if (selected == 'Members'){
 			const members = this.props.profiles[team.id]
+			if (this.props.user != null){
+				if (this.memberFound(this.props.user, team.members))
+					invite = <button onClick={this.toggleInvite.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Invite Member</button>
+			}
+
 			content = (
-				<div className="feature-box center media-box fbox-bg">
-					<div style={styles.main}>
-						{ invite }
-						<h2 className="hidden-xs" style={styles.team.title}>Members</h2>
-						<hr className="hidden-xs" />
-
-						{ (members == null) ? null : members.map((member, i) => {
-								return (
-									<ProfilePreview key={member.id} profile={member} />
-								)
-							})
-						}
-
-					</div>
+				<div>
+					{ (members == null) ? null : members.map((member, i) => {
+							return (
+								<ProfilePreview key={member.id} profile={member} />
+							)
+						})
+					}
 				</div>
 			)
 		}
@@ -442,7 +425,17 @@ class TeamDetail extends Component {
 					<section id="content" style={{background:'#fff', minHeight:800}}>
 						<div className="content-wrap container clearfix">
 							<div className="col_two_third">
-								{ content }
+
+								<div className="feature-box center media-box fbox-bg">
+									<div style={styles.main}>
+										{ btnEdit } 
+										{ invite }
+										<h2 style={styles.team.title}>{this.state.selected}</h2>
+										<hr />
+										{ content }
+									</div>
+								</div>
+
 							</div>
 
 							<div className="col_one_third col_last">
@@ -460,9 +453,9 @@ class TeamDetail extends Component {
 				</div>
 
 				{ /* mobile UI */ }
-				<div className="clearfix visible-xs row">
-					<div className="row" style={{background:'#f9f9f9', padding:16, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
-						<div style={{textAlign:'left', paddingLeft:16}} className="col-xs-6">
+				<div className="clearfix visible-xs">
+					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
+						<div className="col-xs-6">
 							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
 								<option value="Feed">Feed</option>
 								<option value="Overview">Overview</option>
@@ -470,7 +463,7 @@ class TeamDetail extends Component {
 							</select>
 						</div>
 
-						<div style={{textAlign:'right', paddingRight:16}} className="col-xs-6">
+						<div style={{textAlign:'right'}} className="col-xs-6">
 							{ (team.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={team.image+'=s48-c'} /> }
 							<h3 style={style.title}>{ team.name }</h3>
 							<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
@@ -514,6 +507,7 @@ const localStyle = {
 	    fontSize: 20,
 		width: 100+'%',
 		marginTop: 6,
+		marginLeft: 16,
 		fontFamily: 'Pathway Gothic One',
 		border: 'none'
 	},

@@ -32,44 +32,65 @@ class Post extends Component {
 		const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
 		const colClass = (post.image.length == 0) ? 'col_full col_last' : 'col_two_third'
 		return (
-			<div className={styles.post.container.className} style={style.container}>
-				<div className="comment-meta">
-					<div className="comment-author vcard">
-						<span className="comment-avatar clearfix">
-							<Link to={'/'+post.author.type+'/'+post.author.slug}>
-								<img alt='The Varsity' src={post.author.image+'=s120-c'} className='avatar avatar-60 photo' height='60' width='60' />
-							</Link>
-						</span>
-					</div>
-				</div>
-				<div className={style.content.className} style={style.content}>
-					<div className={colClass} style={{marginBottom:4}}>
-						<h3 style={style.header}>{ title }</h3>
-						<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
-					</div>
-
-					{ (post.image.length == 0) ? null :
-						<div className="col_one_third col_last hidden-xs" style={{marginBottom:8, textAlign:'right'}}>
-							<img style={style.postImage} src={post.image} />
+			<div>
+				<div className="comment-wrap clearfix hidden-xs" style={style.container}>
+					<div className="comment-meta">
+						<div className="comment-author vcard">
+							<span className="comment-avatar clearfix">
+								<Link to={'/'+post.author.type+'/'+post.author.slug}>
+									<img alt='The Varsity' src={post.author.image+'=s120-c'} className='avatar avatar-60 photo' height='60' width='60' />
+								</Link>
+							</span>
 						</div>
-					}
-				</div>
-				<div style={{float:'left'}} className="dropdown">
-					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle hidden-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						<img style={{width:32, float:'right'}} src="/images/dots.png" />
-					</a>
-					<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-						<li style={style.listItem}><a href="#">Share</a></li>
-						<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
-						{ (saved) ? <li style={style.listItem}><a onClick={this.unsave.bind(this)} href="#">Unsave</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
-					</ul>
+					</div>
+					<div className={style.content.className} style={style.content}>
+						<div className={colClass} style={{marginBottom:4}}>
+							<h3 style={style.header}>{ title }</h3>
+							<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
+						</div>
 
+						{ (post.image.length == 0) ? null :
+							<div className="col_one_third col_last" style={{marginBottom:8, textAlign:'right'}}>
+								<img style={style.postImage} src={post.image} />
+							</div>
+						}
+					</div>
+					<div style={{float:'left'}} className="dropdown">
+						<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							<img style={{width:32, float:'right'}} src="/images/dots.png" />
+						</a>
+						<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+							<li style={style.listItem}><a href="#">Share</a></li>
+							<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
+							{ (saved) ? <li style={style.listItem}><a onClick={this.unsave.bind(this)} href="#">Unsave</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
+						</ul>
+					</div>
+					<span style={localStyle.detail}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments</Link></span>
+					<span style={localStyle.separator}>|</span>
+					<span style={localStyle.detail}>{ DateUtils.formattedDate(post.timestamp) }</span>
+					<span style={localStyle.separator}>|</span>
+					<span style={localStyle.detailRed}><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span>
 				</div>
-				<span style={localStyle.detailRed}><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span>
-				<span style={localStyle.separator}>|</span>
-				<span style={localStyle.detail}>{ DateUtils.formattedDate(post.timestamp) }</span>
-				<span style={localStyle.separator}>|</span>
-				<span style={localStyle.detail}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments</Link></span>
+
+				{ /* mobile ui */}
+				<div className="clearfix visible-xs" style={{borderBottom:'1px solid #ededed', padding:'0px 0px 12px 12px'}}>
+					<div className="comment-content clearfix" style={{textAlign:'left'}}>
+						<Link to={'/post/'+post.slug}>
+							<img alt='The Varsity' className='avatar avatar-60 photo' style={{borderRadius:24, float:'right', marginRight:12}} src={post.image+'=s96-c'} width="48" height="48" />
+						</Link>
+						<div style={{marginBottom: 25}}>
+							<h3 style={style.header}>{ title }</h3>
+							<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
+						</div>
+					</div>
+					<div style={{paddingRight:12}}>
+						<span style={localStyle.detail}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments</Link></span>
+						<span style={localStyle.separator}>|</span>
+						<span style={localStyle.detail}>{ DateUtils.formattedDate(post.timestamp) }</span>
+						<span style={localStyle.separator}>|</span>
+						<span style={localStyle.detailRed}><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span>
+					</div>
+				</div>
 			</div>
 		)
 	}
