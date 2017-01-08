@@ -34,7 +34,6 @@ class ProfilePreview extends Component {
 					</div>
 			    </div>
 
-
 				{ /* mobile ui */ }
 				<div className="clearfix visible-xs" style={{borderBottom:'1px solid #ededed', padding:'16px 0px 16px 24px'}}>
 					<div className="comment-content clearfix" style={{textAlign:'left'}}>

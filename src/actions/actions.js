@@ -76,25 +76,6 @@ export default {
 		}
 	},
 
-	fetchSavedPosts: (profile) => {
-		return (dispatch) => {
-			APIManager
-			.handleGet('/api/post', {saved:profile.id})
-			.then((response) => {
-				dispatch({
-					type: constants.SAVED_POSTS_RECEIVED,
-					profile: profile,
-					posts: response.results
-				})
-
-				return response.results
-			})
-			.catch((err) => {
-				alert(err.message)
-			})
-		}
-	},
-
 	postsReceived: (posts) => {
 		return {
 			type: constants.POSTS_RECEIVED,
@@ -227,8 +208,6 @@ export default {
 			return dispatch(postData('/account/redeem', invitation, null, 'invitation'))
 		}
 	},
-
-	// - - - - - - - - - PROFILES - - - - - - - - - 	
 
 	// fetchProfiles: (params) => {
 	// 	return (dispatch) => {

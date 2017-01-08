@@ -43,7 +43,7 @@ class ProfileDetail extends Component {
 				return
 
 //			console.log('Fetch Posts')
-			this.props.fetchSavedPosts(profile)
+			this.props.fetchPosts({saved:profile.id})
 		}
 
 		if (selected == 'Teams'){
@@ -77,9 +77,16 @@ class ProfileDetail extends Component {
 		event.preventDefault()
 		window.scrollTo(0, 0)
 		this.setState({
-			selected: item,
-			showEdit: false
+			showEdit: false,
+			selected: (event.target.id == 'select') ? event.target.value : item
 		})
+
+		// event.preventDefault()
+		// window.scrollTo(0, 0)
+		// this.setState({
+		// 	selected: item,
+		// 	showEdit: false
+		// })
 	}
 
 	submitComment(comment){
@@ -156,10 +163,10 @@ class ProfileDetail extends Component {
 		})
 
 		let content = null
+		let btnEdit = null
 		const currentUser = this.props.user // can be null
 
 		if (this.state.showEdit){
-			let btnEdit = null
 			if (currentUser != null){
 				if (currentUser.id == profile.id)
 					btnEdit = <button onClick={this.editProfile.bind(this)} style={{float:'right'}}>Done</button>
@@ -169,21 +176,15 @@ class ProfileDetail extends Component {
 		}
 		
 		else if (selected == 'Overview' && profile != null){
-			let btnEdit = null
 			if (currentUser != null){
 				if (currentUser.id == profile.id)
 					btnEdit = <button onClick={this.editProfile.bind(this)} style={{float:'right'}}>Edit</button>
 			}
 
 			content = (
-				<div className="feature-box center media-box fbox-bg">
-					<div style={styles.main}>
-						{ btnEdit }
-						<h2 style={styles.post.title}>Overview</h2>
-						<hr />
-						<h4 style={styles.header}>{ profile.title }</h4>
-						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
-					</div>
+				<div style={{textAlign:'left', marginTop:24}}>
+					<h4 style={styles.header}>{ profile.title }</h4>
+					<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
 				</div>
 			)
 		}
@@ -207,53 +208,74 @@ class ProfileDetail extends Component {
 		}
 
 		return (
-			<div className="clearfix">
-				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
-		            <div id="header-wrap">
-						<div className="container clearfix">
-							<div style={{paddingTop:96}}>
-								{ image }
-								<h2 style={style.title}>{ username }</h2>
-								<hr />
-								<nav id="primary-menu">
-									<ul>{sideMenu}</ul>
-								</nav>
-								
-								<div className="clearfix visible-md visible-lg">
-									<a href="#" className="social-icon si-small si-borderless si-facebook">
-										<i className="icon-facebook"></i>
-										<i className="icon-facebook"></i>
-									</a>
+			<div>
+				<div className="clearfix hidden-xs">
+					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
+			            <div id="header-wrap">
+							<div className="container clearfix">
+								<div style={{paddingTop:96}}>
+									{ image }
+									<h2 style={style.title}>{ username }</h2>
+									<hr />
+									<nav id="primary-menu">
+										<ul>{sideMenu}</ul>
+									</nav>
+								</div>
+				            </div>
+			            </div>
+					</header>
 
-									<a href="#" className="social-icon si-small si-borderless si-instagram">
-										<i className="icon-instagram"></i>
-										<i className="icon-instagram"></i>
-									</a>
+					<section id="content" style={{background:'#fff', minHeight:800}}>
+						<div className="content-wrap container clearfix">
+							<div className="col_two_third">
+								<div className="feature-box center media-box fbox-bg">
+									<div style={styles.main}>
+										{ btnEdit }
+										<h2 style={styles.team.title}>{this.state.selected}</h2>
+										<hr />
+										{ content }
+									</div>
 								</div>
 
 							</div>
-			            </div>
-		            </div>
-				</header>
 
-				<section id="content" style={{background:'#fff', minHeight:800}}>
-					<div className="content-wrap container clearfix">
-						<div className="col_two_third">
-							{ content }
+							<div className="col_one_third col_last">
+								<h3 style={styles.team.title}>Accept Invitation</h3>
+								<hr style={{marginBottom:0}} />
+
+								<input style={localStyle.input} type="text" placeholder="Email" />
+								<input style={localStyle.input} type="text" placeholder="Invite Code" />
+					            <a href="#" className="button button-circle" style={localStyle.btnBlue}>Submit</a>
+							</div>
+						</div>
+					</section>
+				</div>
+
+				{ /* mobile UI */ }
+				<div className="clearfix visible-xs">
+					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
+						<div className="col-xs-6">
+							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
+								<option value="Overview">Overview</option>
+								<option value="Feed">Feed</option>
+								<option value="Teams">Teams</option>
+								<option value="Direct Message">Direct Message</option>
+							</select>
 						</div>
 
-						<div className="col_one_third col_last">
-							<h3 style={styles.team.title}>Accept Invitation</h3>
-							<hr style={{marginBottom:0}} />
-
-							<input style={localStyle.input} type="text" placeholder="Email" />
-							<input style={localStyle.input} type="text" placeholder="Invite Code" />
-				            <a href="#" className="button button-circle" style={localStyle.btnBlue}>Submit</a>
-						</div>
-
+						{ (profile == null) ? null : 
+							<div style={{textAlign:'right'}} className="col-xs-6">
+								{ (profile.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={profile.image+'=s48-c'} /> }
+								<h3 style={style.title}>{ profile.username }</h3>
+								<span style={styles.paragraph}>{ TextUtils.capitalize(profile.location.city) }</span>
+							</div>							
+						}
 					</div>
 
-				</section>
+					{ content }
+				</div>
+				{ /* end mobile UI */ }
+
 			</div>
 		)
 	}
@@ -272,6 +294,18 @@ const localStyle = {
 		border: 'none',
 		width: 100+'%'
 	},
+	select: {
+		color: '#333',
+		background: '#fff',
+		padding: 6,
+		fontWeight: 100,
+	    fontSize: 20,
+		width: 100+'%',
+		marginTop: 6,
+		marginLeft: 16,
+		fontFamily: 'Pathway Gothic One',
+		border: 'none'
+	},
 	btnBlue: {
 		backgroundColor:'rgb(91, 192, 222)'
 	}
@@ -280,7 +314,7 @@ const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
 		profiles: state.profile,
-		posts: state.profile.posts,
+		posts: state.post,
 		teams: state.team,
 		session: state.session
 	}
@@ -289,7 +323,7 @@ const stateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
-		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
+		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params))
 	}
