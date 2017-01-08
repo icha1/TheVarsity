@@ -440,8 +440,8 @@ class TeamDetail extends Component {
 				</header>
 
 				<section id="content" style={{background:'#fff', minHeight:800}}>
-					<div className="visible-xs" style={{background:'#f9f9f9', padding:16, borderBottom:'1px solid #ddd', textAlign:'right', lineHeight:10+'px'}}>
-						{ (team.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12, marginRight:12}} src={team.image+'=s48-c'} /> }
+					<div className="visible-xs" style={{background:'#f9f9f9', padding:16, paddingRight:28, borderBottom:'1px solid #ddd', textAlign:'right', lineHeight:10+'px'}}>
+						{ (team.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={team.image+'=s48-c'} /> }
 						<h3 style={style.title}>{ team.name }</h3>
 						<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
 					</div>

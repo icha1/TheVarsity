@@ -49,13 +49,13 @@ class Post extends Component {
 					</div>
 
 					{ (post.image.length == 0) ? null :
-						<div className="col_one_third col_last" style={{marginBottom:8, textAlign:'right'}}>
+						<div className="col_one_third col_last hidden-xs" style={{marginBottom:8, textAlign:'right'}}>
 							<img style={style.postImage} src={post.image} />
 						</div>
 					}
 				</div>
 				<div style={{float:'left'}} className="dropdown">
-					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<a href="#" style={{border:'none'}} className="btn btn-default dropdown-toggle hidden-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						<img style={{width:32, float:'right'}} src="/images/dots.png" />
 					</a>
 					<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
