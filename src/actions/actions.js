@@ -218,7 +218,7 @@ export default {
 
 	sendInvitation: (params) => {
 		return dispatch => {
-			return dispatch(postData('/api/invitation', params, null, 'invitation'))
+			return dispatch(postData('/account/invite', params, null, 'invitation'))
 		}
 	},
 

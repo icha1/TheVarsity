@@ -189,6 +189,38 @@ router.post('/:action', function(req, res, next){
 		})
 	}
 
+	if (action == 'invite'){
+		var invitation = null
+		controllers.invitation.post(req.body)
+		.then(function(result){
+			invitation = result
+			var path = 'public/email/templates/newsletter/newsletter.html'
+			return fetchFile(path)
+		})
+		.then(function(data){
+			var html = data.replace('{{team_image}}', invitation.team.image+'=s240-c')
+			html = html.replace('{{from}}', invitation.from.email)
+			html = html.replace('{{from}}', invitation.from.email)
+			html = html.replace('{{team_name}}', invitation.team.name)
+			html = html.replace('{{team_name}}', invitation.team.name)
+			html = html.replace('{{email}}', invitation.email)
+			return utils.EmailUtils.sendEmail('dkwon@velocity360.io', 'dan.kwon234@gmail.com', 'Test Invite', html)
+		})
+		.then(function(response){
+			res.json({
+				confirmation: 'success',
+				result: response
+			})
+		})
+		.catch(function(err){
+			var msg = err.errmsg || err.message || err
+			res.json({
+				confirmation: 'fail',
+				message: msg
+			})
+		})
+	}
+
 	if (action == 'redeem'){ // redeem invitation
 		var invitation = null
 		var hostTeam = null
