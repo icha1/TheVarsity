@@ -198,7 +198,7 @@ router.post('/:action', function(req, res, next){
 			return fetchFile(path)
 		})
 		.then(function(data){
-			var html = data.replace('{{team_image}}', invitation.team.image+'=s240-c')
+			var html = data.replace('{{team_image}}', invitation.team.image+'=s320-c')
 			html = html.replace('{{from}}', invitation.from.email)
 			html = html.replace('{{from}}', invitation.from.email)
 			html = html.replace('{{team_name}}', invitation.team.name)
