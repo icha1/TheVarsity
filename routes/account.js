@@ -24,7 +24,7 @@ router.get('/:action', function(req, res, next){
 		var path = 'public/email/templates/newsletter/newsletter.html'
 		fetchFile(path)
 		.then(function(data){
-			return utils.EmailUtils.sendEmail('dkwon@velocity360.io', 'dan.kwon234@gmail.com', 'Test Invite', data)
+			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dan.kwon234@gmail.com', 'Test Invite', data)
 		})
 		.then(function(response){
 			res.json({
@@ -40,6 +40,16 @@ router.get('/:action', function(req, res, next){
 				confirmation: 'fail',
 				message: err || err.message
 			})
+		})
+	}
+
+	if (action == 'unsubscribe'){
+		utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'Unsubscribe', req.query.email+' Unsubscribed from The Varsity.')
+		.then(function(response){
+			res.send('You have been unsubscribed.')
+		})
+		.catch(function(err){
+			res.send('You have been unsubscribed.')
 		})
 	}
 
@@ -106,7 +116,7 @@ router.post('/:action', function(req, res, next){
 			token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
 			req.session.token = token
 
-			return utils.EmailUtils.sendEmail('info@thegridmedia.com', profile.email, 'The Varsity', 'Welcome to the Varsity')
+			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, profile.email, 'The Varsity', 'Welcome to the Varsity')
 		})
 		.then(function(response){
 			res.json({
@@ -204,7 +214,7 @@ router.post('/:action', function(req, res, next){
 			html = html.replace('{{team_name}}', invitation.team.name)
 			html = html.replace('{{team_name}}', invitation.team.name)
 			html = html.replace('{{email}}', invitation.email)
-			return utils.EmailUtils.sendEmail('dkwon@velocity360.io', 'dan.kwon234@gmail.com', 'Test Invite', html)
+			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, invitation.email, 'Invitation: '+invitation.team.name+' on The Varsity ', html)
 		})
 		.then(function(response){
 			res.json({
