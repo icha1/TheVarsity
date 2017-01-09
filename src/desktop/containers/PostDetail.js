@@ -93,9 +93,8 @@ class PostDetail extends Component {
 	selectItem(item, event){
 		event.preventDefault()
 		window.scrollTo(0, 0)
-
 		this.setState({
-			selected: item
+			selected: (event.target.id == 'select') ? event.target.value : item
 		})
 	}
 
@@ -197,8 +196,8 @@ class PostDetail extends Component {
 
 			const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
 			content = (
-				<div className="feature-box center media-box fbox-bg">
-					<div style={{lineHeight:18+'px', textAlign:'right'}}>
+				<div>
+					<div className="hidden-xs" style={{lineHeight:18+'px', textAlign:'right'}}>
 						<img style={{float:'right', marginLeft:10, borderRadius:18}} src={post.author.image+'=s36-c'} />
 						<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
 						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
@@ -210,14 +209,21 @@ class PostDetail extends Component {
 							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
 						<hr />
-						{ ( post.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} /> }
+						{ ( post.image.length == 0) ? null : (
+								<div>
+									<img className="hidden-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
+									<img className="visible-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
+								</div>
+							)
+						}
+
 						<div style={{textAlign:'left', marginTop:24}}>
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
 						</div>
 						<hr />
 						<textarea style={styles.replyBox} placeholder='Reply'></textarea>
 						<button className="button button-mini button-circle button-green">Submit Reply</button>
-					</div>
+					</div>					
 				</div>
 			)
 		}
@@ -238,63 +244,82 @@ class PostDetail extends Component {
 		const teams = this.props.teams[post.author.id] // can be null
 
 		return (
-			<div className="clearfix">
-				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
-		            <div id="header-wrap">
-						<div className="container clearfix">
-							<div style={{paddingTop:96}}>
-								{ (author == null) ? null : 
-									<div>
-										<img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginTop:6}} src={author.image+'=s140'} />
-										<h2 style={ style.title }>
-											<Link to={'/profile/'+author.slug}>{ author.username }</Link>
-										</h2>
-										<span style={styles.paragraph}>{ author.title }</span><br />
-										<span style={styles.paragraph}>{ TextUtils.capitalize(author.location.city) }</span>
-										<br />
-										<Link to={'/profile/'+author.slug}  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>View Profile</Link>
-									</div>
-								}
+			<div>
+				<div className="clearfix hidden-xs">
+					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
+			            <div id="header-wrap">
+							<div className="container clearfix">
+								<div style={{paddingTop:96}}>
+									{ (author == null) ? null : 
+										<div>
+											<img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginTop:6}} src={author.image+'=s140'} />
+											<h2 style={ style.title }>
+												<Link to={'/profile/'+author.slug}>{ author.username }</Link>
+											</h2>
+											<span style={styles.paragraph}>{ author.title }</span><br />
+											<span style={styles.paragraph}>{ TextUtils.capitalize(author.location.city) }</span>
+											<br />
+											<Link to={'/profile/'+author.slug}  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>View Profile</Link>
+										</div>
+									}
 
-								<hr className="hidden-xs" />
-								<nav id="primary-menu">
+									<hr />
+									<nav id="primary-menu">
+										{ (teams == null) ? null : teams.map((team, i) => {
+												return (
+													<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
+														<Link to={'/team/'+team.slug}>
+															<img style={localStyle.image} src={team.image+'=s44-c'} />
+														</Link>
+														<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
+															{team.name}
+														</Link>
+														<br />
+														<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
+													</div>
+												)
+											})
+										}
+									</nav>
+								</div>
+				            </div>
 
-				{ (teams == null) ? null : teams.map((team, i) => {
-						return (
-							<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
-								<Link to={'/team/'+team.slug}>
-									<img style={localStyle.image} src={team.image+'=s44-c'} />
-								</Link>
-								<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
-									{team.name}
-								</Link>
-								<br />
-								<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
-							</div>
-						)
-					})
-				}
-
-
-								</nav>
-
-							</div>
 			            </div>
+					</header>
 
-		            </div>
-				</header>
+					<section id="content" style={{background:'#fff', minHeight:800}}>
+						<div className="content-wrap container clearfix">
+							<div className="col_two_third">
+								<div className="feature-box center media-box fbox-bg">
+									<div style={styles.main}>
+										{ content }
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
 
-				<section id="content" style={{background:'#fff', minHeight:800}}>
-					<div className="content-wrap container clearfix">
-						<div className="col_two_third">
-							{ content }
+				{ /* mobile UI */ }
+				<div className="clearfix visible-xs">
+					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
+						<div className="col-xs-6">
+							<h3 style={style.title}>{ TextUtils.capitalize(post.type) }</h3>
 						</div>
 
-						<div className="col_one_third col_last">
-
-						</div>
+						{ (author == null) ? null : 
+							<div style={{textAlign:'right'}} className="col-xs-6">
+								{ (author.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={author.image+'=s48-c'} /> }
+								<Link to={'/profile/'+author.slug}>
+									<h3 style={style.title}>{ author.username }</h3>
+								</Link>
+								<span style={styles.paragraph}>{ TextUtils.capitalize(author.location.city) }</span>
+							</div>
+						}
 					</div>
-				</section>
+					{ content }
+				</div>
+				{ /* end mobile UI */ }
 
 			</div>
 		)
@@ -302,6 +327,18 @@ class PostDetail extends Component {
 }
 
 const localStyle = {
+	select: {
+		color: '#333',
+		background: '#fff',
+		padding: 6,
+		fontWeight: 100,
+	    fontSize: 20,
+		width: 100+'%',
+		marginTop: 6,
+		marginLeft: 16,
+		fontFamily: 'Pathway Gothic One',
+		border: 'none'
+	},
 	detailHeader: {
 		color:'#333',
 		fontFamily:'Pathway Gothic One',
