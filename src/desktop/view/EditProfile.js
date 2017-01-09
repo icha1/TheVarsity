@@ -98,7 +98,7 @@ class EditProfile extends Component {
 					}
 				</select>
 				<textarea id="bio" placeholder="Bio" onChange={this.updateProfile.bind(this)} style={localStyle.textarea} defaultValue={profile.bio}></textarea>
-				<Dropzone onDrop={this.uploadImage.bind(this)} className="clearfix visible-md visible-lg">
+				<Dropzone onDrop={this.uploadImage.bind(this)} className="clearfix">
 					{ (this.state.updatedProfile.image.length > 0) ? <div><img src={image} /><br />Click to Change</div> :
 						<button className="social-icon si-small si-borderless si-instagram">
 							<i className="icon-instagram"></i>

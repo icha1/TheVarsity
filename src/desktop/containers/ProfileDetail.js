@@ -304,7 +304,7 @@ class ProfileDetail extends Component {
 								{ (profile.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={profile.image+'=s48-c'} /> }
 								<h3 style={style.title}>{ profile.username }</h3>
 								<span style={styles.paragraph}>{ TextUtils.capitalize(profile.location.city) }</span>
-							</div>							
+							</div>
 						}
 					</div>
 
@@ -346,6 +346,7 @@ const localStyle = {
 		backgroundColor:'rgb(91, 192, 222)'
 	}
 }
+
 const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,

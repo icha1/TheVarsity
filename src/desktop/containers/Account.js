@@ -44,10 +44,10 @@ class Account extends Component {
 
 	selectItem(item, event){
 		event.preventDefault()
-
+		window.scrollTo(0, 0)
 		this.setState({
-			selected: item,
-			showEdit: false
+			showEdit: false,
+			selected: (event.target.id == 'select') ? event.target.value : item
 		})
 	}
 
@@ -226,16 +226,30 @@ class Account extends Component {
 			)
 
 			content = (
-				<div className="feature-box center media-box fbox-bg">
-					<div style={styles.main}>
-						<button onClick={this.toggleCreateTeam.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">{ (this.state.showCreateTeam) ? 'Cancel' : 'Create Team'}</button>
-						<h2 style={styles.team.title}>Teams</h2>
-						<hr />
-						{ (!this.state.showCreateTeam) ? teamList :
+				<div>
+					{ (!this.state.showCreateTeam) ? teamList :
+						<div>
+							<CreateTeam
+								user={this.props.user} 
+								submit={this.createTeam.bind(this)} />
+						</div>
+					}
+				</div>
+			)
+		}
+		else if (selected == 'Profile'){ // mobile only
+			content = (
+				<div style={{textAlign:'left', marginTop:24}}>
+					<div className="visible-xs" style={{padding:'0px 24px 0px 24px'}}>
+						{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+						{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
 							<div>
-								<CreateTeam
-									user={this.props.user} 
-									submit={this.createTeam.bind(this)} />
+								<h4 style={styles.header}>{ user.username }</h4>
+								<h4 style={styles.header}>{ user.title }</h4>
+								<h4 style={styles.header}>{ TextUtils.capitalize(user.location.city) }</h4>
+								<h4 style={styles.header}>{ user.location.state.toUpperCase() }</h4>
+								<p className="lead" style={{fontSize:16, color:'#555', marginTop:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+								<img src={user.image+'=s220-c'} />
 							</div>
 						}
 					</div>
@@ -245,40 +259,72 @@ class Account extends Component {
 		else if (selected == 'Messages')
 			content = null
 
+
 		const sidebar = (this.state.showMap) ? <Map center={this.props.session.currentLocation} zoom={14} animation={2} /> : sideMenu
 
 		return (
-			<div className="clearfix">
-				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
-		            <div id="header-wrap">
-		            	{ sidebar }
-		            </div>
-				</header>
+			<div>
+				<div className="clearfix hidden-xs">
+					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
+			            <div id="header-wrap">
+			            	{ sidebar }
+			            </div>
+					</header>
 
-				<section id="content" style={style.content}>
-					<div className="content-wrap container clearfix">
+					<section id="content" style={style.content}>
+						<div className="content-wrap container clearfix">
+							<div className="col_two_third">
 
-						<div className="col_two_third">
-							{ content }
-						</div>
-
-						<div className="col_one_third col_last">
-							<div>
-								{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
-								<h3 style={styles.team.title}>Profile</h3>
-								<hr style={{marginBottom:12}} />
-								{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
-									<div>
-										<h4 style={styles.header}>{ user.title }</h4>
-										<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
-										<img src={user.image+'=s220-c'} />
+								<div className="feature-box center media-box fbox-bg">
+									<div style={styles.main}>
+										<button onClick={this.toggleCreateTeam.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">{ (this.state.showCreateTeam) ? 'Cancel' : 'Create Team'}</button>
+										<h2 style={styles.team.title}>{this.state.selected}</h2>
+										<hr />
+										{ content }
 									</div>
-								}
+								</div>
+
+							</div>
+
+							<div className="col_one_third col_last">
+								<div>
+									{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+									<h3 style={styles.team.title}>Profile</h3>
+									<hr style={{marginBottom:12}} />
+									{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
+										<div>
+											<h4 style={styles.header}>{ user.title }</h4>
+											<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+											<img src={user.image+'=s220-c'} />
+										</div>
+									}
+								</div>
 							</div>
 						</div>
+					</section>
+				</div>
 
+				{ /* mobile UI */ }
+				<div className="clearfix visible-xs">
+					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
+						<div className="col-xs-6">
+							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
+								<option value="Teams">Teams</option>
+								<option value="Profile">Profile</option>
+								<option value="Messages">Messages</option>
+							</select>
+						</div>
+
+						{ (user == null) ? null : 
+							<div style={{textAlign:'right'}} className="col-xs-6">
+								{ (user.image.length == 0) ? null : <img style={{float:'right', borderRadius:24, marginLeft:12}} src={user.image+'=s48-c'} /> }
+								<h3 style={styles.post.title}>Account</h3>
+							</div>
+						}						
 					</div>
-				</section>
+					{ content }
+				</div>
+				{ /* end mobile UI */ }
 
 		        <Modal bsSize="sm" show={this.state.showModal} onHide={this.toggleModal.bind(this)}>
 			        <Modal.Body style={styles.nav.modal}>
@@ -295,9 +341,38 @@ class Account extends Component {
 						</div>
 			        </Modal.Body>
 		        </Modal>
-
 			</div>
 		)
+	}
+}
+
+const localStyle = {
+	input: {
+		color:'#333',
+		background: '#f9f9f9',
+		marginBottom: 12,
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 20,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%'
+	},
+	select: {
+		color: '#333',
+		background: '#fff',
+		padding: 6,
+		fontWeight: 100,
+	    fontSize: 20,
+		width: 100+'%',
+		marginTop: 6,
+		marginLeft: 16,
+		fontFamily: 'Pathway Gothic One',
+		border: 'none'
+	},
+	btnBlue: {
+		backgroundColor:'rgb(91, 192, 222)'
 	}
 }
 
