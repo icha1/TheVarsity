@@ -108,7 +108,7 @@ class EditProfile extends Component {
 					<div style={{float:'right', width:50+'%'}}>
 						{ (this.state.isLoading) ? <Loading type='bars' color='#333' /> : null }
 					</div>
-				</Dropzone>	            
+				</Dropzone>
 	            <a href="#" onClick={this.btnCloseClicked.bind(this)} className="button button-circle button-green" style={localStyle.btnBlue}>Done</a>
 			</div>
 		)

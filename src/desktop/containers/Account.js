@@ -246,8 +246,7 @@ class Account extends Component {
 							<div>
 								<h4 style={styles.header}>{ user.username }</h4>
 								<h4 style={styles.header}>{ user.title }</h4>
-								<h4 style={styles.header}>{ TextUtils.capitalize(user.location.city) }</h4>
-								<h4 style={styles.header}>{ user.location.state.toUpperCase() }</h4>
+								<h4 style={styles.header}>{ TextUtils.capitalize(user.location.city)+', '+user.location.state.toUpperCase() }</h4>
 								<p className="lead" style={{fontSize:16, color:'#555', marginTop:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
 								<img src={user.image+'=s220-c'} />
 							</div>
@@ -277,7 +276,7 @@ class Account extends Component {
 
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
-										<button onClick={this.toggleCreateTeam.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">{ (this.state.showCreateTeam) ? 'Cancel' : 'Create Team'}</button>
+										{ (selected == 'Teams') ? <button onClick={this.toggleCreateTeam.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">{ (this.state.showCreateTeam) ? 'Cancel' : 'Create Team'}</button> : null }
 										<h2 style={styles.team.title}>{this.state.selected}</h2>
 										<hr />
 										{ content }
