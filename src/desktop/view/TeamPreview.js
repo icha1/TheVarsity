@@ -51,7 +51,9 @@ class TeamPreview extends Component {
 							<img alt='The Varsity' className='avatar avatar-60 photo' style={{borderRadius:24, float:'right', marginRight:12}} src={team.image+'=s96-c'} width="48" height="48" />
 						</Link>
 						<div style={{marginBottom: 25}}>
-							<h3 style={style.header}>{ team.name }</h3>
+							<Link to={'/team/'+team.slug}>
+								<h3 style={style.header}>{ team.name }</h3>
+							</Link>
 							<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(team.description, 120))}}></p>
 						</div>
 					</div>
