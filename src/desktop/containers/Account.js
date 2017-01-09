@@ -293,8 +293,10 @@ class Account extends Component {
 									<hr style={{marginBottom:12}} />
 									{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
 										<div>
+											<h4 style={styles.header}>{ user.username }</h4>
 											<h4 style={styles.header}>{ user.title }</h4>
-											<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+											<h4 style={styles.header}>{ TextUtils.capitalize(user.location.city)+', '+user.location.state.toUpperCase() }</h4>
+											<p className="lead" style={{fontSize:16, color:'#555', marginTop:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
 											<img src={user.image+'=s220-c'} />
 										</div>
 									}
