@@ -137,8 +137,9 @@ router.post('/:action', function(req, res, next){
 
 	if (action == 'login'){
 		var email = req.body.email
+
 		ProfileController
-		.get({email:email}, true)
+		.get({email:email.toLowerCase()}, true)
 		.then(function(profiles){
 			if (profiles.length == 0){
 				res.json({
