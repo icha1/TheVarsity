@@ -236,8 +236,13 @@ router.post('/:action', function(req, res, next){
 		var invitation = null
 		var hostTeam = null
 
+		var params = {
+			email: req.body.email.toLowerCase(),
+			code: req.body.code
+		}
+
 		controllers.invitation
-		.get(req.body, true)
+		.get(params, true)
 		.then(function(invitations){ // should return only one
 			if (invitations.length == 0)
 				throw new Error('Invitation Not Found. Check the email or invitation code.')
