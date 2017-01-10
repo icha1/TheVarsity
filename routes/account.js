@@ -216,6 +216,10 @@ router.post('/:action', function(req, res, next){
 			html = html.replace('{{team_name}}', invitation.team.name)
 			html = html.replace('{{email}}', invitation.email)
 			html = html.replace('{{code}}', invitation.code)
+			for (i=0; i<13; i++){ // shows up 13 times
+				html = html.replace('{{invitation}}', invitation.id)
+			}
+			
 			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, invitation.email, 'Invitation: '+invitation.team.name+' on The Varsity ', html)
 		})
 		.then(function(response){
