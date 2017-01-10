@@ -13,16 +13,16 @@ class FeaturedTeams extends Component {
 	}
 
 	componentDidMount(){
-		this.props.fetchTeams({limit:5, type:this.state.selectedCategory})
+		this.props.fetchTeams({limit:5, type:this.state.selectedCategory, status:'featured'})
 	}
 
 	componentDidUpdate(){
-		console.log('componentDidUpdate: '+this.state.selectedCategory)
+//		console.log('componentDidUpdate: '+this.state.selectedCategory)
 		const teams = this.props.teams[this.state.selectedCategory]
 		if (teams != null)
 			return
-		
-		this.props.fetchTeams({limit:5, type:this.state.selectedCategory})
+
+		this.props.fetchTeams({limit:5, type:this.state.selectedCategory, status:'featured'})
 	}
 
 	selectCategory(event){

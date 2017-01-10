@@ -19,13 +19,17 @@ export default (state = initialState, action) => {
 				newState[team.slug] = team
 			})
 
+			const ignore = ['limit', 'slug', 'featured']
 			for (let i=0; i<keys.length; i++){
 				let key = keys[i]
-				if (key == 'limit')
+				if (ignore.indexOf(key) != -1)
 					continue
 
-				if (key == 'slug') // this was already covered in first loop
-					continue
+				// if (key == 'limit')
+				// 	continue
+
+				// if (key == 'slug') // this was already covered in first loop
+				// 	continue
 
 				let value = action.params[key]
 				newState[value] = action.teams
