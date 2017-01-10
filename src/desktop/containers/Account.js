@@ -198,10 +198,11 @@ class Account extends Component {
 
 	render(){
 		const style = styles.account
+		const selected = this.state.selected
+		
 		const user = this.props.user
 		const city = user.location.city || ''
 		const state = user.location.state || ''
-		const selected = this.state.selected
 
 		const sideMenu = (
 			<div className="container clearfix">
