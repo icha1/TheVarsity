@@ -5,16 +5,44 @@ import { Link } from 'react-router'
 import { TextUtils } from '../../utils'
 
 class FeaturedTeams extends Component {
+	constructor(){
+		super()
+		this.state = {
+			selectedCategory: 'software'
+		}
+	}
 
 	componentDidMount(){
-		this.props.fetchTeams({limit: 5, status:'featured'})
+		this.props.fetchTeams({limit:5, type:this.state.selectedCategory})
+	}
+
+	componentDidUpdate(){
+		console.log('componentDidUpdate: '+this.state.selectedCategory)
+		const teams = this.props.teams[this.state.selectedCategory]
+		if (teams != null)
+			return
+		
+		this.props.fetchTeams({limit:5, type:this.state.selectedCategory})
+	}
+
+	selectCategory(event){
+//		console.log('selectCategory: '+event.target.value)
+		this.setState({
+			selectedCategory: event.target.value
+		})
 	}
 
 	render(){
-		const teams = this.props.teams['featured']
+		const teams = this.props.teams[this.state.selectedCategory]
 
 		return (
 			<div>
+				<select onChange={this.selectCategory.bind(this)} className="selectpicker">
+					<option value="software">Software</option>
+					<option value="graphic design">Graphic Design</option>
+					<option value="web design">Web Design</option>
+				</select>
+
 				{ (teams == null) ? null : teams.map((team, i) => {
 						return (
 							<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>

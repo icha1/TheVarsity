@@ -38,7 +38,8 @@ gulp.task('css', function(){
                 './public/css/magnific-popup.css',
                 './public/css/font-awesome.min.css',
                 './public/css/components/pricing-table.css',
-                './public/css/responsive.css'
+                './public/css/responsive.css',
+                './public/css/components/bs-select.css'
             ]
         )
         .pipe(minifyCSS())
@@ -82,6 +83,8 @@ gulp.task('build', function(){
     		[
 				'./public/js/jquery.js',
 				'./public/js/plugins.js',
+                './public/js/components/bs-select.js',
+                './public/js/components/selectsplitter.js',
 				'./public/js/functions.js'
     		]
     	)

@@ -14,10 +14,7 @@ class Home extends Component {
 
 						<div className="container clearfix">
 							<div style={{paddingTop:96}}></div>
-							<div>
-								<input style={localStyle.inputWhite} type="text" placeholder="Search" />
-								<FeaturedTeams />
-				            </div>
+							<FeaturedTeams />
 			            </div>
 
 		            </div>
