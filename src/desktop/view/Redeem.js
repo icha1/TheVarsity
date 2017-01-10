@@ -6,6 +6,7 @@ class Redeem extends Component {
 		super()
 		this.getParameter = this.getParameter.bind(this)
 		this.state = {
+			showInviteCodeLabel: false,
 			invitation: {
 				email: '',
 				code: ''
@@ -14,7 +15,6 @@ class Redeem extends Component {
 	}
 
 	componentDidMount(){
-//		console.log('componentDidMount: ' + this.getParameter('invitation'))
 		const inviteId = this.getParameter('invite')
 		if (inviteId == null)
 			return
@@ -27,6 +27,7 @@ class Redeem extends Component {
 			let updated = Object.assign({}, this.state.invitation)
 			updated['code'] = result.code
 			this.setState({
+				showInviteCodeLabel: true,
 				invitation: updated
 			})
 		})
@@ -75,12 +76,15 @@ class Redeem extends Component {
 
 	render(){
 		return (
-			<div style={{textAlign:'right'}}>
+			<div>
 				<input id="email" value={this.state.invitation.email} onChange={this.updateInvitation.bind(this)} style={localStyle.input} type="text" placeholder="Email" />
+				{ (this.state.showInviteCodeLabel) ? <label style={{fontWeight:100}}>Invite Code</label> : null }
 				<input id="code" value={this.state.invitation.code} onChange={this.updateInvitation.bind(this)} style={localStyle.input} type="text" placeholder="Invite Code" />
-	            <a href="#" onClick={this.redeemInvitation.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
-	            <br />
-	            { (this.props.error) ? <span style={localStyle.error}>{ ''+this.props.error }</span> : null }
+	            <div style={{textAlign:'right'}}>
+		            <a href="#" onClick={this.redeemInvitation.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
+		            <br />
+		            { (this.props.error) ? <span style={localStyle.error}>{ ''+this.props.error }</span> : null }
+	            </div>
 			</div>
 		)
 	}

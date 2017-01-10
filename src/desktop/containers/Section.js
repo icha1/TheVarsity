@@ -40,7 +40,7 @@ class Section extends Component {
 						opportunities to the bulletin board.
 					</div>
 
-					<div className="col_half col_last" style={{textAlign:'right'}}>
+					<div className="col_half col_last">
 						<Redeem error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />
 					</div>
 				</div>
