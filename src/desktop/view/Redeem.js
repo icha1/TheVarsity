@@ -14,8 +14,8 @@ class Redeem extends Component {
 	}
 
 	componentDidMount(){
-		console.log('componentDidMount: ' + this.getParameter('invitation'))
-		const inviteId = this.getParameter('invitation')
+//		console.log('componentDidMount: ' + this.getParameter('invitation'))
+		const inviteId = this.getParameter('invite')
 		if (inviteId == null)
 			return
 
