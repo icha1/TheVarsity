@@ -199,6 +199,8 @@ class Account extends Component {
 	render(){
 		const style = styles.account
 		const user = this.props.user
+		const city = user.location.city || ''
+		const state = user.location.state || ''
 		const selected = this.state.selected
 
 		const sideMenu = (
@@ -250,7 +252,7 @@ class Account extends Component {
 							<div>
 								<h4 style={styles.header}>{ user.username }</h4>
 								<h4 style={styles.header}>{ user.title }</h4>
-								<h4 style={styles.header}>{ TextUtils.capitalize(user.location.city)+', '+user.location.state.toUpperCase() }</h4>
+								<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
 								<p className="lead" style={{fontSize:16, color:'#555', marginTop:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
 								<img src={user.image+'=s220-c'} />
 							</div>
@@ -298,7 +300,7 @@ class Account extends Component {
 										<div>
 											<h4 style={styles.header}>{ user.username }</h4>
 											<h4 style={styles.header}>{ user.title }</h4>
-											<h4 style={styles.header}>{ TextUtils.capitalize(user.location.city)+', '+user.location.state.toUpperCase() }</h4>
+											<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
 											<p className="lead" style={{fontSize:16, color:'#555', marginTop:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
 											<img src={user.image+'=s220-c'} />
 										</div>
