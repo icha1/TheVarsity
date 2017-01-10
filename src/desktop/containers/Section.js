@@ -31,13 +31,10 @@ class Section extends Component {
 		return (
 			<section style={localStyle.container}>
 				<div className="content-wrap container clearfix">
-	                <h2 style={localStyle.title}>Redeem Invite Code</h2>
+	                <h2 style={localStyle.title}>Accept Invitation</h2>
 					<div className="col_half" style={localStyle.paragraph}>
-						We are currently beta testing The Varsity in preparation for a January 2017 release. 
-						Join our beta and receive free, unlimited premium access when we launch.
-						<br /><br />
-						Premium members can collect fees on any group they create when hiring companies post 
-						opportunities to the bulletin board.
+						Did you receive an invitation to a team on The Varsity? Submit your email and invite 
+						code to accept the invitation and get started on the platform.
 					</div>
 
 					<div className="col_half col_last">
