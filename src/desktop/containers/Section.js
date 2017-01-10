@@ -9,21 +9,8 @@ class Section extends Component {
 	constructor(){
 		super()
 		this.state = {
-			error: null,
-			invitation: {
-				email: '',
-				code: ''
-			}
+			error: null
 		}
-	}
-
-	updateInvitation(event){
-		event.preventDefault()
-		let updated = Object.assign({}, this.state.invitation)
-		updated[event.target.id] = event.target.value
-		this.setState({
-			invitation: updated
-		})
 	}
 
 	redeemInvitation(invitation){
@@ -58,7 +45,6 @@ class Section extends Component {
 					</div>
 				</div>
 			</section>
-
 		)
 	}
 }

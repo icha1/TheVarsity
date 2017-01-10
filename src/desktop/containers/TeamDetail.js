@@ -86,7 +86,7 @@ class TeamDetail extends Component {
 			image: team.image
 		}
 
-		updated['code'] = TextUtils.randomString(8)
+		updated['code'] = TextUtils.randomString(6)
 
 		this.props.sendInvitation(updated)
 		.then((response) => {
