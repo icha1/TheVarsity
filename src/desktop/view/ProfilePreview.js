@@ -21,7 +21,7 @@ class ProfilePreview extends Component {
 									<Link style={{color:'#333'}} to={'/profile/'+profile.slug}>{ profile.username }</Link>
 			                    </h4>
 			                    <br />
-								{ (profile.title.length == 0) ? 'No title' : profile.title }
+								{ (profile.title.length == 0) ? 'No title' : TextUtils.truncateText(profile.title, 15) }
 			                </div>
 							<hr />
 							<p style={{fontWeight:200, height:80}}>
