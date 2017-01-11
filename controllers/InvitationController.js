@@ -39,7 +39,10 @@ module.exports = {
 					return
 				}
 
-				resolve(invitation.summary())
+				if (invitation == null)
+					reject(new Error('Invitation not found'))
+				else
+					resolve(invitation.summary())
 			})
 		})
 	},
