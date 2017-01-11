@@ -163,6 +163,7 @@ class Account extends Component {
 		this.setState({showModal: false})
 		this.props.updateProfile(user, params)
 		.then(result => {
+			alert('You password has been updated. Thanks!')
 //			console.log('PROFILE UPDATED: '+JSON.stringify(result))
 		})
 		.catch(err => {
