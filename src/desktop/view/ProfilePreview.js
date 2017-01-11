@@ -24,7 +24,7 @@ class ProfilePreview extends Component {
 								{ (profile.title.length == 0) ? 'No title' : profile.title }
 			                </div>
 							<hr />
-							<p style={localStyle.paragraph}>
+							<p style={{fontWeight:200, height:80}}>
 								{ TextUtils.truncateText(profile.bio, 60) }
 							</p>
 							<div style={{textAlign:'right'}}>
