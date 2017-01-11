@@ -14,8 +14,8 @@ class ProfileDetail extends Component {
 			comments: null,
 			menuItems: [
 				'Overview',
-				'Feed',
 				'Teams',
+				'Feed',
 				'Direct Message'
 			]
 		}
