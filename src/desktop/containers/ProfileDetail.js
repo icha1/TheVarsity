@@ -141,6 +141,7 @@ class ProfileDetail extends Component {
 	render(){
 		const style = styles.post
 		const profile = this.props.profiles[this.props.slug] // can be null
+
 		const selected = this.state.selected
 
 		let username = null
@@ -181,10 +182,22 @@ class ProfileDetail extends Component {
 					btnEdit = <button onClick={this.editProfile.bind(this)} style={{float:'right'}}>Edit</button>
 			}
 
+
+			let location = ''
+			if (profile != null){
+				if (profile.location.city != null)
+					location = TextUtils.capitalize(profile.location.city)
+
+				if (profile.location.state != null)
+					location += (location.length == 0) ? profile.location.state.toUpperCase() : ', '+profile.location.state.toUpperCase()
+				
+			}
+
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
 					<div className="hidden-xs">
 						<h4 style={styles.header}>{ profile.title }</h4>
+						<h4 style={styles.header}>{ location }</h4>
 						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
 					</div>
 

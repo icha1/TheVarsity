@@ -25,14 +25,11 @@ class Account extends Component {
 
 	componentDidMount(){
 		const user = this.props.user
-		console.log('TEST 1')
 		if (user == null)
 			return
 
-		console.log('TEST 2')
 		if (user.isConfirmed != 'yes'){
 			setTimeout(() => {
-				console.log('TEST 3')
 				this.setState({
 					showModal: true
 				})
@@ -42,7 +39,6 @@ class Account extends Component {
 		if (this.props.teams[user.id])
 			return
 
-		console.log('TEST 4')
 		this.props.fetchTeams({'members.id': user.id}) // fetch teams if necessary
 	}
 
