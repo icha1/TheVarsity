@@ -64,6 +64,9 @@ class CreateTeam extends Component {
 		if (updated.otherCategory != null)
 			updated['type'] = updated.otherCategory
 
+		if (updated.image.length == 0) // defer to default if no image specified
+			delete updated['image']
+
 		this.props.submit(updated)
 	}
 
