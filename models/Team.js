@@ -8,7 +8,7 @@ var TeamSchema = new mongoose.Schema({
 	type: {type:String, trim:true, default:''},
 	slug: {type:String, trim:true, lowercase:true, default:''},
 	screenshot: {type:String, trim:true, default:''}, // screenshot of website
-	image: {type:String, trim:true, default:''},
+	image: {type:String, trim:true, default:process.env.DEFAULT_TEAM_IMAGE},
 	images: {type:Array, default:[]},
 	district: {type:String, trim:true, default:''},
 	description: {type:String, trim:true, default:''},
