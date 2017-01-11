@@ -41,6 +41,7 @@ class FeaturedTeams extends Component {
 					<option value="software">Software</option>
 					<option value="graphic design">Graphic Design</option>
 					<option value="web design">Web Design</option>
+					<option value="photography">Photography</option>
 				</select>
 
 				{ (teams == null) ? null : teams.map((team, i) => {
