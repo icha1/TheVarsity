@@ -109,6 +109,7 @@ class CreateTeam extends Component {
 				<select style={{border:'1px solid #ddd'}} className="form-control" id="type" onChange={this.updateTeam.bind(this)}>
 					<option value="software">Software</option>
 					<option value="graphic design">Graphic Design</option>
+					<option value="photography">Photography</option>
 					<option value="fashion">Fashion</option>
 					<option value="social media">Social Media Marketing</option>
 					<option value="real estate">Real Estate</option>
