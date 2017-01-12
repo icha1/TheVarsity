@@ -17,6 +17,7 @@ class Account extends Component {
 			selected: 'Teams',
 			menuItems: [
 				'Teams',
+				'Posts',
 				'Messages'
 			],
 			passwords: {}
@@ -178,12 +179,12 @@ class Account extends Component {
 			return
 
 		const selected = this.state.selected
-		if (selected == 'Saved'){ // these are posts that the profile saved
-			if (this.props.posts[user.id])
-				return
+		// if (selected == 'Saved'){ // these are posts that the profile saved
+		// 	if (this.props.posts[user.id])
+		// 		return
 
-			this.props.fetchSavedPosts(user)
-		}		
+		// 	this.props.fetchSavedPosts(user)
+		// }		
 
 		if (selected == 'Teams'){
 			if (this.props.teams[user.id])
@@ -191,6 +192,14 @@ class Account extends Component {
 
 			this.props.fetchTeams({'members.id': user.id})
 		}
+
+		if (selected == 'Posts'){
+			if (this.props.posts[user.id])
+				return
+
+			this.props.fetchPosts({'author.id': user.id})
+		}
+
 	}
 
 	render(){
@@ -243,6 +252,14 @@ class Account extends Component {
 							</div>
 						}
 					</div>
+				</div>
+			)
+		}
+		else if (selected == 'Posts'){
+			const list = this.props.posts[user.id]
+			content = (
+				<div style={{textAlign:'left', marginTop:24}}>
+					{ (list) ? <PostFeed posts={list} user={user} /> : null }
 				</div>
 			)
 		}
@@ -394,7 +411,7 @@ const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
 		session: state.session,
-		posts: state.profile.posts,
+		posts: state.post,
 		teams: state.team
 	}
 }
@@ -402,7 +419,8 @@ const stateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
-		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
+		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
+//		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
 		unsavePost: (post, profile) => dispatch(actions.unsavePost(post, profile)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		createTeam: (team) => dispatch(actions.createTeam(team))
