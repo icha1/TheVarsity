@@ -61,12 +61,10 @@ export default (state = initialState, action) => {
 				newState[post.slug] = post
 			})
 
+			const ignore = ['limit', 'slug', 'status']
 			for (let i=0; i<keys.length; i++){
 				let key = keys[i]
-				if (key == 'limit')
-					continue
-
-				if (key == 'slug') // this was already covered in first loop
+				if (ignore.indexOf(key) != -1)
 					continue
 
 				let value = action.params[key]
