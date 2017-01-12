@@ -201,25 +201,12 @@ class Account extends Component {
 		const city = user.location.city || ''
 		const state = user.location.state || ''
 
-		const sideMenu = (
-			<div className="container clearfix">
-				<div className="hidden-xs" style={{paddingTop:96}}></div>
-				<nav id="primary-menu">
-					<ul>
-						{ this.state.menuItems.map((item, i) => {
-								return (
-									<li key={i}>
-										<div style={(item == this.state.selected) ? style.selected : style.menuItem}>
-											<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
-										</div>
-									</li>
-								)
-							})
-						}
-					</ul>
-				</nav>
-            </div>
-		)
+		let image = null
+		let username = null
+		if (user != null){
+			username = user.username
+			image = (user.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={user.image+'=s140-c'} />
+		}
 
 		let content = null
 		if (selected == 'Teams'){
@@ -263,14 +250,36 @@ class Account extends Component {
 			content = null
 
 
-		const sidebar = (this.state.showMap) ? <Map center={this.props.session.currentLocation} zoom={14} animation={2} /> : sideMenu
+//		const sidebar = (this.state.showMap) ? <Map center={this.props.session.currentLocation} zoom={14} animation={2} /> : sideMenu
 
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
+
 					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 			            <div id="header-wrap">
-			            	{ sidebar }
+
+							<div className="container clearfix">
+								<div className="hidden-xs" style={{paddingTop:96}}></div>
+								{ image }
+								<h2 style={styles.team.title}>{ username }</h2>
+								<hr />
+								<nav id="primary-menu">
+									<ul>
+										{ this.state.menuItems.map((item, i) => {
+												return (
+													<li key={i}>
+														<div style={(item == this.state.selected) ? style.selected : style.menuItem}>
+															<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+														</div>
+													</li>
+												)
+											})
+										}
+									</ul>
+								</nav>
+				            </div>			            
+			            	
 			            </div>
 					</header>
 
