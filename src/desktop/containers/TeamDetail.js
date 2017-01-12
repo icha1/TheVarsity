@@ -33,6 +33,7 @@ class TeamDetail extends Component {
 	}
 
 	componentDidMount(){
+		window.scrollTo(0, 0)
 		const team = this.props.teams[this.props.slug]
 		if (team == null){
 			this.props.fetchTeams({slug: this.props.slug})
