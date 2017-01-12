@@ -59,7 +59,7 @@ module.exports = {
 	post: function(params){
 		return new Promise(function(resolve, reject){
 			if (params.slug == null) // might already be assigned
-				params['slug'] = utils.TextUtils.slugVersion(params.title) + TextUtils.randomString(6)
+				params['slug'] = utils.TextUtils.slugVersion(params.title) + utils.TextUtils.randomString(6)
 
 			Post.create(params, function(err, post){
 				if (err){

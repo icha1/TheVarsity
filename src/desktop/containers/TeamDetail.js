@@ -258,7 +258,7 @@ class TeamDetail extends Component {
 //			console.log('Post CREATED: '+JSON.stringify(response))
 		})
 		.catch(err => {
-			alert(err)
+			alert(JSON.stringify(err.message))
 		})
 	}
 
