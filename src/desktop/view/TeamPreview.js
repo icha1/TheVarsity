@@ -3,13 +3,10 @@ import { Link } from 'react-router'
 import { DateUtils, TextUtils } from '../../utils'
 import styles from './styles'
 
-class TeamPreview extends Component {
-
-	render(){
-		const team = this.props.team
-		const style = styles.post
-
-		return (
+export default (props) => {
+	const team = props.team
+	const style = styles.post
+	return (
 			<div>
 				<div className="comment-wrap clearfix hidden-xs" style={styles.post.container}>
 					<div className="comment-meta">
@@ -62,9 +59,9 @@ class TeamPreview extends Component {
 					</div>
 				</div>
 			</div>
-		)
-	}
+	)
 }
+
 
 const localStyle = {
 	detailRed: {
@@ -92,4 +89,3 @@ const localStyle = {
 	}
 }
 
-export default TeamPreview
