@@ -51,7 +51,9 @@ class Post extends Component {
 					<div className={style.content.className} style={style.content}>
 						<div className={colClass} style={{marginBottom:4}}>
 							<h3 style={style.header}>{ title }</h3>
-							<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
+							<Link to={'/post/'+post.slug}>
+								<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
+							</Link>
 						</div>
 
 						{ (post.image.length == 0) ? null :
@@ -84,10 +86,14 @@ class Post extends Component {
 						<Link to={'/post/'+post.slug}>
 							<img alt='The Varsity' className='avatar avatar-60 photo' style={{borderRadius:24, float:'right', marginRight:12}} src={post.image+'=s96-c'} width="48" height="48" />
 						</Link>
+
 						<div style={{marginBottom: 25}}>
 							<h3 style={style.header}>{ title }</h3>
-							<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
+							<Link to={'/post/'+post.slug}>
+								<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
+							</Link>
 						</div>
+
 					</div>
 					<div style={{paddingRight:12}}>
 						<span style={localStyle.detail}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments</Link></span>
