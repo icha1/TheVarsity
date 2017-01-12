@@ -83,17 +83,28 @@ class Account extends Component {
 		})
 	}
 
-	unsavePost(post){
+	// unsavePost(post){
+	// 	const user = this.props.user
+	// 	if (user == null){
+	// 		alert('Please register or log in.')
+	// 		return
+	// 	}
+
+	// 	if (post.saved.indexOf(user.id) == -1)
+	// 		return		
+
+	// 	this.props.unsavePost(post, user)
+	// }
+
+	deletePost(post){
+		console.log('Delete Post: '+post.title)
 		const user = this.props.user
 		if (user == null){
 			alert('Please register or log in.')
 			return
 		}
 
-		if (post.saved.indexOf(user.id) == -1)
-			return		
-
-		this.props.unsavePost(post, user)
+		this.props.updatePost(post, {status: 'closed'})
 	}
 
 	createTeam(team){
@@ -259,7 +270,7 @@ class Account extends Component {
 			const list = this.props.posts[user.id]
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
-					{ (list) ? <PostFeed posts={list} user={user} /> : null }
+					{ (list) ? <PostFeed deletePost={this.deletePost.bind(this)} posts={list} user={user} /> : null }
 				</div>
 			)
 		}
@@ -419,9 +430,10 @@ const stateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
+		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 //		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
-		unsavePost: (post, profile) => dispatch(actions.unsavePost(post, profile)),
+//		unsavePost: (post, profile) => dispatch(actions.unsavePost(post, profile)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		createTeam: (team) => dispatch(actions.createTeam(team))
 	}

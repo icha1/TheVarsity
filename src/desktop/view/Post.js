@@ -15,6 +15,11 @@ class Post extends Component {
 		this.props.unsavePost(this.props.post)
 	}
 
+	deletePost(event){
+		event.preventDefault()
+		this.props.deletePost(this.props.post)
+	}
+
 	render(){
 		const post = this.props.post
 		const user = this.props.user // can be null
@@ -63,6 +68,7 @@ class Post extends Component {
 							<li style={style.listItem}><a href="#">Share</a></li>
 							<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
 							{ (saved) ? <li style={style.listItem}><a onClick={this.unsave.bind(this)} href="#">Unsave</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
+							{ (user.id == post.author.id) ? <li style={style.listItem}><a style={{color:'red'}} href="#" onClick={this.deletePost.bind(this)}>Delete</a></li> : null }
 						</ul>
 					</div>
 					<span style={localStyle.detail}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments</Link></span>

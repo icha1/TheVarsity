@@ -15,6 +15,12 @@ class PostFeed extends Component {
 		this.props.unsavePost(post)
 	}
 
+	onDelete(post){
+//		console.log('On Delete: '+post.title)
+		if (this.props.deletePost)
+			this.props.deletePost(post)
+	}
+
 	render(){
 		const listClass = 'commentlist noborder nomargin nopadding clearfix'
 		const listItemClass = 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1'
@@ -25,7 +31,12 @@ class PostFeed extends Component {
 					this.props.posts.map((post, i) => {
 						return (
 							<li key={post.id} className={listItemClass} id="li-comment-2">
-								<Post savePost={this.onSave.bind(this)} unsavePost={this.onUnsave.bind(this)} post={post} user={this.props.user} />
+								<Post 
+									deletePost={this.onDelete.bind(this)}
+									savePost={this.onSave.bind(this)}
+									unsavePost={this.onUnsave.bind(this)}
+									post={post}
+									user={this.props.user} />
 							</li>
 						)
 					})
