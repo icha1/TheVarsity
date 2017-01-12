@@ -332,7 +332,7 @@ class Account extends Component {
 									<h3 style={styles.team.title}>Profile</h3>
 									<hr style={{marginBottom:12}} />
 									{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
-										<div>
+										<div style={{textAlign:'right'}}>
 											<h4 style={styles.header}>{ user.username }</h4>
 											<h4 style={styles.header}>{ user.title }</h4>
 											<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
@@ -432,8 +432,6 @@ const mapDispatchToProps = (dispatch) => {
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
-//		fetchSavedPosts: (profile) => dispatch(actions.fetchSavedPosts(profile)),
-//		unsavePost: (post, profile) => dispatch(actions.unsavePost(post, profile)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		createTeam: (team) => dispatch(actions.createTeam(team))
 	}

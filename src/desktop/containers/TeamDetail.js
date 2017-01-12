@@ -262,6 +262,21 @@ class TeamDetail extends Component {
 		})
 	}
 
+	deletePost(post){
+		console.log('Delete Post: '+post.title)
+		const user = this.props.user
+		if (user == null){
+			alert('Please register or log in.')
+			return
+		}
+
+		if (user.id != post.author.id)
+			return
+
+		this.props.updatePost(post, {status: 'closed'})
+	}
+
+
 	memberFound(profile, list){
 		let isFound = false
 		list.forEach((member, i) => {
@@ -367,7 +382,7 @@ class TeamDetail extends Component {
 			const list = this.props.posts[team.id]
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
-					{ (list) ? <PostFeed posts={list} user={this.props.user} /> : null }
+					{ (list) ? <PostFeed deletePost={this.deletePost.bind(this)} posts={list} user={this.props.user} /> : null }
 				</div>
 			)
 		}
@@ -382,9 +397,7 @@ class TeamDetail extends Component {
 			content = (
 				<div>
 					{ (members == null) ? null : members.map((member, i) => {
-							return (
-								<ProfilePreview key={member.id} profile={member} />
-							)
+							return <ProfilePreview key={member.id} profile={member} />
 						})
 					}
 				</div>
@@ -543,6 +556,7 @@ const dispatchToProps = (dispatch) => {
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params)),
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
 		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation)),
+		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		createPost: (params) => dispatch(actions.createPost(params))
 	}
 }

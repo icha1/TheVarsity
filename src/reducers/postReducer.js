@@ -93,13 +93,38 @@ export default (state = initialState, action) => {
 			newState[action.post.slug] = action.post
 			return newState
 
-//			return postUpdated(action, state, post)
-
 		case constants.POST_UPDATED:
 			newState[action.post.slug] = action.post
-			return newState
 
-//			return postUpdated(action, state, post)
+			if (newState[action.post.author.id]){
+				let list = Object.assign([], newState[action.post.author.id])
+				let updatedList = []
+				list.forEach((post, i) => {
+					if (post.id == action.post.id)
+						updatedList.push(action.post.id)
+					else
+						updatedList.push(post)
+				})
+
+				newState[action.post.author.id] = updatedList
+			}
+
+			action.post.teams.forEach((teamId, i) => {
+				if (newState[teamId]){
+					let list = Object.assign([], newState[teamId])
+					let updatedList = []
+					list.forEach((post, i) => {
+						if (post.id == action.post.id)
+							updatedList.push(action.post.id)
+						else
+							updatedList.push(post)
+					})
+
+					newState[teamId] = updatedList
+				}
+			})
+
+			return newState
 
 		case constants.POST_CREATED:
 			const post = action.post

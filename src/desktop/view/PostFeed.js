@@ -29,16 +29,18 @@ class PostFeed extends Component {
 			<ol className={listClass}>
 				{
 					this.props.posts.map((post, i) => {
-						return (
-							<li key={post.id} className={listItemClass} id="li-comment-2">
-								<Post 
-									deletePost={this.onDelete.bind(this)}
-									savePost={this.onSave.bind(this)}
-									unsavePost={this.onUnsave.bind(this)}
-									post={post}
-									user={this.props.user} />
-							</li>
-						)
+						if (post.status == 'live'){
+							return (
+								<li key={post.id} className={listItemClass} id="li-comment-2">
+									<Post 
+										deletePost={this.onDelete.bind(this)}
+										savePost={this.onSave.bind(this)}
+										unsavePost={this.onUnsave.bind(this)}
+										post={post}
+										user={this.props.user} />
+								</li>
+							)							
+						}
 					})
 				}
 			</ol>
