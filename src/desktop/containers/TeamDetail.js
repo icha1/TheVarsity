@@ -253,13 +253,8 @@ class TeamDetail extends Component {
 		const team = this.props.teams[this.props.slug]
 		post['teams'] = [team.id]
 
-		this.props.createPost(post)
-		.then(response => {
-//			console.log('Post CREATED: '+JSON.stringify(response))
-		})
-		.catch(err => {
-			alert(JSON.stringify(err.message))
-		})
+		window.scrollTo(0, 0)
+		return this.props.createPost(post)
 	}
 
 	deletePost(post){
