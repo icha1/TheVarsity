@@ -71,6 +71,7 @@ export default {
 	},
 
 	fetchPosts: (params) => {
+		params['status'] = 'live' // only fetch live posts
 		return dispatch => {
 			return dispatch(getData('/api/post', params, constants.POSTS_RECEIVED, 'posts'))
 		}
