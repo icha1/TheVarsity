@@ -45,6 +45,7 @@ module.exports = {
 		var slug = ''
 		for (var i=0; i<parts.length; i++){
 			var word = parts[i].replace(',', '')
+			word = word.replace('.', '')
 			word = word.replace('?', '')
 			word = word.replace('/', '-')
 			slug += word
