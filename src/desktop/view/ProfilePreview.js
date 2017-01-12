@@ -43,8 +43,8 @@ class ProfilePreview extends Component {
 						<div style={{marginBottom: 25}}>
 							<Link to={'/profile/'+profile.slug}>
 								<h3 style={style.header}>{ profile.username }</h3>
+								<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.truncateText(profile.bio, 60)}}></p>
 							</Link>
-							<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.truncateText(profile.bio, 60)}}></p>
 						</div>
 					</div>
 					<div style={{paddingRight:12}}>

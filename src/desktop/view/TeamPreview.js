@@ -53,8 +53,8 @@ class TeamPreview extends Component {
 						<div style={{marginBottom: 25}}>
 							<Link to={'/team/'+team.slug}>
 								<h3 style={style.header}>{ team.name }</h3>
+								<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(team.description, 120))}}></p>
 							</Link>
-							<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(team.description, 120))}}></p>
 						</div>
 					</div>
 					<div style={{paddingRight:12}}>
