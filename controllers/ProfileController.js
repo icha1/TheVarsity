@@ -88,8 +88,9 @@ module.exports = {
 			if (params.password != null)
 				params['password'] = bcrypt.hashSync(params.password, 10)
 
-			if (params.username != null)
-				params['slug'] = TextUtils.slugVersion(params.username)
+			// never change the slug - it fucks up the posts:
+			// if (params.username != null)
+			// 	params['slug'] = TextUtils.slugVersion(params.username) + TextUtils.randomString(6)
 						
 			Profile.findByIdAndUpdate(id, params, {new:true}, function(err, profile){
 				if (err){
