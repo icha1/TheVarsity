@@ -26,9 +26,13 @@ class Post extends Component {
 		const style = styles.post
 
 		let saved = false
+		let deleteLink = null
 		if (user != null){
 			if (post.saved.indexOf(user.id) != -1)
 				saved = true
+
+			if (user.id == post.author.id)
+				deleteLink = <li style={style.listItem}><a style={{color:'red'}} href="#" onClick={this.deletePost.bind(this)}>Delete</a></li>
 		}
 
 		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ TextUtils.truncateText(post.title, 50) }</Link> : <a target='_blank' style={style.title} href={post.url}>{TextUtils.truncateText(post.title, 50) }</a>
@@ -70,7 +74,7 @@ class Post extends Component {
 							<li style={style.listItem}><a href="#">Share</a></li>
 							<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
 							{ (saved) ? <li style={style.listItem}><a onClick={this.unsave.bind(this)} href="#">Unsave</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
-							{ (user.id == post.author.id) ? <li style={style.listItem}><a style={{color:'red'}} href="#" onClick={this.deletePost.bind(this)}>Delete</a></li> : null }
+							{ deleteLink }
 						</ul>
 					</div>
 					<span style={localStyle.detail}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments</Link></span>

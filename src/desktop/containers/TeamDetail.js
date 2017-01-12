@@ -46,6 +46,7 @@ class TeamDetail extends Component {
 			updatedTeam: updated
 		})
 
+
 		// Track view count:
 		// const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
 		// let updatedViewed = Object.assign({}, team.viewed)
