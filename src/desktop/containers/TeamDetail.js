@@ -245,7 +245,7 @@ class TeamDetail extends Component {
 		post['author'] = {
 			id: user.id,
 			name: user.username,
-			slug: user.username,
+			slug: user.slug,
 			image: (user.image.length == 0) ? null : user.image,
 			type: 'profile'
 		}
