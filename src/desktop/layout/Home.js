@@ -20,23 +20,7 @@ class Home extends Component {
 		            </div>
 				</header>
 
-			    <section className="page-section section parallax dark" style={{background: 'url("/images/office-3.jpg") center', overflow:'visible', margin:0}} data-height-lg="425" data-height-md="425" data-height-sm="450" data-height-xs="450" data-height-xxs="450">
-			        <div className="vertical-middle">
-			            <div className="heading-block center nobottomborder">
-			                <h1 style={styles.titleWhite} data-animate="fadeInUp">The Varsity</h1>
-			                <span style={{fontWeight:100}} data-animate="fadeInUp" data-delay="300">
-			                	Find Your Next Job or Hire <br />Through The Varsity in 2017
-			                </span>
-			                <br /><br />
-
-			                <div data-animate="fadeIn" data-delay="800">
-								<ul className="one-page-menu" data-easing="easeInOutExpo" data-speed="750" data-offset="25">
-									<li><a href="#" data-href="#section-about" className="button button-circle" style={{backgroundColor:'rgb(91, 192, 222)'}}>Learn More</a></li>
-								</ul>
-			                </div>
-			            </div>
-			        </div>
-			    </section>
+				<Section content="header" />
 
 				<section id="section-about" style={{background:'#fff', paddingTop:32}} className="page-section">
 					<div className="content-wrap container clearfix">

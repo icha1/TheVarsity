@@ -26,6 +26,7 @@ class Redeem extends Component {
 
 			let updated = Object.assign({}, this.state.invitation)
 			updated['code'] = result.code
+			updated['email'] = result.email
 			this.setState({
 				showInviteCodeLabel: true,
 				invitation: updated
@@ -80,8 +81,8 @@ class Redeem extends Component {
 				<input id="email" value={this.state.invitation.email} onChange={this.updateInvitation.bind(this)} style={localStyle.input} type="text" placeholder="Email" />
 				{ (this.state.showInviteCodeLabel) ? <label style={{fontWeight:100}}>Invite Code</label> : null }
 				<input id="code" value={this.state.invitation.code} onChange={this.updateInvitation.bind(this)} style={localStyle.input} type="text" placeholder="Invite Code" />
-	            <div style={{textAlign:'right'}}>
-		            <a href="#" onClick={this.redeemInvitation.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
+	            <div style={{textAlign:(this.props.layout == null) ? 'right' : this.props.layout}}>
+		            <a href="#" onClick={this.redeemInvitation.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Accept Invitation</a>
 		            <br />
 		            { (this.props.error) ? <span style={localStyle.error}>{ ''+this.props.error }</span> : null }
 	            </div>
