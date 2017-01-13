@@ -5,6 +5,7 @@ var AccountController = require('../controllers/AccountController')
 var TeamController = require('../controllers/TeamController')
 var InvitationController = require('../controllers/InvitationController')
 var FeedbackController = require('../controllers/FeedbackController')
+var CommentController = require('../controllers/CommentController')
 
 module.exports = {
 	post: PostController,
@@ -13,5 +14,6 @@ module.exports = {
 	account: AccountController,
 	team: TeamController,
 	invitation: InvitationController,
-	feedback: FeedbackController
+	feedback: FeedbackController,
+	comment: CommentController
 }
