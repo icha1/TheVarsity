@@ -4,7 +4,6 @@
 
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="author" content="SemiColonWeb" />
-
 	<link href="https://fonts.googleapis.com/css?family=Pathway+Gothic+One:300,400,500,600,700|Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
 
 	<link rel="stylesheet" href="/build/css/style.min.css" type="text/css" />
@@ -13,13 +12,18 @@
 		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
 	<![endif]-->
 
+    <meta property="og:title" content="{{ tags.title }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{ tags.url }}" />
+    <meta property="og:image" content="{{ tags.image }}" />
+    <meta property="og:description" content="{{ tags.description }}" />
+
 	<title>The Varsity | {{ tags.title }}</title>
   </head>
 
 
   <body>
   	<div id="root">{{{ react }}}</div>
-
 
     <script src="https://maps.googleapis.com/maps/api/js?libraries=visualization&key=AIzaSyAYA1eCg1ToFOxVfVxqZHzqNnNJFgnLNYw"></script>
  

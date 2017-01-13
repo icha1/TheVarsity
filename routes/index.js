@@ -1,5 +1,6 @@
 var express = require('express')
 var router = express.Router()
+var utils = require('../utils')
 
 var React = require('react')
 var ReactRouter = require('react-router')
@@ -166,7 +167,11 @@ router.get('/:page/:slug', function(req, res, next) {
 	.then(function(results){
 		// console.log('RESULTS: '+JSON.stringify(results))
 		results.forEach(function(entity){
+			tags['url'] = process.env.BASE_URL+'/'+page+'/'+entity.slug
 			tags['title'] = entity.title || entity.username || entity.name
+			tags['image'] = (entity.image) ? entity.image+'=s260-c' : process.env.DEFAULT_TEAM_IMAGE
+			var description = entity.description || entity.bio || ''
+			tags['description'] = utils.TextUtils.truncateText(description, 200)
 		})
 
 		reducers[page] = reducersIndex.initial(page, results)
