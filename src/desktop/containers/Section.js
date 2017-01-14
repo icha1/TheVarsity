@@ -16,7 +16,6 @@ class Section extends Component {
 	redeemInvitation(invitation){
 		this.props.redeemInvitation(invitation)
 		.then((response) => {
-//			console.log('REDEEM: '+JSON.stringify(response)) // returns 'team' and 'user'
 			window.location.href = '/account' // this is just easier for now
 		})
 		.catch((err) => {
@@ -29,6 +28,7 @@ class Section extends Component {
 
 	render(){
 		let content = null
+
 		if (this.props.content == 'header'){
 			content = (
 			    <section className="page-section section parallax dark" style={{background: 'url("/images/office-3.jpg") center', overflow:'visible', margin:0}} data-height-lg="425" data-height-md="425" data-height-sm="450" data-height-xs="450" data-height-xxs="450">
@@ -53,7 +53,72 @@ class Section extends Component {
 			    </section>
 			)
 		}
-		else {
+		else if (this.props.content == 'about'){
+			content = (
+				<section id="section-about" style={{background:'#fff', paddingTop:32}} className="page-section">
+					<div className="content-wrap container clearfix">
+		                <h2 style={localStyle.title}>What Is The Varsity</h2>
+						<div className="col_two_third" style={localStyle.paragraph}>
+							The Varsity is a collection of online communities organized into groups by skill: designers, 
+							photographers, software engineers, real estate etc. Groups are curated by members 
+							and maintained through an invite-only system.
+							<br /><br />
+							Users can tap into these groups when seeking referrals or hiring for their company. Find your next job or employee through the Varsity in 2017.
+						</div>
+
+						<div className="col_one_third col_last" style={{textAlign:'right'}}>
+							<img style={localStyle.image} src="/images/girls.jpg" />
+						</div>
+					</div>
+				</section>
+			)
+		}
+		else if (this.props.content == 'advantage') {
+			content = (
+			    <section style={{background:'#2e3842', borderTop:'1px solid #ddd'}} className="page-section notopmargin nobottommargin section">
+			        <div className="container clearfix">
+					    <h2 style={localStyle.titleWhite}>The Varsity Advantage</h2>
+
+			            <div className="col_one_third">
+			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
+			                    <h4 style={localStyle.titleWhite}>Better Opportunities</h4>
+			                </div>
+			                <img style={localStyle.image} src="/images/satellite-2.png" />
+			                <p style={localStyle.paragraphWhite}>
+								Every group has a bulletin board where professional opportunities are posted. Hiring companies 
+								can better target specific skillsets by posting in the right groups.
+			                </p>
+			            </div>
+
+			            <div className="col_one_third">
+			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
+			                    <h4 style={localStyle.titleWhite}>Stronger Connections</h4>
+			                </div>
+			                <img style={localStyle.image} src="/images/kithen.jpg" />
+			                <p style={localStyle.paragraphWhite}>
+								Groups are maintained by members through invite-only. No more spam from salesman, recruiters, 
+								and such. The Varsity cuts out the noise.                
+			                </p>
+			            </div>
+
+			            <div className="col_one_third col_last">
+			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
+			                    <h4 style={localStyle.titleWhite}>More Revenue</h4>
+			                </div>
+			                <img style={localStyle.image} src="/images/meetup.jpg" />
+			                <p style={localStyle.paragraphWhite}>
+								Group admins can charge fees for posting to the bulletin board. Fees go directly to the group 
+								moderator.
+								<br />
+								* This is a premium feature.
+			                </p>
+			            </div>
+
+			        </div>
+			    </section>
+			)
+		}
+		else if (this.props.content == 'redeem'){
 			content = (
 				<section style={localStyle.container}>
 					<div className="content-wrap container clearfix">
@@ -95,9 +160,19 @@ const localStyle = {
 		fontFamily:'Pathway Gothic One',
 		fontWeight: 100
 	},
+	image: {
+		background: '#fff',
+		padding: 3,
+		border:'1px solid #ddd'
+	},
 	paragraph: {
 		fontWeight: 100,
 		fontSize: 18
+	},
+	paragraphWhite: {
+		fontWeight: 100,
+		fontSize: 18,
+		color:'#fff'
 	},
 	btnBlue: {
 		backgroundColor:'rgb(91, 192, 222)'

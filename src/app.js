@@ -32,7 +32,6 @@ class App extends Component {
 			app = (
 				<Route path="/" component={ MobileMain}>
 					<IndexRoute component={ MobileLayout.Home }></IndexRoute>
-
 				</Route>
 			)
 		}

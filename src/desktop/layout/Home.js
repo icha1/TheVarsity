@@ -21,67 +21,9 @@ class Home extends Component {
 				</header>
 
 				<Section content="header" />
-
-				<section id="section-about" style={{background:'#fff', paddingTop:32}} className="page-section">
-					<div className="content-wrap container clearfix">
-		                <h2 style={styles.title}>What Is The Varsity</h2>
-						<div className="col_two_third" style={styles.paragraph}>
-							The Varsity is a collection of online communities organized into groups by skill: designers, 
-							photographers, software engineers, real estate etc. Groups are curated by members 
-							and maintained through an invite-only system.
-							<br /><br />
-							Users can tap into these groups when seeking referrals or hiring for their company. Find your next job or employee through the Varsity in 2017.
-						</div>
-
-						<div className="col_one_third col_last" style={{textAlign:'right'}}>
-							<img style={localStyle.image} src="/images/girls.jpg" />
-						</div>
-					</div>
-				</section>
-
-			    <section style={{background:'#2e3842', borderTop:'1px solid #ddd'}} className="page-section notopmargin nobottommargin section">
-			        <div className="container clearfix">
-					    <h2 style={styles.titleWhite}>The Varsity Advantage</h2>
-
-			            <div className="col_one_third">
-			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
-			                    <h4 style={localStyle.titleWhite}>Better Opportunities</h4>
-			                </div>
-			                <img style={localStyle.image} src="/images/satellite-2.png" />
-			                <p style={styles.paragraphWhite}>
-								Every group has a bulletin board where professional opportunities are posted. Hiring companies 
-								can better target specific skillsets by posting in the right groups.
-			                </p>
-			            </div>
-
-			            <div className="col_one_third">
-			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
-			                    <h4 style={localStyle.titleWhite}>Stronger Connections</h4>
-			                </div>
-			                <img style={localStyle.image} src="/images/kithen.jpg" />
-			                <p style={styles.paragraphWhite}>
-								Groups are maintained by members through invite-only. No more spam from salesman, recruiters, 
-								and such. The Varsity cuts out the noise.                
-			                </p>
-			            </div>
-
-			            <div className="col_one_third col_last">
-			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
-			                    <h4 style={localStyle.titleWhite}>More Revenue</h4>
-			                </div>
-			                <img style={localStyle.image} src="/images/meetup.jpg" />
-			                <p style={styles.paragraphWhite}>
-								Group admins can charge fees for posting to the bulletin board. Fees go directly to the group 
-								moderator.
-								<br />
-								* This is a premium feature.
-			                </p>
-			            </div>
-			        </div>
-			    </section>
-
+				<Section content="about" />
+				<Section content="advantage" />
 			    <Section content="redeem" />
-
 			</div>
 		)
 	}
