@@ -15,7 +15,10 @@ class PostDetail extends Component {
 			timestamp: null,
 			selected: 'overview',
 			isEditing: false,
-			comments: [],
+			comments: null,
+			comment: {
+				text: ''
+			},
 			updatedPost: {
 				changed: false
 			},
@@ -45,9 +48,28 @@ class PostDetail extends Component {
 		if (post == null)
 			return
 
-		const author = this.props.profiles[post.author.slug]
-		if (author == null)
-			this.props.fetchProfile(post.author.id)
+		if (this.state.comments == null){
+			this.props.fetchComments({'thread.id':post.id})
+			.then(results => {
+				console.log('FETCH COMMENTS: '+JSON.stringify(results))
+				this.setState({
+					comments: results
+				})
+
+				return results
+			})
+			.then(results => {
+				const author = this.props.profiles[post.author.slug]
+				if (author == null)
+					return this.props.fetchProfile(post.author.id)
+			})
+			.catch(err => {
+				console.log('ERROR: '+JSON.stringify(err))
+
+			})
+		}
+
+
 
 		// sloppy workaround, render timestamp client side:
 		this.setState({timestamp: DateUtils.formattedDate(post.timestamp)})
@@ -86,8 +108,10 @@ class PostDetail extends Component {
 			return
 
 		const teams = this.props.teams[post.author.id] // can be null
-		if (teams == null)
+		if (teams == null){
 			this.props.fetchTeams({'members.id': post.author.id})
+			return
+		}
 	}
 
 	selectItem(item, event){
@@ -98,29 +122,82 @@ class PostDetail extends Component {
 		})
 	}
 
-	submitComment(comment){
-		if (this.props.user == null){
-			alert('Please log in or register to post a comment.')
+	// submitComment(comment){
+// 		if (this.props.user == null){
+// 			alert('Please log in or register to post a comment.')
+// 			return
+// 		}
+
+		// const post = this.props.posts[this.props.slug]
+		// if (post == null)
+		// 	return
+
+		// let updated = Object.assign({}, comment)
+// 		updated['timestamp'] = new Date().getTime()
+// 		updated['profile'] = {
+// 			id: this.props.user.id,
+// 			username: this.props.user.username,
+// 			image: this.props.user.image
+// 		}
+
+// 		const currentDistrict = this.props.session.currentDistrict
+// 		const path = '/'+post.id+'/comments/'+this.state.comments.length
+// 		FirebaseManager.post(path, updated, () => {
+// 			this.props.updatePost(post, {numComments: this.state.comments.length})
+// //			console.log('callback test') // TODO: post comment to API
+// 		})
+// 	}
+
+	updateComment(event){
+		event.preventDefault()
+		let updated = Object.assign({}, this.state.comment)
+		updated[event.target.id] = event.target.value
+		this.setState({
+			comment: updated,
+		})
+	}
+
+	submitComment(event){
+		if (event.charCode != 13)
 			return
-		}
 
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
 			return
 
-		let updated = Object.assign({}, comment)
-		updated['timestamp'] = new Date().getTime()
-		updated['profile'] = {
-			id: this.props.user.id,
-			username: this.props.user.username,
-			image: this.props.user.image
+		const user = this.props.user
+		if (user == null)
+			return
+
+		let updated = Object.assign({}, this.state.comment)
+		updated['thread'] = {
+			id: post.id,
+			schema: post.schema,
+			subject: post.title,
+			image: post.image
 		}
 
-		const currentDistrict = this.props.session.currentDistrict
-		const path = '/'+post.id+'/comments/'+this.state.comments.length
-		FirebaseManager.post(path, updated, () => {
-			this.props.updatePost(post, {numComments: this.state.comments.length})
-//			console.log('callback test') // TODO: post comment to API
+		updated['profile'] = {
+			id: user.id,
+			username: user.username,
+			image: user.image
+		}
+
+		this.props.createComment(updated)
+		.then(response => {
+//			console.log('Comment Created: '+JSON.stringify(response.result))
+			let updated = Object.assign([], this.state.comments)
+			updated.push(response.result)
+			this.setState({
+				comments: updated,
+				comment: {
+					text: ''
+				}
+			})
+
+		})
+		.catch(err => {
+			console.log('ERROR: '+JSON.stringify(err))
 		})
 	}
 
@@ -227,18 +304,18 @@ class PostDetail extends Component {
 				</div>
 			)
 		}
-		else if (selected == 'chat'){ // chat
-			content = (
-				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
-					<CreateComment onCreate={this.submitComment.bind(this)} />
-					{
-						this.state.comments.map((comment, i) => {
-							return <Comment comment={comment} key={i} />
-						})
-					}
-				</div>
-			)
-		}
+		// else if (selected == 'chat'){ // chat
+		// 	content = (
+		// 		<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
+		// 			<CreateComment onCreate={this.submitComment.bind(this)} />
+		// 			{
+		// 				this.state.comments.map((comment, i) => {
+		// 					return <Comment comment={comment} key={i} />
+		// 				})
+		// 			}
+		// 		</div>
+		// 	)
+		// }
 
 //		const feed = this.props.posts[post.teams[0]]
 		const teams = this.props.teams[post.author.id] // can be null
@@ -296,6 +373,22 @@ class PostDetail extends Component {
 									</div>
 								</div>
 							</div>
+
+
+							<div className="col_one_third col_last">
+								<div className="col_full panel panel-default">
+									<div className="panel-heading">Comments</div>
+									{ (this.state.comments == null) ? null : this.state.comments.map((comment, i) => {
+											return <Comment key={comment.id} comment={comment} />
+										})
+									}
+
+									<div>
+										<input type="text" id="text" value={this.state.comment.text} onChange={this.updateComment.bind(this)} onKeyPress={this.submitComment.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
+									</div>
+								</div>
+							</div>
+
 						</div>
 					</section>
 				</div>
@@ -339,6 +432,18 @@ const localStyle = {
 		fontFamily: 'Pathway Gothic One',
 		border: 'none'
 	},
+	input: {
+		color:'#333',
+		background: '#f9f9f9',
+		marginBottom: 0,
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 20,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%'
+	},
 	detailHeader: {
 		color:'#333',
 		fontFamily:'Pathway Gothic One',
@@ -356,7 +461,12 @@ const localStyle = {
 		fontWeight:100,
 		fontSize:14,
 		lineHeight:14+'px'
-	}
+	},
+	btnGreen: {
+		className: 'button button-small button-circle button-green',
+		marginBottom: 12,
+		width: 100+'%'
+	},	
 }
 
 const stateToProps = (state) => {
@@ -374,7 +484,9 @@ const dispatchToProps = (dispatch) => {
 //		attendEvent: (post, profile, qty) => dispatch(actions.attendEvent(post, profile, qty)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
-		fetchTeams: (params) => dispatch(actions.fetchTeams(params))
+		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
+		fetchComments: (params) => dispatch(actions.fetchComments(params)),
+		createComment: (comment) => dispatch(actions.createComment(comment))
 	}
 
 }

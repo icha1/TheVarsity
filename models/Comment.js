@@ -5,7 +5,7 @@ var CommentSchema = new mongoose.Schema({
 	subject: {type:String, trim:true, default:''}, // id number of post comment refers to
 	isInitial: {type:String, trim:true, default:'yes'},
 	profile: {type:mongoose.Schema.Types.Mixed, default:{}},
-	thread: {type:String, trim:true, default:''},
+	thread: {type:mongoose.Schema.Types.Mixed, default:{}},
 	timestamp: {type:Date, default:Date.now},
 })
 

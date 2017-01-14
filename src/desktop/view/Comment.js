@@ -3,28 +3,36 @@ import styles from './styles'
 import { Link } from 'react-router'
 import { DateUtils } from '../../utils'
 
-class Comment extends Component {
-	render(){
-		const style = styles.comment
-		const comment = this.props.comment
-		const profile = comment.profile
-		const date = (comment.timestamp) ? DateUtils.abbreviatedDate(comment.timestamp) : null
+export default (props) => {
+	const comment = props.comment
 
-		return (
-			<div style={style.container}>
-				<div style={style.rightBox}>
-					{ date }
-				</div>
-				<div style={style.body}>
-					<Link style={style.header} to={'/profile/'+profile.username}>
-						{profile.username}
-					</Link>
-					<br />
-					{comment.text}
-				</div>
-			</div>			
-		)
-	}
+	return (
+		<div className="panel-body" style={localStyle.container}>
+			{ comment.text }
+			<div style={{textAlign:'right', marginTop:12}}>
+				<span style={localStyle.detail}><Link to='/'>{ comment.profile.username }</Link></span>
+				<span style={localStyle.separator}>|</span>
+				<span style={localStyle.detail}>{ DateUtils.formattedDate(comment.timestamp) }</span>
+			</div>
+		</div>
+	)
 }
 
-export default Comment
+const localStyle = {
+	container: {
+		fontWeight:100,
+		color:'#333',
+		background:'#FCFDFF',
+		borderBottom:'1px solid #ddd'
+	},
+	separator: {
+		marginLeft: 8,
+		marginRight: 8,
+		fontSize: 10,
+		fontWeight: 100
+	},
+	detail: {
+		fontWeight: 100,
+		fontSize: 12
+	}
+}

@@ -270,6 +270,18 @@ export default {
 		}
 	},
 
+	createComment: (comment) => {
+		return dispatch => {
+			return dispatch(postData('/api/comment', comment, constants.COMMENT_CREATED, 'comment'))
+		}
+	},
+
+	fetchComments: (params) => {
+		return dispatch => {
+			return dispatch(getData('/api/comment', params, constants.COMMENTS_RECEIVED, 'comments'))
+		}
+	},
+
 	commentsReceived: (comments) => {
 		return {
 			type: constants.COMMENTS_RECEIVED,
