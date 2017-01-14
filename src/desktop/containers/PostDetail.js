@@ -52,7 +52,7 @@ class PostDetail extends Component {
 		if (this.state.comments == null){
 			this.props.fetchComments({'thread.id':post.id})
 			.then(results => {
-				console.log('FETCH COMMENTS: '+JSON.stringify(results))
+//				console.log('FETCH COMMENTS: '+JSON.stringify(results))
 				this.setState({
 					comments: results
 				})
