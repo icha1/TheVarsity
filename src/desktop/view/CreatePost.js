@@ -120,6 +120,7 @@ class CreatePost extends Component {
 				<input id="title" value={post.title} onChange={this.updatePost.bind(this)} style={localStyle.input} type="text" placeholder="Title or URL" />
 				<select style={localStyle.input} className="form-control" id="type" onChange={this.updatePost.bind(this)}>
 					<option value="news">News</option>
+					<option value="showcase">Showcase</option>
 					<option value="hiring">Hiring</option>
 				</select>
 				<textarea id="text" value={post.text} onChange={this.updatePost.bind(this)} style={localStyle.textarea} placeholder="Text"></textarea>

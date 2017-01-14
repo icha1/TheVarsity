@@ -77,7 +77,7 @@ class Post extends Component {
 							{ deleteLink }
 						</ul>
 					</div>
-					<span style={localStyle.detail}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments</Link></span>
+					<span style={localStyle.detail}>{ TextUtils.capitalize(post.type) }</span>
 					<span style={localStyle.separator}>|</span>
 					<span style={localStyle.detail}>{ DateUtils.formattedDate(post.timestamp) }</span>
 					<span style={localStyle.separator}>|</span>
@@ -100,7 +100,7 @@ class Post extends Component {
 
 					</div>
 					<div style={{paddingRight:12}}>
-						<span style={localStyle.detail}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments</Link></span>
+						<span style={localStyle.detail}>{ TextUtils.capitalize(post.type) }</span>
 						<span style={localStyle.separator}>|</span>
 						<span style={localStyle.detail}>{ DateUtils.formattedDate(post.timestamp) }</span>
 						<span style={localStyle.separator}>|</span>
