@@ -11,6 +11,7 @@ import { Link } from 'react-router'
 class PostDetail extends Component {
 	constructor(){
 		super()
+		this.submitComment = this.submitComment.bind(this)
 		this.state = {
 			timestamp: null,
 			selected: 'overview',
@@ -157,9 +158,19 @@ class PostDetail extends Component {
 		})
 	}
 
-	submitComment(event){
+	enterKeyPressed(event){
 		if (event.charCode != 13)
 			return
+
+		this.submitComment(null)
+	}
+
+	submitComment(event){
+		// if (event.charCode != 13)
+		// 	return
+
+		if (event != null)
+			event.preventDefault()
 
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
@@ -382,7 +393,7 @@ class PostDetail extends Component {
 									}
 
 									<div>
-										<input type="text" id="text" value={this.state.comment.text} onChange={this.updateComment.bind(this)} onKeyPress={this.submitComment.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
+										<input type="text" id="text" value={this.state.comment.text} onChange={this.updateComment.bind(this)} onKeyPress={this.enterKeyPressed.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
 									</div>
 								</div>
 							</div>
@@ -419,7 +430,9 @@ class PostDetail extends Component {
 					}
 
 					<div>
-						<input type="text" id="text" value={this.state.comment.text} onChange={this.updateComment.bind(this)} onKeyPress={this.submitComment.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
+						<input type="text" id="text" value={this.state.comment.text} onChange={this.updateComment.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
+						<br />
+						<a href="#" style={{float:'right', marginTop:12}} onClick={this.submitComment.bind(this)} className="button button-small button-circle button-green">Submit Comment</a>
 					</div>
 
 
