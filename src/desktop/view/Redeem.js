@@ -76,15 +76,16 @@ class Redeem extends Component {
 	}
 
 	render(){
+		const layout = (this.props.layout == null) ? 'right' : this.props.layout
+
 		return (
 			<div>
+		        { (this.props.error) ? <div><span style={localStyle.error}>{ ''+this.props.error }</span><br /></div> : null }
 				<input id="email" value={this.state.invitation.email} onChange={this.updateInvitation.bind(this)} style={localStyle.input} type="text" placeholder="Email" />
 				{ (this.state.showInviteCodeLabel) ? <label style={{fontWeight:100}}>Invite Code</label> : null }
 				<input id="code" value={this.state.invitation.code} onChange={this.updateInvitation.bind(this)} style={localStyle.input} type="text" placeholder="Invite Code" />
-	            <div style={{textAlign:(this.props.layout == null) ? 'right' : this.props.layout}}>
+	            <div style={{textAlign:layout}}>
 		            <a href="#" onClick={this.redeemInvitation.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Accept Invitation</a>
-		            <br />
-		            { (this.props.error) ? <span style={localStyle.error}>{ ''+this.props.error }</span> : null }
 	            </div>
 			</div>
 		)
