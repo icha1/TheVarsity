@@ -10,7 +10,7 @@ export default (props) => {
 		<div className="panel-body" style={localStyle.container}>
 			{ comment.text }
 			<div style={{textAlign:'right', marginTop:12}}>
-				<span style={localStyle.detail}><Link to='/'>{ comment.profile.username }</Link></span>
+				<span style={localStyle.detail}><Link to={'/profile/'+comment.profile.slug}>{ comment.profile.username }</Link></span>
 				<span style={localStyle.separator}>|</span>
 				<span style={localStyle.detail}>{ DateUtils.formattedDate(comment.timestamp) }</span>
 			</div>

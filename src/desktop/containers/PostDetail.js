@@ -191,6 +191,7 @@ class PostDetail extends Component {
 		updated['profile'] = {
 			id: user.id,
 			username: user.username,
+			slug: user.slug,
 			image: user.image
 		}
 
