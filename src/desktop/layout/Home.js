@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Feed, MapNavigation, District, ProfileList, FeaturedTeams, Section } from '../containers'
+import { FeaturedTeams, Section } from '../containers'
 import { Redeem } from '../view'
 import styles from './styles'
 
