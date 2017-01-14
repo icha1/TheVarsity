@@ -7,6 +7,7 @@ var PostSchema = new mongoose.Schema({
 	url: {type:String, trim:true, default:''}, // for news posts
 	code: {type:String, trim:true, default:''}, // this is a unique identifier from instagram
 	image: {type:String, trim:true, default:''},
+	images: {type:Array, default:[]},
 	video: {type:String, trim:true, default:''},
 	text: {type:String, trim:true, default:''},
 	type: {type:String, trim:true, default:'event'}, // event, news
@@ -32,6 +33,7 @@ PostSchema.methods.summary = function(){
 		url: this.url,
 		code: this.code,
 		image: this.image,
+		images: this.images,
 		video: this.video,
 		text: this.text,
 		type: this.type,
