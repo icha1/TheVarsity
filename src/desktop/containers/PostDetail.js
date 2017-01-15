@@ -123,32 +123,6 @@ class PostDetail extends Component {
 		})
 	}
 
-	// submitComment(comment){
-// 		if (this.props.user == null){
-// 			alert('Please log in or register to post a comment.')
-// 			return
-// 		}
-
-		// const post = this.props.posts[this.props.slug]
-		// if (post == null)
-		// 	return
-
-		// let updated = Object.assign({}, comment)
-// 		updated['timestamp'] = new Date().getTime()
-// 		updated['profile'] = {
-// 			id: this.props.user.id,
-// 			username: this.props.user.username,
-// 			image: this.props.user.image
-// 		}
-
-// 		const currentDistrict = this.props.session.currentDistrict
-// 		const path = '/'+post.id+'/comments/'+this.state.comments.length
-// 		FirebaseManager.post(path, updated, () => {
-// 			this.props.updatePost(post, {numComments: this.state.comments.length})
-// //			console.log('callback test') // TODO: post comment to API
-// 		})
-// 	}
-
 	updateComment(event){
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.comment)
