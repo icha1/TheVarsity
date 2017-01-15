@@ -13,7 +13,7 @@ class TeamDetail extends Component {
 		this.memberFound = this.memberFound.bind(this)
 		this.inviteMember = this.inviteMember.bind(this)
 		this.state = {
-			selected: 'Feed',
+			selected: 'All',
 			isEditing: false,
 			showInvite: false,
 			invitation: {
@@ -24,10 +24,12 @@ class TeamDetail extends Component {
 				changed: false
 			},
 			menuItems: [
-				'Feed',
+				'All',
+				'News',
+				'Hiring',
+				'Showcase',
 				'Overview',
 				'Members'
-//				'Chat'
 			]
 		}
 	}
@@ -244,6 +246,7 @@ class TeamDetail extends Component {
 	submitPost(post){
 		const user = this.props.user
 		post['saved'] = [user.id]
+		post['type'] = (this.state.selected == 'All') ? 'news' : this.state.selected.toLowerCase()
 		post['author'] = {
 			id: user.id,
 			name: user.username,
@@ -299,7 +302,12 @@ class TeamDetail extends Component {
 		}
 
 		const selected = this.state.selected
-		if (selected == 'Feed'){
+		// if (selected == 'Feed'){
+		// 	if (this.props.posts[team.id] == null)
+		// 		this.props.fetchPosts({teams: team.id})
+		// }
+
+		if (selected == 'All'){
 			if (this.props.posts[team.id] == null)
 				this.props.fetchPosts({teams: team.id})
 		}
@@ -324,9 +332,9 @@ class TeamDetail extends Component {
 		let btnEdit = null
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
-			const itemStyle = (item == this.state.selected) ? style.selected : style.menuItem
+			const itemStyle = (item == this.state.selected) ? localStyle.selected : localStyle.menuItem
 			return (
-				<li key={item}>
+				<li style={{marginTop:0}} key={item}>
 					<div style={itemStyle}>
 						<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
 					</div>
@@ -354,6 +362,19 @@ class TeamDetail extends Component {
 			)			
 		}
 
+		else if (selected == 'All' || selected == 'News' || selected == 'Hiring' || selected == 'Showcase'){
+			const list = this.props.posts[team.id]
+			const sublist = (selected == 'All') ? list : list.filter((post, i) => {
+				return (post.type == selected.toLowerCase())
+			})
+
+			content = (
+				<div style={{textAlign:'left', marginTop:24}}>
+					{ (this.props.user == null) ? <div>Please log in to submit a post.</div> : <CreatePost submit={this.submitPost.bind(this)} /> }
+					{ (list) ? <PostFeed deletePost={this.deletePost.bind(this)} posts={sublist} user={this.props.user} /> : null }
+				</div>
+			)
+		}
 		else if (selected == 'Overview'){
 			if (this.props.user != null){
 				if (this.memberFound(this.props.user, team.admins))
@@ -374,16 +395,6 @@ class TeamDetail extends Component {
 				</div>
 			)
 		}
-
-		else if (selected == 'Feed'){
-			const list = this.props.posts[team.id]
-			content = (
-				<div style={{textAlign:'left', marginTop:24}}>
-					{ (list) ? <PostFeed deletePost={this.deletePost.bind(this)} posts={list} user={this.props.user} /> : null }
-				</div>
-			)
-		}
-
 		else if (selected == 'Members'){
 			const members = this.props.profiles[team.id]
 			if (this.props.user != null){
@@ -416,17 +427,16 @@ class TeamDetail extends Component {
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
-					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
+					<header id="header" className="no-sticky" style={{background:'#fff', border:'none'}}>
 			            <div id="header-wrap">
 							<div className="container clearfix">
 								<div style={{paddingTop:96}}></div>
 								<div>
-									{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={team.image+'=s140-c'} /> }
 									<h2 style={style.title}>{ team.name }</h2>
 									<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
 									<hr />
-									<nav id="primary-menu">
-										<ul>{sideMenu}</ul>
+									<nav>
+										<ul style={{listStyleType:'none'}}>{sideMenu}</ul>
 									</nav>
 								</div>
 				            </div>
@@ -440,21 +450,16 @@ class TeamDetail extends Component {
 									<div style={styles.main}>
 										{ btnEdit } 
 										{ invite }
-										<h2 style={styles.team.title}>{this.state.selected}</h2>
-										<hr />
+
 										{ content }
 									</div>
 								</div>
 							</div>
 
-							<div className="col_one_third col_last">
-								{ (selected == 'Feed') ? <div>{ submitPost }</div> :
-									<div>
-										<h3 style={styles.team.title}>Accept Invitation</h3>
-										<hr style={{marginBottom:12}} />
-										<Redeem error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />								
-									</div>
-								}
+							<div style={{textAlign:'right'}} className="col_one_third col_last">
+								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={team.image+'=s140-c'} /> }
+								<h3 style={styles.team.title}>{team.name}</h3>
+								<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 							</div>
 						</div>
 					</section>
@@ -532,7 +537,23 @@ const localStyle = {
 		width: 100+'%',
 		fontFamily:'Pathway Gothic One',
 		minHeight: 220
-	}
+	},
+	selected: {
+		padding: '6px 6px 6px 16px',
+		background: '#f9f9f9',
+		borderRadius: 2,
+		borderLeft: '3px solid rgb(91, 192, 222)',
+		fontSize: 16,
+		fontWeight: 400
+	},
+	menuItem: {
+		padding: '6px 6px 6px 16px',
+		background: '#fff',
+		borderLeft: '3px solid #ddd',
+		fontSize: 16,
+		fontWeight: 100
+
+	}	
 }
 
 const stateToProps = (state) => {

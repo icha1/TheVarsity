@@ -113,33 +113,38 @@ class CreatePost extends Component {
 		const post = this.state.post
 		let image = null
 		if (post.image.length > 0)
-			image = (post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s220-c'
+			image = (post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s90-c'
 		
 		return (
-			<div>
-				<input id="title" value={post.title} onChange={this.updatePost.bind(this)} style={localStyle.input} type="text" placeholder="Title or URL" />
-				<select style={localStyle.input} className="form-control" id="type" onChange={this.updatePost.bind(this)}>
-					<option value="news">News</option>
-					<option value="showcase">Showcase</option>
-					<option value="hiring">Hiring</option>
-				</select>
-				<textarea id="text" value={post.text} onChange={this.updatePost.bind(this)} style={localStyle.textarea} placeholder="Text"></textarea>
-
-				<Dropzone onDrop={this.uploadImage.bind(this)} className="clearfix visible-md visible-lg">
-					{ (post.image.length > 0) ? <div><img src={image} /><br />Click to Change</div> :
-						<button className="social-icon si-small si-borderless si-instagram">
-							<i className="icon-instagram"></i>
-							<i className="icon-instagram"></i>
-						</button>
-					}
-
-					<div style={{float:'right', width:50+'%'}}>
-						{ (this.state.isLoading) ? <Loading type='bars' color='#333' /> : null }
+			<div style={{background:'#f9f9f9', marginBottom:36}}>
+				<div className="row">
+					<div className="col-md-9">
+						<div style={{padding:12}}>
+							<input id="title" value={post.title} onChange={this.updatePost.bind(this)} style={localStyle.input} type="text" placeholder="Title or URL" />
+							<textarea id="text" value={post.text} onChange={this.updatePost.bind(this)} style={localStyle.textarea} placeholder="Text"></textarea>
+						</div>
 					</div>
-				</Dropzone>
+					<div className="col-md-3">
+						<div style={{padding:12, textAlign:'right'}}>
+							{ (this.state.isLoading) ? <Loading type='bars' color='#333' /> : null }
+							{ (post.image.length > 0) ? <img src={image} /> : null }
+						</div>
+					</div>
+				</div>
 
-	            <a href="#" onClick={this.submitPost.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Submit</a>
-	            <br />
+				<div style={{minHeight:36, borderTop:'1px solid #ddd'}}>
+					<div className="col_three_fourth">
+						<Dropzone onDrop={this.uploadImage.bind(this)} className="visible-md visible-lg">
+							<button className="social-icon si-small si-borderless si-instagram">
+								<i className="icon-instagram"></i>
+								<i className="icon-instagram"></i>
+							</button>
+						</Dropzone>
+					</div>
+					<div className="col_one_fourth col_last" style={{textAlign:'center', background:'#ddd'}}>
+			            <button onClick={this.submitPost.bind(this)} style={{height:35, border:'none', background:'#ddd'}}>Submit Post</button>
+					</div>
+				</div>
 			</div>
 		)
 	}
@@ -147,13 +152,11 @@ class CreatePost extends Component {
 
 const localStyle = {
 	btnBlue: {
-		float: 'right',
 		className: 'button button-small button-circle button-blue'
 	},
 	input: {
 		color:'#333',
 		background: '#f9f9f9',
-		marginBottom: 12,
 		padding: 6,
 		fontWeight: 100,
 	    lineHeight: 1.5,
@@ -173,7 +176,8 @@ const localStyle = {
 		border: 'none',
 		width: 100+'%',
 		fontFamily:'Pathway Gothic One',
-		minHeight: 220
+		minHeight: 72,
+		resize: 'none'
 	}
 }
 
