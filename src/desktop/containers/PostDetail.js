@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
-import { CreateComment, Comment, ProfilePreview } from '../view'
+import { CreateComment, CreatePost, Comment, ProfilePreview } from '../view'
 import { DateUtils, FirebaseManager, TextUtils } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -214,26 +214,26 @@ class PostDetail extends Component {
 	}
 
 	toggleEditing(){
-		if (this.state.isEditing){
-			// update post
-			if (this.state.updatedPost.changed == true){
-				const post = this.props.posts[this.props.slug]
-				this.props.updatePost(post, this.state.updatedPost)
-			}
-		}
-
 		this.setState({
 			isEditing: !this.state.isEditing
 		})
 	}
 
-	updatePost(event){
-		event.preventDefault()
-		let updated = Object.assign({}, this.state.updatedPost)
-		updated[event.target.id] = event.target.value
-		updated['changed'] = true
-		this.setState({
-			updatedPost: updated
+	updatePost(post){
+//		console.log('UPDATE POST: '+JSON.stringify(post))
+		if (this.state.isEditing == false)
+			return
+
+		let updated = Object.assign({}, post)
+		const original = this.props.posts[this.props.slug]
+		this.props.updatePost(original, updated)
+		.then(response => {
+			this.setState({
+				isEditing: !this.state.isEditing
+			})
+		})
+		.catch(err => {
+			console.log('ERROR: '+JSON.stringify(err))
 		})
 	}
 
@@ -256,34 +256,20 @@ class PostDetail extends Component {
 		// })
 
 		let content = null
+		const btn = 'button button-mini button-circle '
+		const btnRedClass = btn + 'button-red'
+		const btnGreenClass = btn + 'button-green'
+		const btnBlueClass = btn + 'button-blue'
 
-		if (this.state.isEditing == true){
-			const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
-			const btnType = <a href="#" style={{marginLeft: 0}} className={btnClass}>{ post.type }</a>
-			content = (
-				<div style={{background:'#fff', padding:24, border:'1px solid #ddd', borderRadius:2}}>
-					<div style={{lineHeight:18+'px', textAlign:'right'}}>
-						<button className="button button-mini button-circle button-blue" onClick={this.toggleEditing.bind(this)} style={{float:'left', marginRight:12}}>Cancel</button>
-						<button className="button button-mini button-circle button-green" onClick={this.toggleEditing.bind(this)} style={{float:'left'}}>Done</button>
-					</div>
-
-					<input id="title" onChange={this.updatePost.bind(this)} defaultValue={post.title} placeholder="Title" style={{marginTop:12, marginBottom:7, border:'none', fontSize:16, color:'#555', width:100+'%', background:'#f9f9f9', padding:6}}  />
-						
-					<hr style={{marginBottom:6}} />
-					{ btnType }
-					<textarea id="text" onChange={this.updatePost.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6, resize:'none'}} defaultValue={post.text}></textarea>
-					<img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={post.image} />
-				</div>
-			)
-		}
+		if (this.state.isEditing == true)
+			content = <CreatePost submit={this.updatePost.bind(this)} cancel={this.toggleEditing.bind(this)} post={post} />		
 		else if (selected == 'overview'){
 			let btnEdit = null
 			if (user != null){
 				if (user.id == post.author.id)
-					btnEdit = <button onClick={this.toggleEditing.bind(this)} className="button button-mini button-circle button-blue" style={{float:'right'}}>Edit</button>
+					btnEdit = <button onClick={this.toggleEditing.bind(this)} className={btnBlueClass} style={{float:'right'}}>Edit</button>
 			}
 
-			const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
 			content = (
 				<div>
 					<div className="hidden-xs" style={{lineHeight:18+'px', textAlign:'right'}}>
@@ -507,7 +493,6 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
-//		attendEvent: (post, profile, qty) => dispatch(actions.attendEvent(post, profile, qty)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),

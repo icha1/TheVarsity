@@ -10,6 +10,7 @@ class CreatePost extends Component {
 		super()
 		this.state = {
 			isLoading: false,
+			mode: 'create', // create or edit
 			post: {
 				title: '',
 				text: '', 
@@ -18,6 +19,18 @@ class CreatePost extends Component {
 				author: {}
 			}
 		}
+	}
+
+	componentWillMount(){
+		if (this.props.post == null)
+			return
+
+		// if props.post, this is editing mode
+		const updated = Object.assign({}, this.props.post)
+		this.setState({
+			post: updated,
+			mode: 'edit'
+		})
 	}
 
 	updatePost(event){
@@ -96,7 +109,7 @@ class CreatePost extends Component {
 	}
 
 	render(){
-		const post = this.state.post
+		const post = this.state.post 
 		let image = null
 		if (post.image.length > 0)
 			image = (post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s90-c'
@@ -119,7 +132,7 @@ class CreatePost extends Component {
 				</div>
 
 				<div style={{minHeight:36, borderTop:'1px solid #ddd'}}>
-					<div className="col_three_fourth">
+					<div className="col_half">
 						<Dropzone onDrop={this.uploadImage.bind(this)} className="visible-md visible-lg">
 							<button style={{borderRadius:0, height:35}} className="social-icon si-small si-borderless si-instagram">
 								<i className="icon-instagram"></i>
@@ -127,8 +140,13 @@ class CreatePost extends Component {
 							</button>
 						</Dropzone>
 					</div>
+
+					<div className="col_one_fourth" style={{textAlign:'center', background:'#ddd'}}>
+			            <button onClick={this.cancel.bind(this)} style={{height:35, border:'none', background:'#ddd'}}>Cancel</button>
+					</div>
+
 					<div className="col_one_fourth col_last" style={{textAlign:'center', background:'#ddd'}}>
-			            <button onClick={this.submitPost.bind(this)} style={{height:35, border:'none', background:'#ddd'}}>Submit Post</button>
+			            <button onClick={this.submitPost.bind(this)} style={{height:35, border:'none', background:'#ddd'}}>{ (this.state.mode == 'create') ? 'Submit Post' : 'Update'}</button>
 					</div>
 				</div>
 			</div>
