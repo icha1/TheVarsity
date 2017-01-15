@@ -135,7 +135,7 @@ class CreatePost extends Component {
 				<div style={{minHeight:36, borderTop:'1px solid #ddd'}}>
 					<div className="col_three_fourth">
 						<Dropzone onDrop={this.uploadImage.bind(this)} className="visible-md visible-lg">
-							<button className="social-icon si-small si-borderless si-instagram">
+							<button style={{borderRadius:0, height:35}} className="social-icon si-small si-borderless si-instagram">
 								<i className="icon-instagram"></i>
 								<i className="icon-instagram"></i>
 							</button>

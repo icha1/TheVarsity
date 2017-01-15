@@ -206,43 +206,6 @@ class TeamDetail extends Component {
 		})
 	}
 
-// 	scrapeWebsite(event){
-// 		event.preventDefault()
-// 		const team = this.props.teams[this.props.slug]
-// 		if (team.social.website.length == 0)
-// 			return
-
-// 		let updated = Object.assign({}, this.state.updatedTeam)
-// 		updated['useWebsite'] = true
-
-// 		// already there
-// 		if (team.screenshot.length > 0){
-// 			updated['screenshot'] = team.screenshot
-// 			this.setState({
-// 				updatedTeam: updated
-// 			})
-
-// 			return
-// 		}
-
-// 		console.log('scrapeWebsite: '+team.social.website)
-
-// 		APIManager
-// 		.handleGet('/phantom', {url: team.social.website})
-// 		.then(response => {
-// //			console.log('PHANTOM JS: '+JSON.stringify(response))
-// 			updated['screenshot'] = response.image['secure_url']
-// 			this.setState({
-// 				updatedTeam: updated
-// 			})
-
-// 			this.props.updateTeam(team, {screenshot: updated.screenshot})
-// 		})
-// 		.catch(err => {
-// 			console.log('PHANTOM JS ERROR: '+JSON.stringify(err))
-// 		})
-// 	}
-
 	submitPost(post){
 		const user = this.props.user
 		post['saved'] = [user.id]
@@ -369,7 +332,14 @@ class TeamDetail extends Component {
 
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
-					{ (this.props.user == null) ? <div className="hidden-xs">Please log in to submit a post.</div> : <div className="hidden-xs"><CreatePost submit={this.submitPost.bind(this)} /></div> }
+					{ (this.props.user != null) ? <div className="hidden-xs"><CreatePost submit={this.submitPost.bind(this)} /></div> : (
+							<div className="alert alert-success">
+							  <button type="button" className="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+							  <i className="icon-gift"></i>Please log in to submit a post.
+							</div>
+						) 
+					}
+
 					{ (list) ? <PostFeed deletePost={this.deletePost.bind(this)} posts={sublist} user={this.props.user} /> : null }
 				</div>
 			)
