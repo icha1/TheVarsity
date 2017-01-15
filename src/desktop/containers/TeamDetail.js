@@ -329,7 +329,6 @@ class TeamDetail extends Component {
 		const style = styles.team
 
 		let invite = null
-		let btnEdit = null
 
 		const sideMenu = this.state.menuItems.map((item, i) => {
 			const itemStyle = (item == this.state.selected) ? localStyle.selected : localStyle.menuItem
@@ -370,27 +369,34 @@ class TeamDetail extends Component {
 
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
-					{ (this.props.user == null) ? <div>Please log in to submit a post.</div> : <CreatePost submit={this.submitPost.bind(this)} /> }
+					{ (this.props.user == null) ? <div className="hidden-xs">Please log in to submit a post.</div> : <div className="hidden-xs"><CreatePost submit={this.submitPost.bind(this)} /></div> }
 					{ (list) ? <PostFeed deletePost={this.deletePost.bind(this)} posts={sublist} user={this.props.user} /> : null }
 				</div>
 			)
 		}
 		else if (selected == 'Overview'){
+			let btnEdit = null
 			if (this.props.user != null){
 				if (this.memberFound(this.props.user, team.admins))
 					btnEdit = <button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Edit</button>
 			}
 
 			content = (
-				<div style={{textAlign:'left', marginTop:24}}>
-					<div className="hidden-xs">
-						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+				<div>
+					<div style={{textAlign:'right', marginBottom:24}}>
+						{ btnEdit }
 					</div>
+					<div>
+						<div className="hidden-xs">
+							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+						</div>
 
-					{/* mobile UI*/}
-					<div className="visible-xs" style={{padding:'0px 24px 0px 24px'}}>
-						{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginBottom:12}} src={team.image+'=s160-c'} /> }
-						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+						{/* mobile UI*/}
+						<div className="visible-xs" style={{padding:'0px 24px 0px 24px'}}>
+							{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginBottom:12}} src={team.image+'=s160-c'} /> }
+							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+						</div>
+
 					</div>
 				</div>
 			)
@@ -404,10 +410,15 @@ class TeamDetail extends Component {
 
 			content = (
 				<div>
-					{ (members == null) ? null : members.map((member, i) => {
-							return <ProfilePreview key={member.id} profile={member} />
-						})
-					}
+					<div style={{textAlign:'right', marginBottom:24}}>
+						{ invite }
+					</div>
+					<div>
+						{ (members == null) ? null : members.map((member, i) => {
+								return <ProfilePreview key={member.id} profile={member} />
+							})
+						}
+					</div>
 				</div>
 			)
 		}
@@ -448,9 +459,6 @@ class TeamDetail extends Component {
 							<div className="col_two_third">
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
-										{ btnEdit } 
-										{ invite }
-
 										{ content }
 									</div>
 								</div>
@@ -470,7 +478,10 @@ class TeamDetail extends Component {
 					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
 						<div className="col-xs-6">
 							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
-								<option value="Feed">Feed</option>
+								<option value="All">All</option>
+								<option value="News">News</option>
+								<option value="Hiring">Hiring</option>
+								<option value="Showcase">Showcase</option>
 								<option value="Overview">Overview</option>
 								<option value="Members">Members</option>
 							</select>
@@ -510,7 +521,6 @@ class TeamDetail extends Component {
 
 const localStyle = {
 	btnBlue: {
-		float: 'right',
 		className: 'button button-small button-circle button-blue'
 	},
 	select: {
