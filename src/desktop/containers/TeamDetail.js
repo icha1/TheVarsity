@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { Modal } from 'react-bootstrap'
+import { browserHistory } from 'react-router'
 import { CreatePost, CreateComment, Comment, ProfilePreview, PostFeed, Redeem } from '../view'
 import { TextUtils, APIManager } from '../../utils'
 import actions from '../../actions/actions'
@@ -221,8 +222,13 @@ class TeamDetail extends Component {
 		const team = this.props.teams[this.props.slug]
 		post['teams'] = [team.id]
 
-		window.scrollTo(0, 0)
-		return this.props.createPost(post)
+		this.props.createPost(post)
+		.then(response => {
+			browserHistory.push('/post/'+response.result.slug)
+		})
+		.catch(err => {
+			alert(err)
+		})
 	}
 
 	deletePost(post){

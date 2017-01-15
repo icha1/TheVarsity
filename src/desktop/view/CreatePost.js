@@ -93,20 +93,6 @@ class CreatePost extends Component {
 
 		let updated = Object.assign({}, this.state.post)
 		this.props.submit(updated)
-		.then(response => {
-			this.setState({
-				post: {
-					title: '',
-					text: '', 
-					type: 'news', // event, news, etc.
-					image: '',
-					author: {}
-				}
-			})
-		})
-		.catch(err => {
-			alert(JSON.stringify(err.message))
-		})
 	}
 
 	render(){
