@@ -10,6 +10,10 @@ class CreatePost extends Component {
 		super()
 		this.state = {
 			isLoading: false,
+			loading: {
+				main: false,
+				additional: false
+			},
 			mode: 'create', // create or edit
 			post: {
 				title: '',
@@ -71,18 +75,32 @@ class CreatePost extends Component {
 		})
 	}
 
-	uploadImage(files){
-		this.setState({isLoading: true})
+	toggleLoading(type, isLoading){
+		let loading = Object.assign({}, this.state.loading)
+		loading[type] = isLoading
+		this.setState({loading: loading})
+	}
 
+	uploadImage(type, files){
+		this.toggleLoading(type, true)
 		APIManager.upload(files[0], (err, image) => {
-		this.setState({isLoading: false})
+			this.toggleLoading(type, false)
+
 			if (err){
 				alert(err)
 				return
 			}
 
 			let updated = Object.assign({}, this.state.post)
-			updated['image'] = image.address
+			if (type == 'main')
+				updated['image'] = image.address
+
+			if (type == 'additional'){
+				let array = Object.assign([], updated['images'])
+				array.push(image.address)
+				updated['images'] = array
+			}
+
 			this.setState({post: updated})
 		})
 	}
@@ -115,40 +133,60 @@ class CreatePost extends Component {
 			image = (post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s90-c'
 		
 		return (
-			<div style={{background:'#f9f9f9', marginBottom:36}}>
-				<div className="row">
-					<div className="col-md-9">
-						<div style={{padding:12}}>
-							<input id="title" value={post.title} onChange={this.updatePost.bind(this)} style={localStyle.input} type="text" placeholder="Title or URL" />
-							<textarea id="text" value={post.text} onChange={this.updatePost.bind(this)} style={localStyle.textarea} placeholder="Text"></textarea>
+			<div>
+				<div style={{background:'#f9f9f9', marginBottom:36}}>
+					<div className="row">
+						<div className="col-md-9">
+							<div style={{padding:12}}>
+								<input id="title" value={post.title} onChange={this.updatePost.bind(this)} style={localStyle.input} type="text" placeholder="Title or URL" />
+								<textarea id="text" value={post.text} onChange={this.updatePost.bind(this)} style={localStyle.textarea} placeholder="Text"></textarea>
+							</div>
+						</div>
+						<div className="col-md-3">
+							<div style={{padding:12, textAlign:'right'}}>
+								{ (this.state.loading.main) ? <Loading type='bars' color='#333' /> : null }
+								{ (post.image.length > 0) ? <img src={image} /> : null }
+							</div>
 						</div>
 					</div>
-					<div className="col-md-3">
-						<div style={{padding:12, textAlign:'right'}}>
-							{ (this.state.isLoading) ? <Loading type='bars' color='#333' /> : null }
-							{ (post.image.length > 0) ? <img src={image} /> : null }
+
+					<div style={{minHeight:36, borderTop:'1px solid #ddd'}}>
+						<div className="col_half">
+							<Dropzone onDrop={this.uploadImage.bind(this, 'main')} className="visible-md visible-lg">
+								<button style={{borderRadius:0, height:35}} className="social-icon si-small si-borderless si-instagram">
+									<i className="icon-instagram"></i>
+									<i className="icon-instagram"></i>
+								</button>
+							</Dropzone>
+						</div>
+
+						<div className="col_one_fourth" style={{textAlign:'center', background:'#ddd'}}>
+							{ (this.state.mode == 'create') ? null : <button onClick={this.cancel.bind(this)} style={{height:35, border:'none', background:'#ddd'}}>Cancel</button> }
+						</div>
+
+						<div className="col_one_fourth col_last" style={{textAlign:'center', background:'#ddd'}}>
+				            <button onClick={this.submitPost.bind(this)} style={{height:35, border:'none', background:'#ddd'}}>{ (this.state.mode == 'create') ? 'Submit Post' : 'Update'}</button>
 						</div>
 					</div>
 				</div>
 
-				<div style={{minHeight:36, borderTop:'1px solid #ddd'}}>
-					<div className="col_half">
-						<Dropzone onDrop={this.uploadImage.bind(this)} className="visible-md visible-lg">
-							<button style={{borderRadius:0, height:35}} className="social-icon si-small si-borderless si-instagram">
-								<i className="icon-instagram"></i>
-								<i className="icon-instagram"></i>
-							</button>
-						</Dropzone>
-					</div>
-
-					<div className="col_one_fourth" style={{textAlign:'center', background:'#ddd'}}>
-			            <button onClick={this.cancel.bind(this)} style={{height:35, border:'none', background:'#ddd'}}>Cancel</button>
-					</div>
-
-					<div className="col_one_fourth col_last" style={{textAlign:'center', background:'#ddd'}}>
-			            <button onClick={this.submitPost.bind(this)} style={{height:35, border:'none', background:'#ddd'}}>{ (this.state.mode == 'create') ? 'Submit Post' : 'Update'}</button>
-					</div>
-				</div>
+				{ (this.state.mode == 'create') ? null : (
+						<div className="row">
+							<div className="col-md-12">
+								<Dropzone style={{padding:12, background:'#f9f9f9', textAlign:'left', minHeight: 64}} onDrop={this.uploadImage.bind(this, 'additional')} className="visible-md visible-lg">
+								To Add More Images, <button className="button button-mini button-circle button-blue">Click Here</button>
+								<br /><br />
+								{ post.images.map((additionalImage, i) => {
+										return <img key={i} style={{marginRight:12}} src={additionalImage+'=s72-c'} />
+									})
+								}
+								{ (this.state.loading.additional) ? <Loading type='bars' color='#333' /> : null }
+								
+								</Dropzone>
+							</div>
+						</div>
+					)
+				}
 			</div>
 		)
 	}
