@@ -30,7 +30,7 @@ class TeamDetail extends Component {
 				'Hiring',
 				'Showcase',
 //				'Overview',
-				'Community',
+//				'Community',
 				'Members'
 			],
 			comments: [],
