@@ -52,8 +52,8 @@ class Post extends Component {
 					<div className="comment-meta">
 						<div className="comment-author vcard">
 							<span className="comment-avatar clearfix">
-								<Link to={'/'+post.author.type+'/'+post.author.slug}>
-									<img alt='The Varsity' src={post.author.image+'=s120-c'} className='avatar avatar-60 photo' height='60' width='60' />
+								<Link to={'/post/'+post.slug}>
+									<img alt='The Varsity' src={'/images/'+post.type+'.png'} className='avatar avatar-60 photo' height='60' width='60' />
 								</Link>
 							</span>
 						</div>
@@ -84,11 +84,11 @@ class Post extends Component {
 							{ deleteLink }
 						</ul>
 					</div>
-					<span style={localStyle.detail}>{ TextUtils.capitalize(post.type) }</span>
-					<span style={localStyle.separator}>|</span>
 					<span style={localStyle.detail}>{ DateUtils.formattedDate(post.timestamp) }</span>
 					<span style={localStyle.separator}>|</span>
 					<span style={localStyle.detailRed}><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span>
+					<span style={localStyle.separator}>|</span>
+					<span style={localStyle.detail}>{ post.votes.score } pts</span>
 				</div>
 
 				{ /* mobile ui */}
