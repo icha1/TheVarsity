@@ -440,10 +440,14 @@ class TeamDetail extends Component {
 								</div>
 							</div>
 
-							<div style={{textAlign:'right'}} className="col_one_third col_last">
-								{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={team.image+'=s140-c'} /> }
-								<h3 style={styles.team.title}>{team.name}</h3>
-								<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+							<div className="col_one_third col_last">
+								<div style={{border:'1px solid #ddd', marginTop:24, padding:24, background:'#f9f9f9', textAlign:'right'}}>
+									{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={team.image+'=s140-c'} /> }
+									<h3 style={styles.team.title}>{team.name}</h3>
+									<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
+									<hr />
+									<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+								</div>
 							</div>
 						</div>
 					</section>
