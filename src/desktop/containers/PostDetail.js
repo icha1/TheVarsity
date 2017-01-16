@@ -269,7 +269,7 @@ class PostDetail extends Component {
 						</div>
 						<hr />
 
-						<div className="panel panel-default">
+						<div className="panel panel-default hidden-xs">
 							<div className="panel-heading">Comments</div>
 							{ (this.state.comments == null) ? null : this.state.comments.map((comment, i) => {
 									return <Comment key={comment.id} comment={comment} />
@@ -378,10 +378,10 @@ class PostDetail extends Component {
 						})
 					}
 
-					<div>
+					<div style={{paddingBottom:24, background:'#f9f9f9', textAlign:'right'}}>
 						<input type="text" id="text" value={this.state.comment.text} onChange={this.updateComment.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
 						<br />
-						<a href="#" style={{float:'right', marginTop:12}} onClick={this.submitComment.bind(this)} className="button button-small button-circle button-green">Submit Comment</a>
+						<a href="#" style={{marginTop:12}} onClick={this.submitComment.bind(this)} className="button button-mini button-circle button-green">Submit Comment</a>
 					</div>
 
 				</div>
