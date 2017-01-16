@@ -166,23 +166,8 @@ class ProfileDetail extends Component {
 		let content = null
 		let btnEdit = null
 		const currentUser = this.props.user // can be null
-
-		if (this.state.showEdit){
-			if (currentUser != null){
-				if (currentUser.id == profile.id)
-					btnEdit = <button onClick={this.editProfile.bind(this)} style={{float:'right'}}>Done</button>
-			}
-
-			content = <EditProfile profile={currentUser} update={this.updateProfile.bind(this)} close={this.editProfile.bind(this)} />
-		}
 		
 		else if (selected == 'Overview' && profile != null){
-			if (currentUser != null){
-				if (currentUser.id == profile.id)
-					btnEdit = <button onClick={this.editProfile.bind(this)} style={{float:'right'}}>Edit</button>
-			}
-
-
 			let location = ''
 			if (profile != null){
 				if (profile.location.city != null)
@@ -279,7 +264,6 @@ class ProfileDetail extends Component {
 							<div className="col_two_third">
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
-										{ btnEdit }
 										<h2 style={styles.team.title}>{this.state.selected}</h2>
 										<hr />
 										{ content }
