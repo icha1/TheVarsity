@@ -265,7 +265,8 @@ class PostDetail extends Component {
 									</div>
 								)
 							}
-							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
+							<p className="lead" style={{fontSize:16, color:'#555', marginBottom:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
+							{ (post.url.length == 0) ? null : <a target="_blank" style={{color:'red'}} href={post.url}>READ MORE</a> }
 						</div>
 						<hr />
 

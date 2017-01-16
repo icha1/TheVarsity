@@ -25,6 +25,12 @@ class Post extends Component {
 		const user = this.props.user // can be null
 		const style = styles.post
 
+		let link = null
+		if (post.url.length > 0){ // https://www.f6s.com/jobs
+			const parts = post.url.split('//') // www.f6s.com/jobs
+			link = parts[1].split('/')[0].replace('www.', '')
+		}
+
 		let saved = false
 		let deleteLink = null
 		if (user != null){
@@ -54,6 +60,7 @@ class Post extends Component {
 					</div>
 					<div className={style.content.className} style={style.content}>
 						<div className={colClass} style={{marginBottom:4}}>
+							{ (link == null) ? null : <a style={{color:'#1265A8'}} target="_blank" href={post.url}>{link}</a> }
 							<h3 style={style.header}>{ title }</h3>
 							<Link to={'/post/'+post.slug}>
 								<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
