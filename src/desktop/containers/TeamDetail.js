@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { Modal } from 'react-bootstrap'
 import { browserHistory } from 'react-router'
-import { CreatePost, CreateComment, Comment, ProfilePreview, PostFeed, Redeem } from '../view'
+import { CreatePost, ProfilePreview, PostFeed } from '../view'
 import { TextUtils, APIManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -29,7 +29,8 @@ class TeamDetail extends Component {
 				'News',
 				'Hiring',
 				'Showcase',
-				'Overview',
+//				'Overview',
+				'Community',
 				'Members'
 			]
 		}
@@ -129,7 +130,6 @@ class TeamDetail extends Component {
 		})
 	}
 
-
 	toggleEditing(){
 		if (this.state.isEditing){
 			// update team
@@ -190,20 +190,6 @@ class TeamDetail extends Component {
 					post: updated
 				})
 			}
-		})
-	}
-
-	redeemInvitation(invitation){
-		this.props.redeemInvitation(invitation)
-		.then((response) => {
-			console.log('REDEEM: '+JSON.stringify(response))
-			window.location.href = '/account' // this is just easier for now
-		})
-		.catch((err) => {
-			console.log('ERROR: ' + err)
-			this.setState({
-				error: err
-			})
 		})
 	}
 
@@ -296,20 +282,7 @@ class TeamDetail extends Component {
 		}
 
 		const style = styles.team
-
 		let invite = null
-
-		const sideMenu = this.state.menuItems.map((item, i) => {
-			const itemStyle = (item == this.state.selected) ? localStyle.selected : localStyle.menuItem
-			return (
-				<li style={{marginTop:0}} key={item}>
-					<div style={itemStyle}>
-						<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
-					</div>
-				</li>
-			)
-		})
-
 		let content = null
 		const selected = this.state.selected
 
@@ -398,18 +371,13 @@ class TeamDetail extends Component {
 				</div>
 			)
 		}
-
-		else if (selected == 'Chat'){
-			
+		else if (selected == 'Community'){
+			content = (
+				<div>
+					Community Coming Soon!
+				</div>
+			)
 		}
-
-		const submitPost = (
-			<div>
-				<h3 style={styles.team.title}>Submit Post</h3>
-				<hr style={{marginBottom:12}} />
-				{ (this.props.user == null) ? <div>Please log in to submit a post.</div> : <CreatePost submit={this.submitPost.bind(this)} /> }
-			</div>
-		) 
 
 		return (
 			<div>
@@ -422,9 +390,23 @@ class TeamDetail extends Component {
 									<h2 style={style.title}>{ team.name }</h2>
 									<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
 									<hr />
+
 									<nav>
-										<ul style={{listStyleType:'none'}}>{sideMenu}</ul>
+										<ul style={{listStyleType:'none'}}>
+											{ this.state.menuItems.map((item, i) => {
+													const itemStyle = (item == this.state.selected) ? localStyle.selected : localStyle.menuItem
+													return (
+														<li style={{marginTop:0}} key={item}>
+															<div style={itemStyle}>
+																<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+															</div>
+														</li>
+													)
+												})
+											}
+										</ul>
 									</nav>
+
 								</div>
 				            </div>
 			            </div>
@@ -563,7 +545,6 @@ const dispatchToProps = (dispatch) => {
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params)),
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
-		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		createPost: (params) => dispatch(actions.createPost(params))
 	}
