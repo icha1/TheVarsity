@@ -9,7 +9,7 @@ module.exports = {
 			var mail = new helper.Mail(helper.Email(from), subject, helper.Email(recipient), content)
 
 			var body = mail.toJSON()
-			body['from']['name'] = process.env.DEFAULT_EMAIL_SENDER
+//			body['from']['name'] = process.env.DEFAULT_EMAIL_SENDER
 			
 			var sg = require('sendgrid')(process.env.SENDGRID_API_KEY)
 			var request = sg.emptyRequest({
