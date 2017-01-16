@@ -22,3 +22,13 @@
     background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0)); /* Standard syntax */
     background-color: rgba(0,0,0,0) !important;
 }
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}

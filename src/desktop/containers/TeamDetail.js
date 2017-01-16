@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { Modal } from 'react-bootstrap'
 import { browserHistory } from 'react-router'
-import { CreatePost, ProfilePreview, PostFeed } from '../view'
+import { CreatePost, ProfilePreview, PostFeed, Comment } from '../view'
 import { TextUtils, APIManager, FirebaseManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -30,7 +30,7 @@ class TeamDetail extends Component {
 				'Hiring',
 				'Showcase',
 //				'Overview',
-//				'Community',
+				'Community',
 				'Members'
 			],
 			comments: [],
@@ -315,7 +315,9 @@ class TeamDetail extends Component {
 
 		let updated = Object.assign({}, this.state.comment)
 		updated['team'] = team.id
-		updated['id'] = Math.floor(Date.now()/1000)
+		const timestamp = Date.now()
+		updated['timestamp'] = timestamp
+		updated['id'] = Math.floor(timestamp/1000)
 		updated['profile'] = {
 			id: profile.id,
 			username: profile.username,
@@ -466,14 +468,13 @@ class TeamDetail extends Component {
 		else if (selected == 'Community'){
 			content = (
 				<div style={{background:'#f9f9f9', border:'1px solid #ddd', marginTop:24}}>
-					<div style={{overflow:'scroll', height:100, padding: 12}}>
-						<ol>
-							{ this.state.comments.map((comment, i) => {
-									return <li key={comment.id}><span>{comment.text}</span></li>
-								})
-							}
-						</ol>
-
+					<div className="scroll" style={{overflow:'scroll', maxHeight:360}}>
+						{ this.state.comments.map((comment, i) => {
+								return (
+									<Comment key={comment.id} comment={comment} />
+								)
+							})
+						}
 					</div>
 					<input onChange={this.updateComment.bind(this)} onKeyPress={this.keyPress.bind(this, 'comment')} value={this.state.comment.text} type="text" />
 				</div>
