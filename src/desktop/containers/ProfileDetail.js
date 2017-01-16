@@ -167,7 +167,7 @@ class ProfileDetail extends Component {
 		let btnEdit = null
 		const currentUser = this.props.user // can be null
 		
-		else if (selected == 'Overview' && profile != null){
+		if (selected == 'Overview' && profile != null){
 			let location = ''
 			if (profile != null){
 				if (profile.location.city != null)
