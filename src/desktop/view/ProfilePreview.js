@@ -16,7 +16,7 @@ export default (props) => {
                         <img style={localStyle.icon} src={image} />
 		                <div className="heading-block fancy-title nobottomborder" style={localStyle.paragraph}>
 		                    <h4 style={styles.title}>
-								<Link style={{color:'#333'}} to={'/profile/'+profile.slug}>{ profile.username }</Link>
+								<Link style={{color:'#333'}} to={'/profile/'+profile.slug}>{ TextUtils.truncateText(profile.username, 15) }</Link>
 		                    </h4>
 		                    <br />
 							{ (profile.title.length == 0) ? 'No title' : TextUtils.truncateText(profile.title, 20) }
