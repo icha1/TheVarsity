@@ -15,8 +15,8 @@ class ProfileDetail extends Component {
 			menuItems: [
 				'Overview',
 				'Teams',
-				'Feed',
-				'Direct Message'
+				'Feed'
+//				'Direct Message'
 			]
 		}
 	}
