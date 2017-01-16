@@ -525,7 +525,7 @@ class TeamDetail extends Component {
 							</div>
 
 							<div className="col_one_third col_last">
-								<div style={{border:'1px solid #ddd', marginTop:24, padding:24, background:'#f9f9f9', textAlign:'right'}}>
+								<div style={{border:'1px solid #ddd', marginTop:24, padding:24, background:'#f9f9f9', textAlign:'center'}}>
 									{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={team.image+'=s140-c'} /> }
 									<h3 style={styles.team.title}>{team.name}</h3>
 									<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
