@@ -87,9 +87,12 @@ class Post extends Component {
 				{ /* mobile ui */}
 				<div className="clearfix visible-xs" style={{borderBottom:'1px solid #ededed', padding:'0px 0px 12px 12px'}}>
 					<div className="comment-content clearfix" style={{textAlign:'left'}}>
-						<Link to={'/post/'+post.slug}>
-							<img alt='The Varsity' className='avatar avatar-60 photo' style={{borderRadius:24, float:'right', marginRight:12}} src={post.image+'=s96-c'} width="48" height="48" />
-						</Link>
+						{ (post.image.length == 0) ? null : (
+								<Link to={'/post/'+post.slug}>
+									<img alt='The Varsity' className='avatar avatar-60 photo' style={{borderRadius:24, float:'right', marginRight:12}} src={ (post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s96-c'} width="48" height="48" />
+								</Link>
+							)
+						}
 
 						<div style={{marginBottom: 25}}>
 							<h3 style={style.header}>{ title }</h3>

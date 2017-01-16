@@ -45,11 +45,10 @@ class TeamDetail extends Component {
 		if (team == null){
 			this.props.fetchTeams({slug: this.props.slug})
 			.then(results => {
-				console.log('Teams Fetched: '+JSON.stringify(results))
 				if (results.length == 0)
 					return
 
-				this.connectToFirebase()
+				// this.connectToFirebase()
 			})
 			.catch(err => {
 				console.log('ERROR:' + err)
@@ -63,7 +62,7 @@ class TeamDetail extends Component {
 			updatedTeam: updated
 		})
 
-		this.connectToFirebase()
+//		this.connectToFirebase()
 
 
 		// Track view count:
@@ -341,6 +340,12 @@ class TeamDetail extends Component {
 			if (this.props.profiles[team.id] == null)
 				this.props.fetchProfiles({teams: team.id})
 		}
+
+		if (selected == 'Community'){
+			if (this.state.firebaseConnected == false)
+				this.connectToFirebase()
+		}
+
 	}
 
 
