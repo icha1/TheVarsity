@@ -126,6 +126,23 @@ class CreatePost extends Component {
 		this.props.submit(updated)
 	}
 
+	removeImage(image, event){
+		event.preventDefault()
+//		console.log('removeImage: '+image)
+
+		let array = []
+		this.state.post.images.forEach((additionalImage, i) => {
+			if (additionalImage != image)
+				array.push(additionalImage)
+		})
+
+		let updated = Object.assign([], this.state.post)
+		updated['images'] = array
+		this.setState({
+			post: updated
+		})
+	}
+
 	render(){
 		const post = this.state.post 
 		let image = null
@@ -173,16 +190,25 @@ class CreatePost extends Component {
 				{ (this.state.mode == 'create') ? null : (
 						<div className="row">
 							<div className="col-md-12">
-								<Dropzone style={{padding:12, background:'#f9f9f9', textAlign:'left', minHeight: 64}} onDrop={this.uploadImage.bind(this, 'additional')} className="visible-md visible-lg">
-								To Add More Images, <button className="button button-mini button-circle button-blue">Click Here</button>
-								<br /><br />
-								{ post.images.map((additionalImage, i) => {
-										return <img key={i} style={{marginRight:12}} src={additionalImage+'=s72-c'} />
-									})
-								}
-								{ (this.state.loading.additional) ? <Loading type='bars' color='#333' /> : null }
+								<div style={{padding:12, background:'#f9f9f9', textAlign:'left', minHeight: 64}}>
+									<Dropzone onDrop={this.uploadImage.bind(this, 'additional')} className="visible-md visible-lg">
+										To Add More Images, <button className="button button-mini button-circle button-blue">Click Here</button>
+									</Dropzone>
+									<br /><br />
+									{ post.images.map((additionalImage, i) => {
+											return (
+												<div key={i} style={{display:'inline-block'}}>
+													<img style={{marginRight:12}} src={additionalImage+'=s72-c'} />
+													<br />
+													<a onClick={this.removeImage.bind(this, additionalImage)} style={{color:'red'}} href="#">Remove</a>
+												</div>
+											)
+										})
+									}
+									{ (this.state.loading.additional) ? <Loading type='bars' color='#333' /> : null }
 								
-								</Dropzone>
+
+								</div>
 							</div>
 						</div>
 					)
