@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone'
 import { Modal } from 'react-bootstrap'
 import { browserHistory } from 'react-router'
 import { CreatePost, ProfilePreview, PostFeed } from '../view'
-import { TextUtils, APIManager } from '../../utils'
+import { TextUtils, APIManager, FirebaseManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
 
@@ -32,7 +32,10 @@ class TeamDetail extends Component {
 //				'Overview',
 				'Community',
 				'Members'
-			]
+			],
+			comments: [],
+			comment: {},
+			firebaseConnected: false
 		}
 	}
 
@@ -41,6 +44,16 @@ class TeamDetail extends Component {
 		const team = this.props.teams[this.props.slug]
 		if (team == null){
 			this.props.fetchTeams({slug: this.props.slug})
+			.then(results => {
+				console.log('Teams Fetched: '+JSON.stringify(results))
+				if (results.length == 0)
+					return
+
+				this.connectToFirebase()
+			})
+			.catch(err => {
+				console.log('ERROR:' + err)
+			})
 			return
 		}
 
@@ -49,6 +62,8 @@ class TeamDetail extends Component {
 		this.setState({
 			updatedTeam: updated
 		})
+
+		this.connectToFirebase()
 
 
 		// Track view count:
@@ -63,6 +78,29 @@ class TeamDetail extends Component {
 
 		// updatedViewed['total'] = total
 		// this.props.updateTeam(team, {viewed: updatedViewed})
+	}
+
+	connectToFirebase(){
+		if (this.state.firebaseConnected)
+			return
+
+		const team = this.props.teams[this.props.slug]
+		if (team == null)
+			return
+
+		FirebaseManager.register('/'+team.id+'/community', (err, currentComments) => {
+			if (err){
+				return
+			}
+
+			if (currentComments == null)
+				return
+
+			this.setState({
+				comments: currentComments.reverse(),
+				firebaseConnected: true
+			})
+		})		
 	}
 
 	selectItem(item, event){
@@ -242,6 +280,43 @@ class TeamDetail extends Component {
 		return isFound
 	}
 
+	updateComment(event){
+		event.preventDefault()
+		let updated = Object.assign({}, this.state.comment)
+		updated['text'] = event.target.value
+		this.setState({
+			comment: updated
+		})
+	}
+
+	submitComment(event){
+		event.preventDefault()
+		const profile = this.props.user
+		if (profile == null){
+			alert('Please Log In or Register')
+			return
+		}
+
+		const team = this.props.teams[this.props.slug]
+		if (team == null)
+			return		
+
+		let updated = Object.assign({}, this.state.comment)
+		updated['team'] = team.id
+		updated['id'] = Math.floor(Date.now()/1000)
+		updated['profile'] = {
+			id: profile.id,
+			username: profile.username,
+			slug: profile.slug,
+			image: profile.image
+		}
+
+		const path = '/'+team.id+'/community/'+this.state.comments.length
+		FirebaseManager.post(path, updated, () => {
+			console.log('comment posted')
+		})
+	}
+
 
 	componentDidUpdate(){
 		const team = this.props.teams[this.props.slug]
@@ -257,11 +332,6 @@ class TeamDetail extends Component {
 		}
 
 		const selected = this.state.selected
-		// if (selected == 'Feed'){
-		// 	if (this.props.posts[team.id] == null)
-		// 		this.props.fetchPosts({teams: team.id})
-		// }
-
 		if (selected == 'All'){
 			if (this.props.posts[team.id] == null)
 				this.props.fetchPosts({teams: team.id})
@@ -270,7 +340,6 @@ class TeamDetail extends Component {
 		if (selected == 'Members'){
 			if (this.props.profiles[team.id] == null)
 				this.props.fetchProfiles({teams: team.id})
-//				console.log('FETCH MEMBERS: ')
 		}
 	}
 
@@ -374,7 +443,16 @@ class TeamDetail extends Component {
 		else if (selected == 'Community'){
 			content = (
 				<div>
-					Community Coming Soon!
+					Community
+					<ol>
+						{ this.state.comments.map((comment, i) => {
+								return <li key={comment.id}><span>{comment.text}</span></li>
+							})
+						}
+					</ol>
+
+					<input onChange={this.updateComment.bind(this)} type="text" />
+					<button onClick={this.submitComment.bind(this)}>Submit</button>
 				</div>
 			)
 		}
