@@ -298,7 +298,12 @@ class TeamDetail extends Component {
 
 		const team = this.props.teams[this.props.slug]
 		if (team == null)
-			return		
+			return
+
+		if (this.state.comment.text.length == 0){
+			alert('Please enter a comment')
+			return
+		}
 
 		let updated = Object.assign({}, this.state.comment)
 		updated['team'] = team.id
