@@ -467,8 +467,8 @@ class TeamDetail extends Component {
 		}
 		else if (selected == 'Community'){
 			content = (
-				<div style={{background:'#f9f9f9', border:'1px solid #ddd', marginTop:24}}>
-					<div className="scroll" style={{overflow:'scroll', maxHeight:360}}>
+				<div style={{border:'1px solid #ddd', marginTop:24, marginBottom:0}}>
+					<div style={{overflow:'scroll', maxHeight:360, background:'#FCFDFF'}}>
 						{ this.state.comments.map((comment, i) => {
 								return (
 									<Comment key={comment.id} comment={comment} />
@@ -476,7 +476,7 @@ class TeamDetail extends Component {
 							})
 						}
 					</div>
-					<input onChange={this.updateComment.bind(this)} onKeyPress={this.keyPress.bind(this, 'comment')} value={this.state.comment.text} type="text" />
+					<input style={localStyle.input} placeholder="Enter Comment" onChange={this.updateComment.bind(this)} onKeyPress={this.keyPress.bind(this, 'comment')} value={this.state.comment.text} type="text" />
 				</div>
 			)
 		}
@@ -599,6 +599,18 @@ const localStyle = {
 		fontFamily: 'Pathway Gothic One',
 		border: 'none'
 	},
+	input: {
+		color:'#333',
+		background: '#f9f9f9',
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 20,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%',
+		marginTop: 0
+	},	
 	textarea: {
 		color:'#333',
 		background: '#f9f9f9',
