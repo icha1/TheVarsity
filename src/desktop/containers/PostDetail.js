@@ -257,7 +257,7 @@ class PostDetail extends Component {
 							})
 						}
 
-						<div style={{textAlign:'left', marginTop:24}}>
+						<div style={{textAlign:'left', marginTop:24, minHeight:300}}>
 							{ ( post.image.length == 0) ? null : (
 									<div>
 										<img className="hidden-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
@@ -268,7 +268,19 @@ class PostDetail extends Component {
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
 						</div>
 						<hr />
-					</div>					
+
+						<div className="panel panel-default">
+							<div className="panel-heading">Comments</div>
+							{ (this.state.comments == null) ? null : this.state.comments.map((comment, i) => {
+									return <Comment key={comment.id} comment={comment} />
+								})
+							}
+
+							<div>
+								<input type="text" id="text" value={this.state.comment.text} onChange={this.updateComment.bind(this)} onKeyPress={this.enterKeyPressed.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
+							</div>
+						</div>
+					</div>
 				</div>
 			)
 		}
@@ -331,17 +343,8 @@ class PostDetail extends Component {
 
 
 							<div className="col_one_third col_last">
-								<div className="col_full panel panel-default">
-									<div className="panel-heading">Comments</div>
-									{ (this.state.comments == null) ? null : this.state.comments.map((comment, i) => {
-											return <Comment key={comment.id} comment={comment} />
-										})
-									}
 
-									<div>
-										<input type="text" id="text" value={this.state.comment.text} onChange={this.updateComment.bind(this)} onKeyPress={this.enterKeyPressed.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
-									</div>
-								</div>
+
 							</div>
 
 						</div>
