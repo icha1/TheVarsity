@@ -219,16 +219,6 @@ class PostDetail extends Component {
 
 		const selected = this.state.selected.toLowerCase()
 
-		// const sideMenu = this.state.menuItems.map((item, i) => {
-		// 	return (
-		// 		<li key={i}>
-		// 			<div style={ (item.toLowerCase() == selected) ? styles.account.selected : styles.account.menuItem }>
-		// 				<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
-		// 			</div>
-		// 		</li>
-		// 	)
-		// })
-
 		let content = null
 		const btn = 'button button-mini button-circle '
 		const btnRedClass = btn + 'button-red'
@@ -258,15 +248,23 @@ class PostDetail extends Component {
 							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
 						<hr />
-						{ ( post.image.length == 0) ? null : (
-								<div>
-									<img className="hidden-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
-									<img className="visible-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
-								</div>
-							)
+						{ post.images.map((image, i) => {
+								return (
+									<a key={i} href="#">
+										<img style={{marginRight:12, background:'#fff', padding:3, border:'1px solid #ddd'}} src={image+'=s64-c'} />
+									</a>
+								)
+							})
 						}
 
 						<div style={{textAlign:'left', marginTop:24}}>
+							{ ( post.image.length == 0) ? null : (
+									<div>
+										<img className="hidden-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
+										<img className="visible-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
+									</div>
+								)
+							}
 							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
 						</div>
 						<hr />
@@ -274,20 +272,7 @@ class PostDetail extends Component {
 				</div>
 			)
 		}
-		// else if (selected == 'chat'){ // chat
-		// 	content = (
-		// 		<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
-		// 			<CreateComment onCreate={this.submitComment.bind(this)} />
-		// 			{
-		// 				this.state.comments.map((comment, i) => {
-		// 					return <Comment comment={comment} key={i} />
-		// 				})
-		// 			}
-		// 		</div>
-		// 	)
-		// }
 
-//		const feed = this.props.posts[post.teams[0]]
 		const teams = this.props.teams[post.author.id] // can be null
 
 		return (
@@ -395,7 +380,6 @@ class PostDetail extends Component {
 						<br />
 						<a href="#" style={{float:'right', marginTop:12}} onClick={this.submitComment.bind(this)} className="button button-small button-circle button-green">Submit Comment</a>
 					</div>
-
 
 				</div>
 				{ /* end mobile UI */ }
