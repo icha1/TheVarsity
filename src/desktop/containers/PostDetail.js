@@ -250,7 +250,7 @@ class PostDetail extends Component {
 						<hr />
 						{ post.images.map((image, i) => {
 								return (
-									<a key={i} href="#">
+									<a key={i} target="_blank" href={image}>
 										<img style={{marginRight:12, background:'#fff', padding:3, border:'1px solid #ddd'}} src={image+'=s64-c'} />
 									</a>
 								)
