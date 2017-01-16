@@ -34,7 +34,9 @@ class TeamDetail extends Component {
 				'Members'
 			],
 			comments: [],
-			comment: {},
+			comment: {
+				text: ''
+			},
 			firebaseConnected: false
 		}
 	}
@@ -151,6 +153,10 @@ class TeamDetail extends Component {
 
 		if (action == 'invite')
 			this.inviteMember()
+
+		if (action == 'comment')
+			this.submitComment()
+
 	}	
 
 	updateInvitation(event){
@@ -289,7 +295,9 @@ class TeamDetail extends Component {
 	}
 
 	submitComment(event){
-		event.preventDefault()
+		if (event != null)
+			event.preventDefault()
+
 		const profile = this.props.user
 		if (profile == null){
 			alert('Please Log In or Register')
@@ -317,7 +325,12 @@ class TeamDetail extends Component {
 
 		const path = '/'+team.id+'/community/'+this.state.comments.length
 		FirebaseManager.post(path, updated, () => {
-			console.log('comment posted')
+//			console.log('comment posted')
+			this.setState({
+				comment: {
+					text: ''
+				}
+			})
 		})
 	}
 
@@ -452,17 +465,17 @@ class TeamDetail extends Component {
 		}
 		else if (selected == 'Community'){
 			content = (
-				<div>
-					Community
-					<ol>
-						{ this.state.comments.map((comment, i) => {
-								return <li key={comment.id}><span>{comment.text}</span></li>
-							})
-						}
-					</ol>
+				<div style={{background:'#f9f9f9', border:'1px solid #ddd', marginTop:24}}>
+					<div style={{overflow:'scroll', height:100, padding: 12}}>
+						<ol>
+							{ this.state.comments.map((comment, i) => {
+									return <li key={comment.id}><span>{comment.text}</span></li>
+								})
+							}
+						</ol>
 
-					<input onChange={this.updateComment.bind(this)} type="text" />
-					<button onClick={this.submitComment.bind(this)}>Submit</button>
+					</div>
+					<input onChange={this.updateComment.bind(this)} onKeyPress={this.keyPress.bind(this, 'comment')} value={this.state.comment.text} type="text" />
 				</div>
 			)
 		}
