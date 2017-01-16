@@ -11,12 +11,11 @@ export default (state = initialState, action) => {
 
 	switch (action.type) {
 		case constants.TEAMS_RECEIVED:
-//			return update(state, action.teams)
-//			console.log('TEAMS_RECEIVED: '+JSON.stringify(action.params))
 			const keys = Object.keys(action.params)
 
 			action.teams.forEach((team, i) => {
 				newState[team.slug] = team
+				newState[team.id] = team
 			})
 
 			const ignore = ['limit', 'slug', 'featured']
@@ -24,12 +23,6 @@ export default (state = initialState, action) => {
 				let key = keys[i]
 				if (ignore.indexOf(key) != -1)
 					continue
-
-				// if (key == 'limit')
-				// 	continue
-
-				// if (key == 'slug') // this was already covered in first loop
-				// 	continue
 
 				let value = action.params[key]
 				newState[value] = action.teams
@@ -46,9 +39,8 @@ export default (state = initialState, action) => {
 			return newState
 
 		case constants.TEAM_UPDATED:
-			// teamsMap[action.team.slug] = action.team
-			// newState['map'] = teamsMap
 			newState[action.team.slug] = action.team
+			newState[action.team.id] = action.team
 			return newState
 
 		case constants.TEAM_POSTS_RECEIVED:
