@@ -5,6 +5,7 @@ import Comment from './Comment'
 import CreateComment from './CreateComment'
 import TeamFeed from './TeamFeed'
 import TeamPreview from './TeamPreview'
+import TeamInfo from './TeamInfo'
 import CreatePost from './CreatePost'
 import CreateTeam from './CreateTeam'
 import ProfilePreview from './ProfilePreview'
@@ -19,6 +20,7 @@ export {
 	CreateComment,
 	TeamFeed,
 	TeamPreview,
+	TeamInfo,
 	CreatePost,
 	CreateTeam,
 	ProfilePreview,

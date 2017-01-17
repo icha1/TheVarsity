@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { Modal } from 'react-bootstrap'
 import { browserHistory } from 'react-router'
-import { CreatePost, ProfilePreview, PostFeed, Comment } from '../view'
+import { CreatePost, ProfilePreview, PostFeed, Comment, TeamInfo } from '../view'
 import { TextUtils, APIManager, FirebaseManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -146,9 +146,9 @@ class TeamDetail extends Component {
 		})
 	}
 
-	requestInvitation(event){
-		event.preventDefault()
-		console.log('requestInvitation: ')
+	requestInvitation(invitation){
+//		event.preventDefault()
+		console.log('requestInvitation: '+JSON.stringify(invitation))
 
 	}
 
@@ -582,14 +582,7 @@ class TeamDetail extends Component {
 							</div>
 
 							<div className="col_one_third col_last">
-								<div style={{border:'1px solid #ddd', marginTop:24, padding:24, background:'#f9f9f9', textAlign:'center'}}>
-									{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={team.image+'=s140-c'} /> }
-									<h3 style={styles.team.title}>{team.name}</h3>
-									<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
-									<hr />
-									<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
-									<a href="#" onClick={this.requestInvitation.bind(this)} className="button button-small button-border button-border-thin button-blue" style={{marginLeft:0}}>Request Invitation</a>
-								</div>
+								<TeamInfo team={team} onSubmitInvitation={this.requestInvitation.bind(this)} />
 							</div>
 						</div>
 					</section>
@@ -635,23 +628,6 @@ class TeamDetail extends Component {
 						</div>
 			        </Modal.Body>
 		        </Modal>
-
-		        <Modal bsSize="sm" show={false} onHide={null}>
-			        <Modal.Body style={styles.nav.modal}>
-			        	<div style={{textAlign:'center'}}>
-				        	<img style={styles.nav.logo} src='/images/logo_dark.png' />
-				        	<hr />
-				        	<h4>Request Invitation</h4>
-			        	</div>
-
-			        	<input id="name" onChange={this.updateInvitation.bind(this)} className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Name" />
-			        	<input id="email" onChange={this.updateInvitation.bind(this)} onKeyPress={this.keyPress.bind(this, 'invite')} className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Email" />
-						<div style={styles.nav.btnLoginContainer}>
-							<a href="#" onClick={this.inviteMember.bind(this)} className={styles.nav.btnLogin.className}><i className="icon-lock3"></i>Send</a>
-						</div>
-			        </Modal.Body>
-		        </Modal>		        
-
 			</div>
 		)
 	}
@@ -684,7 +660,20 @@ const localStyle = {
 		border: 'none',
 		width: 100+'%',
 		marginTop: 0
-	},	
+	},
+	inputWhite: {
+		color:'#333',
+		background: '#fff',
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 20,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%',
+		marginTop: 0,
+		marginBottom: 16
+	},
 	textarea: {
 		color:'#333',
 		background: '#f9f9f9',
@@ -719,7 +708,6 @@ const localStyle = {
 const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
-//		session: state.session, // currentDistrict, currentLocation, teams, selectedFeed, reload
 		teams: state.team,
 		posts: state.post,
 		profiles: state.profile

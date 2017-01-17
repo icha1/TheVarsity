@@ -4,6 +4,10 @@ export default {
 		fontFamily:'Pathway Gothic One',
 		fontWeight: 100
 	},	
+	paragraph: {
+		color:'#333',
+		fontWeight: 100		
+	},	
 	comment: {
 		container: {
 			borderTop:'1px solid #ddd',
