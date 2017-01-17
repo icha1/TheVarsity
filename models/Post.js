@@ -14,6 +14,7 @@ var PostSchema = new mongoose.Schema({
 	district: {type:String, trim:true, default:''},
 	saved: {type:Array, default:[]}, // array of profile IDs who saved the post
 	teams: {type:Array, default:[]}, // array of teams that show this post
+	contact: {type:Array, default:[]}, // list of emails to contact, use for hiring posts
 	numComments: {type:Number, default:0},
 	votes: {type:mongoose.Schema.Types.Mixed, default:{upvotes:[], downvotes:[], score:0}}, // upvotes, downvotes, score
 	viewed: {type:mongoose.Schema.Types.Mixed, default:{}}, // map of profiles that viewed the post
@@ -40,6 +41,7 @@ PostSchema.methods.summary = function(){
 		type: this.type,
 		saved: this.saved,
 		teams: this.teams,
+		contact: this.contact,
 		numComments: this.numComments,
 		author: this.author,
 		votes: this.votes,
