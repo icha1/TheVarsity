@@ -279,7 +279,6 @@ class TeamDetail extends Component {
 		if (user == null)
 			return
 
-		console.log('voteOnPost: '+post.title+' == '+upOrDown)
 		this.props.fetchPostById(post.id)
 		.then(result => {
 			let votes = result.votes
@@ -698,7 +697,7 @@ const localStyle = {
 const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
-		session: state.session, // currentDistrict, currentLocation, teams, selectedFeed, reload
+//		session: state.session, // currentDistrict, currentLocation, teams, selectedFeed, reload
 		teams: state.team,
 		posts: state.post,
 		profiles: state.profile
