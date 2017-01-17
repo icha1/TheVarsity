@@ -173,35 +173,8 @@ class TeamDetail extends Component {
 	updateTeam(updated){
 //		console.log('UPDATE TEAM: '+JSON.stringify(updated))
 		const team = this.props.teams[this.props.slug]
-		this.props.updateTeam(team, updated)
+		return this.props.updateTeam(team, updated)
 	}
-
-	// belongs in TeamInfo:
-	// uploadImage(source, files){
-
-	// 	APIManager.upload(files[0], (err, image) => {
-	// 		if (err){
-	// 			alert(err)
-	// 			return
-	// 		}
-
-	// 		if (source == 'team'){
-	// 			let updated = Object.assign({}, this.state.updatedTeam)
-	// 			updated['image'] = image.address
-	// 			updated['changed'] = true
-	// 			this.setState({
-	// 				updatedTeam: updated
-	// 			})
-	// 		}
-	// 		else if (source == 'post'){
-	// 			let updated = Object.assign({}, this.state.post)
-	// 			updated['image'] = image.address
-	// 			this.setState({
-	// 				post: updated
-	// 			})
-	// 		}
-	// 	})
-	// }
 
 	submitPost(post){
 		const user = this.props.user

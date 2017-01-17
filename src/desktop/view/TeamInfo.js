@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextUtils } from '../../utils'
+import { TextUtils, APIManager } from '../../utils'
 import styles from './styles'
 
 class TeamInfo extends Component {
@@ -20,6 +20,21 @@ class TeamInfo extends Component {
 		updated['description'] = this.props.team.description
 		this.setState({
 			updated: updated
+		})
+	}
+
+	uploadImage(source, files){
+		APIManager.upload(files[0], (err, image) => {
+			if (err){
+				alert(err)
+				return
+			}
+
+			let updated = Object.assign({}, this.state.updated)
+			updated['image'] = image.address
+			this.setState({
+				updated: updated
+			})
 		})
 	}
 
@@ -57,6 +72,14 @@ class TeamInfo extends Component {
 	updateTeam(event){
 		event.preventDefault()
 		this.props.onUpdate(this.state.updated)
+		.then(response => {
+			this.setState({
+				isEditing: false
+			})
+		})
+		.catch(err => {
+			alert(err.message)
+		})
 	}
 
 	toggleEdit(event){
@@ -66,17 +89,35 @@ class TeamInfo extends Component {
 		})
 	}
 
+	memberFound(profile, list){
+		if (profile == null)
+			return false
+
+		let isFound = false
+		list.every((member, i) => {
+			if (member.id == profile.id){
+				isFound = true
+				return false
+			}
+
+			return true
+		})
+
+		return isFound
+	}
+
+
 	render(){
 		const team = this.props.team
+		const isAdmin = this.memberFound(this.props.user, team.admins)
 
 		return (
 			<div style={localStyle.container}>
 				{ (team.image.length == 0) ? null : <img style={localStyle.teamImage} src={team.image+'=s140-c'} /> }
 				<h3 style={localStyle.title}>{team.name}</h3>
 				<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
-				<br />
-				<hr />
-				<a onClick={this.toggleEdit.bind(this)} href="#">Edit</a>
+				<br /><hr />
+				{ (isAdmin) ? <a onClick={this.toggleEdit.bind(this)} href="#">{ (this.state.isEditing) ? 'Cancel' : 'Edit'} </a> : null }
 				{ (this.state.isEditing) ? 
 					<div>
 						<textarea style={localStyle.textarea} onChange={this.updateDescription.bind(this)} value={this.state.updated.description}></textarea>
