@@ -274,6 +274,53 @@ class TeamDetail extends Component {
 		this.props.updatePost(post, {status: 'closed'})
 	}
 
+	voteOnPost(post, upOrDown){
+		const user = this.props.user
+		if (user == null)
+			return
+
+		console.log('voteOnPost: '+post.title+' == '+upOrDown)
+		this.props.fetchPostById(post.id)
+		.then(result => {
+			let votes = result.votes
+			const arrayKey = (upOrDown == 'up') ? 'upvotes' : 'downvotes'
+			let array = votes[arrayKey]
+
+			let isFound = false
+			array.every((voter, i) => {
+				if (voter.id == user.id){
+					isFound = true
+					return false					
+				}
+
+				return true
+			})
+
+			if (isFound)
+				return
+
+			array.push({
+				id: user.id,
+				username: user.username,
+				image: user.image
+			})
+
+			votes[arrayKey] = array
+
+			votes['score'] = (votes.upvotes.length-votes.downvotes.length)
+			result['votes'] = votes
+			return this.props.updatePost(result, {votes: votes})
+		})
+		.then(result => {
+//			console.log('UPDATE POST: '+JSON.stringify(result))
+
+		})
+		.catch(err => {
+			console.log('ERR: '+err.message)
+
+		})
+
+	}
 
 	memberFound(profile, list){
 		let isFound = false
@@ -413,7 +460,13 @@ class TeamDetail extends Component {
 						) 
 					}
 
-					{ (list) ? <PostFeed deletePost={this.deletePost.bind(this)} posts={sublist} user={this.props.user} /> : null }
+					{ (list == null) ? null : 
+						<PostFeed 
+							posts={sublist}
+							deletePost={this.deletePost.bind(this)}
+							vote={this.voteOnPost.bind(this)}
+							user={this.props.user} />
+					}
 				</div>
 			)
 		}
@@ -657,6 +710,7 @@ const dispatchToProps = (dispatch) => {
 		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
+		fetchPostById: (id) => dispatch(actions.fetchPostById(id)),
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params)),
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),

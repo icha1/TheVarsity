@@ -24,11 +24,13 @@ const getData = (path, params, actionType, payloadKey) => {
 		.handleGet(path, params)
 		.then((response) => {
 			const data = response.results || response.result
-			dispatch({
-				type: actionType,
-				[payloadKey]: data,
-				params: params
-			})
+			if (actionType != null){
+				dispatch({
+					type: actionType,
+					[payloadKey]: data,
+					params: params
+				})
+			}
 
 			return data
 		})
@@ -74,6 +76,12 @@ export default {
 		params['status'] = 'live' // only fetch live posts
 		return dispatch => {
 			return dispatch(getData('/api/post', params, constants.POSTS_RECEIVED, 'posts'))
+		}
+	},
+
+	fetchPostById: (id) => {
+		return dispatch => {
+			return dispatch(getData('/api/post/'+id, null, null, 'post'))
 		}
 	},
 

@@ -100,10 +100,8 @@ export default (state = initialState, action) => {
 				let list = Object.assign([], newState[action.post.author.id])
 				let updatedList = []
 				list.forEach((post, i) => {
-					if (post.id == action.post.id)
-						updatedList.push(action.post.id)
-					else
-						updatedList.push(post)
+					const entry = (post.id == action.post.id) ? action.post : post
+					updatedList.push(entry)
 				})
 
 				newState[action.post.author.id] = updatedList
@@ -114,10 +112,8 @@ export default (state = initialState, action) => {
 					let list = Object.assign([], newState[teamId])
 					let updatedList = []
 					list.forEach((post, i) => {
-						if (post.id == action.post.id)
-							updatedList.push(action.post.id)
-						else
-							updatedList.push(post)
+						const entry = (post.id == action.post.id) ? action.post : post
+						updatedList.push(entry)
 					})
 
 					newState[teamId] = updatedList

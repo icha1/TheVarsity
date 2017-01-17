@@ -21,6 +21,12 @@ class PostFeed extends Component {
 			this.props.deletePost(post)
 	}
 
+	onVote(post, upOrDown){
+//		console.log('onVote: '+post.title+' == '+upOrDown)
+		this.props.vote(post, upOrDown)
+
+	}
+
 	render(){
 		const listClass = 'commentlist noborder nomargin nopadding clearfix'
 		const listItemClass = 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1'
@@ -36,6 +42,7 @@ class PostFeed extends Component {
 										deletePost={this.onDelete.bind(this)}
 										savePost={this.onSave.bind(this)}
 										unsavePost={this.onUnsave.bind(this)}
+										onVote={this.onVote.bind(this)}
 										post={post}
 										user={this.props.user} />
 								</li>

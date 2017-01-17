@@ -20,6 +20,11 @@ class Post extends Component {
 		this.props.deletePost(this.props.post)
 	}
 
+	vote(upOrDown, event){
+		event.preventDefault()
+		this.props.onVote(this.props.post, upOrDown)
+	}
+
 	render(){
 		const post = this.props.post
 		const user = this.props.user // can be null
@@ -78,8 +83,8 @@ class Post extends Component {
 							<img style={{width:32, float:'right'}} src="/images/dots.png" />
 						</a>
 						<ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-							<li style={style.listItem}><a href="#">Share</a></li>
-							<li style={style.listItem}><Link to={'/post/'+post.slug+'?selected=chat'}>Comments { numCommentsBadge }</Link></li>
+							<li style={style.listItem}><a onClick={this.vote.bind(this, 'up')} href="#">Upvote</a></li>
+							<li style={style.listItem}><a onClick={this.vote.bind(this, 'down')} href="#">Downvote</a></li>
 							{ (saved) ? <li style={style.listItem}><a onClick={this.unsave.bind(this)} href="#">Unsave</a></li> : <li style={style.listItem}><a onClick={this.save.bind(this)} href="#">Save</a></li> }
 							{ deleteLink }
 						</ul>
