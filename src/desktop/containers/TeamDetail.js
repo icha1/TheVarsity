@@ -29,7 +29,6 @@ class TeamDetail extends Component {
 				'News',
 				'Hiring',
 				'Showcase',
-//				'Overview',
 				'Community',
 				'Members'
 			],
@@ -145,6 +144,12 @@ class TeamDetail extends Component {
 		.catch((err) => {
 			console.log('ERROR: '+JSON.stringify(err))
 		})
+	}
+
+	requestInvitation(event){
+		event.preventDefault()
+		console.log('requestInvitation: ')
+
 	}
 
 	keyPress(action, event){
@@ -520,7 +525,7 @@ class TeamDetail extends Component {
 		else if (selected == 'Community'){
 			content = (
 				<div style={{border:'1px solid #ddd', marginTop:24, marginBottom:0}}>
-					<div style={{overflow:'scroll', maxHeight:360, background:'#FCFDFF'}}>
+					<div style={{overflowY:'scroll', maxHeight:360, background:'#FCFDFF', padding:0}}>
 						{ this.state.comments.map((comment, i) => {
 								return (
 									<Comment key={comment.id} comment={comment} />
@@ -583,6 +588,7 @@ class TeamDetail extends Component {
 									<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
 									<hr />
 									<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
+									<a href="#" onClick={this.requestInvitation.bind(this)} className="button button-small button-border button-border-thin button-blue" style={{marginLeft:0}}>Request Invitation</a>
 								</div>
 							</div>
 						</div>
@@ -629,6 +635,22 @@ class TeamDetail extends Component {
 						</div>
 			        </Modal.Body>
 		        </Modal>
+
+		        <Modal bsSize="sm" show={false} onHide={null}>
+			        <Modal.Body style={styles.nav.modal}>
+			        	<div style={{textAlign:'center'}}>
+				        	<img style={styles.nav.logo} src='/images/logo_dark.png' />
+				        	<hr />
+				        	<h4>Request Invitation</h4>
+			        	</div>
+
+			        	<input id="name" onChange={this.updateInvitation.bind(this)} className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Name" />
+			        	<input id="email" onChange={this.updateInvitation.bind(this)} onKeyPress={this.keyPress.bind(this, 'invite')} className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Email" />
+						<div style={styles.nav.btnLoginContainer}>
+							<a href="#" onClick={this.inviteMember.bind(this)} className={styles.nav.btnLogin.className}><i className="icon-lock3"></i>Send</a>
+						</div>
+			        </Modal.Body>
+		        </Modal>		        
 
 			</div>
 		)
