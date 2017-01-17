@@ -39,19 +39,25 @@ class TeamDetail extends Component {
 	componentDidMount(){
 		window.scrollTo(0, 0)
 		const team = this.props.teams[this.props.slug]
-		if (team == null){
-			this.props.fetchTeams({slug: this.props.slug})
-			.then(results => {
-				if (results.length == 0)
-					return
+		if (team != null){
+			if (this.state.selected == 'All'){
+				if (this.props.posts[team.id] == null)
+					this.props.fetchPosts({teams: team.id})
+			}
 
-				// this.connectToFirebase()
-			})
-			.catch(err => {
-				console.log('ERROR:' + err)
-			})
 			return
 		}
+
+		this.props.fetchTeams({slug: this.props.slug})
+		.then(results => {
+			if (results.length == 0)
+				return
+
+			// this.connectToFirebase()
+		})
+		.catch(err => {
+			console.log('ERROR:' + err)
+		})
 
 		// Track view count:
 		// const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
