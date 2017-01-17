@@ -72,7 +72,7 @@ class TeamInfo extends Component {
 		return (
 			<div style={localStyle.container}>
 				{ (team.image.length == 0) ? null : <img style={localStyle.teamImage} src={team.image+'=s140-c'} /> }
-				<h3 style={styles.title}>{team.name}</h3>
+				<h3 style={localStyle.title}>{team.name}</h3>
 				<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
 				<br />
 				<hr />
@@ -97,6 +97,12 @@ class TeamInfo extends Component {
 }
 
 const localStyle = {
+	title: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		marginBottom: 0
+	},
 	container: {
 		border:'1px solid #ddd',
 		marginTop:24,
