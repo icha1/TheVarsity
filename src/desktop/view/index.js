@@ -11,6 +11,7 @@ import CreateTeam from './CreateTeam'
 import ProfilePreview from './ProfilePreview'
 import EditProfile from './EditProfile'
 import Redeem from './Redeem'
+import Sidebar from './Sidebar'
 
 export {
 	Map,
@@ -25,5 +26,6 @@ export {
 	CreateTeam,
 	ProfilePreview,
 	EditProfile,
-	Redeem
+	Redeem,
+	Sidebar
 }

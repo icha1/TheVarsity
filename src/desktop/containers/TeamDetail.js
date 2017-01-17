@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { Modal } from 'react-bootstrap'
 import { browserHistory } from 'react-router'
-import { CreatePost, ProfilePreview, PostFeed, Comment, TeamInfo } from '../view'
+import { CreatePost, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar } from '../view'
 import { TextUtils, APIManager, FirebaseManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -15,14 +15,10 @@ class TeamDetail extends Component {
 		this.inviteMember = this.inviteMember.bind(this)
 		this.state = {
 			selected: 'All',
-			isEditing: false,
 			showInvite: false,
 			invitation: {
 				name: '',
 				email: ''
-			},
-			updatedTeam: {
-				changed: false
 			},
 			menuItems: [
 				'All',
@@ -56,15 +52,6 @@ class TeamDetail extends Component {
 			})
 			return
 		}
-
-		let updated = Object.assign({}, this.state.updatedTeam)
-		updated['image'] = team.image
-		this.setState({
-			updatedTeam: updated
-		})
-
-//		this.connectToFirebase()
-
 
 		// Track view count:
 		// const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
@@ -107,7 +94,6 @@ class TeamDetail extends Component {
 		event.preventDefault()
 		window.scrollTo(0, 0)
 		this.setState({
-			isEditing: false,
 			selected: (event.target.id == 'select') ? event.target.value : item
 		})
 	}
@@ -178,68 +164,38 @@ class TeamDetail extends Component {
 		})
 	}
 
-	toggleEditing(){
-		if (this.state.isEditing){
-			// update team
-			if (this.state.updatedTeam.changed == true){ // 0 if no changes
-				const team = this.props.teams[this.props.slug]
-				this.props.updateTeam(team, this.state.updatedTeam)
-			}
-		}
-
-		this.setState({
-			isEditing: !this.state.isEditing
-		})
-	}
-
-	cancelEditing(){
+	updateTeam(updated){
+//		console.log('UPDATE TEAM: '+JSON.stringify(updated))
 		const team = this.props.teams[this.props.slug]
-
-		this.setState({
-			isEditing: false,
-			updatedTeam: {
-				changed: false,
-				image: team.image
-			}
-		})
+		this.props.updateTeam(team, updated)
 	}
 
-	updateTeam(event){
-		event.preventDefault()
-		let updated = Object.assign({}, this.state.updatedTeam)
-		updated[event.target.id] = event.target.value
-		updated['changed'] = true
-		this.setState({
-			updatedTeam: updated
-		})
-	}
+	// belongs in TeamInfo:
+	// uploadImage(source, files){
 
-	uploadImage(source, files){
-//		console.log('uploadImage: '+source)
+	// 	APIManager.upload(files[0], (err, image) => {
+	// 		if (err){
+	// 			alert(err)
+	// 			return
+	// 		}
 
-		APIManager.upload(files[0], (err, image) => {
-			if (err){
-				alert(err)
-				return
-			}
-
-			if (source == 'team'){
-				let updated = Object.assign({}, this.state.updatedTeam)
-				updated['image'] = image.address
-				updated['changed'] = true
-				this.setState({
-					updatedTeam: updated
-				})
-			}
-			else if (source == 'post'){
-				let updated = Object.assign({}, this.state.post)
-				updated['image'] = image.address
-				this.setState({
-					post: updated
-				})
-			}
-		})
-	}
+	// 		if (source == 'team'){
+	// 			let updated = Object.assign({}, this.state.updatedTeam)
+	// 			updated['image'] = image.address
+	// 			updated['changed'] = true
+	// 			this.setState({
+	// 				updatedTeam: updated
+	// 			})
+	// 		}
+	// 		else if (source == 'post'){
+	// 			let updated = Object.assign({}, this.state.post)
+	// 			updated['image'] = image.address
+	// 			this.setState({
+	// 				post: updated
+	// 			})
+	// 		}
+	// 	})
+	// }
 
 	submitPost(post){
 		const user = this.props.user
@@ -393,14 +349,6 @@ class TeamDetail extends Component {
 		if (team == null)
 			return
 
-		if (this.state.updatedTeam.image == null){
-			let updated = Object.assign({}, this.state.updatedTeam)
-			updated['image'] = team.image
-			this.setState({
-				updatedTeam: updated
-			})
-		}
-
 		const selected = this.state.selected
 		if (selected == 'All'){
 			if (this.props.posts[team.id] == null)
@@ -416,7 +364,6 @@ class TeamDetail extends Component {
 			if (this.state.firebaseConnected == false)
 				this.connectToFirebase()
 		}
-
 	}
 
 
@@ -431,24 +378,7 @@ class TeamDetail extends Component {
 		let content = null
 		const selected = this.state.selected
 
-		if (this.state.isEditing == true){
-			content = (
-				<div style={{textAlign:'left'}}>
-					<div style={{marginTop:24}}>
-						<Dropzone onDrop={this.uploadImage.bind(this, 'team')} style={{marginBottom:4}}>
-							<img src={this.state.updatedTeam.image+'=s260'} />
-							<br />
-							Click to change
-						</Dropzone>
-						<textarea id="description" onChange={this.updateTeam.bind(this)} style={{marginTop:16, border:'none', fontSize:16, color:'#555', width:100+'%', minHeight:180, background:'#f9f9f9', padding:6}} defaultValue={team.description}></textarea>
-					</div>
-					<button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Done</button>
-					<button onClick={this.cancelEditing.bind(this)} style={{float:'right', marginRight:12}} className={localStyle.btnBlue.className}>Cancel</button>
-				</div>
-			)			
-		}
-
-		else if (selected == 'All' || selected == 'News' || selected == 'Hiring' || selected == 'Showcase'){
+		if (selected == 'All' || selected == 'News' || selected == 'Hiring' || selected == 'Showcase'){
 			const list = this.props.posts[team.id]
 			const sublist = (selected == 'All') ? list : list.filter((post, i) => {
 				return (post.type == selected.toLowerCase())
@@ -542,33 +472,11 @@ class TeamDetail extends Component {
 			<div>
 				<div className="clearfix hidden-xs">
 					<header id="header" className="no-sticky" style={{background:'#fff', border:'none'}}>
-			            <div id="header-wrap">
-							<div className="container clearfix">
-								<div style={{paddingTop:96}}></div>
-								<div>
-									<h2 style={style.title}>{ team.name }</h2>
-									<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
-									<hr />
-
-									<nav>
-										<ul style={{listStyleType:'none'}}>
-											{ this.state.menuItems.map((item, i) => {
-													const itemStyle = (item == this.state.selected) ? localStyle.selected : localStyle.menuItem
-													return (
-														<li style={{marginTop:0}} key={item}>
-															<div style={itemStyle}>
-																<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
-															</div>
-														</li>
-													)
-												})
-											}
-										</ul>
-									</nav>
-
-								</div>
-				            </div>
-			            </div>
+						<Sidebar 
+							menuItems={this.state.menuItems}
+							selectItem={this.selectItem.bind(this)}
+							selected={this.state.selected}
+							{...team} />
 					</header>
 
 					<section id="content" style={{background:'#fff', minHeight:800}}>
@@ -582,7 +490,11 @@ class TeamDetail extends Component {
 							</div>
 
 							<div className="col_one_third col_last">
-								<TeamInfo team={team} onSubmitInvitation={this.requestInvitation.bind(this)} />
+								<TeamInfo
+									team={team}
+									user={this.props.user} // can be null
+									onUpdate={this.updateTeam.bind(this)}
+									onSubmitInvitation={this.requestInvitation.bind(this)} />
 							</div>
 						</div>
 					</section>
@@ -660,49 +572,7 @@ const localStyle = {
 		border: 'none',
 		width: 100+'%',
 		marginTop: 0
-	},
-	inputWhite: {
-		color:'#333',
-		background: '#fff',
-		padding: 6,
-		fontWeight: 100,
-	    lineHeight: 1.5,
-	    fontSize: 20,
-		fontFamily:'Pathway Gothic One',
-		border: 'none',
-		width: 100+'%',
-		marginTop: 0,
-		marginBottom: 16
-	},
-	textarea: {
-		color:'#333',
-		background: '#f9f9f9',
-		marginBottom: 12,
-		padding: 6,
-		fontWeight: 100,
-	    lineHeight: 1.5,
-	    fontSize: 16,
-		border: 'none',
-		width: 100+'%',
-		fontFamily:'Pathway Gothic One',
-		minHeight: 220
-	},
-	selected: {
-		padding: '6px 6px 6px 16px',
-		background: '#f9f9f9',
-		borderRadius: 2,
-		borderLeft: '3px solid rgb(91, 192, 222)',
-		fontSize: 16,
-		fontWeight: 400
-	},
-	menuItem: {
-		padding: '6px 6px 6px 16px',
-		background: '#fff',
-		borderLeft: '3px solid #ddd',
-		fontSize: 16,
-		fontWeight: 100
-
-	}	
+	}
 }
 
 const stateToProps = (state) => {
