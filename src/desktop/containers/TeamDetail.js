@@ -191,6 +191,22 @@ class TeamDetail extends Component {
 		const team = this.props.teams[this.props.slug]
 		post['teams'] = [team.id]
 
+		// find any email strings:
+		let text = post.text
+		const words = text.split(' ')
+		let emails = []
+		words.forEach((word, i) => {
+			let cleaned = word.replace(',', '')
+			cleaned = cleaned.trim()
+			if (TextUtils.validateEmail(cleaned) == true){ // this is an email
+				emails.push(cleaned.toLowerCase())
+				text = text.replace(word, '') // remove from text
+			}
+		})
+		post['contact'] = emails
+		if (emails.length > 0)
+			post['text'] = text
+
 		this.props.createPost(post)
 		.then(response => {
 			browserHistory.push('/post/'+response.result.slug)
