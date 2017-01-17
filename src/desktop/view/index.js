@@ -2,6 +2,7 @@ import Map from './Map'
 import PostFeed from './PostFeed'
 import Post from './Post'
 import Comment from './Comment'
+import Comments from './Comments'
 import CreateComment from './CreateComment'
 import TeamFeed from './TeamFeed'
 import TeamPreview from './TeamPreview'
@@ -18,6 +19,7 @@ export {
 	PostFeed,
 	Post,
 	Comment,
+	Comments,
 	CreateComment,
 	TeamFeed,
 	TeamPreview,

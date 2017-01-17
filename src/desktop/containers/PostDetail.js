@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
-import { CreateComment, CreatePost, Comment, ProfilePreview } from '../view'
+import { CreateComment, CreatePost, Comments, ProfilePreview } from '../view'
 import { DateUtils, FirebaseManager, TextUtils } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -271,15 +271,7 @@ class PostDetail extends Component {
 						<hr />
 
 						<div className="panel panel-default hidden-xs">
-							<div className="panel-heading">Comments</div>
-							{ (this.state.comments == null) ? null : this.state.comments.map((comment, i) => {
-									return <Comment key={comment.id} comment={comment} />
-								})
-							}
-
-							<div>
-								<input type="text" id="text" value={this.state.comment.text} onChange={this.updateComment.bind(this)} onKeyPress={this.enterKeyPressed.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
-							</div>
+							<Comments comments={this.state.comments} />
 						</div>
 					</div>
 				</div>
