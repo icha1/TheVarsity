@@ -68,7 +68,7 @@ class Post extends Component {
 							{ (link == null) ? null : <a style={{color:'#1265A8'}} target="_blank" href={post.url}>{link}</a> }
 							<h3 style={style.header}>{ title }</h3>
 							<Link to={'/post/'+post.slug}>
-								<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
+								<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.truncateText(post.text, 120)}}></p>
 							</Link>
 						</div>
 
