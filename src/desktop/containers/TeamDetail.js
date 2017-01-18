@@ -270,6 +270,9 @@ class TeamDetail extends Component {
 	}
 
 	memberFound(profile, list){
+		if (profile == null)
+			return false
+
 		let isFound = false
 		list.forEach((member, i) => {
 			if (member.id == profile.id)
@@ -363,7 +366,6 @@ class TeamDetail extends Component {
 		}
 
 		const style = styles.team
-		let invite = null
 		let content = null
 		const selected = this.props.selected
 
@@ -394,16 +396,10 @@ class TeamDetail extends Component {
 			)
 		}
 		else if (selected == 'Overview'){
-			let btnEdit = null
-			if (this.props.user != null){
-				if (this.memberFound(this.props.user, team.admins))
-					btnEdit = <button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Edit</button>
-			}
-
 			content = (
 				<div>
 					<div style={{textAlign:'right', marginBottom:24}}>
-						{ btnEdit }
+						{ (this.memberFound(this.props.user, team.admins)) ? <button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Edit</button> : null }
 					</div>
 					<div>
 						<div className="hidden-xs">
@@ -422,15 +418,10 @@ class TeamDetail extends Component {
 		}
 		else if (selected == 'Members'){
 			const members = this.props.profiles[team.id]
-			if (this.props.user != null){
-				if (this.memberFound(this.props.user, team.members))
-					invite = <button onClick={this.toggleInvite.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Invite Member</button>
-			}
-
 			content = (
 				<div>
 					<div style={{textAlign:'right', marginBottom:24}}>
-						{ invite }
+						{ (this.memberFound(this.props.user, team.members)) ? <button onClick={this.toggleInvite.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Invite Member</button> : null }
 					</div>
 					<div>
 						{ (members == null) ? null : members.map((member, i) => {
