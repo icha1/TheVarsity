@@ -14,18 +14,16 @@ class TeamDetail extends Component {
 		this.memberFound = this.memberFound.bind(this)
 		this.inviteMember = this.inviteMember.bind(this)
 		this.state = {
-			selected: 'All',
+			selected: 'Showcase',
 			showInvite: false,
 			invitation: {
 				name: '',
 				email: ''
 			},
 			menuItems: [
-				'All',
-				'News',
-				'Hiring',
 				'Showcase',
-				'Community',
+				'Hiring',
+				'Chat',
 				'Members'
 			],
 			comments: [],
@@ -40,10 +38,13 @@ class TeamDetail extends Component {
 		window.scrollTo(0, 0)
 		const team = this.props.teams[this.props.slug]
 		if (team != null){
-			if (this.state.selected == 'All'){
-				if (this.props.posts[team.id] == null)
-					this.props.fetchPosts({teams: team.id})
-			}
+			if (this.props.posts[team.id] == null)
+				this.props.fetchPosts({teams: team.id})
+
+			// if (this.state.selected == 'All'){
+			// 	if (this.props.posts[team.id] == null)
+			// 		this.props.fetchPosts({teams: team.id})
+			// }
 
 			return
 		}
@@ -81,7 +82,7 @@ class TeamDetail extends Component {
 		if (team == null)
 			return
 
-		FirebaseManager.register('/'+team.id+'/community', (err, currentComments) => {
+		FirebaseManager.register('/'+team.id+'/chat', (err, currentComments) => {
 			if (err){
 				return
 			}
@@ -179,7 +180,7 @@ class TeamDetail extends Component {
 	submitPost(post){
 		const user = this.props.user
 		post['saved'] = [user.id]
-		post['type'] = (this.state.selected == 'All') ? 'news' : this.state.selected.toLowerCase()
+		post['type'] = this.state.selected.toLowerCase()
 		post['author'] = {
 			id: user.id,
 			name: user.username,
@@ -327,7 +328,7 @@ class TeamDetail extends Component {
 			image: profile.image
 		}
 
-		const path = '/'+team.id+'/community/'+this.state.comments.length
+		const path = '/'+team.id+'/chat/'+this.state.comments.length
 		FirebaseManager.post(path, updated, () => {
 //			console.log('comment posted')
 			this.setState({
@@ -345,20 +346,22 @@ class TeamDetail extends Component {
 			return
 
 		const selected = this.state.selected
-		if (selected == 'All'){
-			if (this.props.posts[team.id] == null)
-				this.props.fetchPosts({teams: team.id})
-		}
+		// if (selected == 'All'){
+			// if (this.props.posts[team.id] == null)
+			// 	this.props.fetchPosts({teams: team.id})
+		// }
 
 		if (selected == 'Members'){
 			if (this.props.profiles[team.id] == null)
 				this.props.fetchProfiles({teams: team.id})
 		}
 
-		if (selected == 'Community'){
+		else if (selected == 'Chat'){
 			if (this.state.firebaseConnected == false)
 				this.connectToFirebase()
 		}
+		else if (this.props.posts[team.id] == null)
+			this.props.fetchPosts({teams: team.id})
 	}
 
 
@@ -373,9 +376,9 @@ class TeamDetail extends Component {
 		let content = null
 		const selected = this.state.selected
 
-		if (selected == 'All' || selected == 'News' || selected == 'Hiring' || selected == 'Showcase'){
+		if (selected == 'Hiring' || selected == 'Showcase'){
 			const list = this.props.posts[team.id]
-			const sublist = (selected == 'All') ? list : list.filter((post, i) => {
+			const sublist = (list == null) ? [] : list.filter((post, i) => {
 				return (post.type == selected.toLowerCase())
 			})
 
@@ -447,7 +450,7 @@ class TeamDetail extends Component {
 				</div>
 			)
 		}
-		else if (selected == 'Community'){
+		else if (selected == 'Chat'){
 			content = (
 				<div style={{border:'1px solid #ddd', marginTop:24, marginBottom:0}}>
 					<div style={{overflowY:'scroll', maxHeight:360, background:'#FCFDFF', padding:0}}>
@@ -500,10 +503,8 @@ class TeamDetail extends Component {
 					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
 						<div className="col-xs-6">
 							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
-								<option value="All">All</option>
-								<option value="News">News</option>
-								<option value="Hiring">Hiring</option>
 								<option value="Showcase">Showcase</option>
+								<option value="Hiring">Hiring</option>
 								<option value="Overview">Overview</option>
 								<option value="Members">Members</option>
 							</select>
