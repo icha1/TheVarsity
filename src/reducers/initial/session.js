@@ -2,6 +2,7 @@ import constants from '../../constants/constants'
 
 export default {
 	initialState: {
+		selected: 'Showcase',
 		template: 'index', // index or index-mobile
 		selectedFeed: constants.FEED_TYPE_ALL,
 		reload: false,
@@ -29,6 +30,7 @@ export default {
 
 		var initial = {
 			template: 'index',
+			selected: 'Showcase',
 			selectedFeed: constants.FEED_TYPE_ALL,
 			reload: false,
 			showLoading: false,

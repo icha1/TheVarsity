@@ -14,7 +14,6 @@ class TeamDetail extends Component {
 		this.memberFound = this.memberFound.bind(this)
 		this.inviteMember = this.inviteMember.bind(this)
 		this.state = {
-			selected: 'Showcase',
 			showInvite: false,
 			invitation: {
 				name: '',
@@ -40,11 +39,6 @@ class TeamDetail extends Component {
 		if (team != null){
 			if (this.props.posts[team.id] == null)
 				this.props.fetchPosts({teams: team.id})
-
-			// if (this.state.selected == 'All'){
-			// 	if (this.props.posts[team.id] == null)
-			// 		this.props.fetchPosts({teams: team.id})
-			// }
 
 			return
 		}
@@ -100,9 +94,7 @@ class TeamDetail extends Component {
 	selectItem(item, event){
 		event.preventDefault()
 		window.scrollTo(0, 0)
-		this.setState({
-			selected: (event.target.id == 'select') ? event.target.value : item
-		})
+		this.props.selectedFeedChanged(item)
 	}
 
 	inviteMember(event){
@@ -154,7 +146,6 @@ class TeamDetail extends Component {
 
 		if (action == 'comment')
 			this.submitComment()
-
 	}	
 
 	updateInvitation(event){
@@ -180,7 +171,7 @@ class TeamDetail extends Component {
 	submitPost(post){
 		const user = this.props.user
 		post['saved'] = [user.id]
-		post['type'] = this.state.selected.toLowerCase()
+		post['type'] = this.props.selected.toLowerCase()
 		post['author'] = {
 			id: user.id,
 			name: user.username,
@@ -345,7 +336,7 @@ class TeamDetail extends Component {
 		if (team == null)
 			return
 
-		const selected = this.state.selected
+		const selected = this.props.selected
 		// if (selected == 'All'){
 			// if (this.props.posts[team.id] == null)
 			// 	this.props.fetchPosts({teams: team.id})
@@ -374,7 +365,7 @@ class TeamDetail extends Component {
 		const style = styles.team
 		let invite = null
 		let content = null
-		const selected = this.state.selected
+		const selected = this.props.selected
 
 		if (selected == 'Hiring' || selected == 'Showcase'){
 			const list = this.props.posts[team.id]
@@ -473,7 +464,7 @@ class TeamDetail extends Component {
 						<Sidebar 
 							menuItems={this.state.menuItems}
 							selectItem={this.selectItem.bind(this)}
-							selected={this.state.selected}
+							selected={this.props.selected}
 							{...team} />
 					</header>
 
@@ -576,7 +567,8 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		teams: state.team,
 		posts: state.post,
-		profiles: state.profile
+		profiles: state.profile,
+		selected: state.session.selected
 	}
 }
 
@@ -589,7 +581,8 @@ const dispatchToProps = (dispatch) => {
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params)),
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
-		createPost: (params) => dispatch(actions.createPost(params))
+		createPost: (params) => dispatch(actions.createPost(params)),
+		selectedFeedChanged: (selected) => dispatch(actions.selectedFeedChanged(selected))
 	}
 }
 
