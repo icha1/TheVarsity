@@ -15,6 +15,7 @@ import ProfilePreview from './ProfilePreview'
 import EditProfile from './EditProfile'
 import Redeem from './Redeem'
 import Sidebar from './Sidebar'
+import Modal from './Modal'
 
 export {
 	Map,
@@ -33,5 +34,6 @@ export {
 	ProfilePreview,
 	EditProfile,
 	Redeem,
-	Sidebar
+	Sidebar,
+	Modal
 }

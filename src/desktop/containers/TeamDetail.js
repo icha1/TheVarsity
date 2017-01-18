@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
-import { Modal } from 'react-bootstrap'
 import { browserHistory } from 'react-router'
-import { CreatePost, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar, Profiles, Chat } from '../view'
+import { CreatePost, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar, Profiles, Chat, Modal } from '../view'
 import { TextUtils, APIManager, FirebaseManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -94,6 +93,14 @@ class TeamDetail extends Component {
 		this.props.selectedFeedChanged(item)
 	}
 
+	updateInvitation(event){
+		let updated = Object.assign({}, this.state.invitation)
+		updated[event.target.id] = event.target.value
+		this.setState({
+			invitation: updated
+		})
+	}
+
 	inviteMember(event){
 		if (event)
 			event.preventDefault()
@@ -114,12 +121,9 @@ class TeamDetail extends Component {
 
 		updated['code'] = TextUtils.randomString(6)
 
+		this.setState({showInvite: false})
 		this.props.sendInvitation(updated)
-		.then((response) => {
-			this.setState({
-				showInvite: false
-			})
-			
+		.then((response) => {			
 			alert('Invitation Sent!')
 		})
 		.catch((err) => {
@@ -138,14 +142,6 @@ class TeamDetail extends Component {
 
 		if (action == 'invite')
 			this.inviteMember()
-	}	
-
-	updateInvitation(event){
-		let updated = Object.assign({}, this.state.invitation)
-		updated[event.target.id] = event.target.value
-		this.setState({
-			invitation: updated
-		})
 	}
 
 	toggleInvite(){
@@ -349,12 +345,19 @@ class TeamDetail extends Component {
 
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
-					{ (this.props.user != null) ? <div className="hidden-xs"><CreatePost submit={this.submitPost.bind(this)} /></div> : (
-							<div className="alert alert-success">
-							  <button type="button" className="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-							  <i className="icon-gift"></i>Please log in to submit a post.
-							</div>
-						) 
+					{ (this.props.user != null) ? 
+						<div className="hidden-xs">
+							{ (selected == 'Hiring') ? <CreatePost submit={this.submitPost.bind(this)} /> : 
+								<div style={{marginBottom:24, textAlign:'right'}}>
+									<a href="#" style={{marginRight:0}} className="button button-small button-border button-border-thin button-blue">Showcase Your Project</a>
+								</div>
+							}
+						</div>
+						:
+						<div className="alert alert-success">
+						  <button type="button" className="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						  <i className="icon-gift"></i>Please log in to submit a post.
+						</div>						
 					}
 
 					{ (list == null) ? null : 
@@ -450,21 +453,12 @@ class TeamDetail extends Component {
 				</div>
 				{ /* end mobile UI */ }
 
-		        <Modal bsSize="sm" show={this.state.showInvite} onHide={this.toggleInvite.bind(this)}>
-			        <Modal.Body style={styles.nav.modal}>
-			        	<div style={{textAlign:'center'}}>
-				        	<img style={styles.nav.logo} src='/images/logo_dark.png' />
-				        	<hr />
-				        	<h4>Invite Member</h4>
-			        	</div>
-
-			        	<input id="name" onChange={this.updateInvitation.bind(this)} className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Name" />
-			        	<input id="email" onChange={this.updateInvitation.bind(this)} onKeyPress={this.keyPress.bind(this, 'invite')} className={styles.nav.textField.className} style={styles.nav.textField} type="text" placeholder="Email" />
-						<div style={styles.nav.btnLoginContainer}>
-							<a href="#" onClick={this.inviteMember.bind(this)} className={styles.nav.btnLogin.className}><i className="icon-lock3"></i>Send</a>
-						</div>
-			        </Modal.Body>
-		        </Modal>
+				<Modal 
+					title="Invite Member"
+					show={this.state.showInvite}
+					toggle={this.toggleInvite.bind(this)}
+					update={this.updateInvitation.bind(this)}
+					submit={this.inviteMember.bind(this)} />
 			</div>
 		)
 	}
