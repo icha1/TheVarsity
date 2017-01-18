@@ -177,7 +177,7 @@ class PostDetail extends Component {
 							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
 
-						<hr style={{marginTop:0}} />
+						<hr />
 						{ post.images.map((image, i) => {
 								return (
 									<a key={i} target="_blank" href={image}>
