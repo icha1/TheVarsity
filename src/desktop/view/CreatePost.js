@@ -161,22 +161,19 @@ class CreatePost extends Component {
 						</div>
 						<div className="col-md-3">
 							<div style={{padding:12, textAlign:'right'}}>
-								{ (this.state.loading.main) ? <Loading type='bars' color='#333' /> : null }
-								{ (post.image.length > 0) ? <img src={image} /> : null }
+								{ (this.state.loading.main) ? <Loading type='bars' color='#333' /> : 
+									<Dropzone onDrop={this.uploadImage.bind(this, 'main')} className="visible-md visible-lg">
+										<img style={localStyle.image} src={ (post.image.length > 0) ? image : '/images/image-placeholder.png' } />
+										<br />
+										<span style={{fontWeight:100, fontSize:12, marginRight:6}}>Click to Change</span>
+									</Dropzone>
+								}
 							</div>
 						</div>
 					</div>
 
 					<div style={{minHeight:36, borderTop:'1px solid #ddd'}}>
-						<div className="col_half">
-							<Dropzone onDrop={this.uploadImage.bind(this, 'main')} className="visible-md visible-lg">
-								<button style={{borderRadius:0, height:35}} className="social-icon si-small si-borderless si-instagram">
-									<i className="icon-instagram"></i>
-									<i className="icon-instagram"></i>
-								</button>
-							</Dropzone>
-						</div>
-
+						<div className="col_half"></div>
 						<div className="col_one_fourth" style={{textAlign:'center', background:'#ddd'}}>
 							{ (this.state.mode == 'create') ? null : <button onClick={this.cancel.bind(this)} style={{height:35, border:'none', background:'#ddd'}}>Cancel</button> }
 						</div>
@@ -221,6 +218,11 @@ class CreatePost extends Component {
 const localStyle = {
 	btnBlue: {
 		className: 'button button-small button-circle button-blue'
+	},
+	image: {
+		padding: 3,
+		background: '#fff',
+		border: '1px solid #ddd'
 	},
 	input: {
 		color:'#333',
