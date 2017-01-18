@@ -6,9 +6,7 @@ import Comment from './Comment'
 
 export default (props) => {
 
-	//<input type="text" id="text" onKeyPress={this.enterKeyPressed.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
 	return (
-
 		<div>
 			<div className="panel-heading">Comments</div>
 			{ (props.comments == null) ? null : props.comments.map((comment, i) => {
@@ -17,7 +15,7 @@ export default (props) => {
 			}
 
 			<div>
-				<input type="text" id="text" style={localStyle.input} placeholder="Enter Comment" />
+				<input type="text" id="text" style={localStyle.input} onKeyPress={props.submitComment.bind(this)} placeholder="Enter Comment" />
 			</div>
 		</div>
 	)

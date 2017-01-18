@@ -11,22 +11,10 @@ import { Link } from 'react-router'
 class PostDetail extends Component {
 	constructor(){
 		super()
-		this.submitComment = this.submitComment.bind(this)
 		this.state = {
 			timestamp: null,
-			selected: 'overview',
 			isEditing: false,
-			comments: null,
-			comment: {
-				text: ''
-			},
-			updatedPost: {
-				changed: false
-			},
-			menuItems: [
-				'Overview',
-				'Chat'
-			]
+			comments: null
 		}
 	}
 
@@ -34,13 +22,6 @@ class PostDetail extends Component {
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
 			return
-
-		let selected = this.props.query['selected']
-		if (selected != null){
-			this.setState({
-				selected: selected
-			})
-		}
 	}
 
 	componentDidMount(){
@@ -52,7 +33,6 @@ class PostDetail extends Component {
 		if (this.state.comments == null){
 			this.props.fetchComments({'thread.id':post.id})
 			.then(results => {
-//				console.log('FETCH COMMENTS: '+JSON.stringify(results))
 				this.setState({
 					comments: results
 				})
@@ -66,37 +46,11 @@ class PostDetail extends Component {
 			})
 			.catch(err => {
 				console.log('ERROR: '+JSON.stringify(err))
-
 			})
 		}
 
-
-
 		// sloppy workaround, render timestamp client side:
 		this.setState({timestamp: DateUtils.formattedDate(post.timestamp)})
-
-		// FirebaseManager.register('/'+post.id+'/comments', (err, currentComments) => {
-		// 	if (err){
-		// 		return
-		// 	}
-
-		// 	this.setState({
-		// 		comments: currentComments.reverse()
-		// 	})
-		// })
-
-		// // Track view count:
-		// const userId = (this.props.user == null) ? 'unregistered' : this.props.user.id
-		// let updatedViewed = Object.assign({}, post.viewed)
-		// updatedViewed[userId] = (updatedViewed[userId] == null) ? 1 : updatedViewed[userId]+1
-		// let total = 0
-		// Object.keys(updatedViewed).forEach((key, i) => {
-		// 	if (key != 'total')
-		// 		total += updatedViewed[key]
-		// })
-
-		// updatedViewed['total'] = total
-		// this.props.updatePost(post, {viewed: updatedViewed})
 	}
 
 	componentDidUpdate(){
@@ -115,14 +69,6 @@ class PostDetail extends Component {
 		}
 	}
 
-	selectItem(item, event){
-		event.preventDefault()
-		window.scrollTo(0, 0)
-		this.setState({
-			selected: (event.target.id == 'select') ? event.target.value : item
-		})
-	}
-
 	updateComment(event){
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.comment)
@@ -132,19 +78,9 @@ class PostDetail extends Component {
 		})
 	}
 
-	enterKeyPressed(event){
+	submitComment(event){
 		if (event.charCode != 13)
 			return
-
-		this.submitComment(null)
-	}
-
-	submitComment(event){
-		// if (event.charCode != 13)
-		// 	return
-
-		if (event != null)
-			event.preventDefault()
 
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
@@ -154,33 +90,30 @@ class PostDetail extends Component {
 		if (user == null)
 			return
 
-		let updated = Object.assign({}, this.state.comment)
-		updated['thread'] = {
+		let comment = {text: event.target.value}
+		comment['thread'] = {
 			id: post.id,
 			schema: post.schema,
 			subject: post.title,
 			image: post.image
 		}
 
-		updated['profile'] = {
+		comment['profile'] = {
 			id: user.id,
 			username: user.username,
 			slug: user.slug,
 			image: user.image
 		}
 
-		this.props.createComment(updated)
+		event.persist()
+		this.props.createComment(comment)
 		.then(response => {
-//			console.log('Comment Created: '+JSON.stringify(response.result))
 			let updated = Object.assign([], this.state.comments)
+			event.target.value = ''
 			updated.push(response.result)
 			this.setState({
-				comments: updated,
-				comment: {
-					text: ''
-				}
+				comments: updated
 			})
-
 		})
 		.catch(err => {
 			console.log('ERROR: '+JSON.stringify(err))
@@ -194,7 +127,6 @@ class PostDetail extends Component {
 	}
 
 	updatePost(post){
-//		console.log('UPDATE POST: '+JSON.stringify(post))
 		if (this.state.isEditing == false)
 			return
 
@@ -217,17 +149,14 @@ class PostDetail extends Component {
 		const post = this.props.posts[this.props.slug]
 		const author = this.props.profiles[post.author.slug]
 
-		const selected = this.state.selected.toLowerCase()
 
 		let content = null
 		const btn = 'button button-mini button-circle '
-		const btnRedClass = btn + 'button-red'
-		const btnGreenClass = btn + 'button-green'
 		const btnBlueClass = btn + 'button-blue'
 
 		if (this.state.isEditing == true)
 			content = <CreatePost submit={this.updatePost.bind(this)} cancel={this.toggleEditing.bind(this)} post={post} />		
-		else if (selected == 'overview'){
+		else {
 			let btnEdit = null
 			if (user != null){
 				if (user.id == post.author.id)
@@ -270,9 +199,13 @@ class PostDetail extends Component {
 						</div>
 						<hr />
 
-						<div className="panel panel-default hidden-xs">
-							<Comments comments={this.state.comments} />
-						</div>
+						{ (post.type == 'hiring') ? null : 
+							<div className="panel panel-default hidden-xs">
+								<Comments 
+									comments={this.state.comments}
+									submitComment={this.submitComment.bind(this)} />
+							</div>
+						}
 					</div>
 				</div>
 			)
@@ -363,18 +296,10 @@ class PostDetail extends Component {
 					</div>
 					{ content }
 
-					<div style={{padding:12, borderBottom:'1px solid #ddd'}}>
-						<h3 style={style.title}>Comments</h3>
-					</div>
-					{ (this.state.comments == null) ? null : this.state.comments.map((comment, i) => {
-							return <Comment key={comment.id} comment={comment} />
-						})
-					}
-
 					<div style={{paddingBottom:24, background:'#f9f9f9', textAlign:'right'}}>
-						<input type="text" id="text" value={this.state.comment.text} onChange={this.updateComment.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
+						<input type="text" id="text" onChange={this.updateComment.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
 						<br />
-						<a href="#" style={{marginTop:12}} onClick={this.submitComment.bind(this)} className="button button-mini button-circle button-green">Submit Comment</a>
+						<a href="#" style={{marginTop:12}} className="button button-mini button-circle button-green">Submit Comment</a>
 					</div>
 
 				</div>
@@ -386,18 +311,6 @@ class PostDetail extends Component {
 }
 
 const localStyle = {
-	select: {
-		color: '#333',
-		background: '#fff',
-		padding: 6,
-		fontWeight: 100,
-	    fontSize: 20,
-		width: 100+'%',
-		marginTop: 6,
-		marginLeft: 16,
-		fontFamily: 'Pathway Gothic One',
-		border: 'none'
-	},
 	input: {
 		color:'#333',
 		background: '#f9f9f9',
@@ -427,18 +340,12 @@ const localStyle = {
 		fontWeight:100,
 		fontSize:14,
 		lineHeight:14+'px'
-	},
-	btnGreen: {
-		className: 'button button-small button-circle button-green',
-		marginBottom: 12,
-		width: 100+'%'
-	},	
+	}
 }
 
 const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
-		session: state.session,
 		posts: state.post,
 		teams: state.team,
 		profiles: state.profile
