@@ -176,7 +176,8 @@ class PostDetail extends Component {
 						<h2 style={styles.team.title}>
 							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
 						</h2>
-						<hr />
+
+						<hr style={{marginTop:0}} />
 						{ post.images.map((image, i) => {
 								return (
 									<a key={i} target="_blank" href={image}>
@@ -215,6 +216,26 @@ class PostDetail extends Component {
 
 		return (
 			<div>
+				<div className="si-sticky si-sticky-right visible-md visible-lg" style={{width:330, background:'#fff'}}>
+					<div style={{width: 120, background:'#fff'}}>
+						<div className="clearfix" data-animate="bounceInRight" data-delay="100">
+							<div style={localStyle.iconContainer}>
+								<div style={{marginTop:6, fontWeight:100, fontSize:12, lineHeight:14+'px'}}>{post.votes.score}<br />Points</div>
+							</div>
+						</div>
+						<div className="clearfix" data-animate="bounceInRight" data-delay="200">
+							<div style={localStyle.iconContainer}>
+								<i style={localStyle.icon} className="i-plain icon-thumbs-up2"></i>
+							</div>
+						</div>
+						<div className="clearfix" data-animate="bounceInRight" data-delay="300">
+							<div style={localStyle.iconContainer}>
+								<i style={localStyle.icon} className="i-plain icon-thumbs-down2"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div className="clearfix hidden-xs">
 					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 			            <div id="header-wrap">
@@ -267,12 +288,9 @@ class PostDetail extends Component {
 								</div>
 							</div>
 
-
 							<div className="col_one_third col_last">
 
-
 							</div>
-
 						</div>
 					</section>
 				</div>
@@ -340,6 +358,18 @@ const localStyle = {
 		fontWeight:100,
 		fontSize:14,
 		lineHeight:14+'px'
+	},
+	icon: {
+		fontSize: 20,
+		marginLeft: 4
+	},
+	iconContainer: {
+		width:46,
+		height:46,
+		borderRadius:23,
+		border:'1px solid #ddd',
+		textAlign:'center',
+		marginTop: 16
 	}
 }
 
@@ -354,6 +384,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
+		fetchPostById: (id) => dispatch(actions.fetchPostById(id)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
