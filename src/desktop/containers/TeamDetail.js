@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import { Modal } from 'react-bootstrap'
 import { browserHistory } from 'react-router'
-import { CreatePost, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar } from '../view'
+import { CreatePost, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar, Profiles, Chat } from '../view'
 import { TextUtils, APIManager, FirebaseManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -26,9 +26,6 @@ class TeamDetail extends Component {
 				'Members'
 			],
 			comments: [],
-			comment: {
-				text: ''
-			},
 			firebaseConnected: false
 		}
 	}
@@ -123,7 +120,6 @@ class TeamDetail extends Component {
 				showInvite: false
 			})
 			
-//			console.log('Invitation Sent: '+JSON.stringify(response))
 			alert('Invitation Sent!')
 		})
 		.catch((err) => {
@@ -132,7 +128,6 @@ class TeamDetail extends Component {
 	}
 
 	requestInvitation(invitation){
-//		event.preventDefault()
 		console.log('requestInvitation: '+JSON.stringify(invitation))
 
 	}
@@ -143,9 +138,6 @@ class TeamDetail extends Component {
 
 		if (action == 'invite')
 			this.inviteMember()
-
-		if (action == 'comment')
-			this.submitComment()
 	}	
 
 	updateInvitation(event){
@@ -163,7 +155,6 @@ class TeamDetail extends Component {
 	}
 
 	updateTeam(updated){
-//		console.log('UPDATE TEAM: '+JSON.stringify(updated))
 		const team = this.props.teams[this.props.slug]
 		return this.props.updateTeam(team, updated)
 	}
@@ -264,9 +255,7 @@ class TeamDetail extends Component {
 		})
 		.catch(err => {
 			console.log('ERR: '+err.message)
-
 		})
-
 	}
 
 	memberFound(profile, list){
@@ -282,18 +271,9 @@ class TeamDetail extends Component {
 		return isFound
 	}
 
-	updateComment(event){
-		event.preventDefault()
-		let updated = Object.assign({}, this.state.comment)
-		updated['text'] = event.target.value
-		this.setState({
-			comment: updated
-		})
-	}
-
 	submitComment(event){
-		if (event != null)
-			event.preventDefault()
+		if (event.charCode != 13)
+			return
 
 		const profile = this.props.user
 		if (profile == null){
@@ -305,31 +285,28 @@ class TeamDetail extends Component {
 		if (team == null)
 			return
 
-		if (this.state.comment.text.length == 0){
+		if (event.target.value.length == 0){
 			alert('Please enter a comment')
 			return
 		}
 
-		let updated = Object.assign({}, this.state.comment)
-		updated['team'] = team.id
+		let comment = {text: event.target.value}
+		comment['team'] = team.id
 		const timestamp = Date.now()
-		updated['timestamp'] = timestamp
-		updated['id'] = Math.floor(timestamp/1000)
-		updated['profile'] = {
+		comment['timestamp'] = timestamp
+		comment['id'] = Math.floor(timestamp/1000)
+		comment['profile'] = {
 			id: profile.id,
 			username: profile.username,
 			slug: profile.slug,
 			image: profile.image
 		}
 
+		event.persist()
 		const path = '/'+team.id+'/chat/'+this.state.comments.length
-		FirebaseManager.post(path, updated, () => {
-//			console.log('comment posted')
-			this.setState({
-				comment: {
-					text: ''
-				}
-			})
+		FirebaseManager.post(path, comment, () => {
+			event.target.value = ''
+			event.target.blur()
 		})
 	}
 
@@ -340,11 +317,6 @@ class TeamDetail extends Component {
 			return
 
 		const selected = this.props.selected
-		// if (selected == 'All'){
-			// if (this.props.posts[team.id] == null)
-			// 	this.props.fetchPosts({teams: team.id})
-		// }
-
 		if (selected == 'Members'){
 			if (this.props.profiles[team.id] == null)
 				this.props.fetchProfiles({teams: team.id})
@@ -418,36 +390,11 @@ class TeamDetail extends Component {
 		}
 		else if (selected == 'Members'){
 			const members = this.props.profiles[team.id]
-			content = (
-				<div>
-					<div style={{textAlign:'right', marginBottom:24}}>
-						{ (this.memberFound(this.props.user, team.members)) ? <button onClick={this.toggleInvite.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Invite Member</button> : null }
-					</div>
-					<div>
-						{ (members == null) ? null : members.map((member, i) => {
-								return <ProfilePreview key={member.id} profile={member} />
-							})
-						}
-					</div>
-				</div>
-			)
+			content = <Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} team={team} user={this.props.user} />
 		}
-		else if (selected == 'Chat'){
-			content = (
-				<div style={{border:'1px solid #ddd', marginTop:24, marginBottom:0}}>
-					<div style={{overflowY:'scroll', maxHeight:360, background:'#FCFDFF', padding:0}}>
-						{ this.state.comments.map((comment, i) => {
-								return (
-									<Comment key={comment.id} comment={comment} />
-								)
-							})
-						}
-					</div>
-					<input style={localStyle.input} placeholder="Enter Comment" onChange={this.updateComment.bind(this)} onKeyPress={this.keyPress.bind(this, 'comment')} value={this.state.comment.text} type="text" />
-				</div>
-			)
-		}
-
+		else if (selected == 'Chat')
+			content = <Chat comments={this.state.comments} keyPress={this.submitComment.bind(this)} />
+		
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
@@ -538,18 +485,6 @@ const localStyle = {
 		marginLeft: 16,
 		fontFamily: 'Pathway Gothic One',
 		border: 'none'
-	},
-	input: {
-		color:'#333',
-		background: '#f9f9f9',
-		padding: 6,
-		fontWeight: 100,
-	    lineHeight: 1.5,
-	    fontSize: 20,
-		fontFamily:'Pathway Gothic One',
-		border: 'none',
-		width: 100+'%',
-		marginTop: 0
 	}
 }
 

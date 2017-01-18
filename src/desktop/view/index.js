@@ -1,6 +1,7 @@
 import Map from './Map'
 import PostFeed from './PostFeed'
 import Post from './Post'
+import Chat from './Chat'
 import Comment from './Comment'
 import Comments from './Comments'
 import CreateComment from './CreateComment'
@@ -9,6 +10,7 @@ import TeamPreview from './TeamPreview'
 import TeamInfo from './TeamInfo'
 import CreatePost from './CreatePost'
 import CreateTeam from './CreateTeam'
+import Profiles from './Profiles'
 import ProfilePreview from './ProfilePreview'
 import EditProfile from './EditProfile'
 import Redeem from './Redeem'
@@ -18,6 +20,7 @@ export {
 	Map,
 	PostFeed,
 	Post,
+	Chat,
 	Comment,
 	Comments,
 	CreateComment,
@@ -26,6 +29,7 @@ export {
 	TeamInfo,
 	CreatePost,
 	CreateTeam,
+	Profiles,
 	ProfilePreview,
 	EditProfile,
 	Redeem,
