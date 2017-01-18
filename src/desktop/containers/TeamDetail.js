@@ -14,6 +14,7 @@ class TeamDetail extends Component {
 		this.inviteMember = this.inviteMember.bind(this)
 		this.state = {
 			showInvite: false,
+			showSubmit: false,
 			invitation: {
 				name: '',
 				email: ''
@@ -144,9 +145,19 @@ class TeamDetail extends Component {
 			this.inviteMember()
 	}
 
-	toggleInvite(){
+	toggleInvite(event){
+		if (event)
+			event.preventDefault()
+		
 		this.setState({
 			showInvite: !this.state.showInvite
+		})
+	}
+
+	toggleShowSubmit(event){
+		event.preventDefault()
+		this.setState({
+			showSubmit: !this.state.showSubmit
 		})
 	}
 
@@ -339,7 +350,8 @@ class TeamDetail extends Component {
 		const selected = this.props.selected
 
 		if (selected == 'Hiring' || selected == 'Showcase'){
-			cta = (selected == 'Showcase') ? <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className="button button-small button-border button-border-thin button-blue">Showcase Your Work</a> : null
+			cta = (selected == 'Showcase') ? <a href="#" onClick={this.toggleInvite.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Showcase Your Work</a> : <a href="#" onClick={this.toggleShowSubmit.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>{ (this.state.showSubmit) ? 'Cancel' : 'Submit Post'}</a>
+
 			const list = this.props.posts[team.id]
 			const sublist = (list == null) ? [] : list.filter((post, i) => {
 				return (post.type == selected.toLowerCase())
@@ -349,7 +361,7 @@ class TeamDetail extends Component {
 				<div>
 					{ (this.props.user != null) ? 
 						<div className="hidden-xs">
-							{ (selected == 'Hiring') ? <CreatePost submit={this.submitPost.bind(this)} /> : null }
+							{ (selected == 'Hiring' && this.state.showSubmit) ? <CreatePost submit={this.submitPost.bind(this)} /> : null }
 						</div>
 						:
 						<div className="alert alert-success">
@@ -390,7 +402,7 @@ class TeamDetail extends Component {
 			)
 		}
 		else if (selected == 'Members'){
-			cta = <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className="button button-small button-border button-border-thin button-blue">Invite Member</a>
+			cta = <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Member</a>
 			const members = this.props.profiles[team.id]
 			content = <Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} team={team} user={this.props.user} />
 		}
@@ -469,6 +481,11 @@ class TeamDetail extends Component {
 const localStyle = {
 	btnBlue: {
 		className: 'button button-small button-circle button-blue'
+	},
+	btnSmall: {
+		float:'right',
+		marginTop:0,
+		className: 'button button-small button-border button-border-thin button-blue'
 	},
 	select: {
 		color: '#333',
