@@ -335,23 +335,21 @@ class TeamDetail extends Component {
 
 		const style = styles.team
 		let content = null
+		let cta = null
 		const selected = this.props.selected
 
 		if (selected == 'Hiring' || selected == 'Showcase'){
+			cta = (selected == 'Showcase') ? <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className="button button-small button-border button-border-thin button-blue">Showcase Your Work</a> : null
 			const list = this.props.posts[team.id]
 			const sublist = (list == null) ? [] : list.filter((post, i) => {
 				return (post.type == selected.toLowerCase())
 			})
 
 			content = (
-				<div style={{textAlign:'left', marginTop:24}}>
+				<div>
 					{ (this.props.user != null) ? 
 						<div className="hidden-xs">
-							{ (selected == 'Hiring') ? <CreatePost submit={this.submitPost.bind(this)} /> : 
-								<div style={{marginBottom:24, textAlign:'right'}}>
-									<a href="#" style={{marginRight:0}} className="button button-small button-border button-border-thin button-blue">Showcase Your Project</a>
-								</div>
-							}
+							{ (selected == 'Hiring') ? <CreatePost submit={this.submitPost.bind(this)} /> : null }
 						</div>
 						:
 						<div className="alert alert-success">
@@ -392,12 +390,13 @@ class TeamDetail extends Component {
 			)
 		}
 		else if (selected == 'Members'){
+			cta = <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className="button button-small button-border button-border-thin button-blue">Invite Member</a>
 			const members = this.props.profiles[team.id]
 			content = <Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} team={team} user={this.props.user} />
 		}
 		else if (selected == 'Chat')
 			content = <Chat comments={this.state.comments} keyPress={this.submitComment.bind(this)} />
-		
+
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
@@ -412,10 +411,13 @@ class TeamDetail extends Component {
 					<section id="content" style={{background:'#fff', minHeight:800}}>
 						<div className="content-wrap container clearfix">
 							<div className="col_two_third">
-								<div className="feature-box center media-box fbox-bg">
-									<div style={styles.main}>
-										{ content }
+								<div className="feature-box center media-box fbox-bg" style={{padding:24}}>
+									<div style={{marginBottom:24, textAlign:'left'}}>
+										{ cta }
+										<h2 style={style.title}>{selected}</h2>
 									</div>
+
+									{ content }
 								</div>
 							</div>
 

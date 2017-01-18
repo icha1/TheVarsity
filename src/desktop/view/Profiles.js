@@ -7,15 +7,10 @@ export default (props) => {
 	const members = props.members
 	return (
 		<div>
-			<div style={{textAlign:'right', marginBottom:24}}>
-				{ (props.memberFound(props.user, props.team.members)) ? <button onClick={props.toggleInvite.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Invite Member</button> : null }
-			</div>
-			<div>
-				{ (members == null) ? null : members.map((member, i) => {
-						return <ProfilePreview key={member.id} profile={member} />
-					})
-				}
-			</div>
+			{ (members == null) ? null : members.map((member, i) => {
+					return <ProfilePreview key={member.id} profile={member} />
+				})
+			}
 		</div>
 
 	)

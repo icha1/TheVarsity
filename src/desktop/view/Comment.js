@@ -23,7 +23,8 @@ const localStyle = {
 		fontWeight:100,
 		color:'#333',
 		background:'#FCFDFF',
-		borderBottom:'1px solid #ddd'
+		borderBottom:'1px solid #ddd',
+		textAlign: 'left'
 	},
 	separator: {
 		marginLeft: 8,
