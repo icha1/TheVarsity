@@ -16,7 +16,6 @@ class ProfileDetail extends Component {
 				'Overview',
 				'Teams',
 				'Feed'
-//				'Direct Message'
 			]
 		}
 	}
@@ -273,12 +272,7 @@ class ProfileDetail extends Component {
 							</div>
 
 							<div className="col_one_third col_last">
-								<h3 style={styles.team.title}>Accept Invitation</h3>
-								<hr style={{marginBottom:0}} />
-
-								<input style={localStyle.input} type="text" placeholder="Email" />
-								<input style={localStyle.input} type="text" placeholder="Invite Code" />
-					            <a href="#" className="button button-circle" style={localStyle.btnBlue}>Submit</a>
+							
 							</div>
 						</div>
 					</section>
