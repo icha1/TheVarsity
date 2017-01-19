@@ -1,276 +1,180 @@
 import React, { Component } from 'react'
-import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { APIManager, DateUtils, FirebaseManager } from '../../utils'
-import { PostFeed, CreatePost, CreateTeam, TeamFeed, Comment, CreateComment } from '../view'
+import { APIManager, DateUtils, TextUtils } from '../../utils'
+import { Sidebar, PostFeed, CreatePost, CreateTeam, TeamFeed, Comment, CreateComment } from '../view'
 import constants from '../../constants/constants'
 import actions from '../../actions/actions'
 import styles from './styles'
+import { Link } from 'react-router'
 
 class Feed extends Component {
 	constructor(){
 		super()
 		this.state = {
-			showCreate: false,
-			commentsLoaded: false
+			selected: 'Front Page'
 		}
 	}
 
-	toggleShowCreate(event){
-		if (event != null)
-			event.preventDefault()
-
-		window.scrollTo(0, 0)
-		this.setState({
-			showCreate: !this.state.showCreate
-		})
-	}
-
-	toggleLoader(isLoading){
-		this.props.toggleLoader(isLoading)
-	}
-
-	submitPost(post){
-		if (this.props.user == null){
-			alert('Please log in or register to submit.')
-			return
-		}
-
-		const session = this.props.session
-		post['district'] = session.currentDistrict.id
-		const currentLocation = session.currentLocation
-		post['geo'] = [
-			currentLocation.lat,
-			currentLocation.lng
-		]
-
-		console.log('submitPost: '+JSON.stringify(post))
-
-		this.props.toggleLoader(true)
-		APIManager.handlePost('/api/post', post)
-		.then((response) => {
-			this.props.toggleLoader(false)
-			this.props.postCreated(response.result)
-			this.setState({showCreate: false})
-			window.scrollTo(0, 0)
-		})
-		.catch((err) => {
-			this.props.toggleLoader(false)
-			this.setState({showCreate: false})
-		})
-	}
-
-	createTeam(team){
-		if (this.props.user == null){
-			alert('Please log in or register to create a team.')
-			return
-		}
-
-		team['members'] = [{id: this.props.user.id, username: this.props.user.username, image: this.props.user.image}]
-
-		const district = this.props.session.currentDistrict
-		team['district'] = district.id
-
-		let address = Object.assign({}, team.address)
-		address['city'] =  district.city
-		address['state'] = district.state
-		team['address'] = address
-
-		this.props.createTeam(team)
-		.then((result) => {
-			window.scrollTo(0, 0)
-			this.setState({showCreate: false})
-			return
-		})
-		.catch(err => {
-			alert(err)
-		})
-	}
-
-	submitComment(comment){
-		if (this.props.user == null){
-			alert('Please log in or register to post a comment.')
-			return
-		}
-
-		if (this.props.session.currentDistrict.id == null) // no current district
-			return
-
-		let updated = Object.assign({}, comment)
-		updated['timestamp'] = new Date().getTime()
-		updated['profile'] = {
-			id: this.props.user.id,
-			username: this.props.user.username,
-			image: this.props.user.image
-		}
-
-		console.log('submitComment: '+JSON.stringify(updated))
-
-		const currentDistrict = this.props.session.currentDistrict
-		const path = '/'+currentDistrict.id+'/comments/'+currentDistrict.comments.length
-		FirebaseManager.post(path, updated, () => {
-			console.log('callback test') // TODO: post comment to API
-		})
-	}
-
-	savePost(post){
+	componentDidMount(){
 		const user = this.props.user
-		if (user == null){
-			alert('Please register or log in to save this post.')
+		if (user == null)
+			return
+
+		const teamsString = user.teams.join(',')
+		const posts = this.props.posts[teamsString]
+		if (posts == null)
+			this.props.fetchPosts({teams: teamsString, limit:10})
+		
+		const teams = this.props.teams[user.id] // can be null
+		if (teams == null){
+			this.props.fetchTeams({'members.id': user.id})
 			return
 		}
 
-		if (post.saved.indexOf(user.id) != -1){
-			alert('Already Saved')
-			return
-		}
-
-		this.props.savePost(post, user)
-	}
-
-	unsavePost(post){
-		const user = this.props.user
-		if (user == null){
-			alert('Please register or log in.')
-			return
-		}
-
-		if (post.saved.indexOf(user.id) == -1)
-			return		
-
-		this.props.unsavePost(post, user)
 	}
 
 	componentDidUpdate(){
-		const session = this.props.session
-		const feed = session.selectedFeed
+		const user = this.props.user
+		if (user == null)
+			return
 
-		if (feed == constants.FEED_TYPE_ALL) {
-//			console.log('componentDidUpdate: '+constants.FEED_TYPE_ALL)
-			const list = this.props.post.feed[feed]
-			if (list != null) // already there, no need to fetch
-				return
+// 		const teamsString = user.teams.join(',')
+// 		const posts = this.props.posts[teamsString]
+// 		if (posts != null){
+// //			console.log('FEATURED POSTS: '+JSON.stringify(posts))			
+// 			return
+// 		}
 
-			if (session.currentDistrict.id == null)
-				return null
+// 		this.props.fetchPosts({teams: teamsString, limit:10})
+	}
 
-			if (this.props.post.isFetching) // in the middle of a fetch
-				return null
+	selectItem(item, event){
+		event.preventDefault()
+		window.scrollTo(0, 0)
+		this.setState({
+			selected: item
+		})
 
-			const params = {
-				limit: 10,
-				district: session.currentDistrict.id
-			}
-
-			this.props.fetchPosts(params)
-		}
-
-		if (feed == constants.FEED_TYPE_CHAT){
-			if (session.currentDistrict.id == null)
-				return null
-
-			if (this.state.commentsLoaded == true) // already connected
-				return
-
-			const path = '/'+session.currentDistrict.id+'/comments/'
-			FirebaseManager.register(path, (err, comments) => {
-				if (err)
-					return
-				
-				if (comments == null)
-					return
-
-				this.setState({commentsLoaded: true})
-				this.props.commentsReceived(comments)
-			})
-		}
+//		this.props.selectedFeedChanged(item)
 	}
 
 	render(){
-		const feed = this.props.session.selectedFeed
-		let currentFeed = null
-		let create = null
+		const style = styles.post
+		const user = this.props.user
+		const teams = this.props.teams[user.id] // can be null
 
-		const listClass = 'commentlist noborder nomargin nopadding clearfix'
-		const listItemClass = 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1'
-
-		if (feed == constants.FEED_TYPE_ALL){ 
-			const list = this.props.post.feed[feed]
-			currentFeed = (list) ? <PostFeed savePost={this.savePost.bind(this)} unsavePost={this.unsavePost.bind(this)} posts={list} user={this.props.user} /> : null
-
-			create = (
-				<ol className={listClass}>
-					<li className={listItemClass} id="li-comment-2">
-						<CreatePost
-							user={this.props.user}
-							teams={this.props.teams}
-							isLoading={this.toggleLoader.bind(this)}
-							submit={this.submitPost.bind(this)}
-							cancel={this.toggleShowCreate.bind(this)} />
-					</li>
-				</ol>
-			)
-		}		
-
-		if (feed == constants.FEED_TYPE_TEAM){
-			currentFeed = <TeamFeed teams={this.props.session.teams} user={this.props.user} />
-
-			create = (
-				<ol className={listClass}>
-					<li className={listItemClass} id="li-comment-2">
-						<CreateTeam
-							user={this.props.user}
-							isLoading={this.toggleLoader.bind(this)}
-							submit={this.createTeam.bind(this)}
-							cancel={this.toggleShowCreate.bind(this)} />
-					</li>
-				</ol>
-			)
-		}
-
-		const btnCreate = (this.state.showCreate==false && feed!=constants.FEED_TYPE_CHAT) ? <a href="#" onClick={this.toggleShowCreate.bind(this)} style={{position:'fixed', bottom:0}} className={styles.post.btnAdd.className}>Create</a> : null
-
-		if (feed == constants.FEED_TYPE_CHAT){
-			currentFeed = (
-				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
-					<CreateComment onCreate={this.submitComment.bind(this)} />
-					{
-						this.props.session.currentDistrict.comments.map((comment, i) => {
-							return <Comment comment={comment} key={i} />
-						})
-					}
-				</div>
-			)
-		}
+		const teamsString = user.teams.join(',')
+		const posts = this.props.posts[teamsString] // can be bull
 
 		return (
-			<div>
-				{ (this.state.showCreate) ? create : currentFeed }
-				{ btnCreate }
+			<div className="clearfix hidden-xs">
+				<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
+		            <div id="header-wrap">
+						<div className="container clearfix">
+							<div style={{paddingTop:96}}>
+								{ (user == null) ? null : 
+									<div>
+										<img style={localStyle.profileImage} src={user.image+'=s140'} />
+										<h2 style={ style.title }>
+											<Link to={'/profile/'+user.slug}>{ user.username }</Link>
+										</h2>
+										<span style={styles.paragraph}>{ user.title }</span><br />
+										<span style={styles.paragraph}>{ TextUtils.capitalize(user.location.city) }</span>
+										<br />
+										<Link to="/account"  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>Account</Link>
+									</div>
+								}
+
+								<hr />
+								<nav id="primary-menu">
+									{ (teams == null) ? null : teams.map((team, i) => {
+											return (
+												<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
+													<Link to={'/team/'+team.slug}>
+														<img style={localStyle.image} src={team.image+'=s44-c'} />
+													</Link>
+													<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
+														{team.name}
+													</Link>
+													<br />
+													<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
+												</div>
+											)
+										})
+									}
+								</nav>
+
+							</div>
+			            </div>
+
+		            </div>
+				</header>
+
+				<section id="content" style={style.content}>
+					<div className="content-wrap container clearfix">
+						<div className="col_two_third">
+							<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
+								{ (posts == null) ? null : 
+									<PostFeed 
+										posts={posts}
+										deletePost={null}
+										vote={null}
+										user={user} />
+								}
+
+							</div>
+						</div>
+
+						<div className="col_one_third col_last">
+
+						</div>
+					</div>
+				</section>
 			</div>
 		)
 	}
 }
 
+const localStyle = {
+	profileImage: {
+		padding:3,
+		border:'1px solid #ddd',
+		background:'#fff',
+		marginTop:6
+	},
+	image: {
+		float:'left',
+		marginRight:12,
+		borderRadius:22,
+		width:44
+	},
+	detailHeader: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		fontSize: 18,
+		lineHeight: 10+'px'
+	},
+	subtext: {
+		fontWeight:100,
+		fontSize:14,
+		lineHeight:14+'px'
+	}
+}
+
 const stateToProps = (state) => {
 	return {
-		post: state.post,
 		user: state.account.currentUser,
-		teams: state.account.teams,
-		session: state.session // district, currentLocation, teams, selectedFeed, reload
+		posts: state.post,
+		teams: state.team,
+		profiles: state.profile
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		fetchPosts: params => dispatch(actions.fetchPosts(params)),
-		postsReceived: posts => dispatch(actions.postsReceived(posts)),
-		postCreated: post => dispatch(actions.postCreated(post)),
-		savePost: (post, profile) => dispatch(actions.savePost(post, profile)),
-		unsavePost: (post, profile) => dispatch(actions.unsavePost(post, profile)),
-		commentsReceived: comments => dispatch(actions.commentsReceived(comments)),
-		toggleLoader: isLoading => dispatch(actions.toggleLoader(isLoading)),
-		createTeam: (team, next) => dispatch(actions.createTeam(team, next))
+		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
+		fetchTeams: (params) => dispatch(actions.fetchTeams(params))
 	}
 }
 

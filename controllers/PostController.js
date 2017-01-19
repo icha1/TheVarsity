@@ -8,24 +8,25 @@ module.exports = {
 			var sortOrder = (params.sort == 'asc') ? 1 : -1
 			delete params['sort']
 
-
-			if (params.lat!=null && params.lng!=null){
-				var distance = 1000/6371 // 6371 is radius of earth in KM
-				params['geo'] = {
-				  	$near: [params.lat, params.lng],
-			  		$maxDistance: distance
-				}
-
-				delete params['lat']
-				delete params['lng']
-			}
-
 			/* Query by filters passed into parameter string: */
 			var limit = params.limit
 			if (limit == null)
 				limit = '0'
 			
 			delete params['limit']
+
+			if (params['teams']){
+				var parts = params.teams.split(',') // array of team ids
+				var array = []
+				parts.forEach(function(teamId, i){
+					array.push({
+						teams: teamId
+					})
+				})
+
+				params = {$or: array}
+				delete params['teams']
+			}
 			
 			Post.find(params, null, {limit:parseInt(limit), sort:{timestamp: sortOrder}}, function(err, posts){
 				if (err){
