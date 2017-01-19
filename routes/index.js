@@ -13,6 +13,7 @@ var reducersIndex = require('../public/build/es5/reducers')
 // desktop
 var DesktopLayout = require('../public/build/es5/desktop/layout')
 var Account = require('../public/build/es5/desktop/containers/Account') // should be in an account layout
+var Feed = require('../public/build/es5/desktop/containers/Feed')
 
 // Mobile
 var MobileLayout = require('../public/build/es5/mobile/layout')
@@ -60,6 +61,11 @@ router.get('/', function(req, res, next) {
 	controllers.account
 	.checkCurrentUser(req)
 	.then(function(user){
+		if (user != null){
+			res.redirect('/feed') // if logged in, go right to feed page
+			return
+		}
+
 		reducers['account'] = {currentUser: user, teams:[]} // can be null
 		var session = {template: template}
 		if (req.cookies.lastsearch) {
@@ -125,7 +131,8 @@ router.get('/:page', function(req, res, next) {
 			initial: initialStore,
 			template: 'index', // todo: make this conditional upon user agent
 			indexRoute: {
-				component: Account // temporary
+//				component: Account
+				component: (page == 'account') ? Account : Feed
 			}
 		}
 
