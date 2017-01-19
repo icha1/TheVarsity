@@ -27,10 +27,6 @@ export default (props) => {
 }
 
 const content = {
-	paragraph: {
-		marginTop: 0,
-		marginBottom:24
-	},
 	hiring: {
 		what: '',
 		why: '',
@@ -49,6 +45,10 @@ const localStyle = {
 		border:'1px solid #ddd',
 		padding:24,
 		fontSize:16
+	},
+	paragraph: {
+		marginTop: 0,
+		marginBottom:24
 	},
 	title: {
 		color:'#333',
