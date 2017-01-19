@@ -122,70 +122,6 @@ export default {
 		}
 	},
 
-	// unsavePost: (post, profile) => {
-	// 	return dispatch => {
-	// 		APIManager.handleGet('/api/post/'+post.id, null)
-	// 		.then((response) => {
-	// 			const result = response.result
-	// 			let saved = Object.assign([], result.saved)
-	// 			let array = []
-	// 			saved.forEach((id, i) => {
-	// 				if (id != profile.id)
-	// 					array.push(id)
-	// 			})
-
-	// 			result['saved'] = array
-	// 			return APIManager.handlePut('/api/post/'+post.id, result)
-	// 		})
-	// 		.then((updated) => {
-	// 			console.log('UPDATED: '+JSON.stringify(updated))
-	// 			dispatch({
-	// 				type: constants.POST_SAVED,
-	// 				profile: profile,
-	// 				post: updated.result
-	// 			})
-	// 		})
-	// 		.catch((err) => {
-	// 			alert(err.message)
-	// 		})
-	// 	}
-	// },
-
-	// attendEvent: (post, profile, qty) => {
-	// 	return dispatch => {
-	// 		APIManager.handleGet('/api/post/'+post.id, null)
-	// 		.then((response) => {
-	// 			const result = response.result
-	// 			let eventDetails = Object.assign({}, result.eventDetails)
-	// 			const attendee = {
-	// 				id: profile.id,
-	// 				username: profile.username,
-	// 				image: profile.image,
-	// 				title: profile.title,
-	// 				qty: qty
-	// 			}
-
-	// 			let rsvp = (eventDetails.rsvp) ? Object.assign({}, eventDetails.rsvp) : {}
-	// 			rsvp[attendee.id] = attendee
-	// 			eventDetails['rsvp'] = rsvp
-	// 			eventDetails['count'] = Object.keys(rsvp).length
-
-	// 			result['eventDetails'] = eventDetails
-	// 			return APIManager.handlePut('/api/post/'+post.id, result)
-	// 		})
-	// 		.then((updated) => {
-	// 			console.log('UPDATED: '+JSON.stringify(updated))
-	// 			dispatch({
-	// 				type: constants.POST_UPDATED,
-	// 				post: updated.result
-	// 			})
-	// 		})
-	// 		.catch((err) => {
-	// 			alert(err.message)
-	// 		})
-	// 	}
-	// },
-
 	// - - - - - - - - - TEAMS - - - - - - - - - 
 
 	fetchTeams: (params) => {
@@ -217,25 +153,6 @@ export default {
 			return dispatch(postData('/account/redeem', invitation, null, 'invitation'))
 		}
 	},
-
-	// fetchProfiles: (params) => {
-	// 	return (dispatch) => {
-	// 		APIManager
-	// 		.handleGet('/api/profile', params)
-	// 		.then((response) => {
-	// 			dispatch({
-	// 				type: constants.PROFILES_RECEIVED,
-	// 				profiles: response.results,
-	// 				params: params
-	// 			})
-
-	// 			return response.results
-	// 		})
-	// 		.catch((err) => {
-	// 			alert('ERROR: '+err)
-	// 		})
-	// 	}
-	// },
 
 	// - - - - - - - - - PROFILES - - - - - - - - - 	
 

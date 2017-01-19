@@ -49,7 +49,10 @@ class Feed extends Component {
 	}
 
 	componentDidUpdate(){
-		
+		const selected = this.state.selected
+		if (selected == 'Saved'){
+
+		}
 	}
 
 	selectItem(item, event){
@@ -58,17 +61,23 @@ class Feed extends Component {
 		this.setState({
 			selected: item
 		})
-
-//		this.props.selectedFeedChanged(item)
 	}
 
 	render(){
 		const style = styles.post
 		const user = this.props.user
 		const teams = this.props.teams[user.id] // can be null
+		const selected = this.state.selected
 
-		const teamsString = user.teams.join(',')
-		const posts = this.props.posts[teamsString] // can be bull
+		let posts = null
+		if (selected == 'Front Page'){
+			const teamsString = user.teams.join(',')
+			posts = this.props.posts[teamsString] // can be bull
+		}
+
+		if (selected == 'Saved'){
+//			const posts = this.props.posts[teamsString] // can be bull
+		}
 
 		return (
 			<div className="clearfix hidden-xs">
@@ -92,7 +101,7 @@ class Feed extends Component {
 								<nav>
 									<ul style={{listStyleType:'none'}}>
 										{ this.state.menuItems.map((item, i) => {
-												const itemStyle = (item == this.state.selected) ? localStyle.selected : localStyle.menuItem
+												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
 												return (
 													<li style={{marginTop:0}} key={item}>
 														<div style={itemStyle}>

@@ -73,22 +73,6 @@ export default (state = initialState, action) => {
 
 			return newState
 
-		case constants.SAVED_POSTS_RECEIVED:
-			action.posts.forEach((post, i) => {
-				postsMap[post.slug] = post
-			})
-
-			newState['map'] = postsMap
-			return newState
-			
-		case constants.TEAM_POSTS_RECEIVED:
-			action.posts.forEach((post, i) => {
-				postsMap[post.slug] = post
-			})
-
-			newState['map'] = postsMap
-			return newState
-
 		case constants.POST_SAVED: // basically the same a POST_UPDATED
 			newState[action.post.slug] = action.post
 			return newState
@@ -135,12 +119,6 @@ export default (state = initialState, action) => {
 			})
 
 			return newState		
-
-		case constants.DISTRICT_CHANGED: // when district changes, reset current posts
-			newState['map'] = {}
-			newState['feed'] = {}
-
-			return newState
 
 		default:
 			return state
