@@ -374,7 +374,7 @@ class TeamDetail extends Component {
 						</div>						
 					}
 
-					{ (list.length == 0) ? <Explanation context={selected} btnAction={this.toggleInvite.bind(this)} /> : 
+					{ (sublist.length == 0) ? <Explanation context={selected} btnAction={this.toggleInvite.bind(this)} /> : 
 						<PostFeed 
 							posts={sublist}
 							deletePost={this.deletePost.bind(this)}
