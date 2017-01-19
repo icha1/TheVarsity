@@ -24,10 +24,23 @@ class Feed extends Component {
 		const posts = this.props.posts[teamsString]
 		if (posts == null)
 			this.props.fetchPosts({teams: teamsString, limit:10})
+			.then(response => {
+				return response
+			})
+			.catch(err => {
+
+			})
 		
 		const teams = this.props.teams[user.id] // can be null
 		if (teams == null){
 			this.props.fetchTeams({'members.id': user.id})
+			.then(response => {
+				return response
+			})
+			.catch(err => {
+
+			})
+			
 			return
 		}
 
