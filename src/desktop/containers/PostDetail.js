@@ -62,10 +62,10 @@ class PostDetail extends Component {
 		if (author == null)
 			return
 
-		const teams = this.props.teams[post.author.id] // can be null
-		if (teams == null){
-			this.props.fetchTeams({'members.id': post.author.id})
-			return
+		const team = this.props.teams[post.teams[0]]
+		if (team == null){
+			this.props.fetchTeam(post.teams[0])
+			return			
 		}
 	}
 
@@ -149,7 +149,6 @@ class PostDetail extends Component {
 		const post = this.props.posts[this.props.slug]
 		const author = this.props.profiles[post.author.slug]
 
-
 		let content = null
 		const btn = 'button button-mini button-circle '
 		const btnBlueClass = btn + 'button-blue'
@@ -212,11 +211,11 @@ class PostDetail extends Component {
 			)
 		}
 
-		const teams = this.props.teams[post.author.id] // can be null
+		const team = this.props.teams[post.teams[0]] // can be null
 
 		return (
 			<div>
-				<div className="si-sticky si-sticky-right visible-md visible-lg" style={{width:330, background:'#fff'}}>
+				<div className="si-sticky si-sticky-right visible-md visible-lg" style={{top:40+'%', width:330, background:'#fff'}}>
 					<div style={{width: 120, background:'#fff'}}>
 						<div className="clearfix" data-animate="bounceInRight" data-delay="100">
 							<div style={localStyle.iconContainer}>
@@ -233,6 +232,11 @@ class PostDetail extends Component {
 								<i style={localStyle.icon} className="i-plain icon-thumbs-down2"></i>
 							</div>
 						</div>
+						<div className="clearfix" data-animate="bounceInRight" data-delay="400">
+							<div style={localStyle.iconContainer}>
+								<div style={{marginTop:14, fontWeight:100, fontSize:12, lineHeight:14+'px'}}>Save</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -241,37 +245,18 @@ class PostDetail extends Component {
 			            <div id="header-wrap">
 							<div className="container clearfix">
 								<div style={{paddingTop:96}}>
-									{ (author == null) ? null : 
+									{ (team == null) ? null : 
 										<div>
-											<img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginTop:6}} src={author.image+'=s140'} />
-											<h2 style={ style.title }>
-												<Link to={'/profile/'+author.slug}>{ author.username }</Link>
-											</h2>
-											<span style={styles.paragraph}>{ author.title }</span><br />
-											<span style={styles.paragraph}>{ TextUtils.capitalize(author.location.city) }</span>
+											<Link to={'/team/'+team.slug}>
+												<img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginTop:6}} src={team.image+'=s140-c'} />
+												<h2 style={ style.title }>{ team.name }</h2>
+											</Link>
+											<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span><br />
 											<br />
-											<Link to={'/profile/'+author.slug}  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>View Profile</Link>
+											<Link to={'/team/'+team.slug}  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>View</Link>
 										</div>
 									}
-
 									<hr />
-									<nav id="primary-menu">
-										{ (teams == null) ? null : teams.map((team, i) => {
-												return (
-													<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
-														<Link to={'/team/'+team.slug}>
-															<img style={localStyle.image} src={team.image+'=s44-c'} />
-														</Link>
-														<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
-															{team.name}
-														</Link>
-														<br />
-														<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
-													</div>
-												)
-											})
-										}
-									</nav>
 								</div>
 				            </div>
 
@@ -388,6 +373,7 @@ const dispatchToProps = (dispatch) => {
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
+		fetchTeam: (id) => dispatch(actions.fetchTeam(id)),
 		fetchComments: (params) => dispatch(actions.fetchComments(params)),
 		createComment: (comment) => dispatch(actions.createComment(comment))
 	}

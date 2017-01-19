@@ -48,7 +48,7 @@ router.get('/:resource/:id', function(req, res, next){
 	}
 
 	controller
-	.getById(id, req.session.token)
+	.getById(id, false, req.session.token)
 	.then(function(result){
 		res.json({
 			confirmation: 'success',

@@ -30,6 +30,12 @@ export default (state = initialState, action) => {
 
 			return newState
 
+		case constants.TEAM_RECEIVED:
+//			console.log('TEAM_RECEIVED: '+JSON.stringify(action.team))
+			newState[action.team.slug] = action.team
+			newState[action.team.id] = action.team
+			return newState
+
 		case constants.TEAM_CREATED:
 			teamsMap[action.team.slug] = action.team
 			array.unshift(action.team)
@@ -53,17 +59,9 @@ export default (state = initialState, action) => {
 			newState['posts'] = postsMap
 			return newState
 
-		case constants.DISTRICT_CHANGED: // when district changes, reset current teams
-			newState['list'] = null
-			return newState
-
-		case constants.PROFILE_TEAMS_RECEIVED:
-			action.teams.forEach((team, i) => {
-				teamsMap[team.slug] = team
-			})
-
-			newState['map'] = teamsMap
-			return newState
+		// case constants.DISTRICT_CHANGED: // when district changes, reset current teams
+		// 	newState['list'] = null
+		// 	return newState
 
 		default:
 			return state

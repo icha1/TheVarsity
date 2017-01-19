@@ -130,6 +130,12 @@ export default {
 		}
 	},
 
+	fetchTeam: (id) => {
+		return dispatch => {
+			return dispatch(getData('/api/team/'+id, null, constants.TEAM_RECEIVED, 'team'))
+		}
+	},
+
 	updateTeam: (team, params) => {
 		return dispatch => {
 			return dispatch(putData('/api/team/'+team.id, params, constants.TEAM_UPDATED, 'team'))

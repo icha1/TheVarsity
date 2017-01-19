@@ -42,7 +42,7 @@ module.exports = {
 		})
 	},
 
-	getById: function(id, isRaw){
+	getById: function(id, isRaw, token){
 		return new Promise(function(resolve, reject){
 			Team.findById(id, function(err, team){
 				if (err){
