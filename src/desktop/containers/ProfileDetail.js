@@ -22,6 +22,7 @@ class ProfileDetail extends Component {
 
 	componentDidMount(){
 //		console.log('componentDidMount: ')
+		window.scrollTo(0, 0)
 		const profile = this.props.profiles[this.props.slug]
 		if (profile == null){
 			this.props.fetchProfiles({slug: this.props.slug})
