@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
+import { CreatePost, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar, Profiles, Chat, Modal, Explanation } from '../view'
+import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { CreatePost, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar, Profiles, Chat, Modal } from '../view'
 import { TextUtils, APIManager, FirebaseManager } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
@@ -91,6 +91,10 @@ class TeamDetail extends Component {
 	selectItem(item, event){
 		event.preventDefault()
 		window.scrollTo(0, 0)
+		this.setState({
+			showSubmit: false
+		})
+
 		this.props.selectedFeedChanged(item)
 	}
 
@@ -148,7 +152,7 @@ class TeamDetail extends Component {
 	toggleInvite(event){
 		if (event)
 			event.preventDefault()
-		
+
 		this.setState({
 			showInvite: !this.state.showInvite
 		})
@@ -352,8 +356,8 @@ class TeamDetail extends Component {
 		if (selected == 'Hiring' || selected == 'Showcase'){
 			cta = (selected == 'Showcase') ? <a href="#" onClick={this.toggleInvite.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Showcase Your Work</a> : <a href="#" onClick={this.toggleShowSubmit.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>{ (this.state.showSubmit) ? 'Cancel' : 'Submit Post'}</a>
 
-			const list = this.props.posts[team.id]
-			const sublist = (list == null) ? [] : list.filter((post, i) => {
+			const list = (this.props.posts[team.id] == null) ? [] : this.props.posts[team.id]
+			const sublist = list.filter((post, i) => {
 				return (post.type == selected.toLowerCase())
 			})
 
@@ -370,13 +374,14 @@ class TeamDetail extends Component {
 						</div>						
 					}
 
-					{ (list == null) ? null : 
+					{ (list.length == 0) ? <Explanation context={selected} btnAction={this.toggleInvite.bind(this)} /> : 
 						<PostFeed 
 							posts={sublist}
 							deletePost={this.deletePost.bind(this)}
 							vote={this.voteOnPost.bind(this)}
 							user={this.props.user} />
 					}
+
 				</div>
 			)
 		}
