@@ -16,6 +16,7 @@ class Feed extends Component {
 	}
 
 	componentDidMount(){
+		window.scrollTo(0, 0)
 		const user = this.props.user
 		if (user == null)
 			return
@@ -47,18 +48,7 @@ class Feed extends Component {
 	}
 
 	componentDidUpdate(){
-		const user = this.props.user
-		if (user == null)
-			return
-
-// 		const teamsString = user.teams.join(',')
-// 		const posts = this.props.posts[teamsString]
-// 		if (posts != null){
-// //			console.log('FEATURED POSTS: '+JSON.stringify(posts))			
-// 			return
-// 		}
-
-// 		this.props.fetchPosts({teams: teamsString, limit:10})
+		
 	}
 
 	selectItem(item, event){

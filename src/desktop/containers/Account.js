@@ -25,6 +25,7 @@ class Account extends Component {
 	}
 
 	componentDidMount(){
+		window.scrollTo(0, 0)
 		const user = this.props.user
 		if (user == null)
 			return
