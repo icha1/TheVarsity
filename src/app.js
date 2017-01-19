@@ -6,7 +6,7 @@ import store from './stores/store'
 
 // Desktop
 import Main from './desktop/Main'
-import { Account } from './desktop/containers'
+import { Account, Feed } from './desktop/containers'
 import { Home, Detail } from './desktop/layout'
 
 // Mobile
@@ -17,13 +17,13 @@ const initialState = window.__PRELOADED_STATE__
 
 class App extends Component {
 	render (){
-//		console.log('APP: Render - '+initialState.session.template)
 		let app = null
 		if (initialState.session.template == 'index'){ // desktop version
 			app = (
 				<Route path="/" component={Main}>
 					<IndexRoute component={Home}></IndexRoute>
 					<Route path="/account" component={Account}></Route>
+					<Route path="/feed" component={Feed}></Route>
 					<Route path="/:page/:slug" component={Detail}></Route>
 				</Route>
 			)
@@ -39,7 +39,7 @@ class App extends Component {
 		return (
 			<Provider store={ store.configureStore(initialState) }>
 				<Router history={browserHistory}>
-					{ app}
+					{ app }
 				</Router>
 			</Provider>
 		)
