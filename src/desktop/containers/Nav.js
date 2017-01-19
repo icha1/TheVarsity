@@ -170,8 +170,9 @@ class Nav extends Component {
 	render(){
 		const style = styles.nav
 
+		const user = this.props.user 
 		let accountLink, joinLink, loginLink = null
-		if (this.props.user == null){
+		if (user == null){
 			joinLink = <li><a onClick={this.toggleRegister.bind(this)} href="#"><div>Join</div></a></li>
 			loginLink = <li><a onClick={this.toggleLogin.bind(this)} href="#"><div>Login</div></a></li>
 		}
@@ -184,9 +185,10 @@ class Nav extends Component {
 				<div id="page-menu-wrap">
 					<div className="container clearfix">
 						<div className="menu-title">
-							<a href="/">
-								<img src='/images/logo_white.png' />
-							</a>
+							{ (user == null) ? <a href="/"><img src='/images/logo_white.png' /></a> :
+								<Link to="/feed"><img src='/images/logo_white.png' /></Link>
+							}
+
 						</div>
 						<nav className="one-page-menu">
 							<ul style={style.ul}>
