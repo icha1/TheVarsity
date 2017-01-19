@@ -22,7 +22,7 @@ export default (props) => {
 							{ (profile.title.length == 0) ? 'No title' : TextUtils.truncateText(profile.title, 20) }
 		                </div>
 						<hr />
-						<p style={{fontWeight:200, height:80}}>
+						<p style={{fontWeight:200, height:80, textAlign:'left'}}>
 							{ TextUtils.truncateText(profile.bio, 60) }
 						</p>
 						<div style={{textAlign:'right'}}>
@@ -72,7 +72,8 @@ const localStyle = {
         marginRight: 12
     },
 	paragraph: {
-		fontWeight: 200
+		fontWeight: 200,
+		textAlign: 'right'
 	},
 	detail: {
 		float:'right',
