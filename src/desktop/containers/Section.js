@@ -16,7 +16,7 @@ class Section extends Component {
 	redeemInvitation(invitation){
 		this.props.redeemInvitation(invitation)
 		.then((response) => {
-			window.location.href = '/account' // this is just easier for now
+			window.location.href = '/feed' // relocate to feed page
 		})
 		.catch((err) => {
 			console.log('ERROR -- ' + err)
