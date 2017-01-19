@@ -14,7 +14,9 @@ class PostDetail extends Component {
 		this.state = {
 			timestamp: null,
 			isEditing: false,
-			comments: null
+			comments: null,
+			selected: 'Post',
+			menuItems: ['Post', 'Comments']			
 		}
 	}
 
@@ -67,6 +69,17 @@ class PostDetail extends Component {
 			this.props.fetchTeam(post.teams[0])
 			return			
 		}
+	}
+
+	selectItem(item, event){
+		event.preventDefault()
+		window.scrollTo(0, 0)
+
+		const selected = (item.length == 0) ? event.target.value : item
+		console.log('selectItem: '+selected)
+		this.setState({
+			selected: selected
+		})
 	}
 
 	updateComment(event){
@@ -257,6 +270,24 @@ class PostDetail extends Component {
 										</div>
 									}
 									<hr />
+
+									<nav>
+										<ul style={{listStyleType:'none'}}>
+											{ this.state.menuItems.map((item, i) => {
+													const itemStyle = (item == this.state.selected) ? localStyle.selected : localStyle.menuItem
+													return (
+														<li style={{marginTop:0}} key={item}>
+															<div style={itemStyle}>
+																<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+															</div>
+														</li>
+													)
+												})
+											}
+										</ul>
+									</nav>
+
+
 								</div>
 				            </div>
 
@@ -355,6 +386,21 @@ const localStyle = {
 		border:'1px solid #ddd',
 		textAlign:'center',
 		marginTop: 16
+	},
+	menuItem: {
+		padding: '6px 6px 6px 16px',
+		background: '#f9f9f9',
+		borderLeft: '3px solid #ddd',
+		fontSize: 16,
+		fontWeight: 100
+	},
+	selected: {
+		padding: '6px 6px 6px 16px',
+		background: '#fff',
+		borderRadius: 2,
+		borderLeft: '3px solid rgb(91, 192, 222)',
+		fontSize: 16,
+		fontWeight: 400
 	}
 }
 
