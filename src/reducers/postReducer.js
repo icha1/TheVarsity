@@ -67,6 +67,9 @@ export default (state = initialState, action) => {
 				if (ignore.indexOf(key) != -1)
 					continue
 
+				if (key == 'saved') // edge case for saved posts
+					newState['saved'] = action.posts
+
 				let value = action.params[key]
 				newState[value] = action.posts
 			}

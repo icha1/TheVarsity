@@ -51,7 +51,15 @@ class Feed extends Component {
 	componentDidUpdate(){
 		const selected = this.state.selected
 		if (selected == 'Saved'){
+			const posts = this.props.posts['saved'] // can be bull
+			if (posts != null)
+				return
 
+			const user = this.props.user
+			if (user == null)
+				return
+
+			this.props.fetchPosts({saved:user.id})
 		}
 	}
 
@@ -76,7 +84,7 @@ class Feed extends Component {
 		}
 
 		if (selected == 'Saved'){
-//			const posts = this.props.posts[teamsString] // can be bull
+			posts = this.props.posts['saved'] // can be bull
 		}
 
 		return (

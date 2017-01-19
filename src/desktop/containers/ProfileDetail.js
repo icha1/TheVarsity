@@ -38,12 +38,11 @@ class ProfileDetail extends Component {
 			return
 
 		const selected = this.state.selected
-		if (selected == 'Feed'){ // these are posts that the profile saved
+		if (selected == 'Feed'){
 			if (this.props.posts[profile.id])
 				return
 
-//			console.log('Fetch Posts')
-			this.props.fetchPosts({saved:profile.id})
+			this.props.fetchPosts({'author.id':profile.id})
 		}
 
 		if (selected == 'Teams'){
