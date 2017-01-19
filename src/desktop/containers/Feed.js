@@ -11,7 +11,8 @@ class Feed extends Component {
 	constructor(){
 		super()
 		this.state = {
-			selected: 'Front Page'
+			selected: 'Front Page',
+			menuItems: ['Front Page', 'Saved']
 		}
 	}
 
@@ -82,30 +83,28 @@ class Feed extends Component {
 											<Link to={'/profile/'+user.slug}>{ user.username }</Link>
 										</h2>
 										<span style={styles.paragraph}>{ user.title }</span><br />
-										<span style={styles.paragraph}>{ TextUtils.capitalize(user.location.city) }</span>
 										<br />
 										<Link to="/account"  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>Account</Link>
 									</div>
 								}
 
 								<hr />
-								<nav id="primary-menu">
-									{ (teams == null) ? null : teams.map((team, i) => {
-											return (
-												<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
-													<Link to={'/team/'+team.slug}>
-														<img style={localStyle.image} src={team.image+'=s44-c'} />
-													</Link>
-													<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
-														{team.name}
-													</Link>
-													<br />
-													<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
-												</div>
-											)
-										})
-									}
+								<nav>
+									<ul style={{listStyleType:'none'}}>
+										{ this.state.menuItems.map((item, i) => {
+												const itemStyle = (item == this.state.selected) ? localStyle.selected : localStyle.menuItem
+												return (
+													<li style={{marginTop:0}} key={item}>
+														<div style={itemStyle}>
+															<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+														</div>
+													</li>
+												)
+											})
+										}
+									</ul>
 								</nav>
+
 
 							</div>
 			            </div>
@@ -129,6 +128,25 @@ class Feed extends Component {
 						</div>
 
 						<div className="col_one_third col_last">
+							<h2 style={styles.title}>Your Teams</h2>
+							<hr />
+							<nav id="primary-menu">
+								{ (teams == null) ? null : teams.map((team, i) => {
+										return (
+											<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
+												<Link to={'/team/'+team.slug}>
+													<img style={localStyle.image} src={team.image+'=s44-c'} />
+												</Link>
+												<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
+													{team.name}
+												</Link>
+												<br />
+												<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
+											</div>
+										)
+									})
+								}
+							</nav>
 
 						</div>
 					</div>
@@ -162,6 +180,21 @@ const localStyle = {
 		fontWeight:100,
 		fontSize:14,
 		lineHeight:14+'px'
+	},
+	selected: {
+		padding: '6px 6px 6px 16px',
+		background: '#fff',
+		borderRadius: 2,
+		borderLeft: '3px solid rgb(91, 192, 222)',
+		fontSize: 16,
+		fontWeight: 400
+	},
+	menuItem: {
+		padding: '6px 6px 6px 16px',
+		background: '#f9f9f9',
+		borderLeft: '3px solid #ddd',
+		fontSize: 16,
+		fontWeight: 100
 	}
 }
 
