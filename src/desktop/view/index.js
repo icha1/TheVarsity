@@ -18,6 +18,7 @@ import Redeem from './Redeem'
 import Sidebar from './Sidebar'
 import Modal from './Modal'
 import Explanation from './Explanation'
+import Application from './Application'
 
 export {
 	Map,
@@ -39,5 +40,6 @@ export {
 	Redeem,
 	Sidebar,
 	Modal,
-	Explanation
+	Explanation,
+	Application
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
-import { CreateComment, CreatePost, Comments, ProfilePreview } from '../view'
+import { CreateComment, CreatePost, Comments, ProfilePreview, Application } from '../view'
 import { DateUtils, FirebaseManager, TextUtils } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -165,7 +165,7 @@ class PostDetail extends Component {
 		const style = styles.post
 		const user = this.props.user // can be null
 		const post = this.props.posts[this.props.slug]
-		const author = this.props.profiles[post.author.slug]
+		const author = (post == null) ? null : this.props.profiles[post.author.slug]
 
 		let content = null
 		const btn = 'button button-mini button-circle '
@@ -219,17 +219,32 @@ class PostDetail extends Component {
 		}
 		else if (selected == 'Comments'){
 			content = (
-				<div className="panel panel-default hidden-xs">
-					<Comments 
-						user={user}
-						comments={this.state.comments}
-						submitComment={this.submitComment.bind(this)} />
-				</div>
-
+				<Comments 
+					user={user}
+					comments={this.state.comments}
+					submitComment={this.submitComment.bind(this)} />
 			)
 		}
+		else if (selected == 'Apply'){
+			const userPosts = this.props.posts[user.id]
+			if (userPosts == null){ // fetch showcase projects
+				this.props.fetchPosts({'author.id': user.id})
+				.then(response => {
+//					console.log(JSON.stringify(response))
+				})
+				.catch(err => {
+					console.log(err)
+				})
+			}
 
-		const team = this.props.teams[post.teams[0]] // can be null
+			const projects = (userPosts == null) ? [] : userPosts.filter((userPost, i) => {
+				return (userPost.type == 'showcase')
+			})
+
+			content = <Application user={user} projects={projects} />
+		}
+
+		const team = (post==null) ? null : this.props.teams[post.teams[0]] // can be null
 
 		return (
 			<div>
@@ -427,6 +442,7 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
 	return {
 		fetchPostById: (id) => dispatch(actions.fetchPostById(id)),
+		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
