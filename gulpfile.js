@@ -121,10 +121,10 @@ gulp.task('watch', function() {
 gulp.task('compile-desktop', ['less', 'css', 'copy', 'build'], function(){})
 gulp.task('compile-mobile', ['css-mobile', 'copy-mobile', 'build-mobile'], function(){})
 
-gulp.task('prod', ['compile-desktop', 'compile-mobile', 'es6-es5'], function(){});
-gulp.task('default', ['compile-desktop', 'compile-mobile', 'es6-es5', 'watch'], function(){})
+// gulp.task('prod', ['compile-desktop', 'compile-mobile', 'es6-es5'], function(){});
+// gulp.task('default', ['compile-desktop', 'compile-mobile', 'es6-es5', 'watch'], function(){})
+
+gulp.task('prod', ['compile-desktop', 'es6-es5'], function(){});
+gulp.task('default', ['compile-desktop', 'es6-es5', 'watch'], function(){})
 
 
-// gulp.task('prod', ['less', 'css', 'css-mobile', 'copy', 'build', 'build-mobile', 'copy-mobile', 'es6-es5'], function(){});
-
-// gulp.task('default', ['less', 'css', 'css-mobile', 'copy', 'build', 'build-mobile', 'copy-mobile', 'es6-es5', 'watch'], function(){})
