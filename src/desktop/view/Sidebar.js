@@ -26,6 +26,7 @@ export default (props) => {
 									return (
 										<li style={{marginTop:0}} key={item}>
 											<div style={itemStyle}>
+												{ (props.badge[item.toLowerCase()]) ? <div style={localStyle.badge}>{props.badge[item.toLowerCase()]}</div> : null }
 												<a onClick={props.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
 											</div>
 										</li>
@@ -47,6 +48,18 @@ const localStyle = {
 		fontFamily:'Pathway Gothic One',
 		fontWeight: 100,
 		marginBottom: 0
+	},
+	badge: {
+		background:'red',
+		color:'#fff',
+		textAlign:'center',
+		borderRadius:11,
+		width:22,
+		height:22,
+		fontSize: 12,
+		fontWeight: 400,
+		paddingTop: 2,
+		float:'right'
 	},
 	selected: {
 		padding: '6px 6px 6px 16px',
