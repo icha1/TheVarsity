@@ -290,7 +290,6 @@ class PostDetail extends Component {
 										</ul>
 									</nav>
 
-
 								</div>
 				            </div>
 
