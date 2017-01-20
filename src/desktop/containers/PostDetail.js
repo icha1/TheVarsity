@@ -24,6 +24,11 @@ class PostDetail extends Component {
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
 			return
+
+		if (post.type == 'hiring')
+			this.setState({
+				menuItems: ['Post', 'Apply']
+			})
 	}
 
 	componentDidMount(){

@@ -3,7 +3,6 @@ var mongoose = require('mongoose')
 var ProfileSchema = new mongoose.Schema({
 	username: {type:String, trim:true, default:''},
 	title: {type:String, trim:true, default:''}, // web developer, designer, photographer, etc
-	badge: {type:Number, default:0}, // indicates # or unread messages
 	bio: {type:String, trim:true, default:''},
 	isConfirmed: {type:String, trim:true, default:'pending'}, // yes, no, pending
 	slug: {type:String, trim:true, lowercase:true, unique:true, default:''},
@@ -15,6 +14,7 @@ var ProfileSchema = new mongoose.Schema({
 	teams: {type:Array, default:[]},
 	districts: {type:Array, default:[]},
 	tags: {type:Array, default:[]},
+	badge: {type:mongoose.Schema.Types.Mixed, default:{}},
 	location: {type:mongoose.Schema.Types.Mixed, default:{}},
 	social: {type:mongoose.Schema.Types.Mixed, default:{}},
 	viewed: {type:mongoose.Schema.Types.Mixed, default:{}}, // map of profiles that viewed the post
@@ -24,7 +24,6 @@ var ProfileSchema = new mongoose.Schema({
 ProfileSchema.methods.summary = function(){
 	var summary = {
 		username: this.username,
-		badge: this.badge,
 		title: this.title,
 		bio: this.bio,
 		isConfirmed: this.isConfirmed,
@@ -34,6 +33,7 @@ ProfileSchema.methods.summary = function(){
 		credits: this.credits,
 		teams: this.teams,
 		tags: this.tags,
+		badge: this.badge,
 		location: this.location,
 		timestamp: this.timestamp,
 		schema: 'profile',
