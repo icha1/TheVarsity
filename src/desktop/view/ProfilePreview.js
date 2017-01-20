@@ -19,7 +19,7 @@ export default (props) => {
 								<Link style={{color:'#333'}} to={'/profile/'+profile.slug}>{ TextUtils.truncateText(profile.username, 13) }</Link>
 		                    </h4>
 		                    <br />
-							{ (profile.title.length == 0) ? 'No title' : TextUtils.truncateText(profile.title, 20) }
+							{ (profile.title.length == 0) ? 'No title' : TextUtils.truncateText(profile.title, 16) }
 		                </div>
 						<hr />
 						<p style={{fontWeight:200, height:80, textAlign:'left'}}>
