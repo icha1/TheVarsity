@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
-import { CreatePost, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar, Profiles, Chat, Modal, Explanation } from '../view'
+import { CreatePost, CreateProject, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar, Profiles, Chat, Modal, Explanation } from '../view'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { TextUtils, APIManager, FirebaseManager } from '../../utils'
@@ -15,6 +15,7 @@ class TeamDetail extends Component {
 		this.state = {
 			showInvite: false,
 			showSubmit: false,
+			showCreateProject: false,
 			invitation: {
 				name: '',
 				email: ''
@@ -162,6 +163,13 @@ class TeamDetail extends Component {
 		event.preventDefault()
 		this.setState({
 			showSubmit: !this.state.showSubmit
+		})
+	}
+
+	creatProject(event){
+		event.preventDefault()
+		this.setState({
+			showCreateProject: !this.state.showCreateProject
 		})
 	}
 
@@ -341,6 +349,19 @@ class TeamDetail extends Component {
 			this.props.fetchPosts({teams: team.id})
 	}
 
+	sublist(selected){
+		const team = this.props.teams[this.props.slug]
+		if (team == null)
+			return []
+
+		const list = (this.props.posts[team.id] == null) ? [] : this.props.posts[team.id]
+		const sublist = list.filter((post, i) => {
+			return (post.type == selected.toLowerCase())
+		})
+
+		return sublist
+	}
+
 
 	render(){
 		const team = this.props.teams[this.props.slug]
@@ -351,21 +372,16 @@ class TeamDetail extends Component {
 		const style = styles.team
 		let content = null
 		let cta = null
+
 		const selected = this.props.selected
-
-		if (selected == 'Hiring' || selected == 'Showcase'){
-			cta = (selected == 'Showcase') ? <a href="#" onClick={this.toggleInvite.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Showcase Your Work</a> : <a href="#" onClick={this.toggleShowSubmit.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>{ (this.state.showSubmit) ? 'Cancel' : 'Submit Post'}</a>
-
-			const list = (this.props.posts[team.id] == null) ? [] : this.props.posts[team.id]
-			const sublist = list.filter((post, i) => {
-				return (post.type == selected.toLowerCase())
-			})
-
+		if (selected == 'Hiring'){
+			cta = (this.props.user == null) ? null : <a href="#" onClick={this.toggleShowSubmit.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>{ (this.state.showSubmit) ? 'Cancel' : 'Submit Post'}</a>
+			const sublist = this.sublist(selected)
 			content = (
 				<div>
 					{ (this.props.user != null) ? 
 						<div className="hidden-xs">
-							{ (selected == 'Hiring' && this.state.showSubmit) ? <CreatePost submit={this.submitPost.bind(this)} /> : null }
+							{ (this.state.showSubmit) ? <CreatePost submit={this.submitPost.bind(this)} /> : null }
 						</div>
 						:
 						<div className="alert alert-success">
@@ -381,7 +397,21 @@ class TeamDetail extends Component {
 							vote={this.voteOnPost.bind(this)}
 							user={this.props.user} />
 					}
-
+				</div>
+			)
+		}
+		else if (selected == 'Showcase'){
+			cta = (this.props.user == null) ? null : <a href="#" onClick={this.creatProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Showcase Your Work</a>
+			const sublist = this.sublist(selected)
+			content = (this.state.showCreateProject) ? <CreateProject onCreate={this.submitPost.bind(this)} /> : (
+				<div>
+					{ (sublist.length == 0) ? <Explanation context={selected} btnAction={this.toggleInvite.bind(this)} /> : 
+						<PostFeed 
+							posts={sublist}
+							deletePost={this.deletePost.bind(this)}
+							vote={this.voteOnPost.bind(this)}
+							user={this.props.user} />
+					}
 				</div>
 			)
 		}
@@ -407,7 +437,7 @@ class TeamDetail extends Component {
 			)
 		}
 		else if (selected == 'Members'){
-			cta = <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Member</a>
+			cta = (this.props.user==null) ? null : <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Member</a>
 			const members = this.props.profiles[team.id]
 			content = <Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} team={team} user={this.props.user} />
 		}

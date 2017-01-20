@@ -9,6 +9,7 @@ import TeamFeed from './TeamFeed'
 import TeamPreview from './TeamPreview'
 import TeamInfo from './TeamInfo'
 import CreatePost from './CreatePost'
+import CreateProject from './CreateProject'
 import CreateTeam from './CreateTeam'
 import Profiles from './Profiles'
 import ProfilePreview from './ProfilePreview'
@@ -30,6 +31,7 @@ export {
 	TeamPreview,
 	TeamInfo,
 	CreatePost,
+	CreateProject,
 	CreateTeam,
 	Profiles,
 	ProfilePreview,

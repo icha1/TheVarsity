@@ -51,7 +51,7 @@ const localStyle = {
 	scroll: {
 		overflowY:'scroll',
 		maxHeight:360, 
-		background:'#FCFDFF',
+		background:'#f9f9f9',
 		padding:0,
 		borderBottom:'1px solid #ddd'
 	},

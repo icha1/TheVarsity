@@ -191,15 +191,6 @@ class PostDetail extends Component {
 						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
 					</div>
 
-					{ post.images.map((image, i) => {
-							return (
-								<a key={i} target="_blank" href={image}>
-									<img style={{marginRight:12, background:'#fff', padding:3, border:'1px solid #ddd'}} src={image+'=s64-c'} />
-								</a>
-							)
-						})
-					}
-
 					<div style={{textAlign:'left', marginTop:24, minHeight:300}}>
 						{ ( post.image.length == 0) ? null : (
 								<div>
@@ -212,6 +203,17 @@ class PostDetail extends Component {
 						{ (post.url.length == 0) ? null : <a target="_blank" style={{color:'red'}} href={post.url}>READ MORE</a> }
 					</div>
 					<hr />
+					{ (post.images.length==0) ? null : <h3 style={styles.title}>Additional Images</h3> } 
+					{ post.images.map((image, i) => {
+							return (
+								<a key={i} target="_blank" href={image}>
+									<img style={{marginRight:12, background:'#fff', padding:3, border:'1px solid #ddd'}} src={image+'=s64-c'} />
+								</a>
+							)
+						})
+					}
+
+
 				</div>
 			)
 		}
