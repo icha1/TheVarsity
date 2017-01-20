@@ -10,7 +10,7 @@ export default (props) => {
 		<div>
 			<div className="panel-heading">Comments</div>
 			{ (props.comments == null) ? null : props.comments.map((comment, i) => {
-					return <Comment key={comment.id} comment={comment} />
+					return <Comment key={comment.id} comment={comment} user={props.user} />
 				})
 			}
 

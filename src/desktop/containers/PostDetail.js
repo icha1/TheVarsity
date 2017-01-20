@@ -215,6 +215,7 @@ class PostDetail extends Component {
 						{ (post.type == 'hiring') ? null : 
 							<div className="panel panel-default hidden-xs">
 								<Comments 
+									user={user}
 									comments={this.state.comments}
 									submitComment={this.submitComment.bind(this)} />
 							</div>

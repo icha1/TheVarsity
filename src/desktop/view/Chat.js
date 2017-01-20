@@ -10,7 +10,7 @@ export default (props) => {
 				<div style={localStyle.scroll}>
 					{ props.comments.map((comment, i) => {
 							return (
-								<Comment key={comment.id} comment={comment} />
+								<Comment key={comment.id} user={props.user} comment={comment} />
 							)
 						})
 					}
@@ -52,11 +52,12 @@ const localStyle = {
 		overflowY:'scroll',
 		maxHeight:360, 
 		background:'#FCFDFF',
-		padding:0
+		padding:0,
+		borderBottom:'1px solid #ddd'
 	},
 	input: {
 		color:'#333',
-		background: '#f9f9f9',
+		background: '#fff',
 		padding: 6,
 		fontWeight: 100,
 	    lineHeight: 1.5,

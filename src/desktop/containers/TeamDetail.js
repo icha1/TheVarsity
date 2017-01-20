@@ -412,7 +412,7 @@ class TeamDetail extends Component {
 			content = <Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} team={team} user={this.props.user} />
 		}
 		else if (selected == 'Chat')
-			content = <Chat comments={this.state.comments} keyPress={this.submitComment.bind(this)} />
+			content = <Chat user={this.props.user} comments={this.state.comments} keyPress={this.submitComment.bind(this)} />
 
 		return (
 			<div>
