@@ -250,23 +250,20 @@ class Account extends Component {
 				</div>
 			)
 		}
-		else if (selected == 'Profile'){ // mobile only
+		else if (selected == 'Profile'){
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
-					<div style={{padding:'0px 24px 0px 24px'}}>
-						{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
-						{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
-							<div>
-								<h4 style={styles.header}>{ user.username }</h4>
-								<h4 style={styles.header}>{ user.title }</h4>
-								<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
-								<p className="lead" style={{fontSize:16, color:'#555', marginTop:12, marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
-								<img src={user.image+'=s220-c'} />
-							</div>
-						}
-					</div>
+					{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+					{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
+						<div>
+							<h4 style={styles.header}>{ user.username }</h4>
+							<h4 style={styles.header}>{ user.title }</h4>
+							<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
+							<p className="lead" style={{fontSize:16, color:'#555', marginTop:12, marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+							<img src={user.image+'=s220-c'} />
+						</div>
+					}
 				</div>
-
 			)
 		}
 		else if (selected == 'Posts'){
@@ -279,9 +276,6 @@ class Account extends Component {
 		}
 		else if (selected == 'Messages')
 			content = null
-
-
-//		const sidebar = (this.state.showMap) ? <Map center={this.props.session.currentLocation} zoom={14} animation={2} /> : sideMenu
 
 		return (
 			<div>
