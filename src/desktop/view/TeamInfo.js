@@ -116,7 +116,12 @@ class TeamInfo extends Component {
 				{ (team.image.length == 0) ? null : <img style={localStyle.teamImage} src={team.image+'=s140-c'} /> }
 				<h3 style={localStyle.title}>{team.name}</h3>
 				<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
-				<br /><hr />
+				<br /><br />
+				<input id="name" onChange={this.updateInvitation.bind(this)} placeholder="Name" style={localStyle.input} type="text" />
+				<input id="email" onChange={this.updateInvitation.bind(this)} placeholder="Email" style={localStyle.input} type="text" />
+				<a href="#" onClick={this.submitInvitation.bind(this)} className={localStyle.btnBlue.className} style={{marginLeft:0}}>Request Invitation</a>
+
+				<hr />
 				{ (isAdmin) ? <a onClick={this.toggleEdit.bind(this)} href="#">{ (this.state.isEditing) ? 'Cancel' : 'Edit'} </a> : null }
 				{ (this.state.isEditing) ? 
 					<div>
@@ -124,12 +129,7 @@ class TeamInfo extends Component {
 						<a href="#" onClick={this.updateTeam.bind(this)} className={localStyle.btnBlue.className} style={{marginLeft:0}}>Update</a>
 					</div>
 					:
-					<div>
-						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
-						<input id="name" onChange={this.updateInvitation.bind(this)} placeholder="Name" style={localStyle.input} type="text" />
-						<input id="email" onChange={this.updateInvitation.bind(this)} placeholder="Email" style={localStyle.input} type="text" />
-						<a href="#" onClick={this.submitInvitation.bind(this)} className={localStyle.btnBlue.className} style={{marginLeft:0}}>Request Invitation</a>
-					</div>
+					<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 				}
 			</div>
 
