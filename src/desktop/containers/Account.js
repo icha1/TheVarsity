@@ -14,11 +14,12 @@ class Account extends Component {
 			showEdit: false,
 			showMap: false,
 			showCreateTeam: false,
-			selected: 'Teams',
+			selected: 'Profile',
 			menuItems: [
+				'Profile',
 				'Teams',
-				'Posts',
-				'Messages'
+				'Posts'
+//				'Messages'
 			],
 			passwords: {}
 		}
@@ -252,19 +253,20 @@ class Account extends Component {
 		else if (selected == 'Profile'){ // mobile only
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
-					<div className="visible-xs" style={{padding:'0px 24px 0px 24px'}}>
+					<div style={{padding:'0px 24px 0px 24px'}}>
 						{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
 						{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
 							<div>
 								<h4 style={styles.header}>{ user.username }</h4>
 								<h4 style={styles.header}>{ user.title }</h4>
 								<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
-								<p className="lead" style={{fontSize:16, color:'#555', marginTop:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+								<p className="lead" style={{fontSize:16, color:'#555', marginTop:12, marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
 								<img src={user.image+'=s220-c'} />
 							</div>
 						}
 					</div>
 				</div>
+
 			)
 		}
 		else if (selected == 'Posts'){
@@ -284,7 +286,6 @@ class Account extends Component {
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
-
 					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 			            <div id="header-wrap">
 
@@ -328,20 +329,8 @@ class Account extends Component {
 							</div>
 
 							<div className="col_one_third col_last">
-								<div>
-									{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
-									<h3 style={styles.team.title}>Profile</h3>
-									<hr style={{marginBottom:12}} />
-									{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
-										<div style={{textAlign:'right'}}>
-											<h4 style={styles.header}>{ user.username }</h4>
-											<h4 style={styles.header}>{ user.title }</h4>
-											<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
-											<p className="lead" style={{fontSize:16, color:'#555', marginTop:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
-											<img src={user.image+'=s220-c'} />
-										</div>
-									}
-								</div>
+
+
 							</div>
 						</div>
 					</section>
@@ -352,9 +341,9 @@ class Account extends Component {
 					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
 						<div className="col-xs-6">
 							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
-								<option value="Teams">Teams</option>
 								<option value="Profile">Profile</option>
-								<option value="Messages">Messages</option>
+								<option value="Teams">Teams</option>
+								<option value="Posts">Posts</option>
 							</select>
 						</div>
 

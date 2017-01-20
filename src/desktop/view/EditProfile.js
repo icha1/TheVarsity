@@ -87,28 +87,27 @@ class EditProfile extends Component {
 
 		return (
 			<div>
-				<input type="text" id="title" placeholder="Title (Photographer, etc)" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={profile.title} />
-				<input type="text" id="username" placeholder="Username" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={profile.username} />
-				<input type="text" id="city" placeholder="City" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={location.city} />
-				<select style={localStyle.input} defaultValue={location.state} id="state" onChange={this.updateProfile.bind(this)}>
-					{
-						statesList.map((state, i) => {
-							return <option key={state.abbreviation} value={state.abbreviation.toLowerCase()}>{state.name}</option>
-						})
-					}
-				</select>
+                <div className="col_half">
+                    <input type="text" id="title" placeholder="Title (Photographer, etc)" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={profile.title} />
+                    <input type="text" id="username" placeholder="Username" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={profile.username} />
+                    <input type="text" id="city" placeholder="City" style={localStyle.input} onChange={this.updateProfile.bind(this)} defaultValue={location.city} />
+                    <select style={localStyle.input} defaultValue={location.state} id="state" onChange={this.updateProfile.bind(this)}>
+                        {
+                            statesList.map((state, i) => {
+                                return <option key={state.abbreviation} value={state.abbreviation.toLowerCase()}>{state.name}</option>
+                            })
+                        }
+                    </select>
+                </div>
+                <div className="col_half col_last">
+                    <Dropzone onDrop={this.uploadImage.bind(this)} style={{textAlign:'center'}}>
+                        { (this.state.isLoading) ? <div style={{marginLeft:70}}><Loading type='bars' color='#333' /></div> :
+                            <div><img style={{maxWidth:160, marginBottom:12}} src={image} /><br />Click to Change</div> 
+                        }
+                    </Dropzone>
+                </div>
+
 				<textarea id="bio" placeholder="Bio" onChange={this.updateProfile.bind(this)} style={localStyle.textarea} defaultValue={profile.bio}></textarea>
-				<Dropzone onDrop={this.uploadImage.bind(this)} className="clearfix">
-					{ (this.state.updatedProfile.image.length > 0) ? <div style={{textAlign:'right'}}><img src={image} /><br />Click to Change</div> :
-						<button className="social-icon si-small si-borderless si-instagram">
-							<i className="icon-instagram"></i>
-							<i className="icon-instagram"></i>
-						</button>
-					}
-					<div style={{float:'right', width:50+'%'}}>
-						{ (this.state.isLoading) ? <Loading type='bars' color='#333' /> : null }
-					</div>
-				</Dropzone>
 	            <a href="#" onClick={this.btnCloseClicked.bind(this)} className="button button-circle button-green" style={localStyle.btnBlue}>Done</a>
 			</div>
 		)
@@ -117,7 +116,7 @@ class EditProfile extends Component {
 
 const localStyle = {
 	btnBlue: {
-		float: 'right',
+        float: 'right',
 		className: 'button button-small button-circle button-blue'
 	},
 	input: {
