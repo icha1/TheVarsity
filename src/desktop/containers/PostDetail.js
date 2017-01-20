@@ -171,9 +171,11 @@ class PostDetail extends Component {
 		const btn = 'button button-mini button-circle '
 		const btnBlueClass = btn + 'button-blue'
 
+		const selected = this.state.selected
+
 		if (this.state.isEditing == true)
 			content = <CreatePost submit={this.updatePost.bind(this)} cancel={this.toggleEditing.bind(this)} post={post} />		
-		else {
+		else if (selected == 'Post'){
 			let btnEdit = null
 			if (user != null){
 				if (user.id == post.author.id)
@@ -182,51 +184,46 @@ class PostDetail extends Component {
 
 			content = (
 				<div>
-					<div className="hidden-xs" style={{lineHeight:18+'px', textAlign:'right'}}>
-						<img style={{float:'right', marginLeft:10, borderRadius:18}} src={post.author.image+'=s36-c'} />
+					<div className="hidden-xs" style={{lineHeight:18+'px'}}>
+						{ btnEdit }
+						<img style={{marginRight:10, borderRadius:22, float:'left'}} src={post.author.image+'=s44-c'} />
 						<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
 						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
 					</div>
 
-					<div style={{textAlign:'left', padding:24}}>
-						{ btnEdit }
-						<h2 style={styles.team.title}>
-							{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
-						</h2>
+					{ post.images.map((image, i) => {
+							return (
+								<a key={i} target="_blank" href={image}>
+									<img style={{marginRight:12, background:'#fff', padding:3, border:'1px solid #ddd'}} src={image+'=s64-c'} />
+								</a>
+							)
+						})
+					}
 
-						<hr />
-						{ post.images.map((image, i) => {
-								return (
-									<a key={i} target="_blank" href={image}>
-										<img style={{marginRight:12, background:'#fff', padding:3, border:'1px solid #ddd'}} src={image+'=s64-c'} />
-									</a>
-								)
-							})
+					<div style={{textAlign:'left', marginTop:24, minHeight:300}}>
+						{ ( post.image.length == 0) ? null : (
+								<div>
+									<img className="hidden-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
+									<img className="visible-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
+								</div>
+							)
 						}
-
-						<div style={{textAlign:'left', marginTop:24, minHeight:300}}>
-							{ ( post.image.length == 0) ? null : (
-									<div>
-										<img className="hidden-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
-										<img className="visible-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
-									</div>
-								)
-							}
-							<p className="lead" style={{fontSize:16, color:'#555', marginBottom:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
-							{ (post.url.length == 0) ? null : <a target="_blank" style={{color:'red'}} href={post.url}>READ MORE</a> }
-						</div>
-						<hr />
-
-						{ (post.type == 'hiring') ? null : 
-							<div className="panel panel-default hidden-xs">
-								<Comments 
-									user={user}
-									comments={this.state.comments}
-									submitComment={this.submitComment.bind(this)} />
-							</div>
-						}
+						<p className="lead" style={{fontSize:16, color:'#555', marginBottom:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
+						{ (post.url.length == 0) ? null : <a target="_blank" style={{color:'red'}} href={post.url}>READ MORE</a> }
 					</div>
+					<hr />
 				</div>
+			)
+		}
+		else if (selected == 'Comments'){
+			content = (
+				<div className="panel panel-default hidden-xs">
+					<Comments 
+						user={user}
+						comments={this.state.comments}
+						submitComment={this.submitComment.bind(this)} />
+				</div>
+
 			)
 		}
 
@@ -303,11 +300,18 @@ class PostDetail extends Component {
 					<section id="content" style={{background:'#fff', minHeight:800}}>
 						<div className="content-wrap container clearfix">
 							<div className="col_two_third">
+
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
+										<h2 style={styles.team.title}>
+											{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
+										</h2>
+
+										<hr />
 										{ content }
 									</div>
 								</div>
+
 							</div>
 
 							<div className="col_one_third col_last">

@@ -8,13 +8,12 @@ export default (props) => {
 
 	return (
 		<div>
-			<div className="panel-heading">Comments</div>
 			{ (props.comments == null) ? null : props.comments.map((comment, i) => {
 					return <Comment key={comment.id} comment={comment} user={props.user} />
 				})
 			}
 
-			<div>
+			<div style={{borderTop:'1px solid #ddd'}}>
 				<input type="text" id="text" style={localStyle.input} onKeyPress={props.submitComment.bind(this)} placeholder="Enter Comment" />
 			</div>
 		</div>
@@ -24,7 +23,7 @@ export default (props) => {
 const localStyle = {
 	input: {
 		color:'#333',
-		background: '#f9f9f9',
+		background: '#fff',
 		marginBottom: 0,
 		padding: 6,
 		fontWeight: 100,
