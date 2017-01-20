@@ -64,7 +64,7 @@ class Application extends Component {
 								return (
 									<div key={project.id} className="clearfix">
 										<a target="_blank" href={'/post/'+project.slug}>
-											<img style={localStyle.image} src={project.image+'=s120-c'} />
+											<img style={localStyle.image} src={(project.image.indexOf('googleusercontent') == -1) ? project.image : project.image +'=s120-c'} />
 										</a>
 										<a target="_blank" href={'/post/'+project.slug}>
 											{project.title}
