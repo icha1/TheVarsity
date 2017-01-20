@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import Loading from 'react-loading' // http://cezarywojtkowski.com/react-loading/
-import { APIManager, DateUtils } from '../../utils'
+import { APIManager, DateUtils, Alert } from '../../utils'
 import styles from './styles'
 
 class CreateProject extends Component {
@@ -49,6 +49,31 @@ class CreateProject extends Component {
 
 	createProject(event){
 		event.preventDefault()
+		const errorMsg = {
+				title:'Oops',
+				text: '',
+				type: 'error',
+				confirmButtonText: 'Got it'
+		}
+
+		if (this.state.post.title.length == 0){
+			errorMsg['text'] = 'Please enter a title for your project.'
+			Alert.showAlert(errorMsg)
+			return
+		}
+
+		if (this.state.post.image.length == 0){
+			errorMsg['text'] = 'Please Include an Image for your project.'
+			Alert.showAlert(errorMsg)
+			return
+		}
+
+		if (this.state.post.text.length == 0){
+			errorMsg['text'] = 'Please Enter a Description For Your Project.'
+			Alert.showAlert(errorMsg)
+			return
+		}
+
 		this.props.onCreate(this.state.post)
 	}
 
