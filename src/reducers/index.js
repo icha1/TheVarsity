@@ -3,7 +3,8 @@ import teamReducer from './teamReducer'
 import accountReducer from './accountReducer'
 import profileReducer from './profileReducer'
 import sessionReducer from './sessionReducer'
-import { team, profile, post, session } from './initial'
+import applicationReducer from './applicationReducer'
+import { team, profile, post, session, application } from './initial'
 
 export const initial = (reducer, entities) => {
 //	console.log('initial = '+reducer)
@@ -20,6 +21,9 @@ export const initial = (reducer, entities) => {
 		case 'session':
 			return session.populate(entities)
 
+		case 'application':
+			return application.populate(entities)
+
 		// case 'account':
 		// 	return team.populate()
 
@@ -34,5 +38,6 @@ export {
 	teamReducer,
 	sessionReducer,
 	accountReducer,
-	profileReducer
+	profileReducer,
+	applicationReducer
 }
