@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextUtils, APIManager } from '../../utils'
+import { TextUtils, APIManager, Alert } from '../../utils'
 import styles from './styles'
 
 class TeamInfo extends Component {
@@ -49,12 +49,18 @@ class TeamInfo extends Component {
 	submitInvitation(event){
 		event.preventDefault()
 		if (this.state.invitation.name.length == 0){
-			alert('Please enter your name')
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please enter your name'
+			})
 			return
 		}
 
 		if (this.state.invitation.email.length == 0){
-			alert('Please enter your email')
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please enter your email'
+			})
 			return
 		}
 
