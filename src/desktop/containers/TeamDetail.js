@@ -145,17 +145,50 @@ class TeamDetail extends Component {
 
 		this.setState({showInvite: false})
 		this.props.sendInvitation(updated)
-		.then((response) => {			
-			alert('Invitation Sent!')
+		.then((response) => {
+			Alert.showConfirmation({
+				title: 'Invitation Sent!',
+				text: 'Thanks for inviting your friend to The Varsity.'
+			})
 		})
 		.catch((err) => {
-			console.log('ERROR: '+JSON.stringify(err))
+//			console.log('ERROR: '+JSON.stringify(err))
+			Alert.showAlert({
+				title: 'Error',
+				text: err.message || err
+			})
 		})
 	}
 
 	requestInvitation(invitation){
-		console.log('requestInvitation: '+JSON.stringify(invitation))
+		const team = this.props.teams[this.props.slug]
+		if (team == null)
+			return
 
+		console.log('requestInvitation: '+JSON.stringify(invitation))
+		let updated = Object.assign({}, invitation)
+		updated['team'] = {
+			image: team.image,
+			name: team.name,
+			id: team.id
+		}
+
+		updated['code'] = TextUtils.randomString(6)
+
+		APIManager.handlePost('/account/requestinvite', updated)
+		.then(response => {
+			Alert.showConfirmation({
+				title: 'Request Sent!',
+				text: 'Thanks for your interest in The Varsity. Someone from '+team.name+' will reach out to you soon.'
+			})
+		})
+		.catch(err => {
+//			console.log('ERROR: '+JSON.stringify(err))
+			Alert.showAlert({
+				title: 'Error',
+				text: err.message || err
+			})
+		})
 	}
 
 	keyPress(action, event){
@@ -344,7 +377,6 @@ class TeamDetail extends Component {
 			event.target.blur()
 		})
 	}
-
 
 	componentDidUpdate(){
 		const team = this.props.teams[this.props.slug]

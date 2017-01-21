@@ -312,7 +312,7 @@ class PostDetail extends Component {
 											</Link>
 											<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span><br />
 											<br />
-											<Link to={'/team/'+team.slug}  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>View</Link>
+											<Link to={'/team/'+team.slug}  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>View Team</Link>
 										</div>
 									}
 									<hr />

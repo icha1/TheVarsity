@@ -200,6 +200,28 @@ router.post('/:action', function(req, res, next){
 		})
 	}
 
+	if (action == 'requestinvite'){
+		var invitation = null
+		controllers.invitation.post(req.body)
+		.then(function(result){
+			invitation = result
+			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: Invitation Reqeusted', JSON.stringify(result))
+		})
+		.then(function(result){
+			res.json({
+				confirmation: 'success',
+				result: invitation
+			})
+		})
+		.catch(function(err){
+			var msg = err.errmsg || err.message || err
+			res.json({
+				confirmation: 'fail',
+				message: msg
+			})
+		})
+	}
+
 	if (action == 'invite'){
 		var invitation = null
 		controllers.invitation.post(req.body)
@@ -220,7 +242,7 @@ router.post('/:action', function(req, res, next){
 				html = html.replace('{{invitation}}', invitation.id)
 			}
 			
-				utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
+			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
 		})
 		.then(function(response){
 			res.json({
