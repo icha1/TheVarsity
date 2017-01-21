@@ -28,8 +28,30 @@ class Application extends Component {
 
 	submitApplication(event){
 		event.preventDefault()
-		console.log('submitApplication: '+JSON.stringify(this.state.application))
 
+		const user = this.props.user // shouldn't be null
+		let updated = Object.assign({}, this.state.application)
+		updated['from'] = {
+			id: user.id,
+			username: user.username
+		}
+
+		let projectsArray = []
+		Object.keys(updated.projects).forEach((key, i) => {
+			const project = updated.projects[key]
+			if (project != null){
+				projectsArray.push({
+					id: project.id,
+					title: project.title,
+					text: project.text,
+					image: project.image,
+					images: project.images
+				})
+			}
+		})
+
+		updated['projects'] = projectsArray
+		this.props.onSubmitApplication(updated)
 	}
 
 	addRemoveProject(project, event){

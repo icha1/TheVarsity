@@ -1,8 +1,9 @@
 var mongoose = require('mongoose')
 
 var ApplicationSchema = new mongoose.Schema({
-	post: {type:String, trim:true, default:''},
-	from: {type:String, trim:true, default:''},
+	post: {type:mongoose.Schema.Types.Mixed, default:{}},
+	from: {type:mongoose.Schema.Types.Mixed, default:{}},
+	coverletter: {type:String, trim:true, default:''},
 	recipients: {type:Array, default:[]},
 	projects: {type:Array, default:[]},
 	attachments: {type:Array, default:[]},
@@ -13,6 +14,7 @@ ApplicationSchema.methods.summary = function(){
 	var summary = {
 		post: this.post,
 		from: this.from,
+		coverletter: this.coverletter,
 		recipients: this.recipients,
 		projects: this.projects,
 		attachments: this.attachments,

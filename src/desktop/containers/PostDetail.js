@@ -4,7 +4,7 @@ import moment from 'moment'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
 import { CreateComment, CreatePost, Comments, ProfilePreview, Application } from '../view'
-import { DateUtils, FirebaseManager, TextUtils } from '../../utils'
+import { DateUtils, FirebaseManager, TextUtils, APIManager, Alert } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
 
@@ -161,6 +161,33 @@ class PostDetail extends Component {
 		})
 	}
 
+	submitApplication(application){
+		const post = this.props.posts[this.props.slug]
+		application['post'] = {
+			id: post.id,
+			title: post.title
+		}
+
+		application['recipients'] = post.contact
+
+		APIManager.handlePost('/api/application', application)
+		.then(response => {
+//			console.log('Application Submitted: '+JSON.stringify(application))
+			this.setState({selected: 'Post'})
+			Alert.showConfirmation({
+				title: 'Application Submitted',
+				text: 'Your application was successfully submitted. Good Luck!'
+			})
+		})
+		.catch(err => {
+			console.log('ERROR: '+JSON.stringify(err))
+			Alert.showAlert({
+				title: 'Error',
+				text: err.message
+			})
+		})
+	}
+
 	render(){
 		const style = styles.post
 		const user = this.props.user // can be null
@@ -241,7 +268,7 @@ class PostDetail extends Component {
 				return (userPost.type == 'showcase')
 			})
 
-			content = <Application user={user} projects={projects} />
+			content = <Application user={user} projects={projects} onSubmitApplication={this.submitApplication.bind(this)} />
 		}
 
 		const team = (post==null) ? null : this.props.teams[post.teams[0]] // can be null
