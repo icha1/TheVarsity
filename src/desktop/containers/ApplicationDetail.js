@@ -187,6 +187,7 @@ const localStyle = {
 	image: {
 		marginTop: 12,
 		marginRight: 12,
+		width: 120,
 		background: '#fff',
 		padding: 3,
 		border: '1px solid #ddd'
