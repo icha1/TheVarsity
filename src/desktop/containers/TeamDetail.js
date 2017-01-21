@@ -465,7 +465,7 @@ class TeamDetail extends Component {
 				<div className="clearfix hidden-xs">
 					<header id="header" className="no-sticky" style={{background:'#fff', border:'none'}}>
 						<Sidebar 
-							badge={{chat: 1}}
+							badge={{chats: 1}}
 							padding={true}
 							menuItems={this.state.menuItems}
 							selectItem={this.selectItem.bind(this)}
