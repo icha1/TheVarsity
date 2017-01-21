@@ -46,6 +46,8 @@ module.exports = {
 
 	post: function(params){
 		return new Promise(function(resolve, reject){
+			if (params.slug == null) // might already be assigned
+				params['slug'] = utils.TextUtils.randomString(6)
 
 			Application.create(params, function(err, application){
 				if (err){
