@@ -3,7 +3,7 @@ var mongoose = require('mongoose')
 var ApplicationSchema = new mongoose.Schema({
 	post: {type:mongoose.Schema.Types.Mixed, default:{}},
 	from: {type:mongoose.Schema.Types.Mixed, default:{}},
-	slug: {type:String, trim:true, default:''},
+	slug: {type:String, trim:true, lowercase:true, default:''},
 	coverletter: {type:String, trim:true, default:''},
 	recipients: {type:Array, default:[]},
 	projects: {type:Array, default:[]},
