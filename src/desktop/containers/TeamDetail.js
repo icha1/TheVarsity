@@ -3,7 +3,7 @@ import Dropzone from 'react-dropzone'
 import { CreatePost, CreateProject, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar, Profiles, Chat, Modal, Explanation } from '../view'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import { TextUtils, APIManager, FirebaseManager } from '../../utils'
+import { TextUtils, APIManager, FirebaseManager, Alert } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
 
@@ -110,6 +110,22 @@ class TeamDetail extends Component {
 	inviteMember(event){
 		if (event)
 			event.preventDefault()
+
+		if (this.state.invitation.name.length == 0){
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please Enter a Name'
+			})
+			return
+		}
+
+		if (this.state.invitation.email.length == 0){
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please Enter an Email'
+			})
+			return
+		}
 
 		let updated = Object.assign({}, this.state.invitation)
 		updated['from'] = {
