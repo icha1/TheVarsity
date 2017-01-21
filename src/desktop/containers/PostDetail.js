@@ -165,14 +165,14 @@ class PostDetail extends Component {
 		const post = this.props.posts[this.props.slug]
 		application['post'] = {
 			id: post.id,
-			title: post.title
+			title: post.title,
+			author: post.author.id
 		}
 
 		application['recipients'] = post.contact
 
-		APIManager.handlePost('/api/application', application)
+		this.props.applyToJob(application)
 		.then(response => {
-//			console.log('Application Submitted: '+JSON.stringify(application))
 			this.setState({selected: 'Post'})
 			Alert.showConfirmation({
 				title: 'Application Submitted',
@@ -475,7 +475,8 @@ const dispatchToProps = (dispatch) => {
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		fetchTeam: (id) => dispatch(actions.fetchTeam(id)),
 		fetchComments: (params) => dispatch(actions.fetchComments(params)),
-		createComment: (comment) => dispatch(actions.createComment(comment))
+		createComment: (comment) => dispatch(actions.createComment(comment)),
+		applyToJob: (application) => dispatch(actions.applyToJob(application))
 	}
 
 }

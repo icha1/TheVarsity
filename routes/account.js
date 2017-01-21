@@ -24,7 +24,7 @@ router.get('/:action', function(req, res, next){
 		var path = 'public/email/templates/newsletter/newsletter.html'
 		fetchFile(path)
 		.then(function(data){
-			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dan.kwon234@gmail.com', 'Test Invite', data)
+				utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
 		})
 		.then(function(response){
 			res.json({
@@ -44,7 +44,7 @@ router.get('/:action', function(req, res, next){
 	}
 
 	if (action == 'unsubscribe'){
-		utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'Unsubscribe', req.query.email+' Unsubscribed from The Varsity.')
+				utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
 		.then(function(response){
 			res.send('You have been unsubscribed.')
 		})
@@ -115,7 +115,7 @@ router.post('/:action', function(req, res, next){
 			p = profile
 			token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
 			req.session.token = token
-
+				utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
 			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, profile.email, 'The Varsity', 'Welcome to the Varsity')
 		})
 		.then(function(response){
@@ -220,12 +220,53 @@ router.post('/:action', function(req, res, next){
 				html = html.replace('{{invitation}}', invitation.id)
 			}
 			
-			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, invitation.email, 'Invitation: '+invitation.team.name+' on The Varsity ', html)
+				utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
 		})
 		.then(function(response){
 			res.json({
 				confirmation: 'success',
 				result: response
+			})
+		})
+		.catch(function(err){
+			var msg = err.errmsg || err.message || err
+			res.json({
+				confirmation: 'fail',
+				message: msg
+			})
+		})
+	}
+
+	if (action == 'application'){ // applying to job
+		var recipients = null
+		var application = null
+
+		controllers.application
+		.post(req.body)
+		.then(function(result){
+			application = result
+			recipients = application.recipients
+
+			return controllers.profile.getById(application.post.author)
+		})
+		.then(function(author){
+			recipients.push(author.email)
+			recipients.push('dkwon@velocity360.io') // send copy to yourself
+			// console.log('RECIPIENTS: '+JSON.stringify(recipients))
+
+			var path = 'public/email/templates/application/application.html'
+			return fetchFile(path)
+		})
+		.then(function(data){
+			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'Application: '+application.post.title, data)
+
+			// application.recipients.forEach(function(email, i){
+			// 	utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: Job Application', 'TEST')
+			// })
+
+			res.json({
+				confirmation: 'success',
+				result: application
 			})
 		})
 		.catch(function(err){
@@ -288,7 +329,7 @@ router.post('/:action', function(req, res, next){
 			profile.markModified('teams')
 
 			var content = profile.email+' just signed up for the Varsity.'
-			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
+				utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
 
 			var token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
 			req.session.token = token

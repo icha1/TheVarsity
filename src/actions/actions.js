@@ -98,6 +98,12 @@ export default {
 		}
 	},
 
+	applyToJob: (application) => {
+		return dispatch => {
+			return dispatch(postData('/account/application', application, null, 'application'))
+		}
+	},
+
 	savePost: (post, profile) => {
 		return dispatch => {
 			APIManager.handleGet('/api/post/'+post.id, null)
