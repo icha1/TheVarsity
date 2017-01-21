@@ -58,100 +58,85 @@ class ApplicationDetail extends Component {
 		let content = null
 		if (selected == 'Application'){
 			content = (
-				<div style={localStyle.application} className="hidden-xs">
-					<a target="_blank" href={'/post/'+application.post.slug} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>View Post</a>
-					<h2 style={localStyle.title}>Application: {application.post.title}</h2>
+				<div>
+					<p className="lead" style={localStyle.paragraph} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(application.coverletter)}}></p>
 					<hr />
+					<h3 style={styles.title}>Projects</h3> 
+					{ application.projects.map((project, i) => {
+							return (
+								<a key={i} target="_blank" href={'/project/'+project.slug}>
+									<img style={localStyle.image} src={project.image+'=s120-c'} />
+								</a>
+							)
+						})
+					}
 
-					<h3 style={localStyle.title}>Coverletter</h3>
-					<div style={styles.paragraph}>{application.coverletter}</div>
-
-					<div className="content-wrap clearfix" style={{paddingTop:0, paddingBottom:0, marginTop:36}}>
-						<div className="col_half" style={{marginBottom:0}}>
-							<h3 style={localStyle.title}>Projects</h3>
-							{ (application.projects==null) ? null : application.projects.map((project, i) => {
-									return (
-										<div key={project.id} className="clearfix">
-											<a target="_blank" href={'/post/'+project.slug}>
-												<img style={localStyle.image} src={(project.image.indexOf('googleusercontent') == -1) ? project.image : project.image +'=s120-c'} />
-											</a>
-											<br />
-											<a target="_blank" href={'/post/'+project.slug}>
-												{project.title}
-											</a>
-											<br />
-											<a target="#">View</a>
-										</div>
-									)
-								}) 
-							}
-						</div>
-
-						<div className="col_half col_last" style={{marginBottom:0}}>
-							<h3 style={localStyle.title}>Resume</h3>
-						</div>
-					</div>
+					<br /><br />
+					<h3 style={styles.title}>Resume</h3>
 				</div>
 			)
 		}
 
 		return (
-				<div className="clearfix hidden-xs">
-					<header id="header" className="no-sticky" style={{background:'#f9f9f9', paddingTop:96}}>
-			            <div id="header-wrap">
-							<div className="container clearfix">
-								{ (applicant == null) ? null : 
-									<div>
-										<img style={localStyle.profileImage} src={applicant.image+'=s140'} />
-										<h2 style={ style.title }>
-											<Link to={'/profile/'+applicant.slug}>{ applicant.username }</Link>
-										</h2>
-										<span style={styles.paragraph}>{ applicant.title }</span><br />
-										<br />
-										<Link to={'/profile/'+applicant.slug}  href="#" className={localStyle.btnBlue.className} style={{marginLeft:0}}>View Profile</Link>
-									</div>
-								}
-
-								<hr />
-								<nav>
-									<ul style={{listStyleType:'none'}}>
-										{ this.state.menuItems.map((item, i) => {
-												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
-												return (
-													<li style={{marginTop:0}} key={item}>
-														<div style={itemStyle}>
-															<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
-														</div>
-													</li>
-												)
-											})
-										}
-									</ul>
-								</nav>
-				            </div>
-			            </div>
-					</header>
-
-					<section id="content" style={{background:'#fff', minHeight:800}}>
-						<div className="content-wrap container clearfix">
-							<div className="col_two_third">
-
-								<div className="feature-box center media-box fbox-bg">
-									<div style={styles.main}>
-										{ content }
-
-									</div>
+			<div className="clearfix hidden-xs">
+				<header id="header" className="no-sticky" style={{background:'#f9f9f9', paddingTop:96}}>
+		            <div id="header-wrap">
+						<div className="container clearfix">
+							{ (applicant == null) ? null : 
+								<div>
+									<img style={localStyle.profileImage} src={applicant.image+'=s140'} />
+									<h2 style={ style.title }>
+										<Link to={'/profile/'+applicant.slug}>{ applicant.username }</Link>
+									</h2>
+									<span style={styles.paragraph}>{ applicant.title }</span><br />
+									<br />
+									<Link to={'/profile/'+applicant.slug}  href="#" className={localStyle.btnBlue.className} style={{marginLeft:0}}>View Profile</Link>
 								</div>
+							}
 
+							<hr />
+							<nav>
+								<ul style={{listStyleType:'none'}}>
+									{ this.state.menuItems.map((item, i) => {
+											const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
+											return (
+												<li style={{marginTop:0}} key={item}>
+													<div style={itemStyle}>
+														<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+													</div>
+												</li>
+											)
+										})
+									}
+								</ul>
+							</nav>
+			            </div>
+		            </div>
+				</header>
+
+				<section id="content" style={{background:'#fff', minHeight:800}}>
+					<div className="content-wrap container clearfix">
+						<div className="col_two_third">
+
+							<div className="feature-box center media-box fbox-bg">
+								<div style={styles.main}>
+									<a target="_blank" href={'/post/'+application.post.slug} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>View Post</a>
+									<h2 style={localStyle.title}>Application: {application.post.title}</h2>
+									<hr />
+
+									{ content }
+								</div>
 							</div>
 
-							<div className="col_one_third col_last">
-
-							</div>
 						</div>
-					</section>					
 
-				</div>
+						<div className="col_one_third col_last">
+
+						</div>
+					</div>
+				</section>
+
+			</div>
 		)
 	}
 }
@@ -200,14 +185,20 @@ const localStyle = {
 		fontWeight: 100
 	},
 	image: {
-		padding: 3,
-		background: '#fff',
-		border: '1px solid #ddd',
-		width: 72,
-		marginRight: 12,
 		marginTop: 12,
-		float: 'left'
+		marginRight: 12,
+		background: '#fff',
+		padding: 3,
+		border: '1px solid #ddd'
 	},
+	paragraph: {
+		textAlign:'left',
+		marginTop:24,
+		minHeight:300,
+		fontSize:16,
+		color:'#555',
+		marginBottom:12
+	}
 }
 
 const stateToProps = (state) => {
