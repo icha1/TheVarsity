@@ -55,6 +55,46 @@ class ApplicationDetail extends Component {
 		const applicant = this.props.profiles[application.from.slug]
 		const selected = this.state.selected
 
+		let content = null
+		if (selected == 'Application'){
+			content = (
+				<div style={localStyle.application} className="hidden-xs">
+					<a target="_blank" href={'/post/'+application.post.slug} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>View Post</a>
+					<h2 style={localStyle.title}>Application: {application.post.title}</h2>
+					<hr />
+
+					<h3 style={localStyle.title}>Coverletter</h3>
+					<div style={styles.paragraph}>{application.coverletter}</div>
+
+					<div className="content-wrap clearfix" style={{paddingTop:0, paddingBottom:0, marginTop:36}}>
+						<div className="col_half" style={{marginBottom:0}}>
+							<h3 style={localStyle.title}>Projects</h3>
+							{ (application.projects==null) ? null : application.projects.map((project, i) => {
+									return (
+										<div key={project.id} className="clearfix">
+											<a target="_blank" href={'/post/'+project.slug}>
+												<img style={localStyle.image} src={(project.image.indexOf('googleusercontent') == -1) ? project.image : project.image +'=s120-c'} />
+											</a>
+											<br />
+											<a target="_blank" href={'/post/'+project.slug}>
+												{project.title}
+											</a>
+											<br />
+											<a target="#">View</a>
+										</div>
+									)
+								}) 
+							}
+						</div>
+
+						<div className="col_half col_last" style={{marginBottom:0}}>
+							<h3 style={localStyle.title}>Resume</h3>
+						</div>
+					</div>
+				</div>
+			)
+		}
+
 		return (
 				<div className="clearfix hidden-xs">
 					<header id="header" className="no-sticky" style={{background:'#f9f9f9', paddingTop:96}}>
@@ -89,9 +129,27 @@ class ApplicationDetail extends Component {
 									</ul>
 								</nav>
 				            </div>
-
 			            </div>
 					</header>
+
+					<section id="content" style={{background:'#fff', minHeight:800}}>
+						<div className="content-wrap container clearfix">
+							<div className="col_two_third">
+
+								<div className="feature-box center media-box fbox-bg">
+									<div style={styles.main}>
+										{ content }
+
+									</div>
+								</div>
+
+							</div>
+
+							<div className="col_one_third col_last">
+
+							</div>
+						</div>
+					</section>					
 
 				</div>
 		)
@@ -99,7 +157,25 @@ class ApplicationDetail extends Component {
 }
 
 const localStyle = {
+	application: {
+		fontWeight:100,
+		border:'1px solid #ddd',
+		padding:24,
+		fontSize:16,
+		textAlign: 'left'
+	},
+	title: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100
+	},
 	btnBlue: {
+		className: 'button button-mini button-border button-border-thin button-blue'
+	},
+	btnSmall: {
+		float: 'right',
+		marginTop: 0,
+		marginRight: 0,
 		className: 'button button-mini button-border button-border-thin button-blue'
 	},
 	profileImage: {
@@ -122,7 +198,16 @@ const localStyle = {
 		borderLeft: '3px solid #ddd',
 		fontSize: 16,
 		fontWeight: 100
-	}
+	},
+	image: {
+		padding: 3,
+		background: '#fff',
+		border: '1px solid #ddd',
+		width: 72,
+		marginRight: 12,
+		marginTop: 12,
+		float: 'left'
+	},
 }
 
 const stateToProps = (state) => {

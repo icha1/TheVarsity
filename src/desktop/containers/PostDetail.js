@@ -166,7 +166,8 @@ class PostDetail extends Component {
 		application['post'] = {
 			id: post.id,
 			title: post.title,
-			author: post.author.id
+			author: post.author.id,
+			slug: post.slug
 		}
 
 		application['recipients'] = post.contact

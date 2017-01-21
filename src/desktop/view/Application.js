@@ -44,6 +44,7 @@ class Application extends Component {
 				projectsArray.push({
 					id: project.id,
 					title: project.title,
+					slug: project.slug,
 					text: project.text,
 					image: project.image,
 					images: project.images
@@ -89,6 +90,7 @@ class Application extends Component {
 										<a target="_blank" href={'/post/'+project.slug}>
 											<img style={localStyle.image} src={(project.image.indexOf('googleusercontent') == -1) ? project.image : project.image +'=s120-c'} />
 										</a>
+										<br />
 										<a target="_blank" href={'/post/'+project.slug}>
 											{project.title}
 										</a>
@@ -170,7 +172,7 @@ const localStyle = {
 		border: '1px solid #ddd',
 		width: 72,
 		marginRight: 12,
-		marginBottom: 12,
+		marginTop: 12,
 		float: 'left'
 	},
 	additionalImage: {

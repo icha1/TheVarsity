@@ -258,7 +258,8 @@ router.post('/:action', function(req, res, next){
 			return fetchFile(path)
 		})
 		.then(function(data){
-			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'Application: '+application.post.title, data)
+			var html = data.replace('{{slug}}', application.slug)
+			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'Application: '+application.post.title, html)
 
 			// application.recipients.forEach(function(email, i){
 			// 	utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: Job Application', 'TEST')
