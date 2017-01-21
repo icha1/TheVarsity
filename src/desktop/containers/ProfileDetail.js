@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import actions from '../../actions/actions'
 import { APIManager, FirebaseManager, TextUtils } from '../../utils'
 import { PostFeed, TeamFeed, Comment, CreateComment, EditProfile } from '../view'
@@ -79,13 +80,6 @@ class ProfileDetail extends Component {
 			showEdit: false,
 			selected: (event.target.id == 'select') ? event.target.value : item
 		})
-
-		// event.preventDefault()
-		// window.scrollTo(0, 0)
-		// this.setState({
-		// 	selected: item,
-		// 	showEdit: false
-		// })
 	}
 
 	submitComment(comment){
@@ -243,17 +237,36 @@ class ProfileDetail extends Component {
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
-					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
+					<header id="header" className="no-sticky" style={{background:'#f9f9f9', paddingTop:96}}>
 			            <div id="header-wrap">
 							<div className="container clearfix">
-								<div style={{paddingTop:96}}>
-									{ image }
-									<h2 style={style.title}>{ username }</h2>
-									<hr />
-									<nav id="primary-menu">
-										<ul>{sideMenu}</ul>
-									</nav>
-								</div>
+								{ (profile == null) ? null : 
+									<div>
+										<img style={localStyle.profileImage} src={profile.image+'=s140'} />
+										<h2 style={ styles.team.title }>
+											<Link to={'/profile/'+profile.slug}>{ profile.username }</Link>
+										</h2>
+										<span style={styles.paragraph}>{ profile.title }</span><br />
+										<span style={styles.paragraph}>{ profile.location.city }</span><br />
+									</div>
+								}
+
+								<hr />
+								<nav>
+									<ul style={{listStyleType:'none'}}>
+										{ this.state.menuItems.map((item, i) => {
+												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
+												return (
+													<li style={{marginTop:0}} key={item}>
+														<div style={itemStyle}>
+															<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+														</div>
+													</li>
+												)
+											})
+										}
+									</ul>
+								</nav>
 				            </div>
 			            </div>
 					</header>
@@ -309,6 +322,12 @@ class ProfileDetail extends Component {
 }
 
 const localStyle = {
+	profileImage: {
+		padding:3,
+		border:'1px solid #ddd',
+		background:'#fff',
+		marginTop:6
+	},
 	input: {
 		color:'#333',
 		background: '#f9f9f9',
@@ -333,6 +352,21 @@ const localStyle = {
 		fontFamily: 'Pathway Gothic One',
 		border: 'none'
 	},
+	selected: {
+		padding: '6px 6px 6px 16px',
+		background: '#fff',
+		borderRadius: 2,
+		borderLeft: '3px solid rgb(91, 192, 222)',
+		fontSize: 16,
+		fontWeight: 400
+	},
+	menuItem: {
+		padding: '6px 6px 6px 16px',
+		background: '#f9f9f9',
+		borderLeft: '3px solid #ddd',
+		fontSize: 16,
+		fontWeight: 100
+	},	
 	btnBlue: {
 		backgroundColor:'rgb(91, 192, 222)'
 	}
