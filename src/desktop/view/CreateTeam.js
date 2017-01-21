@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Loading from 'react-loading' // http://cezarywojtkowski.com/react-loading/
 import Dropzone from 'react-dropzone'
-import { APIManager, DateUtils } from '../../utils'
+import { APIManager, DateUtils, Alert } from '../../utils'
 import styles from './styles'
 
 class CreateTeam extends Component {
@@ -51,13 +51,16 @@ class CreateTeam extends Component {
 	submitTeam(event){
 		event.preventDefault()
 		let updated = Object.assign({}, this.state.team)
+		let message = {title: 'Oops'}
 		if (updated.name.length == 0){
-			alert('Please enter a team name.')
+			message['text'] = 'Please enter a team name.'
+			Alert.showAlert(message)
 			return
 		}
 
 		if (updated.name.description == 0){
-			alert('Please enter a team description.')
+			message['text'] = 'Please enter a team description.'
+			Alert.showAlert(message)
 			return
 		}
 

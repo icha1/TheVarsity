@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
+import { Link } from 'react-router'
 import { EditProfile, TeamFeed, CreateTeam, PostFeed, Map } from '../view'
 import { connect } from 'react-redux'
-import { TextUtils } from '../../utils'
+import { TextUtils, Alert } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
 
@@ -85,19 +86,6 @@ class Account extends Component {
 		})
 	}
 
-	// unsavePost(post){
-	// 	const user = this.props.user
-	// 	if (user == null){
-	// 		alert('Please register or log in.')
-	// 		return
-	// 	}
-
-	// 	if (post.saved.indexOf(user.id) == -1)
-	// 		return		
-
-	// 	this.props.unsavePost(post, user)
-	// }
-
 	deletePost(post){
 		console.log('Delete Post: '+post.title)
 		const user = this.props.user
@@ -112,7 +100,10 @@ class Account extends Component {
 	createTeam(team){
 		const user =  this.props.user
 		if (user == null){
-			alert('Please log in or register to create a team.')
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please log in or register to create a team.'
+			})
 			return
 		}
 
@@ -192,13 +183,6 @@ class Account extends Component {
 			return
 
 		const selected = this.state.selected
-		// if (selected == 'Saved'){ // these are posts that the profile saved
-		// 	if (this.props.posts[user.id])
-		// 		return
-
-		// 	this.props.fetchSavedPosts(user)
-		// }		
-
 		if (selected == 'Teams'){
 			if (this.props.teams[user.id])
 				return
@@ -280,20 +264,28 @@ class Account extends Component {
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
-					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
+					<header id="header" className="no-sticky" style={{background:'#f9f9f9', paddingTop:96}}>
 			            <div id="header-wrap">
-
 							<div className="container clearfix">
-								<div className="hidden-xs" style={{paddingTop:96}}></div>
-								{ image }
-								<h2 style={styles.team.title}>{ username }</h2>
+								{ (user == null) ? null : 
+									<div>
+										<img style={localStyle.profileImage} src={user.image+'=s140'} />
+										<h2 style={ styles.team.title }>
+											<Link to={'/profile/'+user.slug}>{ user.username }</Link>
+										</h2>
+										<span style={styles.paragraph}>{ user.title }</span><br />
+										<span style={styles.paragraph}>{ user.location.city }</span><br />
+									</div>
+								}
+
 								<hr />
-								<nav id="primary-menu">
-									<ul>
+								<nav>
+									<ul style={{listStyleType:'none'}}>
 										{ this.state.menuItems.map((item, i) => {
+												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
 												return (
-													<li key={i}>
-														<div style={(item == this.state.selected) ? style.selected : style.menuItem}>
+													<li style={{marginTop:0}} key={item}>
+														<div style={itemStyle}>
 															<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
 														</div>
 													</li>
@@ -302,8 +294,7 @@ class Account extends Component {
 										}
 									</ul>
 								</nav>
-				            </div>			            
-			            	
+				            </div>
 			            </div>
 					</header>
 
@@ -373,6 +364,12 @@ class Account extends Component {
 }
 
 const localStyle = {
+	profileImage: {
+		padding:3,
+		border:'1px solid #ddd',
+		background:'#fff',
+		marginTop:6
+	},
 	input: {
 		color:'#333',
 		background: '#f9f9f9',
@@ -397,6 +394,21 @@ const localStyle = {
 		fontFamily: 'Pathway Gothic One',
 		border: 'none'
 	},
+	selected: {
+		padding: '6px 6px 6px 16px',
+		background: '#fff',
+		borderRadius: 2,
+		borderLeft: '3px solid rgb(91, 192, 222)',
+		fontSize: 16,
+		fontWeight: 400
+	},
+	menuItem: {
+		padding: '6px 6px 6px 16px',
+		background: '#f9f9f9',
+		borderLeft: '3px solid #ddd',
+		fontSize: 16,
+		fontWeight: 100
+	},	
 	btnBlue: {
 		backgroundColor:'rgb(91, 192, 222)'
 	}
