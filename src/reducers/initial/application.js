@@ -13,7 +13,8 @@ export default {
 		}
 
 		applications.forEach(function(application, i){
-			initial[post.id] = applications
+			initial[application.slug] = application
+			initial[application.id] = application
 		})
 
 		return initial

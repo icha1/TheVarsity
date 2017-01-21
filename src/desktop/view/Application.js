@@ -33,7 +33,8 @@ class Application extends Component {
 		let updated = Object.assign({}, this.state.application)
 		updated['from'] = {
 			id: user.id,
-			username: user.username
+			username: user.username,
+			slug: user.slug
 		}
 
 		let projectsArray = []

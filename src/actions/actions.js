@@ -193,6 +193,11 @@ export default {
 		}
 	},
 
+	fetchApplications: (params) => {
+		return dispatch => {
+			return dispatch(getData('/api/application', params, constants.APPLICATIONS_RECEIVED, 'applications'))
+		}
+	},
 
 	fetchDistrict: (params) => {
 		return dispatch => {

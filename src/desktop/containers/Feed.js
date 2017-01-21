@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { APIManager, DateUtils, TextUtils } from '../../utils'
 import { Sidebar, PostFeed, CreatePost, CreateTeam, TeamFeed, Comment, CreateComment } from '../view'
-import constants from '../../constants/constants'
 import actions from '../../actions/actions'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -45,7 +44,6 @@ class Feed extends Component {
 			
 			return
 		}
-
 	}
 
 	componentDidUpdate(){
@@ -95,41 +93,37 @@ class Feed extends Component {
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
-					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
+					<header id="header" className="no-sticky" style={{background:'#f9f9f9', paddingTop:96}}>
 			            <div id="header-wrap">
 							<div className="container clearfix">
-								<div style={{paddingTop:96}}>
-									{ (user == null) ? null : 
-										<div>
-											<img style={localStyle.profileImage} src={user.image+'=s140'} />
-											<h2 style={ style.title }>
-												<Link to={'/profile/'+user.slug}>{ user.username }</Link>
-											</h2>
-											<span style={styles.paragraph}>{ user.title }</span><br />
-											<br />
-											<Link to="/account"  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>Account</Link>
-										</div>
-									}
+								{ (user == null) ? null : 
+									<div>
+										<img style={localStyle.profileImage} src={user.image+'=s140'} />
+										<h2 style={ style.title }>
+											<Link to={'/profile/'+user.slug}>{ user.username }</Link>
+										</h2>
+										<span style={styles.paragraph}>{ user.title }</span><br />
+										<br />
+										<Link to="/account"  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>Account</Link>
+									</div>
+								}
 
-									<hr />
-									<nav>
-										<ul style={{listStyleType:'none'}}>
-											{ this.state.menuItems.map((item, i) => {
-													const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
-													return (
-														<li style={{marginTop:0}} key={item}>
-															<div style={itemStyle}>
-																<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
-															</div>
-														</li>
-													)
-												})
-											}
-										</ul>
-									</nav>
-
-
-								</div>
+								<hr />
+								<nav>
+									<ul style={{listStyleType:'none'}}>
+										{ this.state.menuItems.map((item, i) => {
+												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
+												return (
+													<li style={{marginTop:0}} key={item}>
+														<div style={itemStyle}>
+															<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+														</div>
+													</li>
+												)
+											})
+										}
+									</ul>
+								</nav>
 				            </div>
 
 			            </div>
@@ -140,7 +134,6 @@ class Feed extends Component {
 							<div className="col_two_third">
 								<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
 									{ content }
-
 								</div>
 							</div>
 
@@ -271,11 +264,11 @@ const stateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const dispatchToProps = (dispatch) => {
 	return {
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params))
 	}
 }
 
-export default connect(stateToProps, mapDispatchToProps)(Feed)
+export default connect(stateToProps, dispatchToProps)(Feed)
