@@ -105,12 +105,53 @@ export default {
 	              	return
 	        	}
 
-		      	var image = resp.body.image
-				completion(null, image)
+			    if (resp.body.confirmation != 'success'){
+					completion(new Error(resp.body.message), null)
+					return
+			    }
+
+		      	var result = resp.body.image || resp.body.pdf
+				completion(null, result)
 	        })
 		})
 	},
 
+
+	uploadPDF: (file, completion) => {
+		superagent
+		.get('https://media-service.appspot.com/api/upload')
+		.query({media:'pdf'})
+		.set('Accept', 'application/json')
+		.end((err, res) => {
+			if (err){ 
+				completion(err, null)
+				return
+			}
+
+			if (res.body.confirmation != 'success'){
+	    		completion({message:res.body.message}, null)
+	    		return
+			}
+
+	        var uploadRequest = superagent.post(res.body.upload)
+	        uploadRequest.attach('file', file)
+	        uploadRequest.end((err, resp) => {
+	        	if (err){
+			      	console.log('UPLOAD ERROR: '+JSON.stringify(err))
+					completion(err, null)
+	              	return
+	        	}
+
+			    if (resp.body.confirmation != 'success'){
+					completion(new Error(resp.body.message), null)
+					return
+			    }
+
+		      	var result = resp.body.image || resp.body.pdf
+				completion(null, result)
+	        })
+		})
+	},
 	submitStripeToken: (token, completion) => {
 		var body = {
 			stripeToken: token.id,

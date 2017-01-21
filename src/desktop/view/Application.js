@@ -2,20 +2,21 @@ import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import Loading from 'react-loading' // http://cezarywojtkowski.com/react-loading/
 import { Link } from 'react-router'
-import { DateUtils, Alert } from '../../utils'
+import { DateUtils, Alert, APIManager } from '../../utils'
 import styles from './styles'
 
 class Application extends Component {
 	constructor(){
 		super()
 		this.state = {
+			showLoader: false,
 			application: {
 				projects: {},
-				coverletter: ''
+				coverletter: '',
+				attachments: []
 			}
 		}
 	}
-
 
 	updateApplication(field, event){
 		event.preventDefault()
@@ -71,6 +72,36 @@ class Application extends Component {
 		})
 	}
 
+	uploadResume(files){
+		this.setState({showLoader: true})
+		APIManager.uploadPDF(files[0], (err, result) => {
+			this.setState({showLoader: false})
+			if (err){
+				alert(err)
+				return
+			}
+
+			//url pattern: https://media-service.appspot.com/site/pdf/bUpSgJOc
+			let application = Object.assign({}, this.state.application)
+			let attachments = Object.assign([], application.attachments)
+			attachments.push('https://media-service.appspot.com/site/pdf/'+result.id)
+			application['attachments'] = attachments
+
+			this.setState({
+				application: application
+			})
+		})
+	}
+
+	removeResume(event){
+		event.preventDefault()
+		let application = Object.assign({}, this.state.application)
+		application['attachments'] = []
+		this.setState({
+			application: application
+		})
+	}
+
 	render(){
 		const post = this.state.post
 		const user = this.props.user // shouldn't be null
@@ -95,7 +126,7 @@ class Application extends Component {
 											{project.title}
 										</a>
 										<br />
-										<a onClick={this.addRemoveProject.bind(this, project)} target="#">
+										<a onClick={this.addRemoveProject.bind(this, project)} href="#">
 											{ (this.state.application.projects[project.id]==null) ? <i style={{color:'green'}} className="icon-plus"></i> : <i style={{color:'red'}} className="icon-minus"></i> }
 										</a>
 									</div>
@@ -106,10 +137,27 @@ class Application extends Component {
 
 					<div className="col_half col_last" style={{marginBottom:0}}>
 						<h3 style={localStyle.title}>Include Resume</h3>
+						{ (this.state.application.attachments.length > 0) ? 
+							<div>
+								<a target="_blank" href={this.state.application.attachments[0]}>
+									<img style={{width:72, marginTop:12, marginRight:12, float:'left'}} src="/images/pdf.png" />
+								</a>
+								<br />
+								<span style={{fontWeight:100}}>Click to View</span>
+								<br />
+								<a onClick={this.removeResume.bind(this)} href="#">
+									<i style={{color:'red'}} className="icon-minus"></i>
+								</a>
+							</div>
+							: 
+							<Dropzone style={{border:'none'}} onDrop={this.uploadResume.bind(this)}>
+								<button className="button button-mini button-circle button-blue" style={{marginTop:12}}>Upload Resume (PDF)</button>
+							</Dropzone>
+						}
+
+						{ (this.state.showLoader) ? <Loading type='bars' color='#333' /> : null }
 					</div>
 				</div>
-
-
 
 				<div style={{textAlign:'right', marginTop:16}}>
 					<a href="#" onClick={this.submitApplication.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Submit Application</a>
