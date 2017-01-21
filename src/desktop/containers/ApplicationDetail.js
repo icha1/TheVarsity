@@ -64,8 +64,8 @@ class ApplicationDetail extends Component {
 					<h3 style={styles.title}>Projects</h3> 
 					{ application.projects.map((project, i) => {
 							return (
-								<a key={i} target="_blank" href={'/project/'+project.slug}>
-									<img style={localStyle.image} src={project.image+'=s120-c'} />
+								<a key={i} target="_blank" href={'/post/'+project.slug}>
+									<img style={localStyle.image} src={ (project.image.indexOf('googleusercontent') == -1) ? project.image : project.image+'=s120-c' } />
 								</a>
 							)
 						})

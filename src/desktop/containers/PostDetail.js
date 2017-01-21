@@ -240,8 +240,6 @@ class PostDetail extends Component {
 							)
 						})
 					}
-
-
 				</div>
 			)
 		}
