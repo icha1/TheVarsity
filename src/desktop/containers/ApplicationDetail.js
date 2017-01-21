@@ -114,7 +114,7 @@ class ApplicationDetail extends Component {
 		            </div>
 				</header>
 
-				<section id="content" style={{background:'#fff', minHeight:800}}>
+				<section id="content" style={{background:'#fff', minHeight:500}}>
 					<div className="content-wrap container clearfix">
 						<div className="col_two_third">
 
