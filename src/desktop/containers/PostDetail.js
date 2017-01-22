@@ -79,10 +79,10 @@ class PostDetail extends Component {
 
 	selectItem(item, event){
 		event.preventDefault()
-		window.scrollTo(0, 0)
 
 		const selected = (item.length == 0) ? event.target.value : item
 		console.log('selectItem: '+selected)
+
 		if (selected == 'Apply'){
 			if (this.props.user == null){ // have to be logged in
 				document.getElementById('request').scrollIntoView()
@@ -95,7 +95,7 @@ class PostDetail extends Component {
 			}
 		}
 
-
+		window.scrollTo(0, 0)
 		this.setState({
 			selected: selected
 		})
@@ -244,8 +244,8 @@ class PostDetail extends Component {
 						<p className="lead" style={{fontSize:16, color:'#555', marginBottom:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
 						{ (post.url.length == 0) ? null : <a target="_blank" style={{color:'red'}} href={post.url}>READ MORE</a> }
 					</div>
-					<hr />
-					{ (post.images.length==0) ? null : <h3 style={styles.title}>Additional Images</h3> } 
+					
+					{ (post.images.length==0) ? null : <div><hr /><h3 style={styles.title}>Additional Images</h3></div> } 
 					{ post.images.map((image, i) => {
 							return (
 								<a key={i} target="_blank" href={image}>
@@ -254,6 +254,9 @@ class PostDetail extends Component {
 							)
 						})
 					}
+
+					<hr />
+					<button onClick={this.selectItem.bind(this, 'Apply')} className="button button-mini button-border button-border-thin button-blue">Apply To This Job</button>
 				</div>
 			)
 		}
