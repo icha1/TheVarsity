@@ -369,7 +369,7 @@ class PostDetail extends Component {
 						<div style={{borderTop:'1px solid #ddd'}}>
 							<Section content="about" />
 							<Section content="advantage" />
-						    <Section content="request" />
+						    <Section team={team} content="request" />
 						</div>
 					}
 

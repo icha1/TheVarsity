@@ -28,6 +28,15 @@ class Section extends Component {
 	}
 
 	requestInvite(invitation){
+		const team = this.props.team
+		if (team){
+			invitation['team'] = {
+				image: team.image,
+				name: team.name,
+				id: team.id
+			}
+		}
+
 		return this.props.requestInvitation(invitation)
 	}
 
@@ -209,7 +218,7 @@ const localStyle = {
 
 const stateToProps = (state) => {
 	return {
-
+		teams: state.team
 	}
 }
 
