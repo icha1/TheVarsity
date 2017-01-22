@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { Redeem } from '../view'
 import { browserHistory } from 'react-router'
+import { Alert } from '../../utils'
 
 class Section extends Component {
 
@@ -19,11 +20,15 @@ class Section extends Component {
 			window.location.href = '/feed' // relocate to feed page
 		})
 		.catch((err) => {
-			console.log('ERROR -- ' + err)
+//			console.log('ERROR -- ' + err)
 			this.setState({
 				error: err
 			})
 		})
+	}
+
+	requestInvite(invitation){
+		return this.props.requestInvitation(invitation)
 	}
 
 	render(){
@@ -129,7 +134,27 @@ class Section extends Component {
 						</div>
 
 						<div className="col_half col_last">
-							<Redeem error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />
+							<Redeem mode={this.props.content} error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />
+						</div>
+					</div>
+				</section>
+			)
+		}
+		else if (this.props.content == 'request'){
+			content = (
+				<section style={localStyle.container}>
+					<div className="content-wrap container clearfix">
+		                <h2 style={localStyle.title}>Request Invitation</h2>
+						<div className="col_half" style={localStyle.paragraph}>
+							The Varsity is currently under beta testing in preparation for a February 2017 release. 
+							Join our beta and receive free, unlimited premium access when we launch.
+							<br /><br />
+							Premium members can collect fees on any group they create when hiring 
+							companies post opportunities to the bulletin board.
+						</div>
+
+						<div className="col_half col_last">
+							<Redeem mode={this.props.content} error={this.state.error} requestInvite={this.requestInvite.bind(this)} />
 						</div>
 					</div>
 				</section>
@@ -190,6 +215,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
+		requestInvitation: (invitation) => dispatch(actions.requestInvitation(invitation)),
 		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
 	}
 

@@ -13,7 +13,7 @@ export default (props) => {
 		    <div className="col-sm-6 col-md-6 hidden-xs">
 				<div className="thumbnail">
 				    <div className="caption">
-                        <img style={localStyle.icon} src={image} />
+						<img style={localStyle.icon} src={image} />
 		                <div className="heading-block fancy-title nobottomborder" style={localStyle.paragraph}>
 		                    <h4 style={styles.title}>
 								<Link style={{color:'#333'}} to={'/profile/'+profile.slug}>{ TextUtils.truncateText(profile.username, 13) }</Link>
@@ -23,7 +23,9 @@ export default (props) => {
 		                </div>
 						<hr />
 						<p style={{fontWeight:200, height:80, textAlign:'left'}}>
-							{ TextUtils.truncateText(profile.bio, 60) }
+							<Link to={'/profile/'+profile.slug}>
+								{ TextUtils.truncateText(profile.bio, 60) }
+							</Link>
 						</p>
 						<div style={{textAlign:'right'}}>
 							<Link to={'/profile/'+profile.slug} className="button button-small button-circle button-border button-aqua" role="button">View</Link>

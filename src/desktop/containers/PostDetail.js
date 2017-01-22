@@ -7,6 +7,7 @@ import { CreateComment, CreatePost, Comments, ProfilePreview, Application } from
 import { DateUtils, FirebaseManager, TextUtils, APIManager, Alert } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
+import Section from './Section'
 
 class PostDetail extends Component {
 	constructor(){
@@ -274,30 +275,32 @@ class PostDetail extends Component {
 
 		return (
 			<div>
-				<div className="si-sticky si-sticky-right visible-md visible-lg" style={{top:40+'%', width:330, background:'#fff'}}>
-					<div style={{width: 120, background:'#fff'}}>
-						<div className="clearfix" data-animate="bounceInRight" data-delay="100">
-							<div style={localStyle.iconContainer}>
-								<div style={{marginTop:6, fontWeight:100, fontSize:12, lineHeight:14+'px'}}>{post.votes.score}<br />Points</div>
+				{ (user == null) ? null : 
+					<div className="si-sticky si-sticky-right visible-md visible-lg" style={{top:40+'%', width:330, background:'#fff'}}>
+						<div style={{width: 120, background:'#fff'}}>
+							<div className="clearfix" data-animate="bounceInRight" data-delay="100">
+								<div style={localStyle.iconContainer}>
+									<div style={{marginTop:6, fontWeight:100, fontSize:12, lineHeight:14+'px'}}>{post.votes.score}<br />Points</div>
+								</div>
 							</div>
-						</div>
-						<div className="clearfix" data-animate="bounceInRight" data-delay="200">
-							<div style={localStyle.iconContainer}>
-								<i style={localStyle.icon} className="i-plain icon-thumbs-up2"></i>
+							<div className="clearfix" data-animate="bounceInRight" data-delay="200">
+								<div style={localStyle.iconContainer}>
+									<i style={localStyle.icon} className="i-plain icon-thumbs-up2"></i>
+								</div>
 							</div>
-						</div>
-						<div className="clearfix" data-animate="bounceInRight" data-delay="300">
-							<div style={localStyle.iconContainer}>
-								<i style={localStyle.icon} className="i-plain icon-thumbs-down2"></i>
+							<div className="clearfix" data-animate="bounceInRight" data-delay="300">
+								<div style={localStyle.iconContainer}>
+									<i style={localStyle.icon} className="i-plain icon-thumbs-down2"></i>
+								</div>
 							</div>
-						</div>
-						<div className="clearfix" data-animate="bounceInRight" data-delay="400">
-							<div style={localStyle.iconContainer}>
-								<div style={{marginTop:14, fontWeight:100, fontSize:12, lineHeight:14+'px'}}>Save</div>
+							<div className="clearfix" data-animate="bounceInRight" data-delay="400">
+								<div style={localStyle.iconContainer}>
+									<div style={{marginTop:14, fontWeight:100, fontSize:12, lineHeight:14+'px'}}>Save</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				}
 
 				<div className="clearfix hidden-xs">
 					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
@@ -361,6 +364,15 @@ class PostDetail extends Component {
 							</div>
 						</div>
 					</section>
+
+					{ (user) ? null : 
+						<div style={{borderTop:'1px solid #ddd'}}>
+							<Section content="about" />
+							<Section content="advantage" />
+						    <Section content="request" />
+						</div>
+					}
+
 				</div>
 
 				{ /* mobile UI */ }

@@ -513,6 +513,7 @@ class TeamDetail extends Component {
 							</div>
 						</div>
 					</section>
+
 				</div>
 
 				{ /* mobile UI */ }
