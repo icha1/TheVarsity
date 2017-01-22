@@ -65,6 +65,26 @@ class TeamInfo extends Component {
 		}
 
 		this.props.onSubmitInvitation(this.state.invitation)
+		.then(response => {
+//			console.log(JSON.stringify(response))
+			Alert.showConfirmation({
+				title: 'Request Sent!',
+				text: 'Thanks for your interest in The Varsity. Someone from '+response.result.team.name+' will reach out to you soon.'
+			})
+
+			this.setState({
+				invitation: {
+					name: '',
+					email: ''
+				}
+			})
+		})
+		.catch(err => {
+			Alert.showAlert({
+				title: 'Error',
+				text: err.message || err
+			})
+		})
 	}
 
 	updateDescription(event){
@@ -123,8 +143,8 @@ class TeamInfo extends Component {
 				<h3 style={localStyle.title}>{team.name}</h3>
 				<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span>
 				<br /><br />
-				<input id="name" onChange={this.updateInvitation.bind(this)} placeholder="Name" style={localStyle.input} type="text" />
-				<input id="email" onChange={this.updateInvitation.bind(this)} placeholder="Email" style={localStyle.input} type="text" />
+				<input id="name" value={this.state.invitation.name} onChange={this.updateInvitation.bind(this)} placeholder="Name" style={localStyle.input} type="text" />
+				<input id="email" value={this.state.invitation.email} onChange={this.updateInvitation.bind(this)} placeholder="Email" style={localStyle.input} type="text" />
 				<a href="#" onClick={this.submitInvitation.bind(this)} className={localStyle.btnBlue.className} style={{marginLeft:0}}>Request Invitation</a>
 
 				<hr />

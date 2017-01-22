@@ -205,7 +205,7 @@ router.post('/:action', function(req, res, next){
 		controllers.invitation.post(req.body)
 		.then(function(result){
 			invitation = result
-			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: Invitation Reqeusted', JSON.stringify(result))
+			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: Invitation Reqeust', JSON.stringify(result))
 		})
 		.then(function(result){
 			res.json({

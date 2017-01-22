@@ -174,20 +174,7 @@ class TeamDetail extends Component {
 		}
 
 		updated['code'] = TextUtils.randomString(6)
-
-		APIManager.handlePost('/account/requestinvite', updated)
-		.then(response => {
-			Alert.showConfirmation({
-				title: 'Request Sent!',
-				text: 'Thanks for your interest in The Varsity. Someone from '+team.name+' will reach out to you soon.'
-			})
-		})
-		.catch(err => {
-			Alert.showAlert({
-				title: 'Error',
-				text: err.message || err
-			})
-		})
+		return this.props.requestInvitation(updated)
 	}
 
 	keyPress(action, event){
@@ -602,6 +589,7 @@ const dispatchToProps = (dispatch) => {
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		fetchPostById: (id) => dispatch(actions.fetchPostById(id)),
 		updateTeam: (team, params) => dispatch(actions.updateTeam(team, params)),
+		requestInvitation: (params) => dispatch(actions.requestInvitation(params)),
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		createPost: (params) => dispatch(actions.createPost(params)),

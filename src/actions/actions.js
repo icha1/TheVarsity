@@ -160,6 +160,12 @@ export default {
 		}
 	},
 
+	requestInvitation: (params) => {
+		return dispatch => {
+			return dispatch(postData('/account/requestinvite', params, null, 'invitation'))
+		}
+	},
+
 	redeemInvitation: (invitation) => {
 		return dispatch => {
 			return dispatch(postData('/account/redeem', invitation, null, 'invitation'))
