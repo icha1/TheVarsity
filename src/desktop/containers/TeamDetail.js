@@ -183,7 +183,6 @@ class TeamDetail extends Component {
 			})
 		})
 		.catch(err => {
-//			console.log('ERROR: '+JSON.stringify(err))
 			Alert.showAlert({
 				title: 'Error',
 				text: err.message || err

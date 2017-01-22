@@ -17,10 +17,12 @@ export default (props) => {
 					</div>
 					<div className={styles.post.content.className} style={styles.post.content}>
 						<div className="col_two_third" style={{marginBottom:4}}>
-							<h2 style={styles.post.header}>
-								<Link to={'/team/'+team.slug} style={styles.post.title}>{ team.name }</Link>
-							</h2>
-							<p style={{marginTop:0}}>{ TextUtils.truncateText(team.description, 220) }</p>
+							<Link to={'/team/'+team.slug}>
+								<h2 style={localStyle.title}>
+									{ team.name }
+								</h2>
+								<p style={{marginTop:0}}>{ TextUtils.truncateText(team.description, 220) }</p>
+							</Link>
 						</div>
 						<div className="col_one_third col_last" style={{marginBottom:4, textAlign:'right'}}>
 							<img style={styles.image} src={team.image} />
@@ -70,6 +72,11 @@ const localStyle = {
 		fontWeight:400,
 		fontSize:12,
 		lineHeight:12+'px'
+	},
+	title: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		marginBottom: 0
 	},
 	detail: {
 		float:'right',
