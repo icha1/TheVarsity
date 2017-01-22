@@ -215,7 +215,9 @@ class Account extends Component {
 		}
 
 		let content = null
+		let cta = null
 		if (selected == 'Teams'){
+			cta = <button onClick={this.toggleCreateTeam.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateTeam) ? 'Cancel' : 'Create Team'}</button>
 			const teamList = (this.props.teams[user.id] == null) ? null : (
 				<div style={{textAlign:'left', marginTop:24}}>
 					<TeamFeed teams={this.props.teams[user.id]} user={user} />
@@ -251,6 +253,7 @@ class Account extends Component {
 			)
 		}
 		else if (selected == 'Posts'){
+			cta = <button style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">Submit Post</button>
 			const list = this.props.posts[user.id]
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
@@ -304,7 +307,7 @@ class Account extends Component {
 
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
-										{ (selected == 'Teams') ? <button onClick={this.toggleCreateTeam.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">{ (this.state.showCreateTeam) ? 'Cancel' : 'Create Team'}</button> : null }
+										{ cta }
 										<h2 style={styles.team.title}>{this.state.selected}</h2>
 										<hr />
 										{ content }
