@@ -255,8 +255,7 @@ class PostDetail extends Component {
 						})
 					}
 
-					<hr />
-					<button onClick={this.selectItem.bind(this, 'Apply')} className="button button-mini button-border button-border-thin button-blue">Apply To This Job</button>
+					{ (post.type == 'hiring') ? <div><hr /><button onClick={this.selectItem.bind(this, 'Apply')} className="button button-mini button-border button-border-thin button-blue">Apply To This Job</button></div> : null	}
 				</div>
 			)
 		}
