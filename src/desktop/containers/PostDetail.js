@@ -83,6 +83,19 @@ class PostDetail extends Component {
 
 		const selected = (item.length == 0) ? event.target.value : item
 		console.log('selectItem: '+selected)
+		if (selected == 'Apply'){
+			if (this.props.user == null){ // have to be logged in
+				document.getElementById('request').scrollIntoView()
+
+				Alert.showAlert({
+					title: 'Log In',
+					text: 'Please log in or sign up to apply to this post.'
+				})
+				return
+			}
+		}
+
+
 		this.setState({
 			selected: selected
 		})

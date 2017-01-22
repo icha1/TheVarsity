@@ -151,7 +151,7 @@ class Section extends Component {
 		}
 		else if (this.props.content == 'request'){
 			content = (
-				<section style={localStyle.container}>
+				<section id="request" style={localStyle.container}>
 					<div className="content-wrap container clearfix">
 		                <h2 style={localStyle.title}>Request Invitation</h2>
 						<div className="col_half" style={localStyle.paragraph}>
