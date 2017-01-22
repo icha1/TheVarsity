@@ -72,7 +72,16 @@ class ApplicationDetail extends Component {
 					}
 
 					<br /><br />
-					<h3 style={styles.title}>Resume</h3>
+					{ (application.attachments.length > 0) ? <h3 style={styles.title}>Resume</h3> : null }
+					{ application.attachments.map((attachment, i) => {
+							return (
+								<a key={i} target="_blank" href={attachment}>
+									<img style={{width:72, marginTop:12}} src="/images/pdf.png" />
+								</a>
+							)
+
+						})
+					}
 				</div>
 			)
 		}
