@@ -208,6 +208,16 @@ class Account extends Component {
 		if (prepared == null)
 			return
 		
+		// find and remove any email strings:
+		prepared['contact'] = TextUtils.findEmails(post.text)
+		if (prepared.contact.length > 0){
+			let text = prepared.text
+			prepared.contact.forEach((email, i) => {
+				text = text.replace(email, '')
+			})
+			prepared['text'] = text
+		}
+
 		this.props.createPost(prepared)
 		.then(response => {
 			browserHistory.push('/post/'+response.result.slug)

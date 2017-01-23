@@ -1,3 +1,8 @@
+const isValidEmail = (str) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(str)
+}
+
 export default {
 
 	truncateText: (str, limit) => {
@@ -45,6 +50,22 @@ export default {
 	validateEmail: (email) => {
 	    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 	    return re.test(email)
+	},
+
+	findEmails: (text) => {
+		const words = text.split(' ')
+		let emails = []
+		words.forEach((word, i) => {
+			let cleaned = word.replace(',', '')
+			cleaned = cleaned.trim()
+
+			if (isValidEmail(cleaned) == true){ // this is an email
+				emails.push(cleaned.toLowerCase())
+				// text = text.replace(word, '') // remove from text
+			}	
+		})
+
+		return emails
 	},
 
 	randomString: (limit) => {
