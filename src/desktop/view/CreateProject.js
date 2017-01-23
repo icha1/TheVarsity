@@ -13,6 +13,7 @@ class CreateProject extends Component {
 				url: '',
 				image: '',
 				images: [],
+				teams: {},
 				text: ''
 			}
 		}
@@ -74,7 +75,33 @@ class CreateProject extends Component {
 			return
 		}
 
-		this.props.onCreate(this.state.post)
+		const keys = Object.keys(this.state.post.teams)
+		if (keys.length == 0){
+			errorMsg['text'] = 'Please Add At Least One Team to Display Your Project.'
+			Alert.showAlert(errorMsg)
+			return			
+		}
+
+		let updated = Object.assign({}, this.state.post)
+		updated['teams'] = keys // just need array of team ID's
+
+
+		this.props.onCreate(updated)
+	}
+
+	addRemoveTeam(team, event){
+		event.preventDefault()
+		let post = Object.assign({}, this.state.post)
+		let teams = Object.assign({}, post.teams)
+		if (teams[team.id])
+			delete teams[team.id]
+		else 
+			teams[team.id] = team
+		
+		post['teams'] = teams
+		this.setState({
+			post: post
+		})
 	}
 
 	render(){
@@ -87,60 +114,89 @@ class CreateProject extends Component {
 				<input onChange={this.updatePost.bind(this, 'url')} style={localStyle.input} type="text" placeholder="URL (optional)" /><br />
 				<textarea onChange={this.updatePost.bind(this, 'text')} style={localStyle.textarea} placeholder="Description"></textarea>
 
-				<div className="col_one_third">
-					<h3 style={localStyle.title}>Primary Image</h3>
-					<Dropzone style={{border:'none', marginTop: 6}} onDrop={this.uploadImage.bind(this, 'main')}>
-						<img style={localStyle.image} src={ (post.image.length > 0) ? post.image+'=s220-c' : '/images/image-placeholder.png' } />
-						<br />
-						<span style={{fontWeight:100, fontSize:12, marginRight:6}}>Click to Change</span>
-					</Dropzone>
-				</div>
-
-				<div className="col_two_third col_last">
-					<h3 style={localStyle.title}>Additional Images (optional)</h3>
-					<div style={localStyle.imageContainer}>
-
-						<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
-							<img style={localStyle.additionalImage} src={ (post.images.length < 1) ? '/images/image-placeholder.png' : post.images[0]+'=s120-c' } />
+				<div className="container clearfix" style={{padding:0, margin:0}}>
+					<div className="col_one_third" style={{marginBottom:0}}>
+						<h3 style={localStyle.title}>Primary Image</h3>
+						<Dropzone style={{border:'none', marginTop: 6}} onDrop={this.uploadImage.bind(this, 'main')}>
+							<img style={localStyle.image} src={ (post.image.length > 0) ? post.image+'=s220-c' : '/images/image-placeholder.png' } />
+							<br />
+							<span style={{fontWeight:100, fontSize:12, marginRight:6}}>Click to Change</span>
 						</Dropzone>
+					</div>
 
-						<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
-							<img style={localStyle.additionalImage} src={ (post.images.length < 2) ? '/images/image-placeholder.png' : post.images[1]+'=s120-c' } />
-						</Dropzone>
+					<div className="col_two_third col_last" style={{marginBottom:0}}>
+						<h3 style={localStyle.title}>Additional Images (optional)</h3>
+						<div style={localStyle.imageContainer}>
 
-						<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
-							<img style={localStyle.additionalImage} src={ (post.images.length < 3) ? '/images/image-placeholder.png' : post.images[2]+'=s120-c' } />
-						</Dropzone>
+							<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
+								<img style={localStyle.additionalImage} src={ (post.images.length < 1) ? '/images/image-placeholder.png' : post.images[0]+'=s120-c' } />
+							</Dropzone>
 
-						<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
-							<img style={localStyle.additionalImage} src={ (post.images.length < 4) ? '/images/image-placeholder.png' : post.images[3]+'=s120-c' } />
-						</Dropzone>
+							<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
+								<img style={localStyle.additionalImage} src={ (post.images.length < 2) ? '/images/image-placeholder.png' : post.images[1]+'=s120-c' } />
+							</Dropzone>
 
-						<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
-							<img style={localStyle.additionalImage} src={ (post.images.length < 5) ? '/images/image-placeholder.png' : post.images[4]+'=s120-c' } />
-						</Dropzone>
+							<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
+								<img style={localStyle.additionalImage} src={ (post.images.length < 3) ? '/images/image-placeholder.png' : post.images[2]+'=s120-c' } />
+							</Dropzone>
 
-						<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
-							<img style={localStyle.additionalImage} src={ (post.images.length < 6) ? '/images/image-placeholder.png' : post.images[5]+'=s120-c' } />
-						</Dropzone>
+							<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
+								<img style={localStyle.additionalImage} src={ (post.images.length < 4) ? '/images/image-placeholder.png' : post.images[3]+'=s120-c' } />
+							</Dropzone>
 
-						<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
-							<img style={localStyle.additionalImage} src={ (post.images.length < 7) ? '/images/image-placeholder.png' : post.images[6]+'=s120-c' } />
-						</Dropzone>
-						
-						<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
-							<img style={localStyle.additionalImage} src={ (post.images.length < 8) ? '/images/image-placeholder.png' : post.images[7]+'=s120-c' } />
-						</Dropzone>
+							<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
+								<img style={localStyle.additionalImage} src={ (post.images.length < 5) ? '/images/image-placeholder.png' : post.images[4]+'=s120-c' } />
+							</Dropzone>
 
+							<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
+								<img style={localStyle.additionalImage} src={ (post.images.length < 6) ? '/images/image-placeholder.png' : post.images[5]+'=s120-c' } />
+							</Dropzone>
+
+							<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
+								<img style={localStyle.additionalImage} src={ (post.images.length < 7) ? '/images/image-placeholder.png' : post.images[6]+'=s120-c' } />
+							</Dropzone>
+							
+							<Dropzone className="col_one_fourth" style={localStyle.additionalImage} onDrop={this.uploadImage.bind(this, 'additional')}>
+								<img style={localStyle.additionalImage} src={ (post.images.length < 8) ? '/images/image-placeholder.png' : post.images[7]+'=s120-c' } />
+							</Dropzone>
+
+						</div>
 					</div>
 				</div>
+
+				{ (this.props.teams == null) ? null : 
+					<div>
+						<hr />
+						<h3 style={localStyle.title}>Teams</h3>
+						<p style={localStyle.paragraph}>Select the teams on which this project will be seen:</p>
+
+						{ this.props.teams.map((team, i) => {
+								return (
+									<div key={team.id} className="clearfix">
+										<a target="_blank" href={'/team/'+team.slug}>
+											<img style={localStyle.teamImage} src={(team.image.indexOf('googleusercontent') == -1) ? team.image : team.image +'=s120-c'} />
+										</a>
+										<br />
+										<a target="_blank" href={'/team/'+team.slug}>
+											{team.name}
+										</a>
+										<br />
+										<a onClick={this.addRemoveTeam.bind(this, team)} href="#">
+											{ (this.state.post.teams[team.id]==null) ? <i style={{color:'green'}} className="icon-plus"></i> : <i style={{color:'red'}} className="icon-minus"></i> }
+										</a>
+									</div>
+								)
+							})
+						}
+
+					</div>
+				}
+
 				<div style={{textAlign:'right', marginTop:16}}>
-					<a href="#" onClick={this.createProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Create</a>
+					<a href="#" onClick={this.createProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Create Project</a>
 				</div>
 			</div>
 		)
-
-
 	}
 }
 
@@ -172,12 +228,15 @@ const localStyle = {
 	},
 	paragraph: {
 		marginTop: 0,
-		marginBottom:24
+		color:'#333',
+		fontWeight: 100,
+		marginBottom: 24
 	},
 	title: {
 		color:'#333',
 		fontFamily:'Pathway Gothic One',
-		fontWeight: 100
+		fontWeight: 100,
+		marginBottom: 0
 	},
 	btnSmall: {
 		marginTop: 0,
@@ -197,10 +256,20 @@ const localStyle = {
 		border: '1px solid #ddd',
 		width: 150
 	},
+	teamImage: {
+		padding: 3,
+		background: '#fff',
+		border: '1px solid #ddd',
+		width: 72,
+		marginRight: 12,
+		marginTop: 12,
+		float: 'left'
+	},
 	additionalImage: {
 		width: 72,
 		marginRight: 6,
-		marginBottom: 4
+		marginBottom: 4,
+		paddingBottom: 0
 	}
 }
 

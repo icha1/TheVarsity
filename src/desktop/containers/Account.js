@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { TextUtils, Alert } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
+import { browserHistory } from 'react-router'
 
 class Account extends Component {
 	constructor(){
@@ -179,8 +180,36 @@ class Account extends Component {
 		.catch(err => {
 			alert(err)
 		})
-
 	}
+
+	submitProject(post){
+		const user = this.props.user
+		if (user == null){
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please log in or register to create a project.'
+			})
+			return
+		}
+
+		post['saved'] = [user.id]
+		post['type'] = 'showcase'
+		post['author'] = {
+			id: user.id,
+			name: user.username,
+			slug: user.slug,
+			image: (user.image.length == 0) ? null : user.image,
+			type: 'profile'
+		}
+
+		this.props.createPost(post)
+		.then(response => {
+			browserHistory.push('/post/'+response.result.slug)
+		})
+		.catch(err => {
+			alert(err)
+		})
+	}	
 
 	componentDidUpdate(){
 		const user = this.props.user
@@ -236,7 +265,7 @@ class Account extends Component {
 		else if (selected == 'Projects'){
 			cta = <button onClick={this.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateProject) ? 'Cancel' : 'Create Project' }</button>
 			if (this.state.showCreateProject)
-				content = <CreateProject /> // required onSubmit prop
+				content = <CreateProject teams={teams} onCreate={this.submitProject.bind(this)} />
 			else {
 				const list = this.props.posts[user.id]
 				const projects = (list == null) ? [] : list.filter((post, i) => {
@@ -461,7 +490,8 @@ const mapDispatchToProps = (dispatch) => {
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
-		createTeam: (team) => dispatch(actions.createTeam(team))
+		createTeam: (team) => dispatch(actions.createTeam(team)),
+		createPost: (params) => dispatch(actions.createPost(params))
 	}
 }
 export default connect(stateToProps, mapDispatchToProps)(Account)
