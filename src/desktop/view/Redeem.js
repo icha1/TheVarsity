@@ -62,6 +62,7 @@ class Redeem extends Component {
 
 	redeemInvitation(event){
 		event.preventDefault()
+		
 		if (this.props.mode == 'redeem'){
 			if (this.state.invitation.code.length == 0){
 				Alert.showAlert({
@@ -121,7 +122,6 @@ class Redeem extends Component {
 				text: err.message || err
 			})
 		})
-
 	}
 
 	render(){

@@ -142,7 +142,7 @@ class Section extends Component {
 						</div>
 
 						<div className="col_half col_last">
-							<Redeem mode={this.props.content} error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />
+							<Redeem mode="redeem" error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />
 						</div>
 					</div>
 				</section>
