@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { Link } from 'react-router'
-import { EditProfile, TeamFeed, CreateTeam, PostFeed, Map } from '../view'
+import { EditProfile, CreateProject, TeamFeed, CreateTeam, PostFeed, Map } from '../view'
 import { connect } from 'react-redux'
 import { TextUtils, Alert } from '../../utils'
 import actions from '../../actions/actions'
@@ -15,12 +15,11 @@ class Account extends Component {
 			showEdit: false,
 			showMap: false,
 			showCreateTeam: false,
+			showCreateProject: false,
 			selected: 'Profile',
 			menuItems: [
 				'Profile',
-				'Teams',
-				'Posts'
-//				'Messages'
+				'Projects'
 			],
 			passwords: {}
 		}
@@ -83,6 +82,12 @@ class Account extends Component {
 	toggleCreateTeam(){
 		this.setState({
 			showCreateTeam: !this.state.showCreateTeam
+		})
+	}
+
+	toggleShowCreateProject(){
+		this.setState({
+			showCreateProject: !this.state.showCreateProject
 		})
 	}
 
@@ -183,14 +188,7 @@ class Account extends Component {
 			return
 
 		const selected = this.state.selected
-		if (selected == 'Teams'){
-			if (this.props.teams[user.id])
-				return
-
-			this.props.fetchTeams({'members.id': user.id})
-		}
-
-		if (selected == 'Posts'){
+		if (selected == 'Projects'){
 			if (this.props.posts[user.id])
 				return
 
@@ -204,6 +202,8 @@ class Account extends Component {
 		const selected = this.state.selected
 		
 		const user = this.props.user
+		const teams = this.props.teams[user.id] // can be null
+
 		const city = user.location.city || ''
 		const state = user.location.state || ''
 
@@ -216,27 +216,8 @@ class Account extends Component {
 
 		let content = null
 		let cta = null
-		if (selected == 'Teams'){
-			cta = <button onClick={this.toggleCreateTeam.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateTeam) ? 'Cancel' : 'Create Team'}</button>
-			const teamList = (this.props.teams[user.id] == null) ? null : (
-				<div style={{textAlign:'left', marginTop:24}}>
-					<TeamFeed teams={this.props.teams[user.id]} user={user} />
-				</div>
-			)
 
-			content = (
-				<div>
-					{ (!this.state.showCreateTeam) ? teamList :
-						<div>
-							<CreateTeam
-								user={this.props.user} 
-								submit={this.createTeam.bind(this)} />
-						</div>
-					}
-				</div>
-			)
-		}
-		else if (selected == 'Profile'){
+		if (selected == 'Profile'){
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
 					{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
@@ -252,14 +233,23 @@ class Account extends Component {
 				</div>
 			)
 		}
-		else if (selected == 'Posts'){
-			cta = <button style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">Submit Post</button>
-			const list = this.props.posts[user.id]
-			content = (
-				<div style={{textAlign:'left', marginTop:24}}>
-					{ (list) ? <PostFeed deletePost={this.deletePost.bind(this)} posts={list} user={user} /> : null }
-				</div>
-			)
+		else if (selected == 'Projects'){
+			cta = <button onClick={this.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateProject) ? 'Cancel' : 'Create Project' }</button>
+			if (this.state.showCreateProject)
+				content = <CreateProject /> // required onSubmit prop
+			else {
+				const list = this.props.posts[user.id]
+				const projects = (list == null) ? [] : list.filter((post, i) => {
+					return (post.type == 'showcase')
+				})
+
+				content = (
+					<div style={{textAlign:'left', marginTop:24}}>
+						<PostFeed deletePost={this.deletePost.bind(this)} posts={projects} user={user} />
+					</div>
+				)
+			}
+
 		}
 		else if (selected == 'Messages')
 			content = null
@@ -318,7 +308,29 @@ class Account extends Component {
 
 							<div className="col_one_third col_last">
 
+								<h2 style={styles.title}>Your Teams</h2>
+								<hr />
+								{ (this.state.showCreateTeam) ? <CreateTeam user={this.props.user} submit={this.createTeam.bind(this)} /> : 
+									<nav id="primary-menu">
+										{ (teams == null) ? null : teams.map((team, i) => {
+												return (
+													<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
+														<Link to={'/team/'+team.slug}>
+															<img style={localStyle.image} src={team.image+'=s44-c'} />
+														</Link>
+														<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
+															{team.name}
+														</Link>
+														<br />
+														<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
+													</div>
+												)
+											})
+										}
+									</nav>
+								}
 
+								<button onClick={this.toggleCreateTeam.bind(this)} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateTeam) ? 'Cancel' : 'Create Team'}</button>
 							</div>
 						</div>
 					</section>
@@ -330,8 +342,7 @@ class Account extends Component {
 						<div className="col-xs-6">
 							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
 								<option value="Profile">Profile</option>
-								<option value="Teams">Teams</option>
-								<option value="Posts">Posts</option>
+								<option value="Projects">Projects</option>
 							</select>
 						</div>
 
@@ -414,7 +425,26 @@ const localStyle = {
 	},	
 	btnBlue: {
 		backgroundColor:'rgb(91, 192, 222)'
-	}
+	},
+	subtext: {
+		fontWeight:100,
+		fontSize:14,
+		lineHeight:14+'px'
+	},
+	image: {
+		float:'left',
+		marginRight:12,
+		borderRadius:22,
+		width:44
+	},
+	detailHeader: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		fontSize: 18,
+		lineHeight: 10+'px'
+	},
+
 }
 
 const stateToProps = (state) => {
