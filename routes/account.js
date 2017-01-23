@@ -243,7 +243,7 @@ router.post('/:action', function(req, res, next){
 				html = html.replace('{{invitation}}', invitation.id)
 			}
 			
-			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'Invitation: '+invitation.team.name, html) // send one to yourself
+			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'Invitation: '+invitation.team.name+', TO: '+invitation.email, html) // send one to yourself
 			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, invitation.email, 'Invitation: '+invitation.team.name, html)
 		})
 		.then(function(response){
