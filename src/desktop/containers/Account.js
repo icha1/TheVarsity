@@ -307,10 +307,9 @@ class Account extends Component {
 							</div>
 
 							<div className="col_one_third col_last">
-
 								<h2 style={styles.title}>Your Teams</h2>
 								<hr />
-								{ (this.state.showCreateTeam) ? <CreateTeam user={this.props.user} submit={this.createTeam.bind(this)} /> : 
+								{ (this.state.showCreateTeam) ? <CreateTeam user={this.props.user} cancel={this.toggleCreateTeam.bind(this)} submit={this.createTeam.bind(this)} /> : 
 									<nav id="primary-menu">
 										{ (teams == null) ? null : teams.map((team, i) => {
 												return (
@@ -330,7 +329,7 @@ class Account extends Component {
 									</nav>
 								}
 
-								<button onClick={this.toggleCreateTeam.bind(this)} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateTeam) ? 'Cancel' : 'Create Team'}</button>
+								{ (this.state.showCreateTeam) ? null : <button onClick={this.toggleCreateTeam.bind(this)} className="button button-small button-border button-border-thin button-blue">Create Team</button> }
 							</div>
 						</div>
 					</section>
