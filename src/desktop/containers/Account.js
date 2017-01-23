@@ -20,8 +20,7 @@ class Account extends Component {
 			selected: 'Profile',
 			menuItems: [
 				'Profile',
-				'Projects',
-				'Hiring'
+				'Projects'
 			],
 			passwords: {}
 		}
