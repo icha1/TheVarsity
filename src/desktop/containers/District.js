@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
-import { ProfilePreview } from '../view'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'

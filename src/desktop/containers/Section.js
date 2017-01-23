@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { Redeem } from '../view'
 import { browserHistory } from 'react-router'
-import { Alert } from '../../utils'
 
 class Section extends Component {
 

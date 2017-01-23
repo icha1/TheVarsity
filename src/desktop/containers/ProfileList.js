@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { ProfilePreview } from '../view'
 import { connect } from 'react-redux'
-import { APIManager } from '../../utils'
 import actions from '../../actions/actions'
 
 class ProfileList extends Component {
