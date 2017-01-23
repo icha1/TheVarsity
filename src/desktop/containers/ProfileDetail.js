@@ -145,16 +145,16 @@ class ProfileDetail extends Component {
 		}
 
 
-		const sideMenu = this.state.menuItems.map((item, i) => {
-			const itemStyle = (item == selected) ? styles.team.selected : styles.team.menuItem
-			return (
-				<li key={i}>
-					<div style={itemStyle}>
-						<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
-					</div>
-				</li>
-			)
-		})
+		// const sideMenu = this.state.menuItems.map((item, i) => {
+		// 	const itemStyle = (item == selected) ? styles.team.selected : styles.team.menuItem
+		// 	return (
+		// 		<li key={i}>
+		// 			<div style={itemStyle}>
+		// 				<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+		// 			</div>
+		// 		</li>
+		// 	)
+		// })
 
 		let content = null
 		const currentUser = this.props.user // can be null

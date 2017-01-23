@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
 import styles from './styles'
-import { Link } from 'react-router'
 
 class District extends Component {
 	constructor(){

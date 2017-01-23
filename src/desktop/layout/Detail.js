@@ -29,7 +29,6 @@ class Detail extends Component {
 				return component = null
 		}
 
-		const style = styles.home
 		return ( 
 			{ component }
 		)
