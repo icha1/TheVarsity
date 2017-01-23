@@ -5,6 +5,7 @@ var ProfileSchema = new mongoose.Schema({
 	title: {type:String, trim:true, default:''}, // web developer, designer, photographer, etc
 	bio: {type:String, trim:true, default:''},
 	isConfirmed: {type:String, trim:true, default:'pending'}, // yes, no, pending
+	type: {type:String, trim:true, default:'standard'}, // standard or admin (so far, maybe premium later)
 	slug: {type:String, trim:true, lowercase:true, unique:true, default:''},
 	image: {type:String, trim:true, default:process.env.DEFAULT_PROFILE_IMAGE},
 	email: {type:String, trim:true, lowercase:true, default:''},
@@ -27,6 +28,7 @@ ProfileSchema.methods.summary = function(){
 		title: this.title,
 		bio: this.bio,
 		isConfirmed: this.isConfirmed,
+		type: this.type,
 		slug: this.slug,
 		image: this.image,
 		email: this.email,

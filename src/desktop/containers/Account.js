@@ -40,6 +40,12 @@ class Account extends Component {
 			}, 750)			
 		}
 
+		if (user.type == 'admin'){
+			this.setState({
+				menuItems: ['Profile', 'Projects', 'Hiring']
+			})
+		}
+
 		if (this.props.teams[user.id])
 			return
 
@@ -217,13 +223,12 @@ class Account extends Component {
 			return
 
 		const selected = this.state.selected
-		if (selected == 'Projects'){
+		if (selected == 'Projects' || selected == 'Hiring'){
 			if (this.props.posts[user.id])
 				return
 
 			this.props.fetchPosts({'author.id': user.id})
 		}
-
 	}
 
 	render(){
@@ -278,7 +283,24 @@ class Account extends Component {
 					</div>
 				)
 			}
+		}
+		else if (selected == 'Hiring'){
+			content = null
+			cta = <button onClick={this.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateProject) ? 'Cancel' : 'Submit Post' }</button>
+			if (this.state.showCreateProject)
+				content = <CreateProject teams={teams} onCreate={this.submitProject.bind(this)} />
+			else {
+				const list = this.props.posts[user.id]
+				const projects = (list == null) ? [] : list.filter((post, i) => {
+					return (post.type == 'hiring')
+				})
 
+				content = (
+					<div style={{textAlign:'left', marginTop:24}}>
+						<PostFeed deletePost={this.deletePost.bind(this)} posts={projects} user={user} />
+					</div>
+				)
+			}			
 		}
 		else if (selected == 'Messages')
 			content = null
