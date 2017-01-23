@@ -242,7 +242,7 @@ router.post('/:action', function(req, res, next){
 				html = html.replace('{{invitation}}', invitation.id)
 			}
 			
-			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
+			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', html)
 		})
 		.then(function(response){
 			res.json({
@@ -352,7 +352,7 @@ router.post('/:action', function(req, res, next){
 			profile.markModified('teams')
 
 			var content = profile.email+' just signed up for the Varsity.'
-				utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
+			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
 
 			var token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
 			req.session.token = token
