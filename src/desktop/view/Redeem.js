@@ -4,7 +4,6 @@ import { APIManager, Alert } from '../../utils'
 class Redeem extends Component {
 	constructor(){
 		super()
-		this.getParameter = this.getParameter.bind(this)
 		this.state = {
 			showInviteCodeLabel: false,
 			invitation: {
@@ -22,7 +21,7 @@ class Redeem extends Component {
 
 		APIManager.handleGet('/api/invitation/'+inviteId, null)
 		.then(response => {
-			console.log(JSON.stringify(response))
+//			console.log(JSON.stringify(response))
 			const result = response.result
 
 			let updated = Object.assign({}, this.state.invitation)
@@ -63,8 +62,7 @@ class Redeem extends Component {
 	redeemInvitation(event){
 		event.preventDefault()
 
-		if (this.props.mode == 'redeem'){
-			console.log('TEST 1: '+this.props.mode)
+		if (this.props.type == 'redeem'){
 			if (this.state.invitation.code.length == 0){
 				Alert.showAlert({
 					title: 'Oops',
@@ -75,7 +73,6 @@ class Redeem extends Component {
 		}
 		else {
 			if (this.state.invitation.name.length == 0){
-				console.log('TEST 2: '+this.props.mode)
 				Alert.showAlert({
 					title: 'Oops',
 					text: 'Please enter your name.'
@@ -92,7 +89,7 @@ class Redeem extends Component {
 			return
 		}
 
-		if (this.props.mode == 'redeem'){
+		if (this.props.type == 'redeem'){
 			if (this.props.submitInvite != null)
 				this.props.submitInvite(this.state.invitation)
 
@@ -128,11 +125,11 @@ class Redeem extends Component {
 
 	render(){
 		const layout = (this.props.layout == null) ? 'right' : this.props.layout
-		const mode = (this.props.mode) ? this.props.mode : 'redeem' // redeem or request
+		const type = (this.props.type) ? this.props.type : 'redeem' // redeem or request
 
 		return (
 			<div>
-				{ (mode == 'redeem') ? 
+				{ (type == 'redeem') ? 
 					<div>
 				        { (this.props.error) ? <div><span style={localStyle.error}>{ ''+this.props.error }</span><br /></div> : null }
 						<input id="email" value={this.state.invitation.email} onChange={this.updateInvitation.bind(this)} style={localStyle.input} type="text" placeholder="Email" />

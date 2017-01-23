@@ -57,6 +57,7 @@ class Section extends Component {
 								<div className="col_one_third col_last" style={{padding:24}}>
 									<Redeem
 										layout="center" 
+										type="redeem"
 										error={this.state.error}
 										submitInvite={this.redeemInvitation.bind(this)} />
 								</div>
@@ -142,7 +143,7 @@ class Section extends Component {
 						</div>
 
 						<div className="col_half col_last">
-							<Redeem mode="redeem" error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />
+							<Redeem type="redeem" error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />
 						</div>
 					</div>
 				</section>
@@ -162,7 +163,7 @@ class Section extends Component {
 						</div>
 
 						<div className="col_half col_last">
-							<Redeem mode={this.props.content} error={this.state.error} requestInvite={this.requestInvite.bind(this)} />
+							<Redeem type={this.props.content} error={this.state.error} requestInvite={this.requestInvite.bind(this)} />
 						</div>
 					</div>
 				</section>
