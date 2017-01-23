@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import Loading from 'react-loading' // http://cezarywojtkowski.com/react-loading/
 import constants from '../../constants/constants'
-import { APIManager, DateUtils } from '../../utils'
+import { APIManager, DateUtils, Alert } from '../../utils'
 import styles from './styles'
 
 class CreatePost extends Component {
@@ -20,6 +20,7 @@ class CreatePost extends Component {
 				text: '', 
 				type: 'news', // event, news, etc.
 				image: '',
+				teams: {},
 				author: {}
 			}
 		}
@@ -113,16 +114,33 @@ class CreatePost extends Component {
 	submitPost(event){
 		event.preventDefault()
 		if (this.state.post.title.length == 0){
-			alert('Please enter a title.')
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please enter a title.'
+			})
 			return
 		}
 
 		if (this.state.post.text.length == 0){
-			alert('Please enter text for your post.')
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please enter text for your post.'
+			})
 			return
 		}
 
 		let updated = Object.assign({}, this.state.post)
+		if (this.props.teams != null){
+			const keys = Object.keys(updated.teams)
+			if (keys.length == 0){
+				errorMsg['text'] = 'Please Add At Least One Team to Display Your Post.'
+				Alert.showAlert(errorMsg)
+				return			
+			}
+
+			updated['teams'] = keys // just need array of team ID's
+		}
+
 		this.props.submit(updated)
 	}
 
@@ -140,6 +158,21 @@ class CreatePost extends Component {
 		updated['images'] = array
 		this.setState({
 			post: updated
+		})
+	}
+
+	addRemoveTeam(team, event){
+		event.preventDefault()
+		let post = Object.assign({}, this.state.post)
+		let teams = Object.assign({}, post.teams)
+		if (teams[team.id])
+			delete teams[team.id]
+		else 
+			teams[team.id] = team
+		
+		post['teams'] = teams
+		this.setState({
+			post: post
 		})
 	}
 
@@ -170,7 +203,37 @@ class CreatePost extends Component {
 								}
 							</div>
 						</div>
+
+						<div className="col-md-12">
+							{ (this.props.teams == null) ? null : 
+								<div style={{padding:12}}>
+									<hr />
+									<h3 style={localStyle.title}>Teams</h3>
+									<p style={localStyle.paragraph}>Select the teams on which this post will be seen:</p>
+
+									{ this.props.teams.map((team, i) => {
+											return (
+												<div key={team.id} className="clearfix">
+													<a target="_blank" href={'/team/'+team.slug}>
+														<img style={localStyle.teamImage} src={(team.image.indexOf('googleusercontent') == -1) ? team.image : team.image +'=s120-c'} />
+													</a>
+													<br />
+													<a target="_blank" href={'/team/'+team.slug}>
+														{team.name}
+													</a>
+													<br />
+													<a onClick={this.addRemoveTeam.bind(this, team)} href="#">
+														{ (this.state.post.teams[team.id]==null) ? <i style={{color:'green'}} className="icon-plus"></i> : <i style={{color:'red'}} className="icon-minus"></i> }
+													</a>
+												</div>
+											)
+										})
+									}
+								</div>
+							}
+						</div>					
 					</div>
+
 
 					<div style={{minHeight:36, borderTop:'1px solid #ddd'}}>
 						<div className="col_half"></div>
@@ -204,12 +267,13 @@ class CreatePost extends Component {
 									}
 									{ (this.state.loading.additional) ? <Loading type='bars' color='#333' /> : null }
 								
-
 								</div>
 							</div>
 						</div>
 					)
 				}
+
+
 			</div>
 		)
 	}
@@ -248,7 +312,47 @@ const localStyle = {
 		fontFamily:'Pathway Gothic One',
 		minHeight: 72,
 		resize: 'none'
+	},
+	paragraph: {
+		marginTop: 0,
+		color:'#333',
+		fontWeight: 100,
+		marginBottom: 24
+	},
+	title: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		marginBottom: 0
+	},
+	btnSmall: {
+		marginTop: 0,
+		marginRight: 0,
+		className: 'button button-small button-border button-border-thin button-blue'
+	},
+	imageContainer: {
+		border:'none',
+		marginTop:6,
+		background:'#fff', 
+		height: 140,
+		padding:0
+	},
+	teamImage: {
+		padding: 3,
+		background: '#fff',
+		border: '1px solid #ddd',
+		width: 72,
+		marginRight: 12,
+		marginTop: 12,
+		float: 'left'
+	},
+	additionalImage: {
+		width: 72,
+		marginRight: 6,
+		marginBottom: 4,
+		paddingBottom: 0
 	}
+
 }
 
 export default CreatePost

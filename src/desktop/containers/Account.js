@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { Link } from 'react-router'
-import { EditProfile, CreateProject, TeamFeed, CreateTeam, PostFeed, Map } from '../view'
+import { EditProfile, CreateProject, CreatePost, TeamFeed, CreateTeam, PostFeed, Map } from '../view'
 import { connect } from 'react-redux'
 import { TextUtils, Alert } from '../../utils'
 import actions from '../../actions/actions'
@@ -20,7 +20,8 @@ class Account extends Component {
 			selected: 'Profile',
 			menuItems: [
 				'Profile',
-				'Projects'
+				'Projects',
+				'Hiring'
 			],
 			passwords: {}
 		}
@@ -189,17 +190,45 @@ class Account extends Component {
 	}
 
 	submitProject(post){
+		const prepared = this.preparePost(post, 'showcase') // can be null
+		if (prepared == null)
+			return
+		
+		this.props.createPost(prepared)
+		.then(response => {
+			browserHistory.push('/post/'+response.result.slug)
+		})
+		.catch(err => {
+			alert(err)
+		})
+	}	
+
+	submitPost(post){
+		const prepared = this.preparePost(post, 'hiring') // can be null
+		if (prepared == null)
+			return
+		
+		this.props.createPost(prepared)
+		.then(response => {
+			browserHistory.push('/post/'+response.result.slug)
+		})
+		.catch(err => {
+			alert(err)
+		})
+	}
+
+	preparePost(post, type){
 		const user = this.props.user
 		if (user == null){
 			Alert.showAlert({
 				title: 'Oops',
 				text: 'Please log in or register to create a project.'
 			})
-			return
+			return null
 		}
 
 		post['saved'] = [user.id]
-		post['type'] = 'showcase'
+		post['type'] = type
 		post['author'] = {
 			id: user.id,
 			name: user.username,
@@ -208,14 +237,8 @@ class Account extends Component {
 			type: 'profile'
 		}
 
-		this.props.createPost(post)
-		.then(response => {
-			browserHistory.push('/post/'+response.result.slug)
-		})
-		.catch(err => {
-			alert(err)
-		})
-	}	
+		return post
+	}
 
 	componentDidUpdate(){
 		const user = this.props.user
@@ -288,7 +311,7 @@ class Account extends Component {
 			content = null
 			cta = <button onClick={this.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateProject) ? 'Cancel' : 'Submit Post' }</button>
 			if (this.state.showCreateProject)
-				content = <CreateProject teams={teams} onCreate={this.submitProject.bind(this)} />
+				content = <CreatePost teams={teams} submit={this.submitPost.bind(this)} />
 			else {
 				const list = this.props.posts[user.id]
 				const projects = (list == null) ? [] : list.filter((post, i) => {
