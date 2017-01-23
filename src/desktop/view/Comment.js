@@ -12,10 +12,10 @@ export default (props) => {
 
 	return (
 		<div className="panel-body" style={localStyle.container}>
-			{ (align == 'right') ? <div className="col_one_third" style={{marginBottom:0, minHeight:20}}></div> : null }
+			{ (align == 'right') ? <div className="col_one_fourth" style={{marginBottom:0, minHeight:20}}></div> : null }
 
-			<div className="col_two_third col_last" style={{marginBottom:0}}>
-				<div style={ (align=='left') ? localStyle.bubbleBlue : localStyle.bubbleGreen}>
+			<div className="col_three_fourth col_last" style={{marginBottom:0}}>
+				<div style={ (align=='left') ? localStyle.bubbleBlue : localStyle.bubbleWhite}>
 					{ comment.text }
 					<br />
 					<div style={{textAlign:'right', marginTop:12}}>
@@ -36,15 +36,15 @@ const localStyle = {
 		background:'#f9f9f9',
 		textAlign: 'left'
 	},
-	bubbleGreen: {
-		background:'#50C459',
+	bubbleWhite: {
+		background:'#fff',
 		padding: 9,
-		borderRadius: 8
+		border: '1px solid #ddd'
 	},
 	bubbleBlue: {
 		background:'#FCFDFF',
 		padding:9,
-		borderRadius:8
+		border: '1px solid #ddd'
 	},
 	separator: {
 		marginLeft: 8,
