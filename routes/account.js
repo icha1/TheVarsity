@@ -242,7 +242,7 @@ router.post('/:action', function(req, res, next){
 				html = html.replace('{{invitation}}', invitation.id)
 			}
 			
-			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, invitation.email, 'The Varsity: New User', html)
+			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, invitation.email, 'Invitation: '+invitation.team.name, html)
 		})
 		.then(function(response){
 			res.json({
