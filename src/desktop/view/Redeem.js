@@ -62,8 +62,9 @@ class Redeem extends Component {
 
 	redeemInvitation(event){
 		event.preventDefault()
-		
+
 		if (this.props.mode == 'redeem'){
+			console.log('TEST 1: '+this.props.mode)
 			if (this.state.invitation.code.length == 0){
 				Alert.showAlert({
 					title: 'Oops',
@@ -74,6 +75,7 @@ class Redeem extends Component {
 		}
 		else {
 			if (this.state.invitation.name.length == 0){
+				console.log('TEST 2: '+this.props.mode)
 				Alert.showAlert({
 					title: 'Oops',
 					text: 'Please enter your name.'
