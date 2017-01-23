@@ -17,22 +17,6 @@ export default (props) => {
 				</div>
 				<input style={localStyle.input} onKeyPress={props.keyPress.bind(this)} placeholder="Enter Comment" type="text" />
 			</div>
-		
-			{ (props.comments.length > 0) ? null : 
-				<div style={{fontWeight:100, border:'1px solid #ddd', padding:24, fontSize:16}}>
-					<h3 style={localStyle.title}>What</h3>
-					<p style={localStyle.paragraph}>
-						TEST
-					</p>
-
-					<hr />
-
-					<h3 style={localStyle.title}>Why</h3>
-					<p style={localStyle.paragraph}>
-						TEST
-					</p>
-				</div>
-			}
 		</div>
 	)
 }

@@ -424,13 +424,11 @@ class TeamDetail extends Component {
 						</div>						
 					}
 
-					{ (sublist.length == 0) ? <Explanation context={selected} btnAction={this.toggleInvite.bind(this)} /> : 
-						<PostFeed 
-							posts={sublist}
-							deletePost={this.deletePost.bind(this)}
-							vote={this.voteOnPost.bind(this)}
-							user={this.props.user} />
-					}
+					<PostFeed 
+						posts={sublist}
+						deletePost={this.deletePost.bind(this)}
+						vote={this.voteOnPost.bind(this)}
+						user={this.props.user} />
 				</div>
 			)
 		}
