@@ -27,42 +27,4 @@ export default (props) => {
 	)
 }
 
-const localStyle = {
-	input: {
-		color:'#333',
-		background: '#f9f9f9',
-		marginBottom: 12,
-		padding: 6,
-		fontWeight: 100,
-	    lineHeight: 1.5,
-	    fontSize: 20,
-		fontFamily:'Pathway Gothic One',
-		border: 'none',
-		width: 100+'%'
-	},
-	inputWhite: {
-		color:'#333',
-		background: '#fff',
-		marginBottom: 12,
-		padding: 6,
-		fontWeight: 100,
-	    lineHeight: 1.5,
-	    fontSize: 20,
-		fontFamily:'Pathway Gothic One',
-		border: 'none',
-		width: 100+'%'
-	},
-	image: {
-		background: '#fff', 
-		border: '1px solid #ddd',
-		padding: 3,
-		marginBottom: 16
-	},
-	titleWhite: {
-		color:'#fff',
-		fontFamily:'Pathway Gothic One',
-		fontWeight: 100,
-		borderBottom: '2px solid #fff'
-	}
-}
 
