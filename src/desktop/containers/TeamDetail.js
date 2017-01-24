@@ -92,10 +92,9 @@ class TeamDetail extends Component {
 	selectItem(item, event){
 		event.preventDefault()
 		window.scrollTo(0, 0)
-		this.setState({
-			showSubmit: false
-		})
 
+		const selected = (item.length == 0) ? event.target.value : item
+		console.log('selectItem: '+selected)
 		this.props.selectedFeedChanged(item)
 	}
 
@@ -201,7 +200,7 @@ class TeamDetail extends Component {
 		})
 	}
 
-	creatProject(event){
+	createProject(event){
 		event.preventDefault()
 		this.setState({
 			showCreateProject: !this.state.showCreateProject
@@ -427,9 +426,9 @@ class TeamDetail extends Component {
 			)
 		}
 		else if (selected == 'Showcase'){
-			cta = (this.props.user == null) ? null : <a href="#" onClick={this.creatProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Showcase Your Work</a>
+			cta = (this.props.user == null) ? null : <a href="#" onClick={this.createProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Showcase Your Work</a>
 			const sublist = this.sublist(selected)
-			content = (this.state.showCreateProject) ? <CreateProject onCreate={this.submitPost.bind(this)} /> : (
+			content = (this.state.showCreateProject) ? <CreateProject team={team} onCreate={this.submitPost.bind(this)} /> : (
 				<div>
 					{ (sublist.length == 0) ? <Explanation context={selected} btnAction={this.toggleInvite.bind(this)} /> : 
 						<PostFeed 

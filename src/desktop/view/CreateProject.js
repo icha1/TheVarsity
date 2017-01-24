@@ -19,6 +19,20 @@ class CreateProject extends Component {
 		}
 	}
 
+	componentDidMount(){
+		if (this.props.team == null)
+			return
+
+		let updated = Object.assign({}, this.state.post)
+		let teams = Object.assign({}, updated.teams)
+		teams[this.props.team.id] = this.props.team
+		updated['teams'] = teams
+
+		this.setState({
+			teams: teams
+		})
+	}
+
 	uploadImage(type, files){
 		APIManager.upload(files[0], (err, image) => {
 			if (err){
