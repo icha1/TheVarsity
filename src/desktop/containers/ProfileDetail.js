@@ -241,7 +241,7 @@ class ProfileDetail extends Component {
 							<div className="container clearfix">
 								{ (profile == null) ? null : 
 									<div>
-										<img style={localStyle.profileImage} src={profile.image+'=s140'} />
+										<img style={localStyle.profileImage} src={profile.image+'=s140-c'} />
 										<h2 style={ styles.team.title }>
 											<Link to={'/profile/'+profile.slug}>{ profile.username }</Link>
 										</h2>
