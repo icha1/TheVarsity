@@ -67,7 +67,7 @@ module.exports = {
 						params['password'] = bcrypt.hashSync(params.password, 10)
 
 					if (params.username != null)
-						params['slug'] = TextUtils.slugVersion(params.username) + TextUtils.randomString(6)
+						params['slug'] = TextUtils.slugVersion(params.username)+'-'+TextUtils.randomString(6)
 
 					Profile.create(params, function(error, profile){
 						if (error){

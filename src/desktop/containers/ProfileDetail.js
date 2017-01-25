@@ -15,7 +15,7 @@ class ProfileDetail extends Component {
 			comments: null,
 			menuItems: [
 				'Overview',
-				'Teams',
+//				'Teams',
 				'Feed'
 			]
 		}
@@ -24,6 +24,7 @@ class ProfileDetail extends Component {
 	componentDidMount(){
 //		console.log('componentDidMount: ')
 		window.scrollTo(0, 0)
+
 		const profile = this.props.profiles[this.props.slug]
 		if (profile == null){
 			this.props.fetchProfiles({slug: this.props.slug})
@@ -31,12 +32,19 @@ class ProfileDetail extends Component {
 		}
 
 		document.title = 'The Varsity | '+profile.username
+		if (this.props.teams[profile.id])
+			return
+
+		this.props.fetchTeams({'members.id':profile.id})
 	}
 
 	componentDidUpdate(){
 		const profile = this.props.profiles[this.props.slug]
 		if (profile == null)
 			return
+
+		if (this.props.teams[profile.id]==null)
+			this.props.fetchTeams({'members.id':profile.id})
 
 		const selected = this.state.selected
 		if (selected == 'Feed'){
@@ -46,31 +54,31 @@ class ProfileDetail extends Component {
 			this.props.fetchPosts({'author.id':profile.id})
 		}
 
-		if (selected == 'Teams'){
-			if (this.props.teams[profile.id])
-				return
+		// if (selected == 'Teams'){
+		// 	if (this.props.teams[profile.id])
+		// 		return
 
-			this.props.fetchTeams({'members.id':profile.id})
-		}
+		// 	this.props.fetchTeams({'members.id':profile.id})
+		// }
 
-		if (selected == 'Direct Message'){
-			if (this.props.user == null){
-				alert('Please log in or register to send a direct message.')
-				return
-			}
+		// if (selected == 'Direct Message'){
+		// 	if (this.props.user == null){
+		// 		alert('Please log in or register to send a direct message.')
+		// 		return
+		// 	}
 
-			if (this.state.comments) // comments already loaded
-				return
+		// 	if (this.state.comments) // comments already loaded
+		// 		return
 
-			let profileIds = [profile.id, this.props.user.id].sort()
-			let threadId = profileIds.join().replace(',', '') // alphabetize so the ID is the same for both participants
-			FirebaseManager.register('/'+threadId+'/comments', (err, currentComments) => {
-				let comments = (err) ? [] : currentComments.reverse()
-				this.setState({
-					comments: comments
-				})
-			})
-		}
+		// 	let profileIds = [profile.id, this.props.user.id].sort()
+		// 	let threadId = profileIds.join().replace(',', '') // alphabetize so the ID is the same for both participants
+		// 	FirebaseManager.register('/'+threadId+'/comments', (err, currentComments) => {
+		// 		let comments = (err) ? [] : currentComments.reverse()
+		// 		this.setState({
+		// 			comments: comments
+		// 		})
+		// 	})
+		// }
 	}
 
 	selectItem(item, event){
@@ -144,18 +152,6 @@ class ProfileDetail extends Component {
 			image = (profile.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd'}} src={profile.image+'=s140-c'} />
 		}
 
-
-		// const sideMenu = this.state.menuItems.map((item, i) => {
-		// 	const itemStyle = (item == selected) ? styles.team.selected : styles.team.menuItem
-		// 	return (
-		// 		<li key={i}>
-		// 			<div style={itemStyle}>
-		// 				<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
-		// 			</div>
-		// 		</li>
-		// 	)
-		// })
-
 		let content = null
 		const currentUser = this.props.user // can be null
 		
@@ -218,7 +214,6 @@ class ProfileDetail extends Component {
 					</div>
 				</div>
 			)
-
 		}
 		
 		else if (selected == 'Direct Message' && profile != null){
@@ -232,6 +227,8 @@ class ProfileDetail extends Component {
 				</div>
 			)
 		}
+
+		const teams = (profile) ? this.props.teams[profile.id] : []
 
 		return (
 			<div>
@@ -284,6 +281,25 @@ class ProfileDetail extends Component {
 							</div>
 
 							<div className="col_one_third col_last">
+								<h2 style={styles.title}>Teams</h2>
+								<hr />
+								<nav id="primary-menu">
+									{ (teams == null) ? null : teams.map((team, i) => {
+											return (
+												<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
+													<Link to={'/team/'+team.slug}>
+														<img style={localStyle.image} src={team.image+'=s44-c'} />
+													</Link>
+													<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
+														{team.name}
+													</Link>
+													<br />
+													<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
+												</div>
+											)
+										})
+									}
+								</nav>
 							
 							</div>
 						</div>
@@ -327,6 +343,24 @@ const localStyle = {
 		background:'#fff',
 		marginTop:6
 	},
+	image: {
+		float:'left',
+		marginRight:12,
+		borderRadius:22,
+		width:44
+	},
+	detailHeader: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		fontSize: 18,
+		lineHeight: 10+'px'
+	},
+	subtext: {
+		fontWeight:100,
+		fontSize:14,
+		lineHeight:14+'px'
+	},	
 	input: {
 		color:'#333',
 		background: '#f9f9f9',
