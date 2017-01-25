@@ -364,7 +364,7 @@ class Account extends Component {
 							<div className="container clearfix">
 								{ (user == null) ? null : 
 									<div>
-										<img style={localStyle.profileImage} src={user.image+'=s140'} />
+										<img style={localStyle.profileImage} src={user.image+'=s140-c'} />
 										<h2 style={ styles.team.title }>
 											<Link to={'/profile/'+user.slug}>{ user.username }</Link>
 										</h2>
