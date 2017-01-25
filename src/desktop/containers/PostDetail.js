@@ -407,14 +407,18 @@ class PostDetail extends Component {
 							</div>
 						}
 					</div>
-					{ content }
 
-					<div style={{paddingBottom:24, background:'#f9f9f9', textAlign:'right'}}>
-						<input type="text" id="text" onChange={this.updateComment.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
-						<br />
-						<a href="#" style={{marginTop:12}} className="button button-mini button-circle button-green">Submit Comment</a>
+					<div style={{padding:'0px 16px 16px 16px'}}>
+						{ content }
 					</div>
 
+					{ (post.type == 'hiring') ? null : 
+						<div style={{paddingBottom:24, background:'#f9f9f9', textAlign:'right'}}>
+							<input type="text" id="text" onChange={this.updateComment.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
+							<br />
+							<a href="#" onClick={this.submitComment.bind(this)} style={{marginTop:12, marginRight:16}} className="button button-mini button-circle button-green">Submit Comment</a>
+						</div>
+					}
 				</div>
 				{ /* end mobile UI */ }
 
