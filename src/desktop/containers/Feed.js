@@ -78,17 +78,40 @@ class Feed extends Component {
 		const teams = this.props.teams[user.id] // can be null
 		const selected = this.state.selected
 
+		let content = null
 		let posts = null
-		if (selected == 'Front Page'){
+
+		if (selected == 'Teams'){ // mobile UI Only
+			content = (
+				<div style={{padding:'0px 24px 0px 24px'}}>
+					{ (teams == null) ? null : teams.map((team, i) => {
+							return (
+								<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
+									<Link to={'/team/'+team.slug}>
+										<img style={localStyle.image} src={team.image+'=s44-c'} />
+									</Link>
+									<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
+										{team.name}
+									</Link>
+									<br />
+									<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
+								</div>
+							)
+						})
+					}
+				</div>
+			)
+		}
+		else if (selected == 'Front Page'){
 			const teamsString = user.teams.join(',')
 			posts = this.props.posts[teamsString] // can be bull
+			content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
 		}
 
-		if (selected == 'Saved'){
+		else if (selected == 'Saved'){
 			posts = this.props.posts['saved'] // can be bull
+			content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
 		}
-
-		const content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
 
 		return (
 			<div>
@@ -170,6 +193,7 @@ class Feed extends Component {
 							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
 								<option value="Front Page">Front Page</option>
 								<option value="Saved">Saved</option>
+								<option value="Teams">Your Teams</option>
 							</select>
 						</div>
 
@@ -180,7 +204,9 @@ class Feed extends Component {
 						</div>
 					</div>
 
-					{ content }
+					<div style={{marginTop:24}}>
+						{ content }
+					</div>
 				</div>
 				{ /* end mobile UI */ }
 
