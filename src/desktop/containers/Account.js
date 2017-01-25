@@ -289,17 +289,32 @@ class Account extends Component {
 
 		if (selected == 'Profile'){
 			content = (
-				<div style={{textAlign:'left', marginTop:24}}>
-					{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
-					{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
-						<div>
-							<h4 style={styles.header}>{ user.username }</h4>
-							<h4 style={styles.header}>{ user.title }</h4>
-							<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
-							<p className="lead" style={{fontSize:16, color:'#555', marginTop:12, marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
-							<img src={user.image+'=s220-c'} />
-						</div>
-					}
+				<div>
+					<div className="hidden-xs" style={{textAlign:'left', marginTop:48}}>
+						{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+						{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
+							<div>
+								<h4 style={styles.header}>{ user.username }</h4>
+								<h4 style={styles.header}>{ user.title }</h4>
+								<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
+								<p className="lead" style={{fontSize:16, color:'#555', marginTop:12, marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+								<img src={user.image+'=s220-c'} />
+							</div>
+						}
+					</div>
+
+					<div className="visible-xs" style={{padding:'0px 16px 0px 16px'}}>
+						{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+						{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
+							<div>
+								<h4 style={styles.header}>{ user.username }</h4>
+								<h4 style={styles.header}>{ user.title }</h4>
+								<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
+								<p className="lead" style={{fontSize:16, color:'#555', marginTop:12, marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+								<img src={user.image+'=s220-c'} />
+							</div>
+						}
+					</div>
 				</div>
 			)
 		}
@@ -439,6 +454,7 @@ class Account extends Component {
 							</div>
 						}						
 					</div>
+
 					{ content }
 				</div>
 				{ /* end mobile UI */ }
