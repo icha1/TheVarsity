@@ -29,7 +29,7 @@ class CreateProject extends Component {
 		updated['teams'] = teams
 
 		this.setState({
-			teams: teams
+			post: updated
 		})
 	}
 

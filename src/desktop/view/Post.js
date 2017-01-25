@@ -33,7 +33,8 @@ class Post extends Component {
 		let link = null
 		if (post.url.length > 0){ // https://www.f6s.com/jobs
 			const parts = post.url.split('//') // www.f6s.com/jobs
-			link = parts[1].split('/')[0].replace('www.', '')
+			if (parts.length > 1)
+				link = parts[1].split('/')[0].replace('www.', '')
 		}
 
 		let saved = false

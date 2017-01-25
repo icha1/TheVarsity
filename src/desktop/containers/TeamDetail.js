@@ -240,6 +240,7 @@ class TeamDetail extends Component {
 		this.props.createPost(post)
 		.then(response => {
 			browserHistory.push('/post/'+response.result.slug)
+			return response
 		})
 		.catch(err => {
 			alert(err)
@@ -401,7 +402,6 @@ class TeamDetail extends Component {
 		let cta = null
 
 		const selected = this.props.selected
-		console.log('SELECTED: == '+selected)
 		if (selected == 'Hiring'){
 			cta = (this.props.user == null) ? null : <a href="#" onClick={this.toggleShowSubmit.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>{ (this.state.showSubmit) ? 'Cancel' : 'Submit Post'}</a>
 			const sublist = this.sublist(selected)
