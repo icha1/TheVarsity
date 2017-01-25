@@ -14,6 +14,7 @@ class Section extends Component {
 	}
 
 	redeemInvitation(invitation){
+		console.log('REDEEM INVITATION: '+JSON.stringify(invitation))
 		this.props.redeemInvitation(invitation)
 		.then((response) => {
 			window.location.href = '/feed' // relocate to feed page
