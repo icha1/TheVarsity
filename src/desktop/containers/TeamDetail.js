@@ -95,7 +95,7 @@ class TeamDetail extends Component {
 
 		const selected = (item.length == 0) ? event.target.value : item
 		console.log('selectItem: '+selected)
-		this.props.selectedFeedChanged(item)
+		this.props.selectedFeedChanged(selected)
 	}
 
 	updateInvitation(event){
@@ -401,6 +401,7 @@ class TeamDetail extends Component {
 		let cta = null
 
 		const selected = this.props.selected
+		console.log('SELECTED: == '+selected)
 		if (selected == 'Hiring'){
 			cta = (this.props.user == null) ? null : <a href="#" onClick={this.toggleShowSubmit.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>{ (this.state.showSubmit) ? 'Cancel' : 'Submit Post'}</a>
 			const sublist = this.sublist(selected)
@@ -443,20 +444,14 @@ class TeamDetail extends Component {
 		else if (selected == 'Overview'){
 			content = (
 				<div>
-					<div style={{textAlign:'right', marginBottom:24}}>
-						{ (this.memberFound(this.props.user, team.admins)) ? <button onClick={this.toggleEditing.bind(this)} style={localStyle.btnBlue} className={localStyle.btnBlue.className}>Edit</button> : null }
+					<div className="hidden-xs">
+						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 					</div>
-					<div>
-						<div className="hidden-xs">
-							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
-						</div>
 
-						{/* mobile UI*/}
-						<div className="visible-xs" style={{padding:'0px 24px 0px 24px'}}>
-							{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginBottom:12}} src={team.image+'=s160-c'} /> }
-							<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
-						</div>
-
+					{/* mobile UI*/}
+					<div className="visible-xs" style={{padding:'0px 24px 0px 24px'}}>
+						{ (team.image.length == 0) ? null : <img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginBottom:12}} src={team.image+'=s160-c'} /> }
+						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(team.description)}}></p>
 					</div>
 				</div>
 			)
@@ -504,7 +499,6 @@ class TeamDetail extends Component {
 							</div>
 						</div>
 					</section>
-
 				</div>
 
 				{ /* mobile UI */ }
@@ -526,7 +520,9 @@ class TeamDetail extends Component {
 						</div>
 					</div>
 
-					{ content }
+					<div style={{marginTop:24}}>
+						{ content }
+					</div>
 				</div>
 				{ /* end mobile UI */ }
 
