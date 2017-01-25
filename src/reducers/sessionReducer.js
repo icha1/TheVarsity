@@ -20,9 +20,13 @@ export default (state = initialState, action) => {
 			newState['selected'] = action.feed
 			return newState
 
-		case constants.TOGGLE_SHOW_MAP:
-			newState['showMap'] = action.show
+		case constants.SET_CURRENT_TEAM:
+			newState['currentTeam'] = action.team
 			return newState
+
+		// case constants.TOGGLE_SHOW_MAP:
+		// 	newState['showMap'] = action.show
+		// 	return newState
 
 		default:
 			return state

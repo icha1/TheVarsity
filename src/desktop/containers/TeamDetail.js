@@ -35,6 +35,7 @@ class TeamDetail extends Component {
 		window.scrollTo(0, 0)
 		const team = this.props.teams[this.props.slug]
 		if (team != null){
+			this.props.setCurrentTeam(team)
 			if (this.props.posts[team.id] == null)
 				this.props.fetchPosts({teams: team.id})
 
@@ -363,6 +364,9 @@ class TeamDetail extends Component {
 		if (team == null)
 			return
 
+		if (this.props.session.currentTeam == null)
+			this.props.setCurrentTeam(team)
+
 		const selected = this.props.selected
 		if (selected == 'Members'){
 			if (this.props.profiles[team.id] == null)
@@ -566,7 +570,8 @@ const stateToProps = (state) => {
 		teams: state.team,
 		posts: state.post,
 		profiles: state.profile,
-		selected: state.session.selected
+		selected: state.session.selected,
+		session: state.session
 	}
 }
 
@@ -581,7 +586,8 @@ const dispatchToProps = (dispatch) => {
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		createPost: (params) => dispatch(actions.createPost(params)),
-		selectedFeedChanged: (selected) => dispatch(actions.selectedFeedChanged(selected))
+		selectedFeedChanged: (selected) => dispatch(actions.selectedFeedChanged(selected)),
+		setCurrentTeam: (team) => dispatch(actions.setCurrentTeam(team))
 	}
 }
 

@@ -172,6 +172,14 @@ export default {
 		}
 	},
 
+	setCurrentTeam: (team) => {
+		return {
+			type: constants.SET_CURRENT_TEAM,
+			team: team
+		}
+	},
+
+
 	// - - - - - - - - - PROFILES - - - - - - - - - 	
 
 	fetchProfiles: (params) => {

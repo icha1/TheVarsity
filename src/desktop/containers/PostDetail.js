@@ -286,8 +286,7 @@ class PostDetail extends Component {
 			content = <Application user={user} projects={projects} onSubmitApplication={this.submitApplication.bind(this)} />
 		}
 
-		const team = (post==null) ? null : this.props.teams[post.teams[0]] // can be null
-
+		const team = (this.props.session.currentTeam) ? this.props.session.currentTeam : this.props.teams[post.teams[0]]
 		return (
 			<div>
 				{ (user == null) ? null : 
@@ -353,14 +352,12 @@ class PostDetail extends Component {
 
 								</div>
 				            </div>
-
 			            </div>
 					</header>
 
 					<section id="content" style={{background:'#fff', minHeight:800}}>
 						<div className="content-wrap container clearfix">
 							<div className="col_two_third">
-
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
 										<h2 style={styles.team.title}>
@@ -492,7 +489,8 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		posts: state.post,
 		teams: state.team,
-		profiles: state.profile
+		profiles: state.profile,
+		session: state.session
 	}
 }
 
