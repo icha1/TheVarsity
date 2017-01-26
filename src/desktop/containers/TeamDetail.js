@@ -217,7 +217,7 @@ class TeamDetail extends Component {
 	submitPost(post){
 		const user = this.props.user
 		post['saved'] = [user.id]
-		post['type'] = this.props.selected.toLowerCase()
+		post['type'] = (post.type) ? post.type : this.props.selected.toLowerCase()
 		post['author'] = {
 			id: user.id,
 			name: user.username,

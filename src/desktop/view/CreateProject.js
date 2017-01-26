@@ -10,6 +10,7 @@ class CreateProject extends Component {
 		this.state = {
 			post: {
 				title: '',
+				type: 'project',
 				url: '',
 				image: '',
 				images: [],
