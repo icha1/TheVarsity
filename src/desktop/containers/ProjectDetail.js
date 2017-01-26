@@ -333,69 +333,68 @@ class ProjectDetail extends Component {
 					<section id="content" style={{background:'#fff', minHeight:800}}>
 						<div className="content-wrap container clearfix">
 
+							<div className="postcontent nobottommargin col_last clearfix">
+								<div id="posts" className="post-timeline clearfix">
+									<div className="timeline-border"></div>
 
-					<div className="postcontent nobottommargin col_last clearfix">
-						<div id="posts" className="post-timeline clearfix">
-							<div className="timeline-border"></div>
+									<div className="entry clearfix" style={{border:'none', paddingBottom:0}}>
+										<div className="entry-timeline">
+											1<span>Intro</span>
+											<div className="timeline-divider"></div>
+										</div>
+										<div className="entry-image">
+											<a href={post.image+'=s1024'} data-lightbox="image">
+												<img style={{maxWidth:420, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={post.image} alt="Standard Post with Image" />
+											</a>
+										</div>
 
-							<div className="entry clearfix" style={{border:'none', paddingBottom:0}}>
-								<div className="entry-timeline">
-									1<span>Start</span>
-									<div className="timeline-divider"></div>
-								</div>
-								<div className="entry-image">
-									<a href={post.image+'=s1024'} data-lightbox="image">
-										<img style={{maxWidth:420, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={post.image} alt="Standard Post with Image" />
-									</a>
-								</div>
+										<ul className="entry-meta clearfix">
+											{ post.images.map((image, i) => {
+													return (
+														<li key={image} style={{color:'#fff'}}>
+															<a href={image+'=s1024'} data-lightbox="image">
+																<img src={image+'=s72-c'} />
+															</a>
+														</li>
+													)
+												})
+											}
+										</ul>
 
-								<ul className="entry-meta clearfix">
-									{ post.images.map((image, i) => {
-											return (
-												<li key={image} style={{color:'#fff'}}>
-													<a href={image+'=s1024'} data-lightbox="image">
-														<img src={image+'=s72-c'} />
-													</a>
-												</li>
-											)
-										})
-									}
-								</ul>
+										<div className="clearfix"></div>
+										<div className="entry-title clearfix">
+											<h2 style={styles.team.title}>{post.title}</h2>
+										</div>
 
-								<div className="clearfix"></div>
-								<div className="entry-title clearfix">
-									<h2 style={styles.team.title}>{post.title}</h2>
-								</div>
+										<hr />
+										<div className="hidden-xs" style={{lineHeight:18+'px'}}>
+											<img style={{marginRight:10, borderRadius:22, float:'left'}} src={post.author.image+'=s44-c'} />
+											<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
+											<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
+										</div>
 
-								<hr />
-								<div className="hidden-xs" style={{lineHeight:18+'px'}}>
-									<img style={{marginRight:10, borderRadius:22, float:'left'}} src={post.author.image+'=s44-c'} />
-									<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
-									<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
-								</div>
-
-								<div className="entry-content" style={{marginTop:24}}>
-									<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
-								</div>
-							</div>
-
-							<div className="entry clearfix" style={{border:'none'}}>
-								<div className="entry-timeline">
-									21<span>Mar</span>
-									<div className="timeline-divider"></div>
-								</div>
-								<div className="entry-image">
-									<div className="panel panel-default">
-										<div className="panel-body">
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, fuga optio voluptatibus saepe tenetur aliquam debitis eos accusantium! Vitae, hic, atque aliquid repellendus accusantium laudantium minus eaque quibusdam ratione sapiente.
+										<div className="entry-content" style={{marginTop:24}}>
+											<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
 										</div>
 									</div>
+
+									<div className="entry clearfix" style={{border:'none'}}>
+										<div className="entry-timeline">
+											21<span>Mar</span>
+											<div className="timeline-divider"></div>
+										</div>
+										<div className="entry-image">
+											<div className="panel panel-default">
+												<div className="panel-body">
+													Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, fuga optio voluptatibus saepe tenetur aliquam debitis eos accusantium! Vitae, hic, atque aliquid repellendus accusantium laudantium minus eaque quibusdam ratione sapiente.
+												</div>
+											</div>
+										</div>
+									</div>
+
+
 								</div>
 							</div>
-
-
-						</div>
-					</div>
 
 						</div>
 					</section>
