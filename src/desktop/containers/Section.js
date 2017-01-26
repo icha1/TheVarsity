@@ -14,7 +14,8 @@ class Section extends Component {
 	}
 
 	redeemInvitation(invitation){
-		console.log('REDEEM INVITATION: '+JSON.stringify(invitation))
+//		console.log('REDEEM INVITATION: '+JSON.stringify(invitation))
+		delete invitation['name'] // this messes up the search for invitation
 		this.props.redeemInvitation(invitation)
 		.then((response) => {
 			window.location.href = '/feed' // relocate to feed page
