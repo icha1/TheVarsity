@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var InvitationSchema = new mongoose.Schema({
 	name: {type:String, trim:true, default:''},
-	email: {type:String, trim:true, default:''},
+	email: {type:String, trim:true, lowercase:true, default:''},
 	code: {type:String, trim:true, lowercase:true, default:''},
 	from: {type:mongoose.Schema.Types.Mixed, default:{}}, // id, email
 	team: {type:mongoose.Schema.Types.Mixed, default:{}}, // have to be invited to a team
