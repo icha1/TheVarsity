@@ -351,11 +351,13 @@ class ProjectDetail extends Component {
 
 								<ul className="entry-meta clearfix">
 									{ post.images.forEach((image, i) => {
-											<li style={{color:'#fff'}}>
-												<a href={image} data-lightbox="image">
-													<img src={image+'=s72-c'} />
-												</a>
-											</li>
+											return (
+												<li key={image} style={{color:'#fff'}}>
+													<a href={image} data-lightbox="image">
+														<img src={image+'=s72-c'} />
+													</a>
+												</li>
+											)
 										})
 									}
 								</ul>
