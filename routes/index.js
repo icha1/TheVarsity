@@ -181,7 +181,8 @@ router.get('/:page/:slug', function(req, res, next) {
 			tags['description'] = utils.TextUtils.truncateText(description, 200)
 		})
 
-		reducers[page] = reducersIndex.initial(page, results)
+		var reducerKey = (page == 'project') ? 'post' : page // project is just a post anyway
+		reducers[reducerKey] = reducersIndex.initial(page, results)
 		initialStore = store.configureStore(reducers)
 
 		var routes = {

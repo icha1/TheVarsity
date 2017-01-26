@@ -7,6 +7,7 @@ import TeamDetail from './TeamDetail'
 import PostDetail from './PostDetail'
 import ProfileList from './ProfileList'
 import ProfileDetail from './ProfileDetail'
+import ProjectDetail from './ProjectDetail'
 import District from './District'
 import Account from './Account'
 import Section from './Section'
@@ -21,6 +22,7 @@ export {
 	ProfileList,
 	PostDetail,
 	ProfileDetail,
+	ProjectDetail,
 	District,
 	Account,
 	Section

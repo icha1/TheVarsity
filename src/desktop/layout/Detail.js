@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TeamDetail, PostDetail, ProfileDetail, ApplicationDetail } from '../containers'
+import { TeamDetail, PostDetail, ProjectDetail, ProfileDetail, ApplicationDetail } from '../containers'
 import styles from './styles'
 
 class Detail extends Component {
@@ -18,6 +18,9 @@ class Detail extends Component {
 
 			case 'post':
 				return component = <PostDetail slug={slug} query={query} />
+
+			case 'project':
+				return component = <ProjectDetail slug={slug} query={query} />
 
 			case 'profile':
 				return component = <ProfileDetail slug={slug} query={query} />

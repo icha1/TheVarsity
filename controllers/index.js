@@ -10,6 +10,7 @@ var ApplicationController = require('../controllers/ApplicationController')
 
 module.exports = {
 	post: PostController,
+	project: PostController,
 	district: DistrictController,
 	profile: ProfileController,
 	account: AccountController,

@@ -18,6 +18,9 @@ export const initial = (reducer, entities) => {
 		case 'post':
 			return post.populate(entities)
 
+		case 'project':
+			return post.populate(entities)
+
 		case 'session':
 			return session.populate(entities)
 
