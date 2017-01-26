@@ -350,7 +350,7 @@ class ProjectDetail extends Component {
 								</div>
 
 								<ul className="entry-meta clearfix">
-									{ post.images.forEach((image, i) => {
+									{ post.images.map((image, i) => {
 											return (
 												<li key={image} style={{color:'#fff'}}>
 													<a href={image} data-lightbox="image">
