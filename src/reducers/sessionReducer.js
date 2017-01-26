@@ -14,10 +14,9 @@ export default (state = initialState, action) => {
 			return newState
 
 		case constants.SELECTED_FEED_CHANGED:
-			// newState['reload'] = (action.feed != newState.selectedFeed)
-			// newState['selectedFeed'] = action.feed
-
-			newState['selected'] = action.feed
+			let selected = Object.assign({}, state.selected)
+			selected[action.page] = action.selected
+			newState['selected'] = selected
 			return newState
 
 		case constants.SET_CURRENT_TEAM:

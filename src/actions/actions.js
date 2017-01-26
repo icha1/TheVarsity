@@ -252,10 +252,11 @@ export default {
 		}		
 	},
 
-	selectedFeedChanged: (feed) => {
+	selectedFeedChanged: (feed) => { // contains page and selected
 		return {
 			type: constants.SELECTED_FEED_CHANGED,
-			feed: feed
+			page: feed.page,
+			selected: feed.selected
 		}		
 	},
 

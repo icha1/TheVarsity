@@ -3,7 +3,7 @@ import constants from '../../constants/constants'
 export default {
 	initialState: {
 		template: 'index', // index or index-mobile
-		selected: 'Showcase',
+//		selected: 'Showcase',
 		currentTeam: null,
 		selectedFeed: constants.FEED_TYPE_ALL,
 		reload: false,
@@ -11,6 +11,10 @@ export default {
 		showMap: false,
 		teams: [],
 		nearby: [], // districts nearby
+		selected: {
+			team: 'Projects',
+			account: ''
+		},
 		currentDistrict: {
 			id: null,
 			name: '',
@@ -31,7 +35,7 @@ export default {
 
 		var initial = {
 			template: 'index',
-			selected: 'Showcase',
+//			selected: 'Showcase',
 			currentTeam: null,
 			selectedFeed: constants.FEED_TYPE_ALL,
 			reload: false,
@@ -39,6 +43,10 @@ export default {
 			showMap: false,
 			teams: [],
 			nearby: [], // districts nearby
+			selected: {
+				team: 'Projects',
+				account: ''
+			},
 			currentDistrict: {
 				id: null,
 				name: '',

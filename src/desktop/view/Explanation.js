@@ -32,7 +32,7 @@ const content = {
 		why: '',
 		showButton: false
 	},
-	showcase: {
+	projects: {
 		what: 'This showcase is an area for displaying your work and getting feedback, suggestions, and general opinions. If you are working on a side project and would like to get show it to the team, this is the spot.',
 		why: 'Projects in the showcase can be viewed by anyone so it is a good area for displaying your overall skills and abilities. Top rated showcase projects are periodically sent to hiring companies via newsletter.',
 		showButton: true

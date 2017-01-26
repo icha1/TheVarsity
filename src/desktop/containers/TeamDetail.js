@@ -21,7 +21,7 @@ class TeamDetail extends Component {
 				email: ''
 			},
 			menuItems: [
-				'Showcase',
+				'Projects',
 				'Hiring',
 				'Chat',
 				'Members'
@@ -47,7 +47,6 @@ class TeamDetail extends Component {
 			if (results.length == 0)
 				return
 
-			// this.connectToFirebase()
 		})
 		.catch(err => {
 			console.log('ERROR:' + err)
@@ -95,8 +94,10 @@ class TeamDetail extends Component {
 		window.scrollTo(0, 0)
 
 		const selected = (item.length == 0) ? event.target.value : item
-		console.log('selectItem: '+selected)
-		this.props.selectedFeedChanged(selected)
+		this.props.selectedFeedChanged({
+			page: 'team',
+			selected: selected
+		})
 	}
 
 	updateInvitation(event){
@@ -367,7 +368,7 @@ class TeamDetail extends Component {
 		if (this.props.session.currentTeam == null)
 			this.props.setCurrentTeam(team)
 
-		const selected = this.props.selected
+		const selected = this.props.session.selected.team
 		if (selected == 'Members'){
 			if (this.props.profiles[team.id] == null)
 				this.props.fetchProfiles({teams: team.id})
@@ -386,9 +387,10 @@ class TeamDetail extends Component {
 		if (team == null)
 			return []
 
+		const filter = (selected == 'Projects') ? 'project' : selected // project is singular in post schema
 		const list = (this.props.posts[team.id] == null) ? [] : this.props.posts[team.id]
 		const sublist = list.filter((post, i) => {
-			return (post.type == selected.toLowerCase())
+			return (post.type == filter.toLowerCase())
 		})
 
 		return sublist
@@ -405,7 +407,7 @@ class TeamDetail extends Component {
 		let content = null
 		let cta = null
 
-		const selected = this.props.selected
+		const selected = this.props.session.selected.team
 		if (selected == 'Hiring'){
 			cta = (this.props.user == null) ? null : <a href="#" onClick={this.toggleShowSubmit.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>{ (this.state.showSubmit) ? 'Cancel' : 'Submit Post'}</a>
 			const sublist = this.sublist(selected)
@@ -430,7 +432,7 @@ class TeamDetail extends Component {
 				</div>
 			)
 		}
-		else if (selected == 'Showcase'){
+		else if (selected == 'Projects'){
 			cta = (this.props.user == null) ? null : <a href="#" onClick={this.createProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Showcase Your Work</a>
 			const sublist = this.sublist(selected)
 			content = (this.state.showCreateProject) ? <CreateProject team={team} onCreate={this.submitPost.bind(this)} /> : (
@@ -510,7 +512,7 @@ class TeamDetail extends Component {
 					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
 						<div className="col-xs-6">
 							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
-								<option value="Showcase">Showcase</option>
+								<option value="Projects">Projects</option>
 								<option value="Hiring">Hiring</option>
 								<option value="Overview">Overview</option>
 								<option value="Members">Members</option>
