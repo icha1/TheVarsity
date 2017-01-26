@@ -4,6 +4,7 @@ import accountReducer from './accountReducer'
 import profileReducer from './profileReducer'
 import sessionReducer from './sessionReducer'
 import applicationReducer from './applicationReducer'
+import milestoneReducer from './milestoneReducer'
 import { team, profile, post, session, application } from './initial'
 
 export const initial = (reducer, entities) => {
@@ -42,5 +43,6 @@ export {
 	sessionReducer,
 	accountReducer,
 	profileReducer,
-	applicationReducer
+	applicationReducer,
+	milestoneReducer
 }
