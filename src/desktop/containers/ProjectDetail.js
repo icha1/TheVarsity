@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
-import { CreateComment, CreatePost, Comments, ProfilePreview, Application } from '../view'
+import { CreateComment, CreatePost, Comments, ProfilePreview, Application, Milestone } from '../view'
 import { DateUtils, FirebaseManager, TextUtils, APIManager, Alert } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -237,7 +237,7 @@ class ProjectDetail extends Component {
 							</div>
 							<div className="entry-image">
 								<a href={post.image+'=s1024'} data-lightbox="image">
-									<img style={{maxWidth:420, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={post.image} alt="The Varsity" />
+									<img style={{maxWidth:360, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={post.image} alt="The Varsity" />
 								</a>
 							</div>
 
@@ -271,21 +271,28 @@ class ProjectDetail extends Component {
 							</div>
 						</div>
 
-						<div className="entry clearfix" style={{border:'none'}}>
+						<div className="entry clearfix" style={{border:'none', marginBottom:12, paddingBottom:12, maxWidth:560}}>
 							<div className="entry-timeline">
-								21<span>Mar</span>
+								+<span>Add</span>
 								<div className="timeline-divider"></div>
 							</div>
 							<div className="entry-image">
 								<div className="panel panel-default">
 									<div className="panel-body">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, fuga optio voluptatibus saepe tenetur aliquam debitis eos accusantium! Vitae, hic, atque aliquid repellendus accusantium laudantium minus eaque quibusdam ratione sapiente.
+										<input placeholder="Title" style={{width:100+'%', border:'none', background:'#f9f9f9', padding:6}} type="text" />
+										<textarea placeholder="Describe your milestone" style={{width:100+'%', height:80, border:'none', background:'#f9f9f9', padding:6, marginTop:12}}></textarea>
+										<div style={{textAlign:'right', marginTop:12}}>
+											<button className="button button-small button-border button-border-thin button-blue">Add Milestone</button>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 
-
+						<Milestone />
+						<Milestone />
+						<Milestone />
+						<Milestone />
 					</div>
 				</div>
 

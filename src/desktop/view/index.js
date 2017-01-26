@@ -19,6 +19,7 @@ import Sidebar from './Sidebar'
 import Modal from './Modal'
 import Explanation from './Explanation'
 import Application from './Application'
+import Milestone from './Milestone'
 
 export {
 	Map,
@@ -41,5 +42,6 @@ export {
 	Sidebar,
 	Modal,
 	Explanation,
-	Application
+	Application,
+	Milestone
 }

@@ -5,6 +5,7 @@ var MilestoneSchema = new mongoose.Schema({
 	slug: {type:String, trim:true, lowercase:true, default:''},
 	image: {type:String, trim:true, default:''},
 	description: {type:String, trim:true, default:''},
+	attachments: {type:Array, default:[]},
 	timestamp: {type:Date, default:Date.now}
 })
 
@@ -14,6 +15,7 @@ MilestoneSchema.methods.summary = function(){
 		slug: this.slug,
 		image: this.image,
 		description: this.description,
+		attachments: this.attachments,
 		timestamp: this.timestamp,
 		schema: 'milestone',
 		id: this._id.toString()
