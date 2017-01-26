@@ -12,6 +12,7 @@ var PostSchema = new mongoose.Schema({
 	text: {type:String, trim:true, default:''},
 	type: {type:String, trim:true, default:'event'}, // event, news
 	district: {type:String, trim:true, default:''},
+	credits: {type:Array, default:[]}, // array of profiles who contributed to project, post, etc
 	saved: {type:Array, default:[]}, // array of profile IDs who saved the post
 	teams: {type:Array, default:[]}, // array of teams that show this post
 	contact: {type:Array, default:[]}, // list of emails to contact, use for hiring posts
@@ -39,6 +40,7 @@ PostSchema.methods.summary = function(){
 		video: this.video,
 		text: this.text,
 		type: this.type,
+		credits: this.credits,
 		saved: this.saved,
 		teams: this.teams,
 		contact: this.contact,

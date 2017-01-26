@@ -319,11 +319,14 @@ router.post('/:action', function(req, res, next){
 				throw new Error('Invitation Not Found. Check the email or invitation code.')
 			
 			invitation = invitations[0]
-			return invitation
-		})
-		.then(function(invitation){
+			invitation['status'] = 'accepted'
+			invitation.save()
+//			return invitation
 			return controllers.team.getById(invitation.team.id, true)
 		})
+		// .then(function(invitation){
+		// 	return controllers.team.getById(invitation.team.id, true)
+		// })
 		.then(function(team){
 			hostTeam = team
 
