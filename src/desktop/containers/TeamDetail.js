@@ -214,10 +214,18 @@ class TeamDetail extends Component {
 		return this.props.updateTeam(team, updated)
 	}
 
-	submitPost(post){
+	preparePost(post, type){
 		const user = this.props.user
+		if (user == null){
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please log in or register to create a project.'
+			})
+			return null
+		}
+
 		post['saved'] = [user.id]
-		post['type'] = (post.type) ? post.type : this.props.selected.toLowerCase()
+		post['type'] = type
 		post['author'] = {
 			id: user.id,
 			name: user.username,
@@ -225,6 +233,37 @@ class TeamDetail extends Component {
 			image: (user.image.length == 0) ? null : user.image,
 			type: 'profile'
 		}
+
+		return post
+	}
+
+	submitProject(post){
+		const prepared = this.preparePost(post, 'project') // can be null
+		if (prepared == null)
+			return
+
+		let slug = null
+		this.props.createPost(prepared)
+		.then(response => {
+			slug = response.result.slug
+			const user = this.props.user
+			let projects = user.projects
+			projects.push(response.result.id)
+			return this.props.updateProfile(user, {projects: projects})
+		})
+		.then(response => {
+			browserHistory.push('/project/'+slug)
+			return response
+		})
+		.catch(err => {
+			alert(err)
+		})
+	}	
+
+	submitPost(post){
+		const prepared = this.preparePost(post, 'hiring') // can be null
+		if (prepared == null)
+			return
 
 		const team = this.props.teams[this.props.slug]
 		post['teams'] = [team.id]
@@ -435,7 +474,7 @@ class TeamDetail extends Component {
 		else if (selected == 'Projects'){
 			cta = (this.props.user == null) ? null : <a href="#" onClick={this.createProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Showcase Your Work</a>
 			const sublist = this.sublist(selected)
-			content = (this.state.showCreateProject) ? <CreateProject team={team} onCreate={this.submitPost.bind(this)} /> : (
+			content = (this.state.showCreateProject) ? <CreateProject team={team} onCreate={this.submitProject.bind(this)} /> : (
 				<div>
 					{ (sublist.length == 0) ? <Explanation context={selected} btnAction={this.toggleInvite.bind(this)} /> : 
 						<PostFeed 
@@ -589,7 +628,8 @@ const dispatchToProps = (dispatch) => {
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		createPost: (params) => dispatch(actions.createPost(params)),
 		selectedFeedChanged: (selected) => dispatch(actions.selectedFeedChanged(selected)),
-		setCurrentTeam: (team) => dispatch(actions.setCurrentTeam(team))
+		setCurrentTeam: (team) => dispatch(actions.setCurrentTeam(team)),
+		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params))
 	}
 }
 

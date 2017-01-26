@@ -193,13 +193,22 @@ class Account extends Component {
 	}
 
 	submitProject(post){
-		const prepared = this.preparePost(post, 'showcase') // can be null
+		const prepared = this.preparePost(post, 'project') // can be null
 		if (prepared == null)
 			return
-		
+
+		let slug = null
 		this.props.createPost(prepared)
 		.then(response => {
-			browserHistory.push('/post/'+response.result.slug)
+			slug = response.result.slug
+			const user = this.props.user
+			let projects = user.projects
+			projects.push(response.result.id)
+			return this.props.updateProfile(user, {projects: projects})
+		})
+		.then(response => {
+			browserHistory.push('/project/'+slug)
+			return response
 		})
 		.catch(err => {
 			alert(err)

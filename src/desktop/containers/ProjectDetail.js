@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
-import { CreateComment, CreatePost, Comments, ProfilePreview, Application, Milestone } from '../view'
+import { CreateComment, CreatePost, Comments, ProfilePreview, Application, Milestone, Profiles } from '../view'
 import { DateUtils, FirebaseManager, TextUtils, APIManager, Alert } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -17,7 +17,7 @@ class ProjectDetail extends Component {
 			isEditing: false,
 			comments: null,
 			selected: 'Post',
-			menuItems: ['Post', 'Comments']			
+			menuItems: ['Post', 'Comments', 'Collaborators']			
 		}
 	}
 
@@ -25,15 +25,9 @@ class ProjectDetail extends Component {
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
 			return
-
-		if (post.type == 'hiring')
-			this.setState({
-				menuItems: ['Post', 'Apply']
-			})
 	}
 
 	componentDidMount(){
-		console.log('componentDidMount: '+this.props.slug)
 		window.scrollTo(0, 0)
 		const post = this.props.posts[this.props.slug]
 		if (post == null)
@@ -76,29 +70,26 @@ class ProjectDetail extends Component {
 			this.props.fetchTeam(post.teams[0])
 			return			
 		}
+
+		const selected = this.state.selected
+		if (selected != 'Collaborators')
+			return
+
+		if (this.props.profiles[post.id] != null)
+			return
+
+		this.props.fetchProfiles({projects: post.id})
+		.then(response => {})
+		.catch(err => {
+			console.log('ERROR: '+JSON.stringify(err))
+		})
 	}
 
 	selectItem(item, event){
 		event.preventDefault()
-
-		const selected = (item.length == 0) ? event.target.value : item
-		console.log('selectItem: '+selected)
-
-		if (selected == 'Apply'){
-			if (this.props.user == null){ // have to be logged in
-				document.getElementById('request').scrollIntoView()
-
-				Alert.showAlert({
-					title: 'Log In',
-					text: 'Please log in or sign up to apply to this post.'
-				})
-				return
-			}
-		}
-
 		window.scrollTo(0, 0)
 		this.setState({
-			selected: selected
+			selected: (item.length == 0) ? event.target.value : item
 		})
 	}
 
@@ -204,6 +195,27 @@ class ProjectDetail extends Component {
 		})
 	}
 
+	toggleInvite(event){
+		console.log('toggleInvite')
+		if (event)
+			event.preventDefault()
+
+	}
+
+
+	memberFound(profile, list){
+		if (profile == null)
+			return false
+
+		let isFound = false
+		list.forEach((member, i) => {
+			if (member.id == profile.id)
+				isFound = true
+		})
+
+		return isFound
+	}
+
 	render(){
 		const style = styles.post
 		const user = this.props.user // can be null
@@ -301,35 +313,51 @@ class ProjectDetail extends Component {
 		}
 		else if (selected == 'Comments'){
 			content = (
-				<Comments 
-					user={user}
-					comments={this.state.comments}
-					submitComment={this.submitComment.bind(this)} />
+				<div>
+					<div className="col_two_third">
+						<div className="feature-box center media-box fbox-bg">
+							<div style={styles.main}>
+								<h2 style={styles.team.title}>Comments</h2>
+								<hr />
+								<Comments 
+									user={user}
+									comments={this.state.comments}
+									submitComment={this.submitComment.bind(this)} />
+							</div>
+						</div>
+					</div>
+
+					<div className="col_one_third col_last">
+
+					</div>
+				</div>
 			)
 		}
-		else if (selected == 'Apply'){
-			const userPosts = this.props.posts[user.id]
-			if (userPosts == null){ // fetch showcase projects
-				this.props.fetchPosts({'author.id': user.id})
-				.then(response => {
-//					console.log(JSON.stringify(response))
-				})
-				.catch(err => {
-					console.log(err)
-				})
-			}
+		else if (selected == 'Collaborators'){
+			const members = (post) ? this.props.profiles[post.id] : []
+			content = (
+				<div>
+					<div className="col_two_third">
+						<div className="feature-box center media-box fbox-bg">
+							<div style={styles.main}>
+								{ (user==null) ? null : <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Member</a> }
+								<h2 style={styles.team.title}>Collaborators</h2>
+								<hr />
+								<Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} user={user} />
+							</div>
+						</div>
+					</div>
 
-			const projects = (userPosts == null) ? [] : userPosts.filter((userPost, i) => {
-				return (userPost.type == 'showcase')
-			})
+					<div className="col_one_third col_last">
 
-			content = <Application user={user} projects={projects} onSubmitApplication={this.submitApplication.bind(this)} />
+					</div>
+				</div>
+			)
 		}
 
 		const team = (this.props.session.currentTeam) ? this.props.session.currentTeam : this.props.teams[post.teams[0]]
 		return (
 			<div>
-
 				<div className="clearfix hidden-xs">
 					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
 			            <div id="header-wrap">
@@ -429,35 +457,11 @@ const localStyle = {
 		border: 'none',
 		width: 100+'%'
 	},
-	detailHeader: {
-		color:'#333',
-		fontFamily:'Pathway Gothic One',
-		fontWeight: 100,
-		fontSize: 18,
-		lineHeight: 10+'px'
-	},
 	image: {
 		float:'left',
 		marginRight:12,
 		borderRadius:22,
 		width:44
-	},
-	subtext: {
-		fontWeight:100,
-		fontSize:14,
-		lineHeight:14+'px'
-	},
-	icon: {
-		fontSize: 20,
-		marginLeft: 4
-	},
-	iconContainer: {
-		width:46,
-		height:46,
-		borderRadius:23,
-		border:'1px solid #ddd',
-		textAlign:'center',
-		marginTop: 16
 	},
 	menuItem: {
 		padding: '6px 6px 6px 16px',
@@ -489,6 +493,11 @@ const localStyle = {
 		padding: 3,
 		border:'1px solid #ddd'
 	},
+	btnSmall: {
+		float:'right',
+		marginTop:0,
+		className: 'button button-small button-border button-border-thin button-blue'
+	}	
 }
 
 const stateToProps = (state) => {
@@ -507,13 +516,12 @@ const dispatchToProps = (dispatch) => {
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
+		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		fetchTeam: (id) => dispatch(actions.fetchTeam(id)),
 		fetchComments: (params) => dispatch(actions.fetchComments(params)),
-		createComment: (comment) => dispatch(actions.createComment(comment)),
-		applyToJob: (application) => dispatch(actions.applyToJob(application))
+		createComment: (comment) => dispatch(actions.createComment(comment))
 	}
-
 }
 
 export default connect(stateToProps, dispatchToProps)(ProjectDetail)
