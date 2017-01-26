@@ -7,6 +7,7 @@ var InvitationController = require('../controllers/InvitationController')
 var FeedbackController = require('../controllers/FeedbackController')
 var CommentController = require('../controllers/CommentController')
 var ApplicationController = require('../controllers/ApplicationController')
+var MilestoneController = require('../controllers/MilestoneController')
 
 module.exports = {
 	post: PostController,
@@ -18,5 +19,6 @@ module.exports = {
 	invitation: InvitationController,
 	feedback: FeedbackController,
 	comment: CommentController,
-	application: ApplicationController
+	application: ApplicationController,
+	milestone: MilestoneController
 }
