@@ -47,7 +47,8 @@ class Post extends Component {
 				deleteLink = <li style={style.listItem}><a style={{color:'red'}} href="#" onClick={this.deletePost.bind(this)}>Delete</a></li>
 		}
 
-		const title = (post.url.length == 0) ? <Link to={'/post/'+post.slug} style={style.title}>{ TextUtils.truncateText(post.title, 50) }</Link> : <a target='_blank' style={style.title} href={post.url}>{TextUtils.truncateText(post.title, 50) }</a>
+		const path = (post.type == 'project') ? '/project/'+post.slug : '/post/'+post.slug
+		const title = (post.url.length == 0) ? <Link to={path} style={style.title}>{ TextUtils.truncateText(post.title, 50) }</Link> : <a target='_blank' style={style.title} href={post.url}>{TextUtils.truncateText(post.title, 50) }</a>
 		const numCommentsBadge = (post.numComments == 0) ? null : <span style={{float:'right'}} className="badge">{post.numComments}</span>
 
 		const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
@@ -58,7 +59,7 @@ class Post extends Component {
 					<div className="comment-meta">
 						<div className="comment-author vcard">
 							<span className="comment-avatar clearfix">
-								<Link to={'/post/'+post.slug}>
+								<Link to={path}>
 									<img alt='The Varsity' src={'/images/'+post.type+'.png'} className='avatar avatar-60 photo' height='60' width='60' />
 								</Link>
 							</span>
@@ -68,7 +69,7 @@ class Post extends Component {
 						<div className={colClass} style={{marginBottom:4}}>
 							{ (link == null) ? null : <a style={{color:'#1265A8'}} target="_blank" href={post.url}>{link}</a> }
 							<h3 style={style.header}>{ title }</h3>
-							<Link to={'/post/'+post.slug}>
+							<Link to={path}>
 								<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.truncateText(post.text, 120)}}></p>
 							</Link>
 						</div>
@@ -101,7 +102,7 @@ class Post extends Component {
 				<div className="clearfix visible-xs" style={{borderBottom:'1px solid #ededed', padding:'0px 0px 12px 12px'}}>
 					<div className="comment-content clearfix" style={{textAlign:'left'}}>
 						{ (post.image.length == 0) ? null : (
-								<Link to={'/post/'+post.slug}>
+								<Link to={path}>
 									<img alt='The Varsity' className='avatar avatar-60 photo' style={{borderRadius:24, float:'right', marginRight:12}} src={ (post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s96-c'} width="48" height="48" />
 								</Link>
 							)
@@ -110,7 +111,7 @@ class Post extends Component {
 						<div style={{marginBottom: 25}}>
 							{ (link == null) ? null : <a style={{color:'#1265A8'}} target="_blank" href={post.url}>{link}</a> }
 							<h3 style={style.header}>{ title }</h3>
-							<Link to={'/post/'+post.slug}>
+							<Link to={path}>
 								<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(TextUtils.truncateText(post.text, 120))}}></p>
 							</Link>
 						</div>
