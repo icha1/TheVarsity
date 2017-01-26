@@ -226,38 +226,70 @@ class ProjectDetail extends Component {
 			}
 
 			content = (
-				<div>
-					<div className="hidden-xs" style={{lineHeight:18+'px'}}>
-						{ btnEdit }
-						<img style={{marginRight:10, borderRadius:22, float:'left'}} src={post.author.image+'=s44-c'} />
-						<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
-						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
-					</div>
+				<div className="postcontent nobottommargin col_last clearfix">
+					<div id="posts" className="post-timeline clearfix">
+						<div className="timeline-border"></div>
 
-					<div style={{textAlign:'left', marginTop:24, minHeight:300}}>
-						{ ( post.image.length == 0) ? null : (
-								<div>
-									<img className="hidden-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff', float:'right', marginLeft:12}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
-									<img className="visible-xs" style={{padding:3, border:'1px solid #ddd', background:'#fff'}} src={(post.image.indexOf('googleusercontent') == -1) ? post.image : post.image+'=s240'} />
-								</div>
-							)
-						}
-						<p className="lead" style={{fontSize:16, color:'#555', marginBottom:12}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
-						{ (post.url.length == 0) ? null : <a target="_blank" style={{color:'red'}} href={post.url}>READ MORE</a> }
-					</div>
-					
-					{ (post.images.length==0) ? null : <div><hr /><h3 style={styles.title}>Additional Images</h3></div> } 
-					{ post.images.map((image, i) => {
-							return (
-								<a key={i} target="_blank" href={image}>
-									<img style={{marginRight:12, background:'#fff', padding:3, border:'1px solid #ddd'}} src={image+'=s64-c'} />
+						<div className="entry clearfix" style={{border:'none', paddingBottom:0}}>
+							<div className="entry-timeline">
+								1<span>Intro</span>
+								<div className="timeline-divider"></div>
+							</div>
+							<div className="entry-image">
+								<a href={post.image+'=s1024'} data-lightbox="image">
+									<img style={{maxWidth:420, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={post.image} alt="The Varsity" />
 								</a>
-							)
-						})
-					}
+							</div>
 
-					{ (post.type == 'hiring') ? <div><hr /><button onClick={this.selectItem.bind(this, 'Apply')} className="button button-mini button-border button-border-thin button-blue">Apply To This Job</button></div> : null	}
+							<ul className="entry-meta clearfix">
+								{ post.images.map((image, i) => {
+										return (
+											<li key={image} style={{color:'#fff'}}>
+												<a href={image+'=s1024'} data-lightbox="image">
+													<img src={image+'=s72-c'} />
+												</a>
+											</li>
+										)
+									})
+								}
+							</ul>
+
+							<div className="clearfix"></div>
+							<div className="entry-title clearfix">
+								<h2 style={styles.team.title}>{post.title}</h2>
+							</div>
+
+							<hr />
+							<div className="hidden-xs" style={{lineHeight:18+'px'}}>
+								<img style={{marginRight:10, borderRadius:22, float:'left'}} src={post.author.image+'=s44-c'} />
+								<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
+								<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
+							</div>
+
+							<div className="entry-content" style={{marginTop:24}}>
+								<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
+							</div>
+						</div>
+
+						<div className="entry clearfix" style={{border:'none'}}>
+							<div className="entry-timeline">
+								21<span>Mar</span>
+								<div className="timeline-divider"></div>
+							</div>
+							<div className="entry-image">
+								<div className="panel panel-default">
+									<div className="panel-body">
+										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, fuga optio voluptatibus saepe tenetur aliquam debitis eos accusantium! Vitae, hic, atque aliquid repellendus accusantium laudantium minus eaque quibusdam ratione sapiente.
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
 				</div>
+
+
 			)
 		}
 		else if (selected == 'Comments'){
@@ -332,95 +364,8 @@ class ProjectDetail extends Component {
 
 					<section id="content" style={{background:'#fff', minHeight:800}}>
 						<div className="content-wrap container clearfix">
+							{ content }
 
-							<div className="postcontent nobottommargin col_last clearfix">
-								<div id="posts" className="post-timeline clearfix">
-									<div className="timeline-border"></div>
-
-									<div className="entry clearfix" style={{border:'none', paddingBottom:0}}>
-										<div className="entry-timeline">
-											1<span>Intro</span>
-											<div className="timeline-divider"></div>
-										</div>
-										<div className="entry-image">
-											<a href={post.image+'=s1024'} data-lightbox="image">
-												<img style={{maxWidth:420, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={post.image} alt="Standard Post with Image" />
-											</a>
-										</div>
-
-										<ul className="entry-meta clearfix">
-											{ post.images.map((image, i) => {
-													return (
-														<li key={image} style={{color:'#fff'}}>
-															<a href={image+'=s1024'} data-lightbox="image">
-																<img src={image+'=s72-c'} />
-															</a>
-														</li>
-													)
-												})
-											}
-										</ul>
-
-										<div className="clearfix"></div>
-										<div className="entry-title clearfix">
-											<h2 style={styles.team.title}>{post.title}</h2>
-										</div>
-
-										<hr />
-										<div className="hidden-xs" style={{lineHeight:18+'px'}}>
-											<img style={{marginRight:10, borderRadius:22, float:'left'}} src={post.author.image+'=s44-c'} />
-											<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
-											<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
-										</div>
-
-										<div className="entry-content" style={{marginTop:24}}>
-											<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
-										</div>
-									</div>
-
-									<div className="entry clearfix" style={{border:'none'}}>
-										<div className="entry-timeline">
-											21<span>Mar</span>
-											<div className="timeline-divider"></div>
-										</div>
-										<div className="entry-image">
-											<div className="panel panel-default">
-												<div className="panel-body">
-													Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, fuga optio voluptatibus saepe tenetur aliquam debitis eos accusantium! Vitae, hic, atque aliquid repellendus accusantium laudantium minus eaque quibusdam ratione sapiente.
-												</div>
-											</div>
-										</div>
-									</div>
-
-
-								</div>
-							</div>
-
-						</div>
-					</section>
-
-
-
-					<section id="content" style={{background:'#fff', minHeight:800}}>
-						<div className="content-wrap container clearfix">
-
-							<div className="col_two_third">
-								<div className="feature-box center media-box fbox-bg">
-									<div style={styles.main}>
-										<h2 style={styles.team.title}>
-											{ (post.url.length == 0) ? post.title : <a target='_blank' style={style.title} href={post.url}>{post.title }</a> }
-										</h2>
-
-										<hr />
-										{ content }
-									</div>
-								</div>
-
-							</div>
-
-							<div className="col_one_third col_last">
-
-							</div>
 						</div>
 					</section>
 
