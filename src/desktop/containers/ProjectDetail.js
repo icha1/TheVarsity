@@ -340,7 +340,7 @@ class ProjectDetail extends Component {
 
 							<div className="entry clearfix" style={{border:'none', paddingBottom:0}}>
 								<div className="entry-timeline">
-									1<span>Project</span>
+									1<span>Start</span>
 									<div className="timeline-divider"></div>
 								</div>
 								<div className="entry-image">
@@ -350,23 +350,29 @@ class ProjectDetail extends Component {
 								</div>
 
 								<ul className="entry-meta clearfix">
-									<li style={{color:'#fff'}}>
-										<a href={post.image} data-lightbox="image">
-											<img src={post.image+'=s72-c'} />
-										</a>
-									</li>
-									<li style={{color:'#fff'}}>
-										<a href={post.image} data-lightbox="image">
-											<img src={post.image+'=s72-c'} />
-										</a>
-									</li>
+									{ post.images.forEach((image, i) => {
+											<li style={{color:'#fff'}}>
+												<a href={image} data-lightbox="image">
+													<img src={image+'=s72-c'} />
+												</a>
+											</li>
+										})
+									}
 								</ul>
 
 								<div className="clearfix"></div>
 								<div className="entry-title clearfix">
 									<h2 style={styles.team.title}>{post.title}</h2>
 								</div>
-								<div className="entry-content" style={{marginTop:0}}>
+
+								<hr />
+								<div className="hidden-xs" style={{lineHeight:18+'px'}}>
+									<img style={{marginRight:10, borderRadius:22, float:'left'}} src={post.author.image+'=s44-c'} />
+									<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
+									<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
+								</div>
+
+								<div className="entry-content" style={{marginTop:24}}>
 									<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
 								</div>
 							</div>
