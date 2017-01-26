@@ -479,7 +479,7 @@ class TeamDetail extends Component {
 							padding={true}
 							menuItems={this.state.menuItems}
 							selectItem={this.selectItem.bind(this)}
-							selected={this.props.selected}
+							selected={selected}
 							{...team} />
 					</header>
 
