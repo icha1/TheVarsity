@@ -103,8 +103,8 @@ class Application extends Component {
 	}
 
 	render(){
-		const post = this.state.post
-		const user = this.props.user // shouldn't be null
+//		const post = this.state.post
+//		const user = this.props.user // shouldn't be null
 		const projects = this.props.projects // can be null
 
 		return (
