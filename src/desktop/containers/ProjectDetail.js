@@ -290,32 +290,6 @@ class ProjectDetail extends Component {
 		const team = (this.props.session.currentTeam) ? this.props.session.currentTeam : this.props.teams[post.teams[0]]
 		return (
 			<div>
-				{ (user == null) ? null : 
-					<div className="si-sticky si-sticky-right visible-md visible-lg" style={{top:40+'%', width:330, background:'#fff'}}>
-						<div style={{width: 120, background:'#fff'}}>
-							<div className="clearfix" data-animate="bounceInRight" data-delay="100">
-								<div style={localStyle.iconContainer}>
-									<div style={{marginTop:6, fontWeight:100, fontSize:12, lineHeight:14+'px'}}>{post.votes.score}<br />Points</div>
-								</div>
-							</div>
-							<div className="clearfix" data-animate="bounceInRight" data-delay="200">
-								<div style={localStyle.iconContainer}>
-									<i style={localStyle.icon} className="i-plain icon-thumbs-up2"></i>
-								</div>
-							</div>
-							<div className="clearfix" data-animate="bounceInRight" data-delay="300">
-								<div style={localStyle.iconContainer}>
-									<i style={localStyle.icon} className="i-plain icon-thumbs-down2"></i>
-								</div>
-							</div>
-							<div className="clearfix" data-animate="bounceInRight" data-delay="400">
-								<div style={localStyle.iconContainer}>
-									<div style={{marginTop:14, fontWeight:100, fontSize:12, lineHeight:14+'px'}}>Save</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				}
 
 				<div className="clearfix hidden-xs">
 					<header id="header" className="no-sticky" style={{background:'#f9f9f9'}}>
@@ -358,6 +332,71 @@ class ProjectDetail extends Component {
 
 					<section id="content" style={{background:'#fff', minHeight:800}}>
 						<div className="content-wrap container clearfix">
+
+
+					<div className="postcontent nobottommargin col_last clearfix">
+						<div id="posts" className="post-timeline clearfix">
+							<div className="timeline-border"></div>
+
+							<div className="entry clearfix" style={{border:'none', paddingBottom:0}}>
+								<div className="entry-timeline">
+									1<span>Project</span>
+									<div className="timeline-divider"></div>
+								</div>
+								<div className="entry-image">
+									<a href={post.image} data-lightbox="image">
+										<img style={{maxWidth:420, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={post.image} alt="Standard Post with Image" />
+									</a>
+								</div>
+
+								<ul className="entry-meta clearfix">
+									<li style={{color:'#fff'}}>
+										<a href={post.image} data-lightbox="image">
+											<img src={post.image+'=s72-c'} />
+										</a>
+									</li>
+									<li style={{color:'#fff'}}>
+										<a href={post.image} data-lightbox="image">
+											<img src={post.image+'=s72-c'} />
+										</a>
+									</li>
+								</ul>
+
+								<div className="clearfix"></div>
+								<div className="entry-title clearfix">
+									<h2 style={styles.team.title}>{post.title}</h2>
+								</div>
+								<div className="entry-content" style={{marginTop:0}}>
+									<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
+								</div>
+							</div>
+
+							<div className="entry clearfix" style={{border:'none'}}>
+								<div className="entry-timeline">
+									21<span>Mar</span>
+									<div className="timeline-divider"></div>
+								</div>
+								<div className="entry-image">
+									<div className="panel panel-default">
+										<div className="panel-body">
+											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, fuga optio voluptatibus saepe tenetur aliquam debitis eos accusantium! Vitae, hic, atque aliquid repellendus accusantium laudantium minus eaque quibusdam ratione sapiente.
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+
+						</div>
+					</section>
+
+
+
+					<section id="content" style={{background:'#fff', minHeight:800}}>
+						<div className="content-wrap container clearfix">
+
 							<div className="col_two_third">
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
@@ -378,13 +417,6 @@ class ProjectDetail extends Component {
 						</div>
 					</section>
 
-					{ (user) ? null : 
-						<div style={{borderTop:'1px solid #ddd'}}>
-							<Section content="about" />
-							<Section content="advantage" />
-						    <Section team={team} content="request" />
-						</div>
-					}
 
 				</div>
 
@@ -482,7 +514,22 @@ const localStyle = {
 		borderLeft: '3px solid rgb(91, 192, 222)',
 		fontSize: 16,
 		fontWeight: 400
-	}
+	},
+	titleWhite: {
+		color:'#fff',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100
+	},
+	paragraphWhite: {
+		fontWeight: 100,
+		fontSize: 18,
+		color:'#fff'
+	},
+	projectImage: {
+		background: '#fff',
+		padding: 3,
+		border:'1px solid #ddd'
+	},
 }
 
 const stateToProps = (state) => {
