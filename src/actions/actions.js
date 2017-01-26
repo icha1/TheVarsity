@@ -98,6 +98,12 @@ export default {
 		}
 	},
 
+	fetchMilestones: (params) => {
+		return dispatch => {
+			return dispatch(getData('/api/milestone', params, constants.MILESTONES_RECEIVED, 'milestone'))
+		}
+	},
+
 	applyToJob: (application) => {
 		return dispatch => {
 			return dispatch(postData('/account/application', application, null, 'application'))
