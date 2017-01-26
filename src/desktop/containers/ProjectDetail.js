@@ -344,7 +344,7 @@ class ProjectDetail extends Component {
 									<div className="timeline-divider"></div>
 								</div>
 								<div className="entry-image">
-									<a href={post.image} data-lightbox="image">
+									<a href={post.image+'=s1024'} data-lightbox="image">
 										<img style={{maxWidth:420, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={post.image} alt="Standard Post with Image" />
 									</a>
 								</div>
@@ -353,7 +353,7 @@ class ProjectDetail extends Component {
 									{ post.images.map((image, i) => {
 											return (
 												<li key={image} style={{color:'#fff'}}>
-													<a href={image} data-lightbox="image">
+													<a href={image+'=s1024'} data-lightbox="image">
 														<img src={image+'=s72-c'} />
 													</a>
 												</li>
