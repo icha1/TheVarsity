@@ -325,7 +325,7 @@ class Account extends Component {
 			else {
 				const list = this.props.posts[user.id]
 				const projects = (list == null) ? [] : list.filter((post, i) => {
-					return (post.type == 'showcase')
+					return (post.type == 'project')
 				})
 
 				content = (
@@ -342,13 +342,13 @@ class Account extends Component {
 				content = <CreatePost teams={teams} submit={this.submitPost.bind(this)} />
 			else {
 				const list = this.props.posts[user.id]
-				const projects = (list == null) ? [] : list.filter((post, i) => {
+				const sublist = (list == null) ? [] : list.filter((post, i) => {
 					return (post.type == 'hiring')
 				})
 
 				content = (
 					<div style={{textAlign:'left', marginTop:24}}>
-						<PostFeed deletePost={this.deletePost.bind(this)} posts={projects} user={user} />
+						<PostFeed deletePost={this.deletePost.bind(this)} posts={sublist} user={user} />
 					</div>
 				)
 			}			

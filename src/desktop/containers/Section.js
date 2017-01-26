@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { Redeem } from '../view'
-import { browserHistory } from 'react-router'
 
 class Section extends Component {
 
