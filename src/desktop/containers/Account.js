@@ -268,11 +268,19 @@ class Account extends Component {
 			return
 
 		const selected = this.state.selected
-		if (selected == 'Projects' || selected == 'Hiring'){
+		if (selected == 'Hiring'){
 			if (this.props.posts[user.id])
 				return
 
 			this.props.fetchPosts({'author.id': user.id})
+		}
+
+
+		if (selected == 'Projects'){
+			if (this.props.posts[user.id])
+				return
+
+			this.props.fetchPosts({'collaborators.id': user.id})
 		}
 	}
 
