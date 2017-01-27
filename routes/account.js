@@ -350,7 +350,7 @@ router.post('/:action', function(req, res, next){
 			return ProfileController.post(profileParams, true) // create new profile, return raw version
 		})
 		.then(function(profile){
-			var type = (invitation.context == null) ? 'team' : invitation.context.type
+			var type = (invitation.context.type == null) ? 'team' : invitation.context.type
 
 			if (type == 'team'){
 				var members = host.members
