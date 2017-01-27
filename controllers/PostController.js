@@ -44,11 +44,16 @@ module.exports = {
 		})
 	},
 
-	getById: function(id){
+	getById: function(id, isRaw){
 		return new Promise(function(resolve, reject){
 			Post.findById(id, function(err, post){
 				if (err){
 					reject(err)
+					return
+				}
+
+				if (isRaw){
+					resolve(post)
 					return
 				}
 
