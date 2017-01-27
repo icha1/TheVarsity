@@ -103,7 +103,20 @@ class Feed extends Component {
 	}
 
 	acceptInvitation(invitation){
-		console.log('acceptInvitation: '+JSON.stringify(invitation))
+		this.props.redeemInvitation(invitation)
+		.then((response) => {
+			if (response.type == null){
+				window.location.href = '/feed'
+				return
+			}
+
+			window.location.href = '/'+response.type+'/'+response.host.slug
+		})
+		.catch((err) => {
+			this.setState({
+				error: err
+			})
+		})
 	}
 
 	render(){
@@ -342,7 +355,8 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
 	return {
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
-		fetchTeams: (params) => dispatch(actions.fetchTeams(params))
+		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
+		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
 	}
 }
 

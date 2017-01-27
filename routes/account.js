@@ -338,7 +338,6 @@ router.post('/:action', function(req, res, next){
 				return controllers[invitation.context.type].getById(invitation.context.id, true)			
 		})
 		.then(function(entity){
-//			host = team
 			host = entity
 
 			// create new profile, update team with new member:
