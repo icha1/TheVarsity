@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
-import { CreateComment, CreatePost, Comments, ProfilePreview, Application, Milestone, Profiles } from '../view'
+import { CreateComment, CreatePost, Comments, ProfilePreview, Application, Milestone, Profiles, Modal } from '../view'
 import { DateUtils, FirebaseManager, TextUtils, APIManager, Alert } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -13,11 +13,16 @@ class ProjectDetail extends Component {
 	constructor(){
 		super()
 		this.state = {
+			showInvite: false,
 			timestamp: null,
 			isEditing: false,
 			comments: null,
 			selected: 'Post',
-			menuItems: ['Post', 'Comments', 'Collaborators']			
+			menuItems: ['Post', 'Comments', 'Collaborators'],
+			invitation: {
+				name: '',
+				email: ''
+			}
 		}
 	}
 
@@ -167,41 +172,14 @@ class ProjectDetail extends Component {
 		})
 	}
 
-	submitApplication(application){
-		const post = this.props.posts[this.props.slug]
-		application['post'] = {
-			id: post.id,
-			title: post.title,
-			author: post.author.id,
-			slug: post.slug
-		}
-
-		application['recipients'] = post.contact
-
-		this.props.applyToJob(application)
-		.then(response => {
-			this.setState({selected: 'Post'})
-			Alert.showConfirmation({
-				title: 'Application Submitted',
-				text: 'Your application was successfully submitted. Good Luck!'
-			})
-		})
-		.catch(err => {
-			console.log('ERROR: '+JSON.stringify(err))
-			Alert.showAlert({
-				title: 'Error',
-				text: err.message
-			})
-		})
-	}
-
 	toggleInvite(event){
-		console.log('toggleInvite')
 		if (event)
 			event.preventDefault()
 
+		this.setState({
+			showInvite: !this.state.showInvite
+		})
 	}
-
 
 	memberFound(profile, list){
 		if (profile == null)
@@ -214,6 +192,69 @@ class ProjectDetail extends Component {
 		})
 
 		return isFound
+	}
+
+	updateInvitation(event){
+		let updated = Object.assign({}, this.state.invitation)
+		updated[event.target.id] = event.target.value
+		this.setState({
+			invitation: updated
+		})
+	}
+
+	inviteCollaborator(event){
+		if (event)
+			event.preventDefault()
+
+		if (this.state.invitation.name.length == 0){
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please Enter a Name'
+			})
+			return
+		}
+
+		if (this.state.invitation.email.length == 0){
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please Enter an Email'
+			})
+			return
+		}
+
+		let updated = Object.assign({}, this.state.invitation)
+		updated['from'] = {
+			id: this.props.user.id,
+			email: this.props.user.email,
+			image: this.props.user.image
+		}
+
+		console.log('INVITE Collaborator: '+JSON.stringify(updated))
+
+// 		const team = this.props.teams[this.props.slug]
+// 		updated['team'] = {
+// 			id: team.id,
+// 			name: team.name,
+// 			image: team.image
+// 		}
+
+// 		updated['code'] = TextUtils.randomString(6)
+
+// 		this.setState({showInvite: false})
+// 		this.props.sendInvitation(updated)
+// 		.then((response) => {
+// 			Alert.showConfirmation({
+// 				title: 'Invitation Sent!',
+// 				text: 'Thanks for inviting your friend to The Varsity.'
+// 			})
+// 		})
+// 		.catch((err) => {
+// //			console.log('ERROR: '+JSON.stringify(err))
+// 			Alert.showAlert({
+// 				title: 'Error',
+// 				text: err.message || err
+// 			})
+// 		})
 	}
 
 	render(){
@@ -340,7 +381,7 @@ class ProjectDetail extends Component {
 					<div className="col_two_third">
 						<div className="feature-box center media-box fbox-bg">
 							<div style={styles.main}>
-								{ (user==null) ? null : <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Member</a> }
+								{ (user==null) ? null : <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Collaborator</a> }
 								<h2 style={styles.team.title}>Collaborators</h2>
 								<hr />
 								<Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} user={user} />
@@ -439,6 +480,12 @@ class ProjectDetail extends Component {
 				</div>
 				{ /* end mobile UI */ }
 
+				<Modal 
+					title="Invite Collaborator"
+					show={this.state.showInvite}
+					toggle={this.toggleInvite.bind(this)}
+					update={this.updateInvitation.bind(this)}
+					submit={this.inviteCollaborator.bind(this)} />
 			</div>
 		)
 	}
@@ -477,21 +524,6 @@ const localStyle = {
 		borderLeft: '3px solid rgb(91, 192, 222)',
 		fontSize: 16,
 		fontWeight: 400
-	},
-	titleWhite: {
-		color:'#fff',
-		fontFamily:'Pathway Gothic One',
-		fontWeight: 100
-	},
-	paragraphWhite: {
-		fontWeight: 100,
-		fontSize: 18,
-		color:'#fff'
-	},
-	projectImage: {
-		background: '#fff',
-		padding: 3,
-		border:'1px solid #ddd'
 	},
 	btnSmall: {
 		float:'right',
