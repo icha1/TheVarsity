@@ -197,11 +197,21 @@ class Account extends Component {
 		if (prepared == null)
 			return
 
+		const user = this.props.user
+		prepared['collaborators'] = [ // add self as first collaborator
+			{
+				id: user.id,
+				username: user.username,
+				image: user.image,
+				slug: user.slug
+			}			
+		]
+
 		let slug = null
 		this.props.createPost(prepared)
 		.then(response => {
 			slug = response.result.slug
-			const user = this.props.user
+//			const user = this.props.user
 			let projects = user.projects
 			projects.push(response.result.id)
 			return this.props.updateProfile(user, {projects: projects})
