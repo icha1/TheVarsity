@@ -287,7 +287,7 @@ class Account extends Component {
 
 
 		if (selected == 'Projects'){
-			if (this.props.posts[user.id])
+			if (this.props.projects[user.id])
 				return
 
 			this.props.fetchPosts({'collaborators.id': user.id})
@@ -350,14 +350,12 @@ class Account extends Component {
 			if (this.state.showCreateProject)
 				content = <CreateProject teams={teams} onCreate={this.submitProject.bind(this)} />
 			else {
-				const list = this.props.posts[user.id]
-				const projects = (list == null) ? [] : list.filter((post, i) => {
-					return (post.type == 'project')
-				})
-
 				content = (
 					<div style={{textAlign:'left', marginTop:24}}>
-						<PostFeed deletePost={this.deletePost.bind(this)} posts={projects} user={user} />
+						<PostFeed
+							deletePost={this.deletePost.bind(this)}
+							posts={(this.props.projects[user.id]) ? this.props.projects[user.id] : []}
+							user={user} />
 					</div>
 				)
 			}
@@ -581,6 +579,7 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		session: state.session,
 		posts: state.post,
+		projects: state.project,
 		teams: state.team
 	}
 }
