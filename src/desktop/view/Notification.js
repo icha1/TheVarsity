@@ -25,7 +25,7 @@ export default (props) => {
 				<img src={context.image+'=s64-c'} />
 			</div>
 			<Link to={'/'+context.type+'/'+context.slug} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>View {context.type}</Link>
-			<button style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Accept Invitation</button>
+			<button onClick={props.onAccept.bind(this, props)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Accept Invitation</button>
 		</div>
 
 	)

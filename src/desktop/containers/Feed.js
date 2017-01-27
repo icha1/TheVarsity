@@ -102,6 +102,10 @@ class Feed extends Component {
 		})
 	}
 
+	acceptInvitation(invitation){
+		console.log('acceptInvitation: '+JSON.stringify(invitation))
+	}
+
 	render(){
 		const style = styles.post
 		const user = this.props.user
@@ -129,7 +133,7 @@ class Feed extends Component {
 			content = (
 				<div>
 					{ (list==null) ? null : list.map((notification, i) => {
-							return <Notification key={notification.id} {...notification} />
+							return <Notification onAccept={this.acceptInvitation.bind(this)} key={notification.id} {...notification} />
 						})
 					}
 					
