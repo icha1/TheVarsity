@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
 import { TextUtils } from '../../utils'
 import styles from './styles'
 
@@ -24,7 +23,7 @@ export default (props) => {
 			<div className="col_one_fourth col_last" style={{textAlign:'right', marginBottom:0}}>
 				<img src={context.image+'=s64-c'} />
 			</div>
-			<Link to={'/'+context.type+'/'+context.slug} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>View {context.type}</Link>
+			<a target="_blank" href={'/'+context.type+'/'+context.slug} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>View {context.type}</a>
 			<button onClick={props.onAccept.bind(this, props)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Accept Invitation</button>
 		</div>
 
