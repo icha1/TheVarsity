@@ -231,30 +231,33 @@ class ProjectDetail extends Component {
 
 		console.log('INVITE Collaborator: '+JSON.stringify(updated))
 
-// 		const team = this.props.teams[this.props.slug]
-// 		updated['team'] = {
-// 			id: team.id,
-// 			name: team.name,
-// 			image: team.image
-// 		}
+		const post = this.props.posts[this.props.slug]
+//		const team = this.props.teams[this.props.slug]
+		updated['context'] = {
+			type: 'project',
+			id: post.id,
+			name: post.title,
+			image: post.image,
+			slug: post.slug
+		}
 
-// 		updated['code'] = TextUtils.randomString(6)
+ 		updated['code'] = TextUtils.randomString(6)
+ 		this.setState({showInvite: false})
 
-// 		this.setState({showInvite: false})
-// 		this.props.sendInvitation(updated)
-// 		.then((response) => {
-// 			Alert.showConfirmation({
-// 				title: 'Invitation Sent!',
-// 				text: 'Thanks for inviting your friend to The Varsity.'
-// 			})
-// 		})
-// 		.catch((err) => {
-// //			console.log('ERROR: '+JSON.stringify(err))
-// 			Alert.showAlert({
-// 				title: 'Error',
-// 				text: err.message || err
-// 			})
-// 		})
+		this.props.sendInvitation(updated)
+		.then((response) => {
+			Alert.showConfirmation({
+				title: 'Invitation Sent!',
+				text: 'Thanks for inviting your friend to The Varsity.'
+			})
+		})
+		.catch((err) => {
+//			console.log('ERROR: '+JSON.stringify(err))
+			Alert.showAlert({
+				title: 'Error',
+				text: err.message || err
+			})
+		})
 	}
 
 	render(){
@@ -552,7 +555,8 @@ const dispatchToProps = (dispatch) => {
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		fetchTeam: (id) => dispatch(actions.fetchTeam(id)),
 		fetchComments: (params) => dispatch(actions.fetchComments(params)),
-		createComment: (comment) => dispatch(actions.createComment(comment))
+		createComment: (comment) => dispatch(actions.createComment(comment)),
+		sendInvitation: (params) => dispatch(actions.sendInvitation(params))
 	}
 }
 

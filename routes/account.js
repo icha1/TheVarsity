@@ -228,23 +228,27 @@ router.post('/:action', function(req, res, next){
 		controllers.invitation.post(req.body)
 		.then(function(result){
 			invitation = result
-			var path = 'public/email/templates/newsletter/newsletter.html'
+			var context = (invitation.context == null) ? 'team' : invitation.context.type
+			var path = 'public/email/invitation/'+context+'.html'
 			return fetchFile(path)
 		})
 		.then(function(data){
-			var html = data.replace('{{team_image}}', invitation.team.image+'=s320-c')
+			var context = (invitation.context == null) ? invitation.team : invitation.context
+
+			var html = data.replace('{{team_image}}', context.image+'=s320-c')
 			html = html.replace('{{from}}', invitation.from.email)
 			html = html.replace('{{from}}', invitation.from.email)
-			html = html.replace('{{team_name}}', invitation.team.name)
-			html = html.replace('{{team_name}}', invitation.team.name)
+			html = html.replace('{{team_name}}', context.name)
+			html = html.replace('{{team_name}}', context.name)
 			html = html.replace('{{email}}', invitation.email)
 			html = html.replace('{{code}}', invitation.code)
+
 			for (i=0; i<13; i++){ // shows up 13 times
 				html = html.replace('{{invitation}}', invitation.id)
 			}
 			
-			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'Invitation: '+invitation.team.name+', TO: '+invitation.email, html) // send one to yourself
-			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, invitation.email, 'Invitation: '+invitation.team.name, html)
+			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'Invitation: '+context.name+', TO: '+invitation.email, html) // send one to yourself
+			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, invitation.email, 'Invitation: '+context.name, html)
 		})
 		.then(function(response){
 			res.json({
@@ -305,7 +309,7 @@ router.post('/:action', function(req, res, next){
 
 	if (action == 'redeem'){ // redeem invitation
 		var invitation = null
-		var hostTeam = null
+		var host = null
 
 		var params = {
 			email: req.body.email.toLowerCase(),
@@ -321,14 +325,15 @@ router.post('/:action', function(req, res, next){
 			invitation = invitations[0]
 			invitation['status'] = 'accepted'
 			invitation.save()
-//			return invitation
-			return controllers.team.getById(invitation.team.id, true)
+
+			if (invitation.context == null)
+				return controllers.team.getById(invitation.team.id, true)
+			else 
+				return controllers[invitation.context.type].getById(invitation.context.id, true)			
 		})
-		// .then(function(invitation){
-		// 	return controllers.team.getById(invitation.team.id, true)
-		// })
-		.then(function(team){
-			hostTeam = team
+		.then(function(entity){
+//			host = team
+			host = entity
 
 			// create new profile, update team with new member:
 			var profileParams = {
@@ -340,21 +345,41 @@ router.post('/:action', function(req, res, next){
 			return ProfileController.post(profileParams, true) // create new profile, return raw version
 		})
 		.then(function(profile){
-//			console.log('TEST 4')
-			var members = hostTeam.members
-			members.push({
-				id: profile.id,
-				username: profile.username,
-				image: profile.image
-			})
+			var type = (invitation.context == null) ? 'team' : invitation.context.type
 
-			hostTeam['members'] = members
-			hostTeam.markModified('members')
+			if (type == 'team'){
+				var members = host.members
+				members.push({
+					id: profile.id,
+					username: profile.username,
+					image: profile.image
+				})
 
-			var teamsArray = profile.teams
-			teamsArray.push(hostTeam._id.toString())
-			profile['teams'] = teamsArray
-			profile.markModified('teams')
+				host['members'] = members
+				host.markModified('members')
+
+				var teamsArray = profile.teams
+				teamsArray.push(host._id.toString())
+				profile['teams'] = teamsArray
+				profile.markModified('teams')
+			}
+
+			if (type == 'project'){
+				var collaborators = host.collaborators
+				collaborators.push({
+					id: profile.id,
+					username: profile.username,
+					image: profile.image
+				})
+
+				host['collaborators'] = collaborators
+				host.markModified('collaborators')
+
+				var projectsArray = profile.projects
+				projectsArray.push(host._id.toString())
+				profile['projects'] = projectsArray
+				profile.markModified('projects')
+			}			
 
 			var content = profile.email+' just signed up for the Varsity.'
 			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
@@ -364,12 +389,13 @@ router.post('/:action', function(req, res, next){
 
 			res.json({
 				confirmation: 'success',
-				team: hostTeam.summary(),
+				type: (invitation.context) ? invitation.context.type : 'team',
+				host: host.summary(),
 				user: profile.summary(),
 				token: token
 			})
 
-			hostTeam.save()
+			host.save()
 			profile.save()
 		})
 		.catch(function(err){

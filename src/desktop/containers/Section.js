@@ -13,10 +13,24 @@ class Section extends Component {
 	}
 
 	redeemInvitation(invitation){
+		console.log('REDEEM: '+JSON.stringify(invitation))
 		delete invitation['name'] // this messes up the search for invitation
 		this.props.redeemInvitation(invitation)
 		.then((response) => {
-			window.location.href = '/feed' // relocate to feed page
+			// if (invitation.context == null){
+			// 	window.location.href = '/feed'
+			// 	return
+			// }
+
+			// window.location.href = '/'+invitation.context.type+'/'+invitation.context.slug
+
+			if (response.type == null){
+				window.location.href = '/feed'
+				return
+			}
+
+			window.location.href = '/'+response.type+'/'+response.host.slug
+
 		})
 		.catch((err) => {
 //			console.log('ERROR -- ' + err)

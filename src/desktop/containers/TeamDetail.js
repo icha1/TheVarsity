@@ -135,12 +135,22 @@ class TeamDetail extends Component {
 			image: this.props.user.image
 		}
 
+		// TODO: remove this and use context from now on:
 		const team = this.props.teams[this.props.slug]
 		updated['team'] = {
 			id: team.id,
 			name: team.name,
 			image: team.image
 		}
+
+		updated['context'] = {
+			type: 'team',
+			id: team.id,
+			name: team.name,
+			image: team.image,
+			slug: team.slug,
+		}
+
 
 		updated['code'] = TextUtils.randomString(6)
 
