@@ -129,7 +129,7 @@ class Feed extends Component {
 			content = (
 				<div>
 					{ (list==null) ? null : list.map((notification, i) => {
-							return <Notification key={notification.id} />
+							return <Notification key={notification.id} {...notification} />
 						})
 					}
 					
