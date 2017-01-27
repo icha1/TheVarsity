@@ -105,6 +105,11 @@ class Feed extends Component {
 	acceptInvitation(invitation){
 		this.props.redeemInvitation(invitation)
 		.then((response) => {
+			const path = '/'+this.props.user.id+'/notifications/'+invitation.id 
+			FirebaseManager.post(path, null, () => {
+
+			})
+
 			if (response.type == null){
 				window.location.href = '/feed'
 				return
