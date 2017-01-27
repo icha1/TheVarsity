@@ -357,7 +357,8 @@ router.post('/:action', function(req, res, next){
 				members.push({
 					id: profile.id,
 					username: profile.username,
-					image: profile.image
+					image: profile.image,
+					slug: profile.slug
 				})
 
 				host['members'] = members
@@ -374,7 +375,8 @@ router.post('/:action', function(req, res, next){
 				collaborators.push({
 					id: profile.id,
 					username: profile.username,
-					image: profile.image
+					image: profile.image,
+					slug: profile.slug
 				})
 
 				host['collaborators'] = collaborators
