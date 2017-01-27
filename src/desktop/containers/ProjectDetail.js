@@ -232,7 +232,6 @@ class ProjectDetail extends Component {
 //		console.log('INVITE Collaborator: '+JSON.stringify(updated))
 
 		const project = this.props.projects[this.props.slug]
-//		const team = this.props.teams[this.props.slug]
 		updated['context'] = {
 			type: 'project',
 			id: project.id,
@@ -282,8 +281,9 @@ class ProjectDetail extends Component {
 			content = <CreatePost submit={this.updatePost.bind(this)} cancel={this.toggleEditing.bind(this)} post={project} />		
 		else if (selected == 'Post'){
 			let btnEdit = null
+			const projectAuthor = project.author
 			if (user != null){
-				if (user.id == author.id)
+				if (user.id == projectAuthor.id)
 					btnEdit = <button onClick={this.toggleEditing.bind(this)} className={btnBlueClass} style={{float:'right'}}>Edit</button>
 			}
 
@@ -323,8 +323,8 @@ class ProjectDetail extends Component {
 
 							<hr />
 							<div className="hidden-xs" style={{lineHeight:18+'px'}}>
-								<img style={{marginRight:10, borderRadius:22, float:'left'}} src={author.image+'=s44-c'} />
-								<span><Link to={'/'+author.type+'/'+author.slug}>{ author.name }</Link></span><br />
+								<img style={{marginRight:10, borderRadius:22, float:'left'}} src={projectAuthor.image+'=s44-c'} />
+								<span><Link to={'/'+projectAuthor.type+'/'+projectAuthor.slug}>{ projectAuthor.name }</Link></span><br />
 								<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
 							</div>
 
@@ -357,8 +357,6 @@ class ProjectDetail extends Component {
 						<Milestone />
 					</div>
 				</div>
-
-
 			)
 		}
 		else if (selected == 'Comments'){
