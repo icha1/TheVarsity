@@ -332,7 +332,7 @@ router.post('/:action', function(req, res, next){
 			invitation['status'] = 'accepted'
 			invitation.save()
 
-			if (invitation.context == null)
+			if (invitation.context.type == null)
 				return controllers.team.getById(invitation.team.id, true)
 			else 
 				return controllers[invitation.context.type].getById(invitation.context.id, true)			
