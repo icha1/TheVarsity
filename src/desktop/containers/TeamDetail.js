@@ -157,6 +157,13 @@ class TeamDetail extends Component {
 		this.setState({showInvite: false})
 		this.props.sendInvitation(updated)
 		.then((response) => {
+			if (response.recipient != null){ // invitee already registered, post to Firebase
+				const path = '/'+response.recipient.id+'/notifications/'+response.invitation.id 
+				FirebaseManager.post(path, response.invitation, () => {
+
+				})
+			}
+
 			Alert.showConfirmation({
 				title: 'Invitation Sent!',
 				text: 'Thanks for inviting your friend to The Varsity.'
