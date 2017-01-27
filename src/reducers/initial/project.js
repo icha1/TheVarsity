@@ -10,7 +10,7 @@ export default {
 
 		let initial = {}
 
-		posts.forEach((project, i) => {
+		projects.forEach((project, i) => {
 			initial[project.slug] = project
 			initial[project.id] = project
 		})

@@ -9,13 +9,13 @@ export default {
 	configureStore: (initial) => {
 		const reducers = combineReducers({
 			post: postReducer,
+			project: projectReducer,
 			team: teamReducer,
 			session: sessionReducer,
 			profile: profileReducer,
 			account: accountReducer,
 			application: applicationReducer,
-			milestone: milestoneReducer,
-			project: projectReducer
+			milestone: milestoneReducer
 		})
 
 		store = createStore(

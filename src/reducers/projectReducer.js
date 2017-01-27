@@ -8,13 +8,13 @@ export default (state = initialState, action) => {
 
 	switch (action.type) {
 		case constants.PROJECTS_RECEIVED:
-			const keys = Object.keys(action.params)
 			action.projects.forEach((project, i) => {
 				newState[projects.slug] = project
 				newState[projects.id] = project
 			})
 
 			const ignore = ['limit', 'slug', 'status']
+			const keys = Object.keys(action.params)
 			for (let i=0; i<keys.length; i++){
 				let key = keys[i]
 				if (ignore.indexOf(key) != -1)

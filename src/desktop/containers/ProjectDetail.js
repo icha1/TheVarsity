@@ -27,19 +27,19 @@ class ProjectDetail extends Component {
 	}
 
 	componentWillMount(){
-		const post = this.props.posts[this.props.slug]
-		if (post == null)
+		const project = this.props.projects[this.props.slug]
+		if (project == null)
 			return
 	}
 
 	componentDidMount(){
 		window.scrollTo(0, 0)
-		const post = this.props.posts[this.props.slug]
-		if (post == null)
+		const project = this.props.projects[this.props.slug]
+		if (project == null)
 			return
 
 		if (this.state.comments == null){
-			this.props.fetchComments({'thread.id':post.id})
+			this.props.fetchComments({'thread.id':project.id})
 			.then(results => {
 				this.setState({
 					comments: results
@@ -48,9 +48,9 @@ class ProjectDetail extends Component {
 				return results
 			})
 			.then(results => {
-				const author = this.props.profiles[post.author.slug]
+				const author = this.props.profiles[project.author.slug]
 				if (author == null)
-					return this.props.fetchProfile(post.author.id)
+					return this.props.fetchProfile(project.author.id)
 			})
 			.catch(err => {
 				console.log('ERROR: '+JSON.stringify(err))
@@ -58,21 +58,21 @@ class ProjectDetail extends Component {
 		}
 
 		// sloppy workaround, render timestamp client side:
-		this.setState({timestamp: DateUtils.formattedDate(post.timestamp)})
+		this.setState({timestamp: DateUtils.formattedDate(project.timestamp)})
 	}
 
 	componentDidUpdate(){
-		const post = this.props.posts[this.props.slug]
-		if (post == null)
+		const project = this.props.projects[this.props.slug]
+		if (project == null)
 			return
 
-		const author = this.props.profiles[post.author.slug]
+		const author = this.props.profiles[project.author.slug]
 		if (author == null)
 			return
 
-		const team = this.props.teams[post.teams[0]]
+		const team = this.props.teams[project.teams[0]]
 		if (team == null){
-			this.props.fetchTeam(post.teams[0])
+			this.props.fetchTeam(project.teams[0])
 			return			
 		}
 
@@ -80,10 +80,10 @@ class ProjectDetail extends Component {
 		if (selected != 'Collaborators')
 			return
 
-		if (this.props.profiles[post.id] != null)
+		if (this.props.profiles[project.id] != null)
 			return
 
-		this.props.fetchProfiles({projects: post.id})
+		this.props.fetchProfiles({projects: project.id})
 		.then(response => {})
 		.catch(err => {
 			console.log('ERROR: '+JSON.stringify(err))
@@ -111,8 +111,8 @@ class ProjectDetail extends Component {
 		if (event.charCode != 13)
 			return
 
-		const post = this.props.posts[this.props.slug]
-		if (post == null)
+		const project = this.props.projects[this.props.slug]
+		if (project == null)
 			return
 
 		const user = this.props.user
@@ -121,10 +121,10 @@ class ProjectDetail extends Component {
 
 		let comment = {text: event.target.value}
 		comment['thread'] = {
-			id: post.id,
-			schema: post.schema,
-			subject: post.title,
-			image: post.image
+			id: project.id,
+			schema: project.schema,
+			subject: project.title,
+			image: project.image
 		}
 
 		comment['profile'] = {
@@ -160,7 +160,7 @@ class ProjectDetail extends Component {
 			return
 
 		let updated = Object.assign({}, post)
-		const original = this.props.posts[this.props.slug]
+		const original = this.props.projects[this.props.slug]
 		this.props.updatePost(original, updated)
 		.then(response => {
 			this.setState({
@@ -231,14 +231,14 @@ class ProjectDetail extends Component {
 
 //		console.log('INVITE Collaborator: '+JSON.stringify(updated))
 
-		const post = this.props.posts[this.props.slug]
+		const project = this.props.projects[this.props.slug]
 //		const team = this.props.teams[this.props.slug]
 		updated['context'] = {
 			type: 'project',
-			id: post.id,
-			name: post.title,
-			image: post.image,
-			slug: post.slug
+			id: project.id,
+			name: project.title,
+			image: project.image,
+			slug: project.slug
 		}
 
  		updated['code'] = TextUtils.randomString(6)
@@ -269,8 +269,8 @@ class ProjectDetail extends Component {
 	render(){
 		const style = styles.post
 		const user = this.props.user // can be null
-		const post = this.props.posts[this.props.slug]
-		const author = (post == null) ? null : this.props.profiles[post.author.slug]
+		const project = this.props.projects[this.props.slug]
+		const author = (project == null) ? null : this.props.profiles[project.author.slug]
 
 		let content = null
 		const btn = 'button button-mini button-circle '
@@ -279,11 +279,11 @@ class ProjectDetail extends Component {
 		const selected = this.state.selected
 
 		if (this.state.isEditing == true)
-			content = <CreatePost submit={this.updatePost.bind(this)} cancel={this.toggleEditing.bind(this)} post={post} />		
+			content = <CreatePost submit={this.updatePost.bind(this)} cancel={this.toggleEditing.bind(this)} post={project} />		
 		else if (selected == 'Post'){
 			let btnEdit = null
 			if (user != null){
-				if (user.id == post.author.id)
+				if (user.id == author.id)
 					btnEdit = <button onClick={this.toggleEditing.bind(this)} className={btnBlueClass} style={{float:'right'}}>Edit</button>
 			}
 
@@ -298,13 +298,13 @@ class ProjectDetail extends Component {
 								<div className="timeline-divider"></div>
 							</div>
 							<div className="entry-image">
-								<a href={post.image+'=s1024'} data-lightbox="image">
-									<img style={{maxWidth:360, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={post.image} alt="The Varsity" />
+								<a href={project.image+'=s1024'} data-lightbox="image">
+									<img style={{maxWidth:360, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={project.image} alt="The Varsity" />
 								</a>
 							</div>
 
 							<ul className="entry-meta clearfix">
-								{ post.images.map((image, i) => {
+								{ project.images.map((image, i) => {
 										return (
 											<li key={image} style={{color:'#fff'}}>
 												<a href={image+'=s1024'} data-lightbox="image">
@@ -318,18 +318,18 @@ class ProjectDetail extends Component {
 
 							<div className="clearfix"></div>
 							<div className="entry-title clearfix">
-								<h2 style={styles.team.title}>{post.title}</h2>
+								<h2 style={styles.team.title}>{project.title}</h2>
 							</div>
 
 							<hr />
 							<div className="hidden-xs" style={{lineHeight:18+'px'}}>
-								<img style={{marginRight:10, borderRadius:22, float:'left'}} src={post.author.image+'=s44-c'} />
-								<span><Link to={'/'+post.author.type+'/'+post.author.slug}>{ post.author.name }</Link></span><br />
+								<img style={{marginRight:10, borderRadius:22, float:'left'}} src={author.image+'=s44-c'} />
+								<span><Link to={'/'+author.type+'/'+author.slug}>{ author.name }</Link></span><br />
 								<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
 							</div>
 
 							<div className="entry-content" style={{marginTop:24}}>
-								<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(post.text)}}></p>
+								<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(project.text)}}></p>
 							</div>
 						</div>
 
@@ -384,7 +384,7 @@ class ProjectDetail extends Component {
 			)
 		}
 		else if (selected == 'Collaborators'){
-			const members = (post) ? this.props.profiles[post.id] : []
+			const members = (project) ? this.props.profiles[project.id] : []
 			content = (
 				<div>
 					<div className="col_two_third">
@@ -405,7 +405,7 @@ class ProjectDetail extends Component {
 			)
 		}
 
-		const team = (this.props.session.currentTeam) ? this.props.session.currentTeam : this.props.teams[post.teams[0]]
+		const team = (this.props.session.currentTeam) ? this.props.session.currentTeam : this.props.teams[project.teams[0]]
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
@@ -454,14 +454,13 @@ class ProjectDetail extends Component {
 						</div>
 					</section>
 
-
 				</div>
 
 				{ /* mobile UI */ }
 				<div className="clearfix visible-xs">
 					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
 						<div className="col-xs-6">
-							<h3 style={style.title}>{ TextUtils.capitalize(post.type) }</h3>
+							<h3 style={style.title}>{ TextUtils.capitalize(project.type) }</h3>
 						</div>
 
 						{ (author == null) ? null : 
@@ -479,7 +478,7 @@ class ProjectDetail extends Component {
 						{ content }
 					</div>
 
-					{ (post.type == 'hiring') ? null : 
+					{ (project.type == 'hiring') ? null : 
 						<div style={{paddingBottom:24, background:'#f9f9f9', textAlign:'right'}}>
 							<input type="text" id="text" onChange={this.updateComment.bind(this)} style={localStyle.input} placeholder="Enter Comment" />
 							<br />
@@ -544,7 +543,7 @@ const localStyle = {
 const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
-		posts: state.post,
+		projects: state.project,
 		teams: state.team,
 		profiles: state.profile,
 		session: state.session

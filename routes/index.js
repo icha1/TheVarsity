@@ -36,6 +36,7 @@ matchRoutes = function(req, routes, initialStore){
 	return new Promise(function(resolve, reject){
 		ReactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps){
 			if (error){
+				console.log('REACT ROUTER ERROR: '+error)
 				reject(error)
 				return
 			}
@@ -173,7 +174,7 @@ router.get('/:page/:slug', function(req, res, next) {
 	})
 	.then(function(results){
 		// console.log('RESULTS: '+JSON.stringify(results))
-		results.forEach(function(entity){
+		results.forEach(function(entity, i){
 			tags['url'] = process.env.BASE_URL+'/'+page+'/'+entity.slug
 			tags['title'] = entity.title || entity.username || entity.name
 			tags['image'] = (entity.image) ? entity.image+'=s260-c' : process.env.DEFAULT_TEAM_IMAGE
@@ -181,8 +182,9 @@ router.get('/:page/:slug', function(req, res, next) {
 			tags['description'] = utils.TextUtils.truncateText(description, 200)
 		})
 
-		var reducerKey = (page == 'project') ? 'post' : page // project is just a post anyway
-		reducers[reducerKey] = reducersIndex.initial(page, results)
+		// var reducerKey = (page == 'project') ? 'post' : page // project is just a post anyway
+		// reducers[reducerKey] = reducersIndex.initial(page, results)
+		reducers[page] = reducersIndex.initial(page, results)
 		initialStore = store.configureStore(reducers)
 
 		var routes = {
