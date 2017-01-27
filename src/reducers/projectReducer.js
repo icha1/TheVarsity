@@ -5,24 +5,42 @@ var initialState = Object.assign({}, project.initialState)
 
 export default (state = initialState, action) => {
 	let newState = Object.assign({}, state)
+	const ignore = ['limit', 'slug', 'status']
 
 	switch (action.type) {
 		case constants.PROJECTS_RECEIVED:
 			action.projects.forEach((project, i) => {
-				newState[projects.slug] = project
-				newState[projects.id] = project
+				newState[project.slug] = project
+				newState[project.id] = project
 			})
 
-			const ignore = ['limit', 'slug', 'status']
-			const keys = Object.keys(action.params)
-			for (let i=0; i<keys.length; i++){
-				let key = keys[i]
-				if (ignore.indexOf(key) != -1)
-					continue
+			Object.keys(action.params).forEach((key, i) => {
+				if (ignore.indexOf(key) == -1){
+					let value = action.params[key]
+					newState[value] = action.projects
+				}
+			})
 
-				let value = action.params[key]
-				newState[value] = action.projects
-			}
+			return newState
+
+		// since projects are actually posts, register for this callback too:
+		case constants.POSTS_RECEIVED:
+			let filtered = action.posts.filter((post, i) => {
+				return (post.type == 'project')
+			})
+
+			filtered.forEach((project, i) => {
+				newState[project.slug] = project
+				newState[project.id] = project
+			})
+
+			Object.keys(action.params).forEach((key, i) => {
+				if (ignore.indexOf(key) == -1){
+					let value = action.params[key]
+					newState[value] = filtered
+				}
+			})
+
 
 			return newState
 
