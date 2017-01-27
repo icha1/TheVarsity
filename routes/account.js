@@ -248,13 +248,19 @@ router.post('/:action', function(req, res, next){
 			}
 			
 			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'Invitation: '+context.name+', TO: '+invitation.email, html) // send one to yourself
-			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, invitation.email, 'Invitation: '+context.name, html)
+			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, invitation.email, 'Invitation: '+context.name, html)
+			return controllers.profile.get({email: invitation.email}, false)
 		})
-		.then(function(response){
-			res.json({
+		.then(function(profiles){
+			var data = {
 				confirmation: 'success',
-				result: response
-			})
+				invitation: invitation
+			}
+
+			if (profiles.length > 0)
+				data['recipient'] = profiles[0]
+			
+			res.json(data)
 		})
 		.catch(function(err){
 			var msg = err.errmsg || err.message || err
@@ -390,6 +396,7 @@ router.post('/:action', function(req, res, next){
 			res.json({
 				confirmation: 'success',
 				type: (invitation.context) ? invitation.context.type : 'team',
+				invitation: invitation.summary(),
 				host: host.summary(),
 				user: profile.summary(),
 				token: token

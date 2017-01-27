@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { APIManager, DateUtils, TextUtils } from '../../utils'
-import { Sidebar, PostFeed, CreatePost, CreateTeam, TeamFeed, Comment, CreateComment } from '../view'
+import { APIManager, DateUtils, TextUtils, FirebaseManager } from '../../utils'
+import { Sidebar, PostFeed, CreatePost, CreateTeam, TeamFeed, Comment, CreateComment, Notification } from '../view'
 import actions from '../../actions/actions'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -11,7 +11,13 @@ class Feed extends Component {
 		super()
 		this.state = {
 			selected: 'Front Page',
-			menuItems: ['Front Page', 'Saved']
+			firebaseConnected: false,
+			notifications: null,
+			menuItems: [
+				'Front Page',
+				'Saved',
+				'Notifications'
+			]
 		}
 	}
 
@@ -59,6 +65,31 @@ class Feed extends Component {
 
 			this.props.fetchPosts({saved:user.id})
 		}
+
+		if (selected == 'Notifications'){
+			console.log('View Notifications')
+			const user = this.props.user
+			if (user == null)
+				return
+
+			if (this.state.firebaseConnected)
+				return
+
+			FirebaseManager.register('/'+user.id+'/notifications', (err, notifications) => {
+				if (err){
+					return
+				}
+
+				if (notifications == null)
+					return
+
+				console.log('Notification RECEVIED: '+JSON.stringify(notifications))
+				this.setState({
+					notifications: notifications,
+					firebaseConnected: true
+				})
+			})
+		}
 	}
 
 	selectItem(item, event){
@@ -66,7 +97,6 @@ class Feed extends Component {
 		window.scrollTo(0, 0)
 
 		const selected = (item.length == 0) ? event.target.value : item
-		console.log('selectItem: '+selected)
 		this.setState({
 			selected: selected
 		})
@@ -75,13 +105,38 @@ class Feed extends Component {
 	render(){
 		const style = styles.post
 		const user = this.props.user
-		const teams = this.props.teams[user.id] // can be null
 		const selected = this.state.selected
+		const teams = this.props.teams[user.id] // can be null
 
 		let content = null
 		let posts = null
 
-		if (selected == 'Teams'){ // mobile UI Only
+		if (selected == 'Front Page'){
+			const teamsString = user.teams.join(',')
+			posts = this.props.posts[teamsString] // can be bull
+			content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
+		}
+		else if (selected == 'Saved'){
+			posts = this.props.posts['saved'] // can be bull
+			content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
+		}
+		else if (selected == 'Notifications'){
+			const notifications = this.state.notifications
+			let list = null
+			if (notifications != null)
+				list = Object.keys(notifications).map(key => notifications[key])
+			
+			content = (
+				<div>
+					{ (list==null) ? null : list.map((notification, i) => {
+							return <Notification key={notification.id} />
+						})
+					}
+					
+				</div>
+			)
+		}
+		else if (selected == 'Teams'){ // mobile UI Only
 			content = (
 				<div style={{padding:'0px 24px 0px 24px'}}>
 					{ (teams == null) ? null : teams.map((team, i) => {
@@ -101,16 +156,6 @@ class Feed extends Component {
 					}
 				</div>
 			)
-		}
-		else if (selected == 'Front Page'){
-			const teamsString = user.teams.join(',')
-			posts = this.props.posts[teamsString] // can be bull
-			content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
-		}
-
-		else if (selected == 'Saved'){
-			posts = this.props.posts['saved'] // can be bull
-			content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
 		}
 
 		return (

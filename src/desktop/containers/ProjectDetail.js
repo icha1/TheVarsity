@@ -229,7 +229,7 @@ class ProjectDetail extends Component {
 			image: this.props.user.image
 		}
 
-		console.log('INVITE Collaborator: '+JSON.stringify(updated))
+//		console.log('INVITE Collaborator: '+JSON.stringify(updated))
 
 		const post = this.props.posts[this.props.slug]
 //		const team = this.props.teams[this.props.slug]
@@ -246,13 +246,19 @@ class ProjectDetail extends Component {
 
 		this.props.sendInvitation(updated)
 		.then((response) => {
+			if (response.recipient != null){ // invitee already registered, post to Firebase
+				const path = '/'+response.recipient.id+'/notifications/'+response.invitation.id 
+				FirebaseManager.post(path, response.invitation, () => {
+
+				})
+			}
+
 			Alert.showConfirmation({
 				title: 'Invitation Sent!',
 				text: 'Thanks for inviting your friend to The Varsity.'
 			})
 		})
 		.catch((err) => {
-//			console.log('ERROR: '+JSON.stringify(err))
 			Alert.showAlert({
 				title: 'Error',
 				text: err.message || err
