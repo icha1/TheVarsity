@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { APIManager, DateUtils, TextUtils, FirebaseManager } from '../../utils'
-import { Sidebar, PostFeed, CreatePost, CreateTeam, TeamFeed, Comment, CreateComment, Notification } from '../view'
+import { Sidebar, PostFeed, CreatePost, CreateTeam, TeamFeed, Comment, CreateComment, Notification, Milestone } from '../view'
 import actions from '../../actions/actions'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -26,18 +26,18 @@ class Feed extends Component {
 		const user = this.props.user
 		if (user == null)
 			return
-
-		const teamsString = user.teams.join(',')
-		const posts = this.props.posts[teamsString]
-		if (posts == null)
-			this.props.fetchPosts({teams: teamsString, limit:10})
+		
+		const projectsString = user.projects.join(',')
+		const milestones = this.props.milestones[projectsString]
+		if (milestones == null)
+			this.props.fetchMilestones({'project.id': projectsString, limit:10})
 			.then(response => {
 				return response
 			})
 			.catch(err => {
 
 			})
-		
+
 		const teams = this.props.teams[user.id] // can be null
 		if (teams == null){
 			this.props.fetchTeams({'members.id': user.id})
@@ -134,13 +134,27 @@ class Feed extends Component {
 		let posts = null
 
 		if (selected == 'Recent Activity'){
-			const teamsString = user.teams.join(',')
-			posts = this.props.posts[teamsString] // can be bull
-			content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
+			const projectsString = user.projects.join(',')
+			const milestones = this.props.milestones[projectsString] || []
+			content = (
+				<div className="postcontent nobottommargin clearfix">
+					<div id="posts" className="post-timeline clearfix" style={{textAlign:'left'}}>
+						<div className="timeline-border"></div>
+						{ milestones.map((milestone, i) => {
+								return <Milestone key={milestone.id} withIcon={true} maxWidth={505} {...milestone} />
+							})
+						}
+					</div>
+				</div>
+			)
 		}
 		else if (selected == 'Projects'){
 			const projects = this.props.projects[user.id] // can be bull
-			content = (projects == null) ? null : <PostFeed posts={projects} deletePost={null} vote={null} user={user} />
+			content = (projects == null) ? null : (
+				<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
+					<PostFeed posts={projects} deletePost={null} vote={null} user={user} />
+				</div>
+			)
 		}
 		else if (selected == 'Notifications'){
 			const notifications = this.state.notifications
@@ -149,7 +163,7 @@ class Feed extends Component {
 				list = Object.keys(notifications).map(key => notifications[key])
 			
 			content = (
-				<div>
+				<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
 					{ (list==null) ? null : list.map((notification, i) => {
 							return <Notification onAccept={this.acceptInvitation.bind(this)} key={notification.id} {...notification} />
 						})
@@ -160,22 +174,24 @@ class Feed extends Component {
 		}
 		else if (selected == 'Teams'){ // mobile UI Only
 			content = (
-				<div style={{padding:'0px 24px 0px 24px'}}>
-					{ (teams == null) ? null : teams.map((team, i) => {
-							return (
-								<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
-									<Link to={'/team/'+team.slug}>
-										<img style={localStyle.image} src={team.image+'=s44-c'} />
-									</Link>
-									<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
-										{team.name}
-									</Link>
-									<br />
-									<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
-								</div>
-							)
-						})
-					}
+				<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
+					<div style={{padding:'0px 24px 0px 24px'}}>
+						{ (teams == null) ? null : teams.map((team, i) => {
+								return (
+									<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
+										<Link to={'/team/'+team.slug}>
+											<img style={localStyle.image} src={team.image+'=s44-c'} />
+										</Link>
+										<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
+											{team.name}
+										</Link>
+										<br />
+										<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
+									</div>
+								)
+							})
+						}
+					</div>
 				</div>
 			)
 		}
@@ -222,9 +238,7 @@ class Feed extends Component {
 					<section id="content" style={style.content}>
 						<div className="content-wrap container clearfix">
 							<div className="col_two_third">
-								<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
-									{ content }
-								</div>
+								{ content }
 							</div>
 
 							<div className="col_one_third col_last">
@@ -353,6 +367,7 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		posts: state.post,
 		projects: state.project,
+		milestones: state.milestone,
 		teams: state.team,
 		profiles: state.profile
 	}
@@ -362,6 +377,7 @@ const dispatchToProps = (dispatch) => {
 	return {
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		fetchProjects: (params) => dispatch(actions.fetchProjects(params)),
+		fetchMilestones: (params) => dispatch(actions.fetchMilestones(params)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
 	}

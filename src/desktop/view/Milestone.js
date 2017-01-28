@@ -12,11 +12,17 @@ export default (props) => {
 	const day = dateParts[dateParts.length-1]
 	const month = dateParts[1]
 
+	const maxWidth = props.maxWidth || 560
+	const withIcon = props.withIcon || false
 	return (
-		<div className="entry clearfix" style={localStyle.container}>
-			<div className="entry-timeline">
-				{ months[parseInt(month)] }<span>{ day }</span>
-				<div className="timeline-divider"></div>
+		<div className="entry clearfix" style={{border:'none', marginBottom:12, paddingBottom:12, maxWidth:maxWidth}}>
+			<div className="entry-timeline" style={ (withIcon) ? {background:'url("'+milestone.project.image+'=s64-c")'} : null}>
+				{ (withIcon) ? null : 
+					<div>
+						{ months[parseInt(month)] }<span>{ day }</span>
+						<div className="timeline-divider"></div>
+					</div>
+				}
 			</div>
 			<div className="entry-image">
 				<div className="panel panel-default">
@@ -47,10 +53,7 @@ const localStyle = {
 		float: 'right'
 	},
 	container: {
-		border:'none',
-		marginBottom:12,
-		paddingBottom:12,
-		maxWidth:560
+		border:'none', marginBottom:12, paddingBottom:12, maxWidth:560
 	},
 	title: {
 		color:'#333',
