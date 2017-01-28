@@ -27,16 +27,30 @@ class Feed extends Component {
 		if (user == null)
 			return
 		
-		const projectsString = user.projects.join(',')
-		const milestones = this.props.milestones[projectsString]
-		if (milestones == null)
-			this.props.fetchMilestones({'project.id': projectsString, limit:10})
-			.then(response => {
-				return response
-			})
-			.catch(err => {
+		if (user.projects.length > 0){
+			const projectsString = user.projects.join(',')
+			const milestones = this.props.milestones[projectsString]
+			if (milestones == null)
+				this.props.fetchMilestones({'project.id': projectsString, limit:10})
+				.then(response => {
+					return response
+				})
+				.catch(err => {
 
-			})
+				})
+		}
+		else {
+			const teamsString = user.teams.join(',')
+			const posts = this.props.posts[teamsString]
+			if (posts == null)
+				this.props.fetchPosts({'teams': teamsString, limit:10})
+				.then(response => {
+					return response
+				})
+				.catch(err => {
+
+				})
+		}
 
 		const teams = this.props.teams[user.id] // can be null
 		if (teams == null){
@@ -134,19 +148,30 @@ class Feed extends Component {
 		let posts = null
 
 		if (selected == 'Recent Activity'){
-			const projectsString = user.projects.join(',')
-			const milestones = this.props.milestones[projectsString] || []
-			content = (
-				<div className="postcontent nobottommargin clearfix">
-					<div id="posts" className="post-timeline clearfix" style={{textAlign:'left'}}>
-						<div className="timeline-border"></div>
-						{ milestones.map((milestone, i) => {
-								return <Milestone key={milestone.id} withIcon={true} maxWidth={505} {...milestone} />
-							})
-						}
+			if (user.projects.length > 0){
+				const projectsString = user.projects.join(',')
+				const milestones = this.props.milestones[projectsString] || []
+				content = (
+					<div className="postcontent nobottommargin clearfix">
+						<div id="posts" className="post-timeline clearfix" style={{textAlign:'left'}}>
+							<div className="timeline-border"></div>
+							{ milestones.map((milestone, i) => {
+									return <Milestone key={milestone.id} withIcon={true} maxWidth={505} {...milestone} />
+								})
+							}
+						</div>
 					</div>
-				</div>
-			)
+				)
+			}
+			else { // show posts from teams if user is not on any projects:
+				const teamsString = user.teams.join(',')
+				const posts = this.props.posts[teamsString] || []
+				content = (
+					<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
+						<PostFeed posts={posts} deletePost={null} vote={null} user={user} />
+					</div>
+				)
+			}
 		}
 		else if (selected == 'Projects'){
 			const projects = this.props.projects[user.id] // can be bull
