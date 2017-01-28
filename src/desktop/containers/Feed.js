@@ -50,7 +50,6 @@ class Feed extends Component {
 				return
 
 			this.props.fetchData('project', {'collaborators.id':user.id})
-//			this.props.fetchProjects({'collaborators.id':user.id})
 		}
 
 		if (selected == 'Notifications'){
