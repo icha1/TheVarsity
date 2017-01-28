@@ -416,7 +416,7 @@ class TeamDetail extends Component {
 			)
 		}
 		else if (selected == 'Projects'){
-			cta = (this.props.user == null) ? null : <a href="#" onClick={this.createProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Showcase Your Work</a>
+			cta = (this.props.user == null) ? null : <a href="#" onClick={this.createProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>{ (this.state.showCreateProject) ? 'Cancel' : 'Start a Project'}</a>
 			const sublist = this.sublist(selected)
 			content = (this.state.showCreateProject) ? <CreateProject team={team} onCreate={this.props.postData.bind(this)} /> : (
 				<div>

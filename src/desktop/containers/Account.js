@@ -183,7 +183,7 @@ class Account extends Component {
 			)
 		}
 		else if (selected == 'Projects'){
-			cta = <button onClick={this.props.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (page.showCreateProject) ? 'Cancel' : 'Create Project' }</button>
+			cta = <button onClick={this.props.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (page.showCreateProject) ? 'Cancel' : 'Start a Project' }</button>
 			if (page.showCreateProject)
 				content = <CreateProject teams={teams} onCreate={this.props.postData.bind(this)} />
 			else {
