@@ -6,6 +6,7 @@ import { browserHistory } from 'react-router'
 import { TextUtils, APIManager, FirebaseManager, Alert } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
+import BaseContainer from './BaseContainer'
 
 class TeamDetail extends Component {
 	constructor(){
@@ -233,89 +234,6 @@ class TeamDetail extends Component {
 		return this.props.updateTeam(team, updated)
 	}
 
-	preparePost(post, type){
-		const user = this.props.user
-		if (user == null){
-			Alert.showAlert({
-				title: 'Oops',
-				text: 'Please log in or register to create a project.'
-			})
-			return null
-		}
-
-		post['saved'] = [user.id]
-		post['type'] = type
-		const profile = {
-			id: user.id,
-			name: user.username,
-			title: user.title,
-			slug: user.slug,
-			image: (user.image.length == 0) ? null : user.image,
-			type: 'profile'
-		}
-
-		post['author'] = profile
-		if (type == 'project')
-			post['collaborators'] = [profile]
-		
-		return post
-	}
-
-	submitProject(post){
-		const user = this.props.user
-		if (user == null)
-			return
-
-		const prepared = this.preparePost(post, 'project') // can be null
-		if (prepared == null)
-			return
-
-		let slug = null
-		this.props.createPost(prepared)
-		.then(response => {
-			slug = response.result.slug
-			const user = this.props.user
-			let projects = user.projects
-			projects.push(response.result.id)
-			return this.props.updateProfile(user, {projects: projects})
-		})
-		.then(response => {
-			browserHistory.push('/project/'+slug)
-			return response
-		})
-		.catch(err => {
-			alert(err)
-		})
-	}	
-
-	submitPost(post){
-		const prepared = this.preparePost(post, 'hiring') // can be null
-		if (prepared == null)
-			return
-
-		const team = this.props.teams[this.props.slug]
-		post['teams'] = [team.id]
-
-		// find and remove any email strings:
-		post['contact'] = TextUtils.findEmails(post.text)
-		if (post.contact.length > 0){
-			let text = post.text
-			post.contact.forEach((email, i) => {
-				text = text.replace(email, '')
-			})
-			post['text'] = text
-		}
-
-		this.props.createPost(post)
-		.then(response => {
-			browserHistory.push('/post/'+response.result.slug)
-			return response
-		})
-		.catch(err => {
-			alert(err)
-		})
-	}
-
 	deletePost(post){
 		console.log('Delete Post: '+post.title)
 		const user = this.props.user
@@ -482,7 +400,7 @@ class TeamDetail extends Component {
 				<div>
 					{ (this.props.user != null) ? 
 						<div className="hidden-xs">
-							{ (this.state.showSubmit) ? <CreatePost submit={this.submitPost.bind(this)} /> : null }
+							{ (this.state.showSubmit) ? <CreatePost submit={this.props.postData.bind(this)} /> : null }
 						</div>
 						:
 						<div className="alert alert-success">
@@ -502,7 +420,7 @@ class TeamDetail extends Component {
 		else if (selected == 'Projects'){
 			cta = (this.props.user == null) ? null : <a href="#" onClick={this.createProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Showcase Your Work</a>
 			const sublist = this.sublist(selected)
-			content = (this.state.showCreateProject) ? <CreateProject team={team} onCreate={this.submitProject.bind(this)} /> : (
+			content = (this.state.showCreateProject) ? <CreateProject team={team} onCreate={this.props.postData.bind(this)} /> : (
 				<div>
 					{ (sublist.length == 0) ? <Explanation context={selected} btnAction={this.toggleInvite.bind(this)} /> : 
 						<PostFeed 
@@ -654,11 +572,10 @@ const dispatchToProps = (dispatch) => {
 		requestInvitation: (params) => dispatch(actions.requestInvitation(params)),
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
-		createPost: (params) => dispatch(actions.createPost(params)),
 		selectedFeedChanged: (selected) => dispatch(actions.selectedFeedChanged(selected)),
 		setCurrentTeam: (team) => dispatch(actions.setCurrentTeam(team)),
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params))
 	}
 }
 
-export default connect(stateToProps, dispatchToProps)(TeamDetail)
+export default connect(stateToProps, dispatchToProps)(BaseContainer(TeamDetail, 'team'))
