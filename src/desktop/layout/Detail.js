@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TeamDetail, PostDetail, ProjectDetail, ProfileDetail, ApplicationDetail } from '../containers'
+import { BaseContainer, TeamDetail, PostDetail, ProjectDetail, ProfileDetail, ApplicationDetail } from '../containers'
 import styles from './styles'
 
 class Detail extends Component {

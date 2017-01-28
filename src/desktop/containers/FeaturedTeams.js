@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { Link } from 'react-router'
 import { TextUtils } from '../../utils'
+import BaseContainer from './BaseContainer'
 
 class FeaturedTeams extends Component {
 	constructor(){
@@ -97,6 +98,6 @@ const dispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(stateToProps, dispatchToProps)(FeaturedTeams)
+export default connect(stateToProps, dispatchToProps)(BaseContainer(FeaturedTeams))
 
 

@@ -5,19 +5,14 @@ import { Sidebar, PostFeed, CreatePost, CreateTeam, TeamFeed, Comment, CreateCom
 import actions from '../../actions/actions'
 import styles from './styles'
 import { Link } from 'react-router'
+import BaseContainer from './BaseContainer'
 
 class Feed extends Component {
 	constructor(){
 		super()
 		this.state = {
-			selected: 'Recent Activity',
 			firebaseConnected: false,
-			notifications: null,
-			menuItems: [
-				'Recent Activity',
-				'Projects',
-				'Notifications'
-			]
+			notifications: null
 		}
 	}
 
@@ -26,48 +21,25 @@ class Feed extends Component {
 		const user = this.props.user
 		if (user == null)
 			return
-		
-		if (user.projects.length > 0){
-			const projectsString = user.projects.join(',')
-			const milestones = this.props.milestones[projectsString]
-			if (milestones == null)
-				this.props.fetchMilestones({'project.id': projectsString, limit:10})
-				.then(response => {
-					return response
-				})
-				.catch(err => {
 
-				})
-		}
-		else {
+		if (this.props.teams[user.id] == null)
+			this.props.fetchData('team', {'members.id': user.id})
+
+		if (user.projects.length == 0){
 			const teamsString = user.teams.join(',')
-			const posts = this.props.posts[teamsString]
-			if (posts == null)
-				this.props.fetchPosts({'teams': teamsString, limit:10})
-				.then(response => {
-					return response
-				})
-				.catch(err => {
+			if (this.props.posts[teamsString] == null)
+				this.props.fetchData('post', {'teams': teamsString, limit:10})
 
-				})
-		}
-
-		const teams = this.props.teams[user.id] // can be null
-		if (teams == null){
-			this.props.fetchTeams({'members.id': user.id})
-			.then(response => {
-				return response
-			})
-			.catch(err => {
-
-			})
-			
 			return
 		}
+
+		const projectsString = user.projects.join(',')
+		if (this.props.milestones[projectsString] == null)
+			this.props.fetchData('milestone', {'project.id': projectsString, limit:10})
 	}
 
 	componentDidUpdate(){
-		const selected = this.state.selected
+		const selected = this.props.selected
 		if (selected == 'Projects'){
 			const user = this.props.user
 			if (user == null)
@@ -77,7 +49,8 @@ class Feed extends Component {
 			if (projects != null)
 				return
 
-			this.props.fetchProjects({'collaborators.id':user.id})
+			this.props.fetchData('project', {'collaborators.id':user.id})
+//			this.props.fetchProjects({'collaborators.id':user.id})
 		}
 
 		if (selected == 'Notifications'){
@@ -106,42 +79,10 @@ class Feed extends Component {
 		}
 	}
 
-	selectItem(item, event){
-		event.preventDefault()
-		window.scrollTo(0, 0)
-
-		const selected = (item.length == 0) ? event.target.value : item
-		this.setState({
-			selected: selected
-		})
-	}
-
-	acceptInvitation(invitation){
-		this.props.redeemInvitation(invitation)
-		.then((response) => {
-			const path = '/'+this.props.user.id+'/notifications/'+invitation.id 
-			FirebaseManager.post(path, null, () => {
-
-			})
-
-			if (response.type == null){
-				window.location.href = '/feed'
-				return
-			}
-
-			window.location.href = '/'+response.type+'/'+response.host.slug
-		})
-		.catch((err) => {
-			this.setState({
-				error: err
-			})
-		})
-	}
-
 	render(){
 		const style = styles.post
 		const user = this.props.user
-		const selected = this.state.selected
+		const selected = this.props.selected
 		const teams = this.props.teams[user.id] // can be null
 
 		let content = null
@@ -190,7 +131,7 @@ class Feed extends Component {
 			content = (
 				<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
 					{ (list==null) ? null : list.map((notification, i) => {
-							return <Notification onAccept={this.acceptInvitation.bind(this)} key={notification.id} {...notification} />
+							return <Notification onAccept={this.props.redeem.bind(this)} key={notification.id} {...notification} />
 						})
 					}
 					
@@ -242,12 +183,12 @@ class Feed extends Component {
 								<hr />
 								<nav>
 									<ul style={{listStyleType:'none'}}>
-										{ this.state.menuItems.map((item, i) => {
+										{ this.props.menu.map((item, i) => {
 												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
 												return (
 													<li style={{marginTop:0}} key={item}>
 														<div style={itemStyle}>
-															<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+															<a onClick={this.props.onSelectItem.bind(this, item)} href="#"><div>{item}</div></a>
 														</div>
 													</li>
 												)
@@ -296,7 +237,7 @@ class Feed extends Component {
 				<div className="clearfix visible-xs">
 					<div className="row" style={localStyle.mobileContainer}>
 						<div className="col-xs-6">
-							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
+							<select onChange={this.props.onSelectItem.bind(this, '')} style={localStyle.select} id="select">
 								<option value="Recent Activity">Recent Activity</option>
 								<option value="Projects">Projects</option>
 								<option value="Teams">Your Teams</option>
@@ -389,7 +330,6 @@ const localStyle = {
 
 const stateToProps = (state) => {
 	return {
-		user: state.account.currentUser,
 		posts: state.post,
 		projects: state.project,
 		milestones: state.milestone,
@@ -400,12 +340,9 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
-		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
-		fetchProjects: (params) => dispatch(actions.fetchProjects(params)),
-		fetchMilestones: (params) => dispatch(actions.fetchMilestones(params)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
 	}
 }
 
-export default connect(stateToProps, dispatchToProps)(Feed)
+export default connect(stateToProps, dispatchToProps)(BaseContainer(Feed, 'feed'))

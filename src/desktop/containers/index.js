@@ -1,3 +1,4 @@
+import BaseContainer from './BaseContainer'
 import Nav from './Nav'
 import Feed from './Feed'
 import MapNavigation from './MapNavigation'
@@ -13,6 +14,7 @@ import Account from './Account'
 import Section from './Section'
 
 export {
+	BaseContainer,
 	Nav,
 	Feed,
 	MapNavigation,

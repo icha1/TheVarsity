@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { FeaturedTeams, Section } from '../containers'
+import { BaseContainer, FeaturedTeams, Section } from '../containers'
 import styles from './styles'
 
 export default (props) => {
+
 	return ( 
 		<div className="clearfix">
 			<header id="header" className="no-sticky hidden-xs" style={{background:'#f9f9f9'}}>
@@ -11,6 +12,7 @@ export default (props) => {
 					<div className="container clearfix">
 						<div style={{paddingTop:96}}></div>
 						<FeaturedTeams />
+
 		            </div>
 
 	            </div>
