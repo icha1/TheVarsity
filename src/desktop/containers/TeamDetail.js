@@ -243,18 +243,27 @@ class TeamDetail extends Component {
 
 		post['saved'] = [user.id]
 		post['type'] = type
-		post['author'] = {
+		const profile = {
 			id: user.id,
 			name: user.username,
+			title: user.title,
 			slug: user.slug,
 			image: (user.image.length == 0) ? null : user.image,
 			type: 'profile'
 		}
 
+		post['author'] = profile
+		if (type == 'project')
+			post['collaborators'] = [profile]
+		
 		return post
 	}
 
 	submitProject(post){
+		const user = this.props.user
+		if (user == null)
+			return
+
 		const prepared = this.preparePost(post, 'project') // can be null
 		if (prepared == null)
 			return
