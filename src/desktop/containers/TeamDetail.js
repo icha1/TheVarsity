@@ -185,9 +185,11 @@ class TeamDetail extends Component {
 
 		console.log('requestInvitation: '+JSON.stringify(invitation))
 		let updated = Object.assign({}, invitation)
-		updated['team'] = {
+		updated['context'] = {
+			type: 'team',			
 			image: team.image,
 			name: team.name,
+			slug: team.slug,
 			id: team.id
 		}
 

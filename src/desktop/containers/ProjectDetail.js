@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
-import { CreateComment, CreatePost, Comments, ProfilePreview, Application, Milestone, CreateMilestone, Profiles, Modal } from '../view'
+import { CreateComment, CreatePost, Comments, ProfilePreview, Application, Milestone, CreateMilestone, Profiles, Modal, Redeem } from '../view'
 import { DateUtils, FirebaseManager, TextUtils, APIManager, Alert } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -341,6 +341,22 @@ class ProjectDetail extends Component {
 		})
 	}
 
+	requestInvite(invitation){
+		const project = this.props.projects[this.props.slug]
+		if (project == null)
+			return
+
+		invitation['context'] = {
+			type: 'project',
+			image: project.image,
+			name: project.title,
+			slug: project.slug,
+			id: project.id
+		}
+
+		return this.props.requestInvitation(invitation)
+	}
+
 	render(){
 		const style = styles.post
 		const user = this.props.user // can be null
@@ -438,9 +454,13 @@ class ProjectDetail extends Component {
 						</div>
 					</div>
 
-					<div className="col_one_third col_last">
-
-					</div>
+					{ (isCollaborator) ? null : 
+						<div className="col_one_third col_last">
+							<h2 style={style.title}>Join This Project</h2>
+							<hr />
+							<Redeem type="request" requestInvite={this.requestInvite.bind(this)} />
+						</div>
+					}
 				</div>
 			)
 		}
@@ -459,9 +479,13 @@ class ProjectDetail extends Component {
 						</div>
 					</div>
 
-					<div className="col_one_third col_last">
-
-					</div>
+					{ (isCollaborator) ? null : 
+						<div className="col_one_third col_last">
+							<h2 style={style.title}>Join This Project</h2>
+							<hr />
+							<Redeem type="request" requestInvite={this.requestInvite.bind(this)} />
+						</div>
+					}
 				</div>
 			)
 		}
@@ -616,7 +640,8 @@ const dispatchToProps = (dispatch) => {
 		createComment: (comment) => dispatch(actions.createComment(comment)),
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
 		createMilestone: (params) => dispatch(actions.createMilestone(params)),
-		fetchMilestones: (params) => dispatch(actions.fetchMilestones(params))
+		fetchMilestones: (params) => dispatch(actions.fetchMilestones(params)),
+		requestInvitation: (invitation) => dispatch(actions.requestInvitation(invitation))
 	}
 }
 
