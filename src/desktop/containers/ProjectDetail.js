@@ -64,6 +64,21 @@ class ProjectDetail extends Component {
 			return
 
 		const selected = this.state.selected
+
+		if (selected == 'Project'){
+			if (this.props.milestones[project.id] != null)
+				return
+
+			// fetch milestones
+			this.props.fetchMilestones({'project.id': project.id})
+			.then(results => {
+				return results
+			})
+			.catch(err => {
+				console.log('ERROR: '+JSON.stringify(err))
+			})
+		}
+
 		if (selected == 'Collaborators'){
 			if (this.props.profiles[project.id] != null)
 				return
