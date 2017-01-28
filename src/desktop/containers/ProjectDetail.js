@@ -43,25 +43,6 @@ class ProjectDetail extends Component {
 		if (project == null)
 			return
 
-		// if (this.state.comments == null){
-		// 	this.props.fetchComments({'thread.id':project.id})
-		// 	.then(results => {
-		// 		this.setState({
-		// 			comments: results
-		// 		})
-
-		// 		return results
-		// 	})
-		// 	.then(results => {
-		// 		const author = this.props.profiles[post.author.slug]
-		// 		if (author == null)
-		// 			return this.props.fetchProfile(post.author.id)
-		// 	})
-		// 	.catch(err => {
-		// 		console.log('ERROR: '+JSON.stringify(err))
-		// 	})
-		// }		
-
 		if (this.props.milestones[project.id] != null)
 			return
 
@@ -362,7 +343,7 @@ class ProjectDetail extends Component {
 		const user = this.props.user // can be null
 		const project = this.props.projects[this.props.slug]
 		const author = (project == null) ? null : this.props.profiles[project.author.slug]
-		const isCollaborator = this.memberFound(user, project.collaborators)
+		const isCollaborator = (project) ? this.memberFound(user, project.collaborators) : false
 
 		let content = null
 		const btn = 'button button-mini button-circle '
@@ -392,7 +373,7 @@ class ProjectDetail extends Component {
 							</div>
 							<div className="entry-image">
 								<a href={project.image+'=s1024'} data-lightbox="image">
-									<img style={{maxWidth:360, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={project.image} alt="The Varsity" />
+									<img style={{maxWidth:320, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={project.image} alt="The Varsity" />
 								</a>
 							</div>
 
