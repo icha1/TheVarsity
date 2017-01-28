@@ -303,7 +303,12 @@ export default {
 		return {
 			type: constants.TOGGLE_SHOW_EDIT
 		}
+	},
 
+	toggleShowCreateProject: () => {
+		return {
+			type: constants.TOGGLE_SHOW_CREATE_PROJECT
+		}		
 	}
 	
 }

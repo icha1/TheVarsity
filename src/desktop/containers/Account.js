@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { TextUtils, Alert } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
-import { browserHistory } from 'react-router'
 import BaseContainer from './BaseContainer'
 
 class Account extends Component {
@@ -15,7 +14,6 @@ class Account extends Component {
 		this.state = {
 			showModal: false,
 			showCreateTeam: false,
-			showCreateProject: false,
 			passwords: {}
 		}
 	}
@@ -53,12 +51,6 @@ class Account extends Component {
 	toggleCreateTeam(){
 		this.setState({
 			showCreateTeam: !this.state.showCreateTeam
-		})
-	}
-
-	toggleShowCreateProject(){
-		this.setState({
-			showCreateProject: !this.state.showCreateProject
 		})
 	}
 
@@ -120,56 +112,6 @@ class Account extends Component {
 		})
 	}
 
-	submitProject(post){
-		const prepared = this.preparePost(post, 'project') // can be null
-		if (prepared == null)
-			return
-
-		const user = this.props.user
-
-		let slug = null
-		this.props.createPost(prepared)
-		.then(response => {
-			slug = response.result.slug
-			let projects = user.projects
-			projects.push(response.result.id)
-			return this.props.updateData('profile', user, {projects: projects})
-		})
-		.then(response => {
-			browserHistory.push('/project/'+slug)
-			return response
-		})
-		.catch(err => {
-			alert(err)
-		})
-	}
-
-	preparePost(post, type){
-		const user = this.props.user
-		if (user == null){
-			Alert.showAlert({
-				title: 'Oops',
-				text: 'Please log in or register to create a project.'
-			})
-			return null
-		}
-
-		post['saved'] = [user.id]
-		post['type'] = type
-		post['author'] = {
-			id: user.id,
-			name: user.username,
-			slug: user.slug,
-			image: (user.image.length == 0) ? null : user.image,
-			type: 'profile'
-		}
-
-		if (type == 'project')
-			post['collaborators'] = [Object.assign({}, post.author)]
-
-		return post
-	}
-
 	componentDidUpdate(){
 		const user = this.props.user
 		if (user == null)
@@ -207,13 +149,14 @@ class Account extends Component {
 
 		let content = null
 		let cta = null
+		const page = this.props.page
 
 		if (selected == 'Profile'){
 			content = (
 				<div>
 					<div className="hidden-xs" style={{textAlign:'left', marginTop:48}}>
-						{ (this.props.page.showEdit) ? null : <button onClick={this.props.toggleShowEdit.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
-						{ (this.props.page.showEdit) ? <EditProfile update={this.props.updateData.bind(this)} profile={user} close={this.props.toggleShowEdit.bind(this)} /> :
+						{ (page.showEdit) ? null : <button onClick={this.props.toggleShowEdit.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+						{ (page.showEdit) ? <EditProfile update={this.props.updateData.bind(this)} profile={user} close={this.props.toggleShowEdit.bind(this)} /> :
 							<div>
 								<h4 style={styles.header}>{ user.username }</h4>
 								<h4 style={styles.header}>{ user.title }</h4>
@@ -225,8 +168,8 @@ class Account extends Component {
 					</div>
 
 					<div className="visible-xs" style={{padding:'0px 16px 0px 16px'}}>
-						{ (this.props.page.showEdit) ? null : <button onClick={this.props.toggleShowEdit.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
-						{ (this.props.page.showEdit) ? <EditProfile update={this.props.updateData.bind(this)} profile={user} close={this.props.toggleShowEdit.bind(this)} /> :
+						{ (page.showEdit) ? null : <button onClick={this.props.toggleShowEdit.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+						{ (page.showEdit) ? <EditProfile update={this.props.updateData.bind(this)} profile={user} close={this.props.toggleShowEdit.bind(this)} /> :
 							<div>
 								<h4 style={styles.header}>{ user.username }</h4>
 								<h4 style={styles.header}>{ user.title }</h4>
@@ -240,9 +183,9 @@ class Account extends Component {
 			)
 		}
 		else if (selected == 'Projects'){
-			cta = <button onClick={this.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateProject) ? 'Cancel' : 'Create Project' }</button>
-			if (this.state.showCreateProject)
-				content = <CreateProject teams={teams} onCreate={this.submitProject.bind(this)} />
+			cta = <button onClick={this.props.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (page.showCreateProject) ? 'Cancel' : 'Create Project' }</button>
+			if (page.showCreateProject)
+				content = <CreateProject teams={teams} onCreate={this.props.postData.bind(this)} />
 			else {
 				content = (
 					<div style={{textAlign:'left', marginTop:24}}>
@@ -256,8 +199,8 @@ class Account extends Component {
 		}
 		else if (selected == 'Hiring'){
 			content = null
-			cta = <button onClick={this.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateProject) ? 'Cancel' : 'Submit Post' }</button>
-			if (this.state.showCreateProject)
+			cta = <button onClick={this.props.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (page.showCreateProject) ? 'Cancel' : 'Submit Post' }</button>
+			if (page.showCreateProject)
 				content = <CreatePost teams={teams} submit={this.props.postData.bind(this)} />
 			else {
 				const list = this.props.posts[user.id]
@@ -272,8 +215,6 @@ class Account extends Component {
 				)
 			}			
 		}
-		else if (selected == 'Messages')
-			content = null
 
 		return (
 			<div>
@@ -478,8 +419,8 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
-		createPost: (params) => dispatch(actions.createPost(params)),
-		toggleShowEdit: () => dispatch(actions.toggleShowEdit())
+		toggleShowEdit: () => dispatch(actions.toggleShowEdit()),
+		toggleShowCreateProject: () => dispatch(actions.toggleShowCreateProject())
 	}
 }
 

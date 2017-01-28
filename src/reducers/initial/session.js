@@ -17,22 +17,23 @@ export default {
 				showModal: false,
 				showEdit: false,
 				showCreateTeam: false,
-				showCreateProject: false
+				showCreateProject: false,
+				selected: ''
 			},
 			team: {
-
+				selected: ''
 			},
 			feed: {
-
+				selected: ''
 			},
 			post: {
-
+				selected: ''
 			},
 			profile: {
-
+				selected: ''
 			},
 			project: {
-
+				selected: ''
 			}
 		},
 		currentLocation: { // default to nyc
@@ -62,23 +63,24 @@ export default {
 					showModal: false,
 					showEdit: false,
 					showCreateTeam: false,
-					showCreateProject: false
+					showCreateProject: false,
+					selected: ''
 				},
-				team: {
-
-				},
-				feed: {
-
-				},
-				post: {
-
-				},
-				profile: {
-
-				},
-				project: {
-
-				}
+			team: {
+				selected: ''
+			},
+			feed: {
+				selected: ''
+			},
+			post: {
+				selected: ''
+			},
+			profile: {
+				selected: ''
+			},
+			project: {
+				selected: ''
+			}
 			},
 			currentLocation: { // default to nyc
 				lat: 40.73008847828741,

@@ -19,7 +19,7 @@ const BaseContainer = (Container, configuration) => {
 			}
 
 			if (configuration == 'account'){
-				menu = ['Profile', 'Projects', 'Hiring']
+				menu = ['Profile', 'Projects']
 				selected = 'Profile'
 			}
 
@@ -219,6 +219,28 @@ const BaseContainer = (Container, configuration) => {
 						title: 'Error',
 						text: err
 					})
+				})
+			}
+
+			if (req == 'project'){
+				const prepared = this.preparePost(params, 'project') // can be null
+				if (prepared == null)
+					return
+
+				let slug = null
+				this.props.createPost(prepared)
+				.then(response => {
+					slug = response.result.slug
+					let projects = user.projects
+					projects.push(response.result.id)
+					return this.props.updateProfile(user, {projects: projects})
+				})
+				.then(response => {
+					browserHistory.push('/project/'+slug)
+					return response
+				})
+				.catch(err => {
+					alert(err)
 				})
 			}
 		}

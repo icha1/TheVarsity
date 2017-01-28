@@ -101,7 +101,7 @@ class CreateProject extends Component {
 		updated['teams'] = keys // just need array of team ID's
 
 
-		this.props.onCreate(updated)
+		this.props.onCreate('project', updated, true)
 	}
 
 	addRemoveTeam(team, event){

@@ -29,7 +29,12 @@ export default (state = initialState, action) => {
 			account['showEdit'] = !account.showEdit
 			pages['account'] = account
 			newState['pages'] = pages
+			return newState
 
+		case constants.TOGGLE_SHOW_CREATE_PROJECT:
+			account['showCreateProject'] = !account.showCreateProject
+			pages['account'] = account
+			newState['pages'] = pages
 			return newState
 
 		case constants.PROFILE_UPDDATED:
