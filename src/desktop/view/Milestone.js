@@ -28,7 +28,7 @@ export default (props) => {
 				<div className="panel panel-default">
 					<div className="panel-body">
 						<h4 style={localStyle.title}>{milestone.title}</h4>
-						{milestone.description}
+						<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(milestone.description)}}></p>
 						<hr />
 
 						<Link to={'/profile/'+milestone.profile.slug}>
