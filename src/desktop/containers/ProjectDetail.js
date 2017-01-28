@@ -43,24 +43,24 @@ class ProjectDetail extends Component {
 		if (project == null)
 			return
 
-		if (this.state.comments == null){
-			this.props.fetchComments({'thread.id':project.id})
-			.then(results => {
-				this.setState({
-					comments: results
-				})
+		// if (this.state.comments == null){
+		// 	this.props.fetchComments({'thread.id':project.id})
+		// 	.then(results => {
+		// 		this.setState({
+		// 			comments: results
+		// 		})
 
-				return results
-			})
-			.then(results => {
-				const author = this.props.profiles[post.author.slug]
-				if (author == null)
-					return this.props.fetchProfile(post.author.id)
-			})
-			.catch(err => {
-				console.log('ERROR: '+JSON.stringify(err))
-			})
-		}		
+		// 		return results
+		// 	})
+		// 	.then(results => {
+		// 		const author = this.props.profiles[post.author.slug]
+		// 		if (author == null)
+		// 			return this.props.fetchProfile(post.author.id)
+		// 	})
+		// 	.catch(err => {
+		// 		console.log('ERROR: '+JSON.stringify(err))
+		// 	})
+		// }		
 
 		if (this.props.milestones[project.id] != null)
 			return
@@ -80,22 +80,39 @@ class ProjectDetail extends Component {
 		if (project == null)
 			return
 
-		const author = this.props.profiles[project.author.slug]
-		if (author == null)
-			return
-
 		const selected = this.state.selected
-		if (selected != 'Collaborators')
-			return
+		if (selected == 'Collaborators'){
+			if (this.props.profiles[project.id] != null)
+				return
 
-		if (this.props.profiles[project.id] != null)
-			return
+			this.props.fetchProfiles({projects: project.id})
+			.then(response => {})
+			.catch(err => {
+				console.log('ERROR: '+JSON.stringify(err))
+			})
+		}
 
-		this.props.fetchProfiles({projects: project.id})
-		.then(response => {})
-		.catch(err => {
-			console.log('ERROR: '+JSON.stringify(err))
-		})
+		if (selected == 'Comments'){
+			if (this.state.comments != null)
+				return
+
+			this.props.fetchComments({'thread.id':project.id})
+			.then(results => {
+				this.setState({
+					comments: results
+				})
+
+				return results
+			})
+			.then(results => {
+				const author = this.props.profiles[post.author.slug]
+				if (author == null)
+					return this.props.fetchProfile(post.author.id)
+			})
+			.catch(err => {
+				console.log('ERROR: '+JSON.stringify(err))
+			})
+		}
 	}
 
 	selectItem(item, event){
@@ -405,6 +422,7 @@ class ProjectDetail extends Component {
 			)
 		}
 		else if (selected == 'Comments'){
+			const list = this.state.comments || []
 			content = (
 				<div>
 					<div className="col_two_third">
@@ -414,7 +432,7 @@ class ProjectDetail extends Component {
 								<hr />
 								<Comments 
 									user={user}
-									comments={this.state.comments}
+									comments={list}
 									submitComment={this.submitComment.bind(this)} />
 							</div>
 						</div>
