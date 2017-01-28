@@ -12,6 +12,26 @@ export default {
 			team: 'Projects',
 			account: ''
 		},
+		pages: {
+			team: {
+
+			},
+			account: {
+				showModal: false,
+				showEdit: false,
+				showCreateTeam: false,
+				showCreateProject: false
+			},
+			post: {
+
+			},
+			profile: {
+
+			},
+			project: {
+
+			}
+		},
 		currentLocation: { // default to nyc
 			lat: 40.73008847828741,
 			lng: -73.99769308314211
@@ -33,6 +53,26 @@ export default {
 			selected: {
 				team: 'Projects',
 				account: ''
+			},
+			pages: {
+				team: {
+
+				},
+				account: {
+					showModal: false,
+					showEdit: false,
+					showCreateTeam: false,
+					showCreateProject: false
+				},
+				post: {
+
+				},
+				profile: {
+
+				},
+				project: {
+
+				}
 			},
 			currentLocation: { // default to nyc
 				lat: 40.73008847828741,
