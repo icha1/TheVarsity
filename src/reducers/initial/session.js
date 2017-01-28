@@ -3,24 +3,14 @@ import constants from '../../constants/constants'
 export default {
 	initialState: {
 		template: 'index', // index or index-mobile
-//		selected: 'Showcase',
 		currentTeam: null,
 		selectedFeed: constants.FEED_TYPE_ALL,
 		reload: false,
 		showLoading: false,
-		showMap: false,
 		teams: [],
-		nearby: [], // districts nearby
 		selected: {
 			team: 'Projects',
 			account: ''
-		},
-		currentDistrict: {
-			id: null,
-			name: '',
-			image: '',
-			comments: [],
-			recentVisitors: {}
 		},
 		currentLocation: { // default to nyc
 			lat: 40.73008847828741,
@@ -35,24 +25,14 @@ export default {
 
 		var initial = {
 			template: 'index',
-//			selected: 'Showcase',
 			currentTeam: null,
 			selectedFeed: constants.FEED_TYPE_ALL,
 			reload: false,
 			showLoading: false,
-			showMap: false,
 			teams: [],
-			nearby: [], // districts nearby
 			selected: {
 				team: 'Projects',
 				account: ''
-			},
-			currentDistrict: {
-				id: null,
-				name: '',
-				image: '',
-				comments: [],
-				recentVisitors: {}
 			},
 			currentLocation: { // default to nyc
 				lat: 40.73008847828741,
