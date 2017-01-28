@@ -141,7 +141,7 @@ class CreatePost extends Component {
 			updated['teams'] = keys // just need array of team ID's
 		}
 
-		this.props.submit(updated)
+		this.props.submit('post', updated, true)
 	}
 
 	removeImage(image, event){

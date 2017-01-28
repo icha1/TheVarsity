@@ -297,6 +297,13 @@ export default {
 			type: constants.TOGGLE_SHOW_MAP,
 			show: show
 		}
+	},
+
+	toggleShowEdit: () => {
+		return {
+			type: constants.TOGGLE_SHOW_EDIT
+		}
+
 	}
 	
 }

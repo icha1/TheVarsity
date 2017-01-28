@@ -46,9 +46,36 @@ export default (state = initialState, action) => {
 					newState[value] = filtered
 				}
 			})
-
-
 			return newState
+
+		case constants.POST_UPDATED:
+			newState[action.post.slug] = action.post
+
+			if (newState[action.post.author.id]){
+				let list = Object.assign([], newState[action.post.author.id])
+				let updatedList = []
+				list.forEach((post, i) => {
+					const entry = (post.id == action.post.id) ? action.post : post
+					updatedList.push(entry)
+				})
+
+				newState[action.post.author.id] = updatedList
+			}
+
+			action.post.teams.forEach((teamId, i) => {
+				if (newState[teamId]){
+					let list = Object.assign([], newState[teamId])
+					let updatedList = []
+					list.forEach((post, i) => {
+						const entry = (post.id == action.post.id) ? action.post : post
+						updatedList.push(entry)
+					})
+
+					newState[teamId] = updatedList
+				}
+			})
+
+			return newState			
 
 		default:
 			return state

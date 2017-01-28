@@ -13,14 +13,17 @@ export default {
 			account: ''
 		},
 		pages: {
-			team: {
-
-			},
 			account: {
 				showModal: false,
 				showEdit: false,
 				showCreateTeam: false,
 				showCreateProject: false
+			},
+			team: {
+
+			},
+			feed: {
+
 			},
 			post: {
 
@@ -55,14 +58,17 @@ export default {
 				account: ''
 			},
 			pages: {
-				team: {
-
-				},
 				account: {
 					showModal: false,
 					showEdit: false,
 					showCreateTeam: false,
 					showCreateProject: false
+				},
+				team: {
+
+				},
+				feed: {
+
 				},
 				post: {
 

@@ -1,27 +1,21 @@
 import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { Link } from 'react-router'
-import { EditProfile, CreateProject, CreatePost, TeamFeed, CreateTeam, PostFeed, Map } from '../view'
+import { EditProfile, CreateProject, CreatePost, CreateTeam, PostFeed } from '../view'
 import { connect } from 'react-redux'
 import { TextUtils, Alert } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
 import { browserHistory } from 'react-router'
+import BaseContainer from './BaseContainer'
 
 class Account extends Component {
 	constructor(){
 		super()
 		this.state = {
 			showModal: false,
-			showEdit: false,
-			showMap: false,
 			showCreateTeam: false,
 			showCreateProject: false,
-			selected: 'Profile',
-			menuItems: [
-				'Profile',
-				'Projects'
-			],
 			passwords: {}
 		}
 	}
@@ -40,44 +34,14 @@ class Account extends Component {
 			}, 750)			
 		}
 
-		if (user.type == 'admin'){
-			this.setState({
-				menuItems: ['Profile', 'Projects', 'Hiring']
-			})
-		}
+		// if (user.type == 'admin'){
+		// 	this.setState({
+		// 		menuItems: ['Profile', 'Projects', 'Hiring']
+		// 	})
+		// }
 
-		if (this.props.teams[user.id])
-			return
-
-		this.props.fetchTeams({'members.id': user.id}) // fetch teams if necessary
-	}
-
-	selectItem(item, event){
-		event.preventDefault()
-		window.scrollTo(0, 0)
-		this.setState({
-			showEdit: false,
-			selected: (event.target.id == 'select') ? event.target.value : item
-		})
-	}
-
-	editProfile(event){
-		if (event)
-			event.preventDefault()
-
-		this.setState({
-			showEdit: !this.state.showEdit
-		})
-	}
-
-	updateProfile(updated){
-		if (this.props.user == null)
-			return
-
-		this.props.updateProfile(this.props.user, updated)
-		this.setState({
-			showEdit: !this.state.showEdit
-		})
+		if (this.props.teams[user.id]==null)
+			this.props.fetchData('team', {'members.id': user.id}) // fetch teams if necessary
 	}
 
 	toggleModal(){
@@ -98,48 +62,6 @@ class Account extends Component {
 		})
 	}
 
-	deletePost(post){
-		console.log('Delete Post: '+post.title)
-		const user = this.props.user
-		if (user == null){
-			alert('Please register or log in.')
-			return
-		}
-
-		this.props.updatePost(post, {status: 'closed'})
-	}
-
-	createTeam(team){
-		const user =  this.props.user
-		if (user == null){
-			Alert.showAlert({
-				title: 'Oops',
-				text: 'Please log in or register to create a team.'
-			})
-			return
-		}
-
-		const membersList = [{id: user.id, username: user.username, image: user.image}]
-		team['members'] = membersList
-		team['admins'] = membersList
-		let slug = null
-
-		this.props.createTeam(team)
-		.then((response) => {
-			const result = response.result
-			slug = result.slug
-			let teamsArray = user.teams
-			teamsArray.push(result.id)
-			return this.props.updateProfile(user, {teams: teamsArray}) // update profile with teams array
-		})
-		.then(resp => { // this is the updated profile
-			window.location.href = '/team/'+slug
-		})
-		.catch(err => {
-			alert(err)
-		})
-	}
-
 	updatePassword(event){
 		let updated = Object.assign({}, this.state.passwords)
 		updated[event.target.id] = event.target.value
@@ -151,20 +73,26 @@ class Account extends Component {
 	submitPassword(event){
 		event.preventDefault()
 //		console.log('submitPassword: '+JSON.stringify(this.state.passwords))
+		let alert = {
+			title: 'Oops'
+		}
 
 		let passwords = this.state.passwords
 		if (passwords.password1 == null){
-			alert('Please complete both fields.')
+			alert['message'] = 'Please complete both fields.'
+			Alert.showAlert(alert)
 			return
 		}
 
 		if (passwords.password2 == null){
-			alert('Please complete both fields.')
+			alert['message'] = 'Please complete both fields.'
+			Alert.showAlert(alert)
 			return
 		}
 
 		if (passwords.password1 !== passwords.password2){
-			alert('Passwords do not match.')
+			alert['message'] = 'Passwords do not match.'
+			Alert.showAlert(alert)
 			return
 		}
 
@@ -178,14 +106,14 @@ class Account extends Component {
 		}
 
 		this.setState({showModal: false})
-		this.props.updateProfile(user, params)
+		this.props.updateData('profile', user, params)
 		.then(result => {
 			Alert.showConfirmation({
 				title: 'All Set',
 				text: 'You password has been updated. Thanks!'
 			})
 
-			return
+			return result
 		})
 		.catch(err => {
 			alert(err)
@@ -205,36 +133,11 @@ class Account extends Component {
 			slug = response.result.slug
 			let projects = user.projects
 			projects.push(response.result.id)
-			return this.props.updateProfile(user, {projects: projects})
+			return this.props.updateData('profile', user, {projects: projects})
 		})
 		.then(response => {
 			browserHistory.push('/project/'+slug)
 			return response
-		})
-		.catch(err => {
-//			console.log('ERROR: '+err)
-			alert(err)
-		})
-	}	
-
-	submitPost(post){
-		const prepared = this.preparePost(post, 'hiring') // can be null
-		if (prepared == null)
-			return
-		
-		// find and remove any email strings:
-		prepared['contact'] = TextUtils.findEmails(post.text)
-		if (prepared.contact.length > 0){
-			let text = prepared.text
-			prepared.contact.forEach((email, i) => {
-				text = text.replace(email, '')
-			})
-			prepared['text'] = text
-		}
-
-		this.props.createPost(prepared)
-		.then(response => {
-			browserHistory.push('/post/'+response.result.slug)
 		})
 		.catch(err => {
 			alert(err)
@@ -272,26 +175,22 @@ class Account extends Component {
 		if (user == null)
 			return
 
-		const selected = this.state.selected
+		const selected = this.props.selected
 		if (selected == 'Hiring'){
-			if (this.props.posts[user.id])
-				return
-
-			this.props.fetchPosts({'author.id': user.id})
+			if (this.props.posts[user.id] == null)
+				this.props.fetchData('post', {'author.id': user.id})
 		}
 
 
 		if (selected == 'Projects'){
-			if (this.props.projects[user.id])
-				return
-
-			this.props.fetchPosts({'collaborators.id': user.id})
+			if (this.props.projects[user.id] == null)
+				this.props.fetchData('project', {'collaborators.id': user.id})
 		}
 	}
 
 	render(){
 		const style = styles.account
-		const selected = this.state.selected
+		const selected = this.props.selected
 		
 		const user = this.props.user
 		const teams = this.props.teams[user.id] // can be null
@@ -313,8 +212,8 @@ class Account extends Component {
 			content = (
 				<div>
 					<div className="hidden-xs" style={{textAlign:'left', marginTop:48}}>
-						{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
-						{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
+						{ (this.props.page.showEdit) ? null : <button onClick={this.props.toggleShowEdit.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+						{ (this.props.page.showEdit) ? <EditProfile update={this.props.updateData.bind(this)} profile={user} close={this.props.toggleShowEdit.bind(this)} /> :
 							<div>
 								<h4 style={styles.header}>{ user.username }</h4>
 								<h4 style={styles.header}>{ user.title }</h4>
@@ -326,8 +225,8 @@ class Account extends Component {
 					</div>
 
 					<div className="visible-xs" style={{padding:'0px 16px 0px 16px'}}>
-						{ (this.state.showEdit) ? null : <button onClick={this.editProfile.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
-						{ (this.state.showEdit) ? <EditProfile update={this.updateProfile.bind(this)} profile={user} close={this.editProfile.bind(this)} /> :
+						{ (this.props.page.showEdit) ? null : <button onClick={this.props.toggleShowEdit.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+						{ (this.props.page.showEdit) ? <EditProfile update={this.props.updateData.bind(this)} profile={user} close={this.props.toggleShowEdit.bind(this)} /> :
 							<div>
 								<h4 style={styles.header}>{ user.username }</h4>
 								<h4 style={styles.header}>{ user.title }</h4>
@@ -348,7 +247,7 @@ class Account extends Component {
 				content = (
 					<div style={{textAlign:'left', marginTop:24}}>
 						<PostFeed
-							deletePost={this.deletePost.bind(this)}
+							deletePost={this.props.updateData.bind(this)}
 							posts={(this.props.projects[user.id]) ? this.props.projects[user.id] : []}
 							user={user} />
 					</div>
@@ -359,7 +258,7 @@ class Account extends Component {
 			content = null
 			cta = <button onClick={this.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (this.state.showCreateProject) ? 'Cancel' : 'Submit Post' }</button>
 			if (this.state.showCreateProject)
-				content = <CreatePost teams={teams} submit={this.submitPost.bind(this)} />
+				content = <CreatePost teams={teams} submit={this.props.postData.bind(this)} />
 			else {
 				const list = this.props.posts[user.id]
 				const sublist = (list == null) ? [] : list.filter((post, i) => {
@@ -368,7 +267,7 @@ class Account extends Component {
 
 				content = (
 					<div style={{textAlign:'left', marginTop:24}}>
-						<PostFeed deletePost={this.deletePost.bind(this)} posts={sublist} user={user} />
+						<PostFeed deletePost={this.props.updateData.bind(this)} posts={sublist} user={user} />
 					</div>
 				)
 			}			
@@ -396,12 +295,12 @@ class Account extends Component {
 								<hr />
 								<nav>
 									<ul style={{listStyleType:'none'}}>
-										{ this.state.menuItems.map((item, i) => {
+										{ this.props.menu.map((item, i) => {
 												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
 												return (
 													<li style={{marginTop:0}} key={item}>
 														<div style={itemStyle}>
-															<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+															<a onClick={this.props.onSelectItem.bind(this, item)} href="#"><div>{item}</div></a>
 														</div>
 													</li>
 												)
@@ -420,7 +319,7 @@ class Account extends Component {
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
 										{ cta }
-										<h2 style={styles.team.title}>{this.state.selected}</h2>
+										<h2 style={styles.team.title}>{this.props.selected}</h2>
 										<hr />
 										{ content }
 									</div>
@@ -431,7 +330,7 @@ class Account extends Component {
 							<div className="col_one_third col_last">
 								<h2 style={styles.title}>Your Teams</h2>
 								<hr />
-								{ (this.state.showCreateTeam) ? <CreateTeam user={this.props.user} cancel={this.toggleCreateTeam.bind(this)} submit={this.createTeam.bind(this)} /> : 
+								{ (this.state.showCreateTeam) ? <CreateTeam user={this.props.user} cancel={this.toggleCreateTeam.bind(this)} submit={this.props.postData.bind(this)} /> : 
 									<nav id="primary-menu">
 										{ (teams == null) ? null : teams.map((team, i) => {
 												return (
@@ -461,7 +360,7 @@ class Account extends Component {
 				<div className="clearfix visible-xs">
 					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
 						<div className="col-xs-6">
-							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
+							<select onChange={this.props.onSelectItem.bind(this, '')} style={localStyle.select} id="select">
 								<option value="Profile">Profile</option>
 								<option value="Projects">Projects</option>
 							</select>
@@ -565,29 +464,24 @@ const localStyle = {
 		fontWeight: 100,
 		fontSize: 18,
 		lineHeight: 10+'px'
-	},
-
+	}
 }
 
 const stateToProps = (state) => {
 	return {
-		user: state.account.currentUser,
-		session: state.session,
+		page: state.session.pages.account,
 		posts: state.post,
 		projects: state.project,
 		teams: state.team
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const dispatchToProps = (dispatch) => {
 	return {
-		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
-		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
-		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
-		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
-		createTeam: (team) => dispatch(actions.createTeam(team)),
-		createPost: (params) => dispatch(actions.createPost(params))
+		createPost: (params) => dispatch(actions.createPost(params)),
+		toggleShowEdit: () => dispatch(actions.toggleShowEdit())
 	}
 }
-export default connect(stateToProps, mapDispatchToProps)(Account)
+
+export default connect(stateToProps, dispatchToProps)(BaseContainer(Account, 'account'))
 

@@ -37,7 +37,7 @@ class EditProfile extends Component {
 		if (this.state.updatedProfile.changed){
 			let updated = Object.assign({}, this.state.updatedProfile)
 			delete updated['changed']
-			this.props.update(updated)
+			this.props.update('profile', this.props.profile, updated)
 			return
 		}
 

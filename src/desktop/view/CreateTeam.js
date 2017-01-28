@@ -70,7 +70,8 @@ class CreateTeam extends Component {
 		if (updated.image.length == 0) // defer to default if no image specified
 			delete updated['image']
 
-		this.props.submit(updated)
+//		this.props.submit(updated)
+		this.props.submit('team', updated, true)
 	}
 
 	cancel(event){
@@ -94,7 +95,7 @@ class CreateTeam extends Component {
 					<span style={styles.paragraph}>Click To Change</span>
 				</Dropzone>
 
-				<input id="naem" onChange={this.updateTeam.bind(this)} type="text" placeholder="Team Name" className="form-control" style={localStyle.input} />
+				<input id="name" onChange={this.updateTeam.bind(this)} type="text" placeholder="Team Name" className="form-control" style={localStyle.input} />
 				<select style={{border:'1px solid #ddd'}} className="form-control" id="type" onChange={this.updateTeam.bind(this)}>
 					<option value="software">Software</option>
 					<option value="graphic design">Graphic Design</option>

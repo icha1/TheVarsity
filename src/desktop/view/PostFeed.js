@@ -18,7 +18,7 @@ class PostFeed extends Component {
 	onDelete(post){
 //		console.log('On Delete: '+post.title)
 		if (this.props.deletePost)
-			this.props.deletePost(post)
+			this.props.deletePost('post', post, {status: 'closed'})
 	}
 
 	onVote(post, upOrDown){

@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { Link } from 'react-router'
-import { TextUtils, FirebaseManager } from '../../utils'
+import { browserHistory } from 'react-router'
+import { TextUtils, FirebaseManager, Alert } from '../../utils'
 
 
 const BaseContainer = (Container, configuration) => {
@@ -15,6 +16,11 @@ const BaseContainer = (Container, configuration) => {
 			if (configuration == 'feed'){
 				menu = ['Recent Activity', 'Projects', 'Notifications']
 				selected = 'Recent Activity'
+			}
+
+			if (configuration == 'account'){
+				menu = ['Profile', 'Projects', 'Hiring']
+				selected = 'Profile'
 			}
 
 			this.state = {
@@ -62,6 +68,32 @@ const BaseContainer = (Container, configuration) => {
 					error: err
 				})
 			})
+		}
+
+		preparePost(post, type){
+			const user = this.props.account.currentUser
+			if (user == null){
+				Alert.showAlert({
+					title: 'Oops',
+					text: 'Please log in or register to create a project.'
+				})
+				return null
+			}
+
+			post['saved'] = [user.id]
+			post['type'] = type
+			post['author'] = {
+				id: user.id,
+				name: user.username,
+				slug: user.slug,
+				image: (user.image.length == 0) ? null : user.image,
+				type: 'profile'
+			}
+
+			if (type == 'project')
+				post['collaborators'] = [Object.assign({}, post.author)]
+
+			return post
 		}		
 
 		fetchData(req, params){
@@ -106,9 +138,90 @@ const BaseContainer = (Container, configuration) => {
 
 				})
 			}
-
 		}
 
+		updateData(req, entity, params){
+			const user = this.props.account.currentUser // every update requires login
+			if (user == null){
+				Alert.showAlert({
+					title: 'Oops',
+					text: 'Please register or log in.'
+				})
+				return
+			}
+
+			console.log('updateData: '+req+' == '+JSON.stringify(params))
+			if (req == 'profile')
+				return this.props.updateProfile(entity, params)
+			
+			if (req == 'post')
+				return this.props.updatePost(entity, params)
+		}
+
+		postData(req, params, authRequired){
+			const user = this.props.account.currentUser
+
+			if (authRequired && user == null){
+				Alert.showAlert({
+					title: 'Oops',
+					text: 'Please register or log in.'
+				})
+				return
+			}
+
+			if (req == 'team'){
+				console.log('BASE CONTAINER: Create Team')
+				const membersList = [{id: user.id, username: user.username, image: user.image}]
+				params['members'] = membersList
+				params['admins'] = membersList
+				let slug = null
+
+				this.props.createTeam(params)
+				.then((response) => {
+					const result = response.result
+					slug = result.slug
+					let teamsArray = user.teams
+					teamsArray.push(result.id)
+					return this.props.updateProfile(user, {teams: teamsArray}) // update profile with teams array
+				})
+				.then(resp => { // this is the updated profile
+					window.location.href = '/team/'+slug
+				})
+				.catch(err => {
+					Alert.showAlert({
+						title: 'Error',
+						text: err
+					})
+				})
+			}
+
+			if (req == 'post'){
+				const prepared = this.preparePost(params, 'hiring') // can be null
+				if (prepared == null)
+					return
+				
+				// find and remove any email strings:
+				prepared['contact'] = TextUtils.findEmails(params.text)
+				if (prepared.contact.length > 0){
+					let text = prepared.text
+					prepared.contact.forEach((email, i) => {
+						text = text.replace(email, '')
+					})
+					prepared['text'] = text
+				}
+
+				this.props.createPost(prepared)
+				.then(response => {
+					browserHistory.push('/post/'+response.result.slug)
+				})
+				.catch(err => {
+					Alert.showAlert({
+						title: 'Error',
+						text: err
+					})
+				})
+			}
+		}
 
 		render(){
 			return (
@@ -119,6 +232,8 @@ const BaseContainer = (Container, configuration) => {
 						onSelectItem={this.selectItem.bind(this)}
 						selected={this.state.selected}
 						fetchData={this.fetchData.bind(this)}
+						updateData={this.updateData.bind(this)}
+						postData={this.postData.bind(this)}
 						redeem={this.acceptInvitation.bind(this)}
 						{...this.props} />
 				</div>
@@ -136,9 +251,12 @@ const BaseContainer = (Container, configuration) => {
 	const dispatchToProps = (dispatch) => {
 		return {
 			fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
+			createPost: (params) => dispatch(actions.createPost(params)),
 			fetchProjects: (params) => dispatch(actions.fetchProjects(params)),
 			fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 			fetchMilestones: (params) => dispatch(actions.fetchMilestones(params)),
+			updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
+			updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 			redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
 		}
 	}

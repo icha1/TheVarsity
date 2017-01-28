@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { TextUtils, FirebaseManager } from '../../utils'
 import { PostFeed, Notification, Milestone } from '../view'
-import actions from '../../actions/actions'
 import styles from './styles'
 import { Link } from 'react-router'
 import BaseContainer from './BaseContainer'
@@ -324,6 +323,7 @@ const localStyle = {
 
 const stateToProps = (state) => {
 	return {
+		page: state.session.pages.feed,
 		posts: state.post,
 		projects: state.project,
 		milestones: state.milestone,
