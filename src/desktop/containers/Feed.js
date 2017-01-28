@@ -15,7 +15,7 @@ class Feed extends Component {
 			notifications: null,
 			menuItems: [
 				'Recent Activity',
-				'Saved',
+				'Projects',
 				'Notifications'
 			]
 		}
@@ -54,16 +54,16 @@ class Feed extends Component {
 
 	componentDidUpdate(){
 		const selected = this.state.selected
-		if (selected == 'Saved'){
-			const posts = this.props.posts['saved'] // can be bull
-			if (posts != null)
-				return
-
+		if (selected == 'Projects'){
 			const user = this.props.user
 			if (user == null)
 				return
 
-			this.props.fetchPosts({saved:user.id})
+			const projects = this.props.projects[user.id] // can be bull
+			if (projects != null)
+				return
+
+			this.props.fetchProjects({'collaborators.id':user.id})
 		}
 
 		if (selected == 'Notifications'){
@@ -138,9 +138,9 @@ class Feed extends Component {
 			posts = this.props.posts[teamsString] // can be bull
 			content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
 		}
-		else if (selected == 'Saved'){
-			posts = this.props.posts['saved'] // can be bull
-			content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
+		else if (selected == 'Projects'){
+			const projects = this.props.projects[user.id] // can be bull
+			content = (projects == null) ? null : <PostFeed posts={projects} deletePost={null} vote={null} user={user} />
 		}
 		else if (selected == 'Notifications'){
 			const notifications = this.state.notifications
@@ -259,7 +259,7 @@ class Feed extends Component {
 						<div className="col-xs-6">
 							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
 								<option value="Recent Activity">Recent Activity</option>
-								<option value="Saved">Saved</option>
+								<option value="Projects">Projects</option>
 								<option value="Teams">Your Teams</option>
 							</select>
 						</div>
@@ -352,6 +352,7 @@ const stateToProps = (state) => {
 	return {
 		user: state.account.currentUser,
 		posts: state.post,
+		projects: state.project,
 		teams: state.team,
 		profiles: state.profile
 	}
@@ -360,6 +361,7 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
 	return {
 		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
+		fetchProjects: (params) => dispatch(actions.fetchProjects(params)),
 		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
 	}
