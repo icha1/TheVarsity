@@ -140,6 +140,8 @@ class CreatePost extends Component {
 
 			updated['teams'] = keys // just need array of team ID's
 		}
+		else if (this.props.team != null)
+			updated['teams'] = this.props.team.id
 
 		this.props.submit('post', updated, true)
 	}

@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import { CreatePost, CreateProject, ProfilePreview, PostFeed, Comment, TeamInfo, Sidebar, Profiles, Chat, Modal, Explanation } from '../view'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
-import { TextUtils, APIManager, FirebaseManager, Alert } from '../../utils'
+import { TextUtils, FirebaseManager, Alert } from '../../utils'
 import actions from '../../actions/actions'
 import styles from './styles'
 import BaseContainer from './BaseContainer'
@@ -384,10 +383,9 @@ class TeamDetail extends Component {
 
 	render(){
 		const team = this.props.teams[this.props.slug]
-		if (team == null){
-			return (<div></div>) // blank while team fetches
-		}
-
+		if (team == null)
+			return <div></div> // blank while team fetches
+		
 		const style = styles.team
 		let content = null
 		let cta = null
@@ -400,7 +398,7 @@ class TeamDetail extends Component {
 				<div>
 					{ (this.props.user != null) ? 
 						<div className="hidden-xs">
-							{ (this.state.showSubmit) ? <CreatePost submit={this.props.postData.bind(this)} /> : null }
+							{ (this.state.showSubmit) ? <CreatePost team={team} submit={this.props.postData.bind(this)} /> : null }
 						</div>
 						:
 						<div className="alert alert-success">
