@@ -10,11 +10,11 @@ class Feed extends Component {
 	constructor(){
 		super()
 		this.state = {
-			selected: 'Front Page',
+			selected: 'Recent Activity',
 			firebaseConnected: false,
 			notifications: null,
 			menuItems: [
-				'Front Page',
+				'Recent Activity',
 				'Saved',
 				'Notifications'
 			]
@@ -133,7 +133,7 @@ class Feed extends Component {
 		let content = null
 		let posts = null
 
-		if (selected == 'Front Page'){
+		if (selected == 'Recent Activity'){
 			const teamsString = user.teams.join(',')
 			posts = this.props.posts[teamsString] // can be bull
 			content = (posts == null) ? null : <PostFeed posts={posts} deletePost={null} vote={null} user={user} />
@@ -258,7 +258,7 @@ class Feed extends Component {
 					<div className="row" style={localStyle.mobileContainer}>
 						<div className="col-xs-6">
 							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
-								<option value="Front Page">Front Page</option>
+								<option value="Recent Activity">Recent Activity</option>
 								<option value="Saved">Saved</option>
 								<option value="Teams">Your Teams</option>
 							</select>
