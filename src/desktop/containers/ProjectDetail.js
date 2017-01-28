@@ -40,8 +40,10 @@ class ProjectDetail extends Component {
 	componentDidMount(){
 		window.scrollTo(0, 0)
 		const project = this.props.projects[this.props.slug]
-		if (project == null)
+		if (project == null){
+			this.props.fetchProjects({slug: this.props.slug})
 			return
+		}
 
 		if (this.props.milestones[project.id] != null)
 			return
@@ -339,9 +341,13 @@ class ProjectDetail extends Component {
 	}
 
 	render(){
+		const project = this.props.projects[this.props.slug]
+		if (project == null)
+			return <div></div>
+
 		const style = styles.post
 		const user = this.props.user // can be null
-		const project = this.props.projects[this.props.slug]
+//		const project = this.props.projects[this.props.slug]
 		const author = (project == null) ? null : this.props.profiles[project.author.slug]
 		const isCollaborator = (project) ? this.memberFound(user, project.collaborators) : false
 
@@ -617,6 +623,7 @@ const dispatchToProps = (dispatch) => {
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
 		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
+		fetchProjects: (params) => dispatch(actions.fetchProjects(params)),
 		fetchComments: (params) => dispatch(actions.fetchComments(params)),
 		createComment: (comment) => dispatch(actions.createComment(comment)),
 		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
