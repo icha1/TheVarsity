@@ -36,7 +36,7 @@ const BaseContainer = (Container, configuration) => {
 		}
 
 		componentDidUpdate(){
-			console.log('BASE CONTAINER - componentDidUpdate')
+//			console.log('BASE CONTAINER - componentDidUpdate')
 
 		}
 

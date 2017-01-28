@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { APIManager, DateUtils, TextUtils, FirebaseManager } from '../../utils'
-import { Sidebar, PostFeed, CreatePost, CreateTeam, TeamFeed, Comment, CreateComment, Notification, Milestone } from '../view'
+import { TextUtils, FirebaseManager } from '../../utils'
+import { PostFeed, Notification, Milestone } from '../view'
 import actions from '../../actions/actions'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -39,22 +39,17 @@ class Feed extends Component {
 	}
 
 	componentDidUpdate(){
+		const user = this.props.user
 		const selected = this.props.selected
 		if (selected == 'Projects'){
-			const user = this.props.user
 			if (user == null)
 				return
 
-			const projects = this.props.projects[user.id] // can be bull
-			if (projects != null)
-				return
-
-			this.props.fetchData('project', {'collaborators.id':user.id})
+			if (this.props.projects[user.id] == null)
+				this.props.fetchData('project', {'collaborators.id':user.id})
 		}
 
 		if (selected == 'Notifications'){
-			console.log('View Notifications')
-			const user = this.props.user
 			if (user == null)
 				return
 
@@ -69,7 +64,7 @@ class Feed extends Component {
 				if (notifications == null)
 					return
 
-				console.log('Notification RECEVIED: '+JSON.stringify(notifications))
+//				console.log('Notification RECEVIED: '+JSON.stringify(notifications))
 				this.setState({
 					notifications: notifications,
 					firebaseConnected: true
@@ -339,8 +334,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
-		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
-		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
+
 	}
 }
 
