@@ -16,7 +16,7 @@ export default (props) => {
 	const withIcon = props.withIcon || false
 	return (
 		<div className="entry clearfix" style={{border:'none', marginBottom:12, paddingBottom:12, maxWidth:maxWidth}}>
-			<div className="entry-timeline" style={ (withIcon) ? {backgroundSize:'cover', background:'url("'+milestone.project.image+'=s72-c")'} : null}>
+			<div className="entry-timeline" style={ (withIcon) ? {backgroundSize:'cover', background:'url("'+milestone.project.image+'=s64-c")'} : null}>
 				{ (withIcon) ? null : 
 					<div>
 						{ months[parseInt(month)] }<span>{ day }</span>
