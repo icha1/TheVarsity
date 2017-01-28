@@ -346,7 +346,7 @@ class ProjectDetail extends Component {
 		const user = this.props.user // can be null
 		const project = this.props.projects[this.props.slug]
 		const author = (project == null) ? null : this.props.profiles[project.author.slug]
-		const isColloborator = this.memberFound(user, project.collaborators)
+		const isCollaborator = this.memberFound(user, project.collaborators)
 
 		let content = null
 		const btn = 'button button-mini button-circle '
@@ -410,7 +410,7 @@ class ProjectDetail extends Component {
 							</div>
 						</div>
 
-						{ (isColloborator) ? <CreateMilestone milestone={this.state.milestone} update={this.updateMilestone.bind(this)} submitMilestone={this.createMilestone.bind(this)} /> : null }
+						{ (isCollaborator) ? <CreateMilestone milestone={this.state.milestone} update={this.updateMilestone.bind(this)} submitMilestone={this.createMilestone.bind(this)} /> : null }
 						{ (this.props.milestones[project.id] == null) ? null : 
 							this.props.milestones[project.id].map((milestone, i) => {
 								return <Milestone key={milestone.id} {...milestone} />
@@ -451,7 +451,7 @@ class ProjectDetail extends Component {
 					<div className="col_two_third">
 						<div className="feature-box center media-box fbox-bg">
 							<div style={styles.main}>
-								{ (user==null) ? null : <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Collaborator</a> }
+								{ (isCollaborator) ? <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Collaborator</a> : null }
 								<h2 style={styles.team.title}>Collaborators</h2>
 								<hr />
 								<Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} user={user} />
