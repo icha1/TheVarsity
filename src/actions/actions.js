@@ -219,6 +219,18 @@ export default {
 		}
 	},
 
+	fetchMilestones: (params) => {
+		return dispatch => {
+			return dispatch(getData('/api/milestone', params, constants.MILESTONES_RECEIVED, 'milestones'))
+		}
+	},
+
+	createMilestone: (params) => {
+		return dispatch => {
+			return dispatch(postData('/api/milestone', params, constants.MILESTONE_CREATED, 'milestone'))
+		}
+	},
+
 	fetchDistrict: (params) => {
 		return dispatch => {
 			return dispatch(getData('/api/district', params, constants.DISTRICT_CHANGED, 'districts'))

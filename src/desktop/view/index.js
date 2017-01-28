@@ -20,6 +20,7 @@ import Modal from './Modal'
 import Explanation from './Explanation'
 import Application from './Application'
 import Milestone from './Milestone'
+import CreateMilestone from './CreateMilestone'
 import Notification from './Notification'
 
 export {
@@ -45,5 +46,6 @@ export {
 	Explanation,
 	Application,
 	Milestone,
+	CreateMilestone,
 	Notification
 }

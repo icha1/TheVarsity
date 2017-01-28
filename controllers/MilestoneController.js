@@ -46,6 +46,9 @@ module.exports = {
 
 	post: function(params){
 		return new Promise(function(resolve, reject){
+			if (params.title != null)
+				params['slug'] = utils.TextUtils.slugVersion(params.title)+'-'+utils.TextUtils.randomString(6)
+
 			Milestone.create(params, function(err, milestone){
 				if (err){
 					reject(err)

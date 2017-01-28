@@ -4,20 +4,58 @@ import { DateUtils } from '../../utils'
 import styles from './styles'
 
 export default (props) => {
+	const months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+	const milestone = props
+
+	let dateParts = milestone.timestamp.split('T')
+	dateParts = dateParts[0].split('-') // 2017-01-28
+	const day = dateParts[dateParts.length-1]
+	const month = dateParts[1]
 
 	return (
-		<div className="entry clearfix" style={{border:'none', marginBottom:12, paddingBottom:12, maxWidth:560}}>
+		<div className="entry clearfix" style={localStyle.container}>
 			<div className="entry-timeline">
-				21<span>Mar</span>
+				{ months[parseInt(month)] }<span>{ day }</span>
 				<div className="timeline-divider"></div>
 			</div>
 			<div className="entry-image">
 				<div className="panel panel-default">
 					<div className="panel-body">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, fuga optio voluptatibus saepe tenetur aliquam debitis eos accusantium! Vitae, hic, atque aliquid repellendus accusantium laudantium minus eaque quibusdam ratione sapiente.
+						<h4 style={localStyle.title}>{milestone.title}</h4>
+						{milestone.description}
+						<hr />
+
+						<Link to={'/profile/'+milestone.profile.slug}>
+							<img style={localStyle.icon} src={milestone.profile.image+'=s72-c'} />
+							<div style={{lineHeight:14+'px', paddingTop:3}}>
+								<span style={{float:'right'}}>{ milestone.profile.username }</span><br />
+								<span style={{float:'right'}}>software</span>
+							</div>
+						</Link>
 					</div>
 				</div>
 			</div>
 		</div>
 	)
+}
+
+const localStyle = {
+	icon: {
+		width: 36,
+		borderRadius: 18,
+		marginLeft: 12,
+		float: 'right'
+	},
+	container: {
+		border:'none',
+		marginBottom:12,
+		paddingBottom:12,
+		maxWidth:560
+	},
+	title: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		marginBottom: 0
+	}
 }

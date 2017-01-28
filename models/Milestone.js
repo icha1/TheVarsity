@@ -1,6 +1,8 @@
 var mongoose = require('mongoose')
 
 var MilestoneSchema = new mongoose.Schema({
+	project: {type:mongoose.Schema.Types.Mixed, default:{}},
+	profile: {type:mongoose.Schema.Types.Mixed, default:{}},
 	title: {type:String, trim:true, default:''},
 	slug: {type:String, trim:true, lowercase:true, default:''},
 	image: {type:String, trim:true, default:''},
@@ -11,6 +13,8 @@ var MilestoneSchema = new mongoose.Schema({
 
 MilestoneSchema.methods.summary = function(){
 	var summary = {
+		project: this.project,
+		profile: this.profile,
 		title: this.title,
 		slug: this.slug,
 		image: this.image,

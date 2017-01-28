@@ -7,10 +7,6 @@ export default (state = initialState, action) => {
 	let newState = Object.assign({}, state)
 
 	switch (action.type) {
-		// case constants.TOGGLE_SHOW_MAP:
-		// 	newState['showMap'] = action.show
-		// 	return newState
-
 		case constants.MILESTONES_RECEIVED:
 			const keys = Object.keys(action.params)
 
@@ -28,6 +24,16 @@ export default (state = initialState, action) => {
 				let value = action.params[key]
 				newState[value] = action.milestones
 			}
+
+			return newState
+
+		case constants.MILESTONE_CREATED:
+			newState[action.milestone.slug] = action.milestone
+			newState[action.milestone.id] = action.milestone
+
+			let array = (newState[action.milestone.project.id]) ? Object.assign([], newState[action.milestone.project.id]) : []
+			array.unshift(action.milestone)
+			newState[action.milestone.project.id] = array
 
 			return newState
 

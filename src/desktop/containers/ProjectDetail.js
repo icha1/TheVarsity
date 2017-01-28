@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import actions from '../../actions/actions'
 import constants from '../../constants/constants'
-import { CreateComment, CreatePost, Comments, ProfilePreview, Application, Milestone, Profiles, Modal } from '../view'
+import { CreateComment, CreatePost, Comments, ProfilePreview, Application, Milestone, CreateMilestone, Profiles, Modal } from '../view'
 import { DateUtils, FirebaseManager, TextUtils, APIManager, Alert } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -17,11 +17,16 @@ class ProjectDetail extends Component {
 			timestamp: null,
 			isEditing: false,
 			comments: null,
-			selected: 'Post',
-			menuItems: ['Post', 'Comments', 'Collaborators'],
+			selected: 'Project',
+			menuItems: ['Project', 'Comments', 'Collaborators'],
 			invitation: {
 				name: '',
 				email: ''
+			},
+			milestone: {
+				title: '',
+				description: '',
+				attachments: []
 			}
 		}
 	}
@@ -48,17 +53,26 @@ class ProjectDetail extends Component {
 				return results
 			})
 			.then(results => {
-				const author = this.props.profiles[project.author.slug]
+				const author = this.props.profiles[post.author.slug]
 				if (author == null)
-					return this.props.fetchProfile(project.author.id)
+					return this.props.fetchProfile(post.author.id)
 			})
 			.catch(err => {
 				console.log('ERROR: '+JSON.stringify(err))
 			})
-		}
+		}		
 
-		// sloppy workaround, render timestamp client side:
-		this.setState({timestamp: DateUtils.formattedDate(project.timestamp)})
+		if (this.props.milestones[project.id] != null)
+			return
+
+		// fetch milestones
+		this.props.fetchMilestones({'project.id': project.id})
+		.then(results => {
+			return results
+		})
+		.catch(err => {
+			console.log('ERROR: '+JSON.stringify(err))
+		})
 	}
 
 	componentDidUpdate(){
@@ -69,12 +83,6 @@ class ProjectDetail extends Component {
 		const author = this.props.profiles[project.author.slug]
 		if (author == null)
 			return
-
-		const team = this.props.teams[project.teams[0]]
-		if (team == null){
-			this.props.fetchTeam(project.teams[0])
-			return			
-		}
 
 		const selected = this.state.selected
 		if (selected != 'Collaborators')
@@ -265,11 +273,63 @@ class ProjectDetail extends Component {
 		})
 	}
 
+	updateMilestone(field, event){
+		// console.log('updateMilestone: '+field+' = '+event.target.value)
+		let updated = Object.assign({}, this.state.milestone)
+		updated[field] = event.target.value
+		this.setState({
+			milestone: updated
+		})
+	}
+
+	createMilestone(){
+		const user = this.props.user // can be null
+		if (user == null)
+			return
+
+		const project = this.props.projects[this.props.slug]
+		if (project == null)
+			return
+
+		let updated = Object.assign({}, this.state.milestone)
+
+		// add profile, add project
+		updated['profile'] = {
+			id: user.id,
+			username: user.username,
+			slug: user.slug,
+			image: user.image
+		}
+
+		updated['project'] = {
+			id: project.id,
+			title: project.title,
+			slug: project.slug,
+			image: project.image
+		}
+
+		this.props.createMilestone(updated)
+		.then(response => {
+			console.log('Milestone Created: '+JSON.stringify(response))
+			this.setState({
+				milestone: {
+					title: '',
+					description: '',
+					attachments: []
+				}
+			})
+		})
+		.catch(err => {
+
+		})
+	}
+
 	render(){
 		const style = styles.post
 		const user = this.props.user // can be null
 		const project = this.props.projects[this.props.slug]
 		const author = (project == null) ? null : this.props.profiles[project.author.slug]
+		const isColloborator = this.memberFound(user, project.collaborators)
 
 		let content = null
 		const btn = 'button button-mini button-circle '
@@ -279,7 +339,7 @@ class ProjectDetail extends Component {
 
 		if (this.state.isEditing == true)
 			content = <CreatePost submit={this.updatePost.bind(this)} cancel={this.toggleEditing.bind(this)} post={project} />		
-		else if (selected == 'Post'){
+		else if (selected == 'Project'){
 			let btnEdit = null
 			const projectAuthor = project.author
 			if (user != null){
@@ -333,28 +393,13 @@ class ProjectDetail extends Component {
 							</div>
 						</div>
 
-						<div className="entry clearfix" style={{border:'none', marginBottom:12, paddingBottom:12, maxWidth:560}}>
-							<div className="entry-timeline">
-								+<span>Add</span>
-								<div className="timeline-divider"></div>
-							</div>
-							<div className="entry-image">
-								<div className="panel panel-default">
-									<div className="panel-body">
-										<input placeholder="Title" style={{width:100+'%', border:'none', background:'#f9f9f9', padding:6}} type="text" />
-										<textarea placeholder="Describe your milestone" style={{width:100+'%', height:80, border:'none', background:'#f9f9f9', padding:6, marginTop:12}}></textarea>
-										<div style={{textAlign:'right', marginTop:12}}>
-											<button className="button button-small button-border button-border-thin button-blue">Add Milestone</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<Milestone />
-						<Milestone />
-						<Milestone />
-						<Milestone />
+						{ (isColloborator) ? <CreateMilestone milestone={this.state.milestone} update={this.updateMilestone.bind(this)} submitMilestone={this.createMilestone.bind(this)} /> : null }
+						{ (this.props.milestones[project.id] == null) ? null : 
+							this.props.milestones[project.id].map((milestone, i) => {
+								return <Milestone key={milestone.id} {...milestone} />
+							})
+						}
+						
 					</div>
 				</div>
 			)
@@ -411,15 +456,10 @@ class ProjectDetail extends Component {
 			            <div id="header-wrap">
 							<div className="container clearfix">
 								<div style={{paddingTop:96}}>
-									{ (team == null) ? null : 
+									{ (project == null) ? null : 
 										<div>
-											<Link to={'/team/'+team.slug}>
-												<img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginTop:6}} src={team.image+'=s140-c'} />
-												<h2 style={ style.title }>{ team.name }</h2>
-											</Link>
-											<span style={styles.paragraph}>{ TextUtils.capitalize(team.type) }</span><br />
-											<br />
-											<Link to={'/team/'+team.slug}  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>View Team</Link>
+											<img style={{padding:3, border:'1px solid #ddd', background:'#fff', marginTop:6}} src={project.image+'=s140-c'} />
+											<h2 style={ style.title }>{ project.title }</h2>
 										</div>
 									}
 									<hr />
@@ -544,22 +584,21 @@ const stateToProps = (state) => {
 		projects: state.project,
 		teams: state.team,
 		profiles: state.profile,
-		session: state.session
+		session: state.session,
+		milestones: state.milestone
 	}
 }
 
 const dispatchToProps = (dispatch) => {
 	return {
-		fetchPostById: (id) => dispatch(actions.fetchPostById(id)),
-		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
 		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
-		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
-		fetchTeam: (id) => dispatch(actions.fetchTeam(id)),
 		fetchComments: (params) => dispatch(actions.fetchComments(params)),
 		createComment: (comment) => dispatch(actions.createComment(comment)),
-		sendInvitation: (params) => dispatch(actions.sendInvitation(params))
+		sendInvitation: (params) => dispatch(actions.sendInvitation(params)),
+		createMilestone: (params) => dispatch(actions.createMilestone(params)),
+		fetchMilestones: (params) => dispatch(actions.fetchMilestones(params))
 	}
 }
 
