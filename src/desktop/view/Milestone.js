@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
-import { DateUtils } from '../../utils'
+import { DateUtils, TextUtils } from '../../utils'
 import styles from './styles'
 
 export default (props) => {
@@ -29,7 +29,7 @@ export default (props) => {
 							<img style={localStyle.icon} src={milestone.profile.image+'=s72-c'} />
 							<div style={{lineHeight:14+'px', paddingTop:3}}>
 								<span style={{float:'right'}}>{ milestone.profile.username }</span><br />
-								<span style={{float:'right'}}>software</span>
+								<span style={{float:'right'}}>{ TextUtils.capitalize(milestone.profile.title) }</span>
 							</div>
 						</Link>
 					</div>
