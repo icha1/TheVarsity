@@ -106,6 +106,7 @@ class CreateProject extends Component {
 
 	addRemoveTeam(team, event){
 		event.preventDefault()
+//		console.log('addRemoveTeam: '+event.target.id)
 		let post = Object.assign({}, this.state.post)
 		let teams = Object.assign({}, post.teams)
 		if (teams[team.id])
@@ -180,24 +181,22 @@ class CreateProject extends Component {
 				</div>
 
 				{ (this.props.teams == null) ? null : 
-					<div>
+					<div className="container clearfix" style={{padding:0, margin:0}}>
 						<hr />
 						<h3 style={localStyle.title}>Teams</h3>
-						<p style={localStyle.paragraph}>Select the teams on which this project will be seen:</p>
+						<p style={localStyle.paragraph}>Select the teams on which this project will be seen (Click Icon to Select):</p>
 
 						{ this.props.teams.map((team, i) => {
+								const checked = (this.state.post.teams[team.id] == null) ? false : true
 								return (
-									<div key={team.id} className="clearfix">
-										<a target="_blank" href={'/team/'+team.slug}>
+									<div key={team.id} className="col_one_fourth" style={{marginBottom:0}}>
+										<a target="_blank" onClick={this.addRemoveTeam.bind(this, team)} href="#">
 											<img style={localStyle.teamImage} src={(team.image.indexOf('googleusercontent') == -1) ? team.image : team.image +'=s120-c'} />
 										</a>
 										<br />
+										<input id={team.id} checked={checked} type="checkbox" style={{marginRight:6}} />
 										<a target="_blank" href={'/team/'+team.slug}>
 											{team.name}
-										</a>
-										<br />
-										<a onClick={this.addRemoveTeam.bind(this, team)} href="#">
-											{ (this.state.post.teams[team.id]==null) ? <i style={{color:'green'}} className="icon-plus"></i> : <i style={{color:'red'}} className="icon-minus"></i> }
 										</a>
 									</div>
 								)
@@ -276,9 +275,7 @@ const localStyle = {
 		background: '#fff',
 		border: '1px solid #ddd',
 		width: 72,
-		marginRight: 12,
-		marginTop: 12,
-		float: 'left'
+		marginRight: 12
 	},
 	additionalImage: {
 		width: 72,

@@ -63,7 +63,8 @@ class Section extends Component {
 			            <div className="heading-block center nobottomborder" style={{paddingTop:48}}>
 			                <h1 style={localStyle.titleWhite} data-animate="fadeInUp">The Varsity</h1>
 			                <span style={{fontWeight:100}} data-animate="fadeInUp" data-delay="300">
-			                	Find Your Next Job or Hire <br />Through The Varsity in 2017
+			                	Build Your Next Project and<br />
+			                	Find Your Team on The Varsity<br />
 			                </span>
 			                <br /><br />
 			                <div data-animate="fadeIn" data-delay="800">
@@ -91,7 +92,8 @@ class Section extends Component {
 							photographers, software engineers, real estate etc. Groups are curated by members 
 							and maintained through an invite-only system.
 							<br /><br />
-							Users can tap into these groups when seeking referrals or hiring for their company. Find your next job or employee through the Varsity in 2017.
+							Users can tap into these groups when seeking collaborators for their next project, referrals, or 
+							employees.
 						</div>
 
 						<div className="col_one_third col_last" style={{textAlign:'right'}}>
@@ -103,47 +105,20 @@ class Section extends Component {
 		}
 		else if (this.props.content == 'advantage') {
 			content = (
-			    <section style={{background:'#2e3842', borderTop:'1px solid #ddd'}} className="page-section notopmargin nobottommargin section">
-			        <div className="container clearfix">
-					    <h2 style={localStyle.titleWhite}>The Varsity Advantage</h2>
+				<section id="section-about" style={{background:'#fff', paddingTop:32, borderTop:'1px solid #ddd'}} className="page-section">
+					<div className="content-wrap container clearfix">
+						<div className="col_half" style={localStyle.paragraph}>
+							<img style={localStyle.image} src="/images/girls.jpg" />
+						</div>
 
-			            <div className="col_one_third">
-			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
-			                    <h4 style={localStyle.titleWhite}>Better Opportunities</h4>
-			                </div>
-			                <img style={localStyle.image} src="/images/satellite-2.png" />
-			                <p style={localStyle.paragraphWhite}>
-								Every group has a bulletin board where professional opportunities are posted. Hiring companies 
-								can better target specific skillsets by posting in the right groups.
-			                </p>
-			            </div>
-
-			            <div className="col_one_third">
-			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
-			                    <h4 style={localStyle.titleWhite}>Stronger Connections</h4>
-			                </div>
-			                <img style={localStyle.image} src="/images/kithen.jpg" />
-			                <p style={localStyle.paragraphWhite}>
-								Groups are maintained by members through invite-only. No more spam from salesman, recruiters, 
-								and such. The Varsity cuts out the noise.                
-			                </p>
-			            </div>
-
-			            <div className="col_one_third col_last">
-			                <div className="heading-block fancy-title nobottomborder title-bottom-border">
-			                    <h4 style={localStyle.titleWhite}>More Revenue</h4>
-			                </div>
-			                <img style={localStyle.image} src="/images/meetup.jpg" />
-			                <p style={localStyle.paragraphWhite}>
-								Group admins can charge fees for posting to the bulletin board. Fees go directly to the group 
-								moderator.
-								<br />
-								* This is a premium feature.
-			                </p>
-			            </div>
-
-			        </div>
-			    </section>
+						<div className="col_half col_last" style={localStyle.paragraph}>
+		                	<h2 style={localStyle.title}>The Perfect Team</h2>
+		                	Every project requires a wide variety of skills and talents. On The Varsity, there is a team 
+		                	for that. Need a new logo for your business? Check with the Graphic Design Team. Looking 
+		                	for help setting up website with mobile responsiveness? Try the Hack Exchange technical team.
+						</div>
+					</div>
+				</section>
 			)
 		}
 		else if (this.props.content == 'redeem'){
