@@ -8,6 +8,7 @@ class CreateProject extends Component {
 	constructor(){
 		super()
 		this.state = {
+			mode: 'Create',
 			post: {
 				title: '',
 				type: 'project',
@@ -21,6 +22,13 @@ class CreateProject extends Component {
 	}
 
 	componentDidMount(){
+		if (this.props.project){
+			this.setState({
+				post: Object.assign({}, this.props.project),
+				mode: 'Update'
+			})
+		}
+
 		if (this.props.team == null)
 			return
 
@@ -121,14 +129,15 @@ class CreateProject extends Component {
 	}
 
 	render(){
+//		const post = (this.props.project) ? this.props.project : this.state.post
 		const post = this.state.post
 
 		return (
 			<div style={localStyle.container} className="hidden-xs">
-				<h2 style={localStyle.title}>Create Project</h2>
-				<input onChange={this.updatePost.bind(this, 'title')} style={localStyle.input} type="text" placeholder="Title" /><br />
-				<input onChange={this.updatePost.bind(this, 'url')} style={localStyle.input} type="text" placeholder="URL (optional)" /><br />
-				<textarea onChange={this.updatePost.bind(this, 'text')} style={localStyle.textarea} placeholder="Description"></textarea>
+				<h2 style={localStyle.title}>{this.state.mode} Project</h2>
+				<input onChange={this.updatePost.bind(this, 'title')} value={post.title} style={localStyle.input} type="text" placeholder="Title" /><br />
+				<input onChange={this.updatePost.bind(this, 'url')} value={post.url} style={localStyle.input} type="text" placeholder="URL (optional)" /><br />
+				<textarea onChange={this.updatePost.bind(this, 'text')} value={post.text} style={localStyle.textarea} placeholder="Description"></textarea>
 
 				<div className="container clearfix" style={{padding:0, margin:0}}>
 					<div className="col_one_third" style={{marginBottom:0}}>
@@ -207,7 +216,7 @@ class CreateProject extends Component {
 				}
 
 				<div style={{textAlign:'right', marginTop:16}}>
-					<a href="#" onClick={this.createProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>Create Project</a>
+					<a href="#" onClick={this.createProject.bind(this)} style={localStyle.btnSmall} className={localStyle.btnSmall.className}>{this.state.mode} Project</a>
 				</div>
 			</div>
 		)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
-import { CreatePost, Comments, Milestone, CreateMilestone, Profiles, Modal, Redeem } from '../view'
+import { CreatePost, CreateProject, Comments, Milestone, CreateMilestone, Profiles, Modal, Redeem } from '../view'
 import { FirebaseManager, TextUtils, APIManager, Alert } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
@@ -177,11 +177,13 @@ class ProjectDetail extends Component {
 		})
 	}
 
-	updatePost(post){
+	// todo: run this through base container
+	updateProject(type, project, authRequired){
 		if (this.state.isEditing == false)
 			return
 
-		let updated = Object.assign({}, post)
+//		console.log('UPDATE PROJECT: '+JSON.stringify(project))
+		let updated = Object.assign({}, project)
 		const original = this.props.projects[this.props.slug]
 		this.props.updatePost(original, updated)
 		.then(response => {
@@ -470,8 +472,17 @@ class ProjectDetail extends Component {
 		let content = null
 		const selected = this.state.selected
 
-		if (this.state.isEditing == true)
-			content = <CreatePost submit={this.updatePost.bind(this)} cancel={this.toggleEditing.bind(this)} post={project} />		
+		if (this.state.isEditing == true){
+			content = (
+				<div>
+					<div className="col_two_third col_last">
+						<button onClick={this.toggleEditing.bind(this)} className={localStyle.btnSmall.className} style={{float:'right'}}>Cancel</button>
+						<div style={{marginBottom:24}} className="clearfix"></div>
+						<CreateProject project={project} onCreate={this.updateProject.bind(this)} />
+					</div>
+				</div>
+			)
+		}
 		else if (selected == 'Project'){
 			let btnEdit = null
 			const projectAuthor = project.author
