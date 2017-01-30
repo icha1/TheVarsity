@@ -82,29 +82,50 @@ class Feed extends Component {
 		let posts = null
 
 		if (selected == 'Recent Activity'){
-			const teamsString = user.teams.join(',')
-			const milestones = this.props.milestones[teamsString] || []
-			if (milestones.length > 0){
-				content = (
-					<div className="postcontent nobottommargin clearfix">
-						<div id="posts" className="post-timeline clearfix" style={{textAlign:'left'}}>
-							<div className="timeline-border"></div>
-							{ milestones.map((milestone, i) => {
-									return <Milestone key={milestone.id} withIcon={true} maxWidth={505} {...milestone} />
-								})
-							}
-						</div>
+			const teamOrProjectsString = (user.teams.length == 0) ? user.projects.join(',') : user.teams.join(',')
+			const milestones = this.props.milestones[teamOrProjectsString] || []
+			content = (
+				<div className="postcontent nobottommargin clearfix">
+					<div id="posts" className="post-timeline clearfix" style={{textAlign:'left'}}>
+						<div className="timeline-border"></div>
+						{ milestones.map((milestone, i) => {
+								return <Milestone key={milestone.id} withIcon={true} maxWidth={505} {...milestone} />
+							})
+						}
 					</div>
-				)
-			}
-			else {
-				const posts = this.props.posts[teamsString] || []
-				content = (
-					<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
-						<PostFeed posts={posts} deletePost={null} vote={null} user={user} />
-					</div>
-				)				
-			}
+				</div>
+			)
+			
+			// if (user.teams.length == 0){ // not on any team, fetch project milestones
+			// 	const projectsString = user.projects.join(',')
+			// 	const milestones = this.props.milestones[projects] || []
+			// 	content = (
+			// 		<div className="postcontent nobottommargin clearfix">
+			// 			<div id="posts" className="post-timeline clearfix" style={{textAlign:'left'}}>
+			// 				<div className="timeline-border"></div>
+			// 				{ milestones.map((milestone, i) => {
+			// 						return <Milestone key={milestone.id} withIcon={true} maxWidth={505} {...milestone} />
+			// 					})
+			// 				}
+			// 			</div>
+			// 		</div>
+			// 	)
+			// }
+			// else {
+			// 	const teamsString = user.teams.join(',')
+			// 	const milestones = this.props.milestones[teamsString] || []
+			// 	content = (
+			// 		<div className="postcontent nobottommargin clearfix">
+			// 			<div id="posts" className="post-timeline clearfix" style={{textAlign:'left'}}>
+			// 				<div className="timeline-border"></div>
+			// 				{ milestones.map((milestone, i) => {
+			// 						return <Milestone key={milestone.id} withIcon={true} maxWidth={505} {...milestone} />
+			// 					})
+			// 				}
+			// 			</div>
+			// 		</div>
+			// 	)
+			// }
 		}
 		else if (selected == 'Projects'){
 			const projects = this.props.projects[user.id] // can be bull
