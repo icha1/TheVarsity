@@ -16,6 +16,7 @@ var scrape = require('./routes/scrape')
 var tags = require('./routes/tags')
 var account = require('./routes/account')
 var phantom = require('./routes/phantom')
+var aws = require('./routes/aws')
 
 mongoose.connect(process.env.MONGODB_URI, function(err, res){
   if (err){
@@ -54,6 +55,7 @@ app.use('/tags', tags)
 app.use('/api', api)
 app.use('/account', account)
 app.use('/phantom', phantom)
+app.use('/aws', aws)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

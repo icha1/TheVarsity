@@ -106,7 +106,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/:page', function(req, res, next) {
 	var page = req.params.page
-	if (page == 'scrape' || page == 'geo' || page == 'tags' || page == 'phantom'){
+	if (page == 'scrape' || page == 'geo' || page == 'tags' || page == 'phantom' || page=='aws'){
 		next()
 		return
 	}
