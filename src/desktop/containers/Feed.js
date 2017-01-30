@@ -26,7 +26,7 @@ class Feed extends Component {
 
 		if (user.teams.length == 0){ // not on any team, fetch project milestones
 			const projectsString = user.projects.join(',')
-			if (this.props.milestones[projects] == null)
+			if (this.props.milestones[projectsString] == null)
 				this.props.fetchData('milestone', {'project.id': projectsString, limit:10})
 
 			return
