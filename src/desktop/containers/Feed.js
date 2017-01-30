@@ -32,9 +32,9 @@ class Feed extends Component {
 			return
 		}
 
-		const projectsString = user.projects.join(',')
-		if (this.props.milestones[projectsString] == null)
-			this.props.fetchData('milestone', {'project.id': projectsString, limit:10})
+		const teamsString = user.teams.join(',')
+		if (this.props.milestones[teamsString] == null)
+			this.props.fetchData('milestone', {'teams': teamsString, limit:10})
 	}
 
 	componentDidUpdate(){
@@ -82,9 +82,9 @@ class Feed extends Component {
 		let posts = null
 
 		if (selected == 'Recent Activity'){
-			if (user.projects.length > 0){
-				const projectsString = user.projects.join(',')
-				const milestones = this.props.milestones[projectsString] || []
+			const teamsString = user.teams.join(',')
+			const milestones = this.props.milestones[teamsString] || []
+			if (milestones.length > 0){
 				content = (
 					<div className="postcontent nobottommargin clearfix">
 						<div id="posts" className="post-timeline clearfix" style={{textAlign:'left'}}>
@@ -97,14 +97,13 @@ class Feed extends Component {
 					</div>
 				)
 			}
-			else { // show posts from teams if user is not on any projects:
-				const teamsString = user.teams.join(',')
+			else {
 				const posts = this.props.posts[teamsString] || []
 				content = (
 					<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
 						<PostFeed posts={posts} deletePost={null} vote={null} user={user} />
 					</div>
-				)
+				)				
 			}
 		}
 		else if (selected == 'Projects'){

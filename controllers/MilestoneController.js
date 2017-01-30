@@ -29,6 +29,19 @@ module.exports = {
 				delete params['project.id']
 			}
 
+			if (params['teams']){
+				var parts = params['teams'].split(',') // array of team ids
+				var array = []
+				parts.forEach(function(teamId, i){
+					array.push({
+						'teams': teamId
+					})
+				})
+
+				params = {$or: array}
+				delete params['teams']
+			}
+
 
 			Milestone.find(params, null, {limit:parseInt(limit), sort:{timestamp: sortOrder}}, function(err, milestones){
 				if (err){
