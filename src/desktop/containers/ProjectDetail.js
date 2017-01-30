@@ -17,6 +17,7 @@ class ProjectDetail extends Component {
 			timestamp: null,
 			isEditing: false,
 			comments: null,
+			loading: false,
 			selected: 'Project',
 			menuItems: ['Project', 'Comments', 'Collaborators'],
 			invitation: {
@@ -371,6 +372,84 @@ class ProjectDetail extends Component {
 		return this.props.requestInvitation(invitation)
 	}
 
+	uploadFile(files){
+		const file = files[0]
+		let mime = null
+		const mimeTypes = ['image', 'video', 'zip', 'pdf']
+
+		mimeTypes.forEach((type, i) => {
+			if (file.type.indexOf(type) != -1){
+				mime = type
+			}
+		})
+
+		if (mime == null){
+			Alert.showAlert({
+				title:'Oops!',
+				text: 'Uploads can only be image, video, pdf, or .zip files.'
+			})
+			return
+		}
+
+		this.setState({loading: true})
+
+		// send images and pdf to your service, video to cloudinary, application to S3
+		let updated = Object.assign({}, this.state.milestone)
+		let attachments = Object.assign([], updated.attachments)
+		let attachment = {
+			name: file.name,
+			size: file.size,
+			mime: mime
+		}
+
+		if (mime == 'image' || mime == 'pdf'){
+			APIManager.upload(file, (err, response) => {
+				if (err){
+					Alert.showAlert({
+						title: 'Oops!',
+						text: err
+					})
+
+					return
+				}
+
+				attachment['address'] = response.address
+				attachments.push(attachment)
+				updated['attachments'] = attachments
+				console.log(mime.toUpperCase()+' UPLOADED: '+JSON.stringify(attachment))
+				this.setState({
+					loading: false,
+					milestone: updated
+				})
+			})
+			return
+		}
+
+		// upload to cloudinary
+		if (mime == 'zip')
+			mime = 'raw'
+
+		APIManager.uploadCloudinary(file, mime, (err, response) => {
+			if (err){
+				Alert.showAlert({
+					title: 'Oops!',
+					text: err
+				})
+
+				return
+			}
+
+			attachment['address'] = response['secure_url']
+			attachments.push(attachment)
+			updated['attachments'] = attachments
+			console.log(mime.toUpperCase()+' UPLOADED: '+JSON.stringify(attachment))
+			this.setState({
+				loading: false,
+				milestone: updated
+			})
+		})
+	}
+
 	render(){
 		const project = this.props.projects[this.props.slug]
 		if (project == null)
@@ -443,7 +522,15 @@ class ProjectDetail extends Component {
 							</div>
 						</div>
 
-						{ (isCollaborator) ? <CreateMilestone milestone={this.state.milestone} update={this.updateMilestone.bind(this)} submitMilestone={this.createMilestone.bind(this)} /> : null }
+						{ (isCollaborator==false) ? null : 
+							<CreateMilestone 
+								loading={this.state.loading} 
+								milestone={this.state.milestone}
+								update={this.updateMilestone.bind(this)}
+								uploadFile={this.uploadFile.bind(this)}
+								submitMilestone={this.createMilestone.bind(this)} />
+						}
+
 						{ (this.props.milestones[project.id] == null) ? null : 
 							this.props.milestones[project.id].map((milestone, i) => {
 								return <Milestone key={milestone.id} {...milestone} />
@@ -591,6 +678,7 @@ class ProjectDetail extends Component {
 					toggle={this.toggleInvite.bind(this)}
 					update={this.updateInvitation.bind(this)}
 					submit={this.inviteCollaborator.bind(this)} />
+
 			</div>
 		)
 	}
