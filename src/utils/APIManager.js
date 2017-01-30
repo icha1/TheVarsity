@@ -82,6 +82,37 @@ export default {
 		})
 	},
 
+	// directUpload: (file, url, completion) => {
+ //        var uploadRequest = superagent.put(url) // this is PUT bc AWS S3 requires it
+ //        .set('Content-type', file.type) // IMPORTANT: S3 requires content type
+ //        uploadRequest.attach('file', file)
+ //        uploadRequest.end((err, resp) => {
+ //        	if (err){
+	// 	      	console.log('UPLOAD ERROR: '+JSON.stringify(err))
+	// 			completion(err, null)
+ //              	return
+ //        	}
+
+ //        	console.log('DIRECT UPLOAD COMPLETE: '+JSON.stringify(resp))
+	// 		completion(null, resp)
+ //        })
+	// },
+
+	directUpload: (file, url, completion) => {
+		superagent
+		.put(url)
+		.send(file)
+		.set('Content-Type', file.type)
+		.end((err, res) => {
+			if (err){
+				console.log('ERROR: '+err)
+				return
+			}
+			
+			console.log('SUCESS: '+JSON.stringify(res))
+		})
+	},
+
 	upload: (file, completion) => {
 		const mimeTypes = ['image', 'pdf'] 
 		let mime = null
