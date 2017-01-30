@@ -340,6 +340,8 @@ class ProjectDetail extends Component {
 			image: project.image
 		}
 
+		updated['teams'] = Object.assign([], user.teams)
+
 		this.props.createMilestone(updated)
 		.then(response => {
 			console.log('Milestone Created: '+JSON.stringify(response))

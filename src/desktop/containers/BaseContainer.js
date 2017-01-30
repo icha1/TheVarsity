@@ -252,7 +252,8 @@ const BaseContainer = (Container, configuration) => {
 							slug: project.slug,
 							title: project.title,
 							id: project.id
-						}
+						},
+						teams: Object.assign([], user.teams)
 					}
 
 					return this.props.createMilestone(milestone)
