@@ -28,10 +28,34 @@ export default (props) => {
 				<div className="panel panel-default">
 					<div className="panel-body">
 						<Link to={'/project/'+milestone.project.slug}>
-							<h4 style={localStyle.title}>{milestone.title}</h4>
+							<h3 style={localStyle.title}>{milestone.title}</h3>
 						</Link>
-						<p style={{marginTop:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(milestone.description)}}></p>
+						<p style={{marginTop:0, marginBottom:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(milestone.description)}}></p>
+						{ milestone.attachments.map((file, i) => {
+								if (file.mime == 'video'){
+									return (
+										<div key={i}>
+											<video width="320" height="240" controls>
+											  <source src={file.address} type="video/mp4" />
+												Your browser does not support the video tag.
+											</video>
+											<br />
+											<a style={{color:'red'}} href={file.address}>{file.name}</a>
+										</div>
+									)
+								}
+							})
+						}
+
 						<hr />
+
+						{ (milestone.attachments.length == 0) ? null : <h4 style={localStyle.title}>Attachments</h4>}
+						<ol style={{paddingLeft:16}}>
+							{ milestone.attachments.map((file, i) => {
+									return <li key={i}><a style={{color:'red', marginRight:6}} href={file.address}>{file.name}</a>({file.mime})</li>
+								})
+							}
+						</ol>
 
 						<Link to={'/profile/'+milestone.profile.slug}>
 							<img style={localStyle.icon} src={milestone.profile.image+'=s72-c'} />
