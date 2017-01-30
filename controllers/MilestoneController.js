@@ -1,6 +1,17 @@
 var Milestone = require('../models/Milestone')
+var ProfileController = require('./ProfileController')
 var utils = require('../utils')
 var Promise = require('bluebird')
+var fs = require('fs')
+
+var fetchFile = function(path){
+	return new Promise(function (resolve, reject){
+		fs.readFile(path, 'utf8', function (err, data) {
+			if (err) {reject(err) }
+			else { resolve(data) }
+		})
+	})
+}
 
 module.exports = {
 	get: function(params, isRaw){
@@ -82,6 +93,28 @@ module.exports = {
 					reject(err)
 					return
 				}
+
+				// notify all profiles on the project:
+				var path = 'public/email/notification/milestone.html'
+				var html = null
+				fetchFile(path)
+				.then(function(data){
+					html = data.replace('{{ title }}', milestone.title)
+					html = html.replace('{{ from }}', milestone.profile.username)
+					html = html.replace('{{ project }}', milestone.project.title)
+					html = html.replace('{{ image }}', milestone.project.image)
+					html = html.replace('{{ slug }}', milestone.project.slug)
+					return ProfileController.get({projects: milestone.project.id}, false)
+				})
+				.then(function(profiles){
+					var subject = milestone.title
+					profiles.forEach(function(profile, i){
+						utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, profile.email, 'New Milestone: '+subject, html)
+					})
+				})
+				.catch(function(err){
+
+				})
 
 				resolve(milestone.summary())
 			})	
