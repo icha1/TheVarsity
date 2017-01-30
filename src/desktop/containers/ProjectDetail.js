@@ -468,9 +468,6 @@ class ProjectDetail extends Component {
 		const isCollaborator = (project) ? this.memberFound(user, project.collaborators) : false
 
 		let content = null
-		const btn = 'button button-mini button-circle '
-		const btnBlueClass = btn + 'button-blue'
-
 		const selected = this.state.selected
 
 		if (this.state.isEditing == true)
@@ -480,7 +477,7 @@ class ProjectDetail extends Component {
 			const projectAuthor = project.author
 			if (user != null){
 				if (user.id == projectAuthor.id)
-					btnEdit = <button onClick={this.toggleEditing.bind(this)} className={btnBlueClass} style={{float:'right'}}>Edit</button>
+					btnEdit = <button onClick={this.toggleEditing.bind(this)} className={localStyle.btnSmall.className} style={{float:'right'}}>Edit</button>
 			}
 
 			content = (
@@ -514,6 +511,7 @@ class ProjectDetail extends Component {
 
 							<div className="clearfix"></div>
 							<div className="entry-title clearfix">
+								{ btnEdit }
 								<h2 style={styles.team.title}>{project.title}</h2>
 							</div>
 
