@@ -388,7 +388,26 @@ router.post('/:action', function(req, res, next){
 				projectsArray.push(host._id.toString())
 				profile['projects'] = projectsArray
 				profile.markModified('projects')
-			}			
+
+				// create corresponding milestone:
+				controllers.milestone.post({
+					title: profile.username+' joined a project!',
+					description: profile.username+' joined the '+host.title+' project.',
+					profile: {
+						image: profile.image,
+						slug: profile.slug,
+						username: profile.username,
+						id: profile.id
+					},
+					project: {
+						image: host.image,
+						slug: host.slug,
+						title: host.title,
+						id: host.id
+					},
+					teams: profile.teams
+				})
+			}
 
 			var content = profile.email+' just signed up for the Varsity.'
 			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)

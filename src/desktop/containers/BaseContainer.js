@@ -170,7 +170,7 @@ const BaseContainer = (Container, configuration) => {
 			}
 
 			if (req == 'team'){
-				console.log('BASE CONTAINER: Create Team')
+//				console.log('BASE CONTAINER: Create Team')
 				const membersList = [{id: user.id, username: user.username, image: user.image}]
 				params['members'] = membersList
 				params['admins'] = membersList
