@@ -52,7 +52,7 @@ export default (props) => {
 						{ (milestone.attachments.length == 0) ? null : <h4 style={localStyle.title}>Attachments</h4>}
 						<ol style={{paddingLeft:16}}>
 							{ milestone.attachments.map((file, i) => {
-									return <li key={i}><a style={{color:'red', marginRight:6}} href={file.address}>{file.name}</a>({file.mime})</li>
+									return <li key={i}><a style={{color:'red', marginRight:6}} target="_blank" href={file.address}>{file.name}</a>({file.mime})</li>
 								})
 							}
 						</ol>
