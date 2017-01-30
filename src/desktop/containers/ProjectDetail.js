@@ -306,6 +306,22 @@ class ProjectDetail extends Component {
 		if (project == null)
 			return
 
+		if (this.state.milestone.title.length == 0){
+			Alert.showAlert({
+				title: 'Oops.',
+				text: 'Please enter a title for your milestone.'
+			})
+			return
+		}
+
+		if (this.state.milestone.description.length == 0){
+			Alert.showAlert({
+				title: 'Oops.',
+				text: 'Please enter a description for your milestone.'
+			})
+			return
+		}
+
 		let updated = Object.assign({}, this.state.milestone)
 
 		// add profile, add project
@@ -362,7 +378,6 @@ class ProjectDetail extends Component {
 
 		const style = styles.post
 		const user = this.props.user // can be null
-//		const project = this.props.projects[this.props.slug]
 		const author = (project == null) ? null : this.props.profiles[project.author.slug]
 		const isCollaborator = (project) ? this.memberFound(user, project.collaborators) : false
 
