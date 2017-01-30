@@ -228,12 +228,34 @@ const BaseContainer = (Container, configuration) => {
 					return
 
 				let slug = null
+				let project = {}
 				this.props.createPost(prepared)
 				.then(response => {
-					slug = response.result.slug
+					project = response.result
+					slug = project.slug
 					let projects = user.projects
-					projects.push(response.result.id)
+					projects.push(project.id)
 					return this.props.updateProfile(user, {projects: projects})
+				})
+				.then(response => {
+					const milestone = {
+						title: user.username+' created a project!',
+						description: user.username+' created the '+project.title+' project.',
+						profile: {
+							image: user.image,
+							slug: user.slug,
+							username: user.username,
+							id: user.id
+						},
+						project: {
+							image: project.image,
+							slug: project.slug,
+							title: project.title,
+							id: project.id
+						}
+					}
+
+					return this.props.createMilestone(milestone)
 				})
 				.then(response => {
 					browserHistory.push('/project/'+slug)
@@ -277,6 +299,7 @@ const BaseContainer = (Container, configuration) => {
 			fetchProjects: (params) => dispatch(actions.fetchProjects(params)),
 			fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 			fetchMilestones: (params) => dispatch(actions.fetchMilestones(params)),
+			createMilestone: (params) => dispatch(actions.createMilestone(params)),
 			updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
 			updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 			redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
