@@ -389,6 +389,15 @@ class ProjectDetail extends Component {
 			return
 		}
 
+		const maxSize = 41943040
+		if (file.size > maxSize){
+			Alert.showAlert({
+				title:'Oops!',
+				text: 'File exceeds max size. Uploads cannot exceed 40 MB.'
+			})
+			return
+		}
+
 		this.setState({loading: true})
 
 		// send images and pdf to your service, video to cloudinary, application to S3
