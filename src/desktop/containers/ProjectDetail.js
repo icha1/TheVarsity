@@ -373,7 +373,7 @@ class ProjectDetail extends Component {
 	uploadFile(files){
 		const file = files[0]
 		let mime = null
-		const mimeTypes = ['image', 'video', 'zip', 'pdf']
+		const mimeTypes = ['image', 'video', 'zip', 'pdf', 'audio']
 
 		mimeTypes.forEach((type, i) => {
 			if (file.type.indexOf(type) != -1){
@@ -433,7 +433,7 @@ class ProjectDetail extends Component {
 		}
 
 		// upload to cloudinary
-		if (mime == 'zip')
+		if (mime == 'zip' || mime == 'audio')
 			mime = 'raw'
 
 		APIManager.uploadCloudinary(file, mime, (err, response) => {
