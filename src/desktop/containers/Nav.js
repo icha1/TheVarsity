@@ -5,6 +5,7 @@ import { APIManager, TextUtils } from '../../utils'
 import { Link, browserHistory } from 'react-router'
 import actions from '../../actions/actions'
 import { connect } from 'react-redux'
+import BaseContainer from './BaseContainer'
 
 class Nav extends Component {
 	constructor(props, context){
@@ -188,7 +189,7 @@ class Nav extends Component {
 		if (this.props.account.notifications.length > 0){
 			notifications = (
 				<li>
-					<a onClick={this.toggleLogin.bind(this)} href="#">
+					<a onClick={this.props.onSelectItem.bind(this, 'Notifications', 'feed')} href="#">
 						<div style={localStyle.badge}>{this.props.account.notifications.length}</div>
 					</a>
 				</li>
@@ -301,4 +302,6 @@ const dispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(stateToProps, dispatchToProps)(Nav)
+//export default connect(stateToProps, dispatchToProps)(Nav)
+export default connect(stateToProps, dispatchToProps)(BaseContainer(Nav, 'nav'))
+
