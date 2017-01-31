@@ -413,6 +413,8 @@ class ProjectDetail extends Component {
 			mime: mime
 		}
 
+		/* Upload images and pdf to your service, everything else to S3: */
+
 		if (mime == 'image' || mime == 'pdf'){
 			APIManager.upload(file, (err, response) => {
 				if (err){
@@ -436,45 +438,25 @@ class ProjectDetail extends Component {
 			return
 		}
 
-		// // upload to cloudinary
-		// if (mime == 'zip' || mime == 'audio')
-		// 	mime = 'raw'
+		/* Upload to S3: */
+		const filename = TextUtils.randomString(8)+'-'+file.name
+		let url = null
 
-		// APIManager.uploadCloudinary(file, mime, (err, response) => {
-		// 	if (err){
-		// 		Alert.showAlert({
-		// 			title: 'Oops!',
-		// 			text: err
-		// 		})
-
-		// 		return
-		// 	}
-
-		// 	attachment['address'] = response['secure_url']
-		// 	attachments.push(attachment)
-		// 	updated['attachments'] = attachments
-		// 	console.log(mime.toUpperCase()+' UPLOADED: '+JSON.stringify(attachment))
-		// 	this.setState({
-		// 		loading: false,
-		// 		milestone: updated
-		// 	})
-		// })
-
-		APIManager.handleGet('/aws', {filename:file.name, filetype:file.type})
+		APIManager.handleGet('/aws', {filename:filename, filetype:file.type})
 		.then(response => {
-			console.log(JSON.stringify(response))
-			APIManager.directUpload(file, response.signedRequest, (err, response) => {
-				if (err){
-					console.log('DIRECT UPLOAD ERROR: '+err)
-					return
-				}
-
-				console.log('DIRECT UPLOAD SUCCESS: '+JSON.stringify(response))
-				// DIRECT UPLOAD SUCCESS: {"req":{"method":"PUT",
-				// "url":"https://thevarsity.s3.amazonaws.com/Jan29.m4a?AWSAccessKeyId=AKIAJ6XMYRIGYL…485779705&Signature=vRHz3IGpT4Y%2Bko5STxYXvhv5s3M%3D&x-amz-acl=public-read","headers":{"content-type":"audio/x-m4a"}},"xhr":{},"text":"","statusText":"OK","statusCode":200,"status":200,"statusType":2,"info":false,"ok":true,"clientError":false,"serverError":false,"error":false,"accepted":false,"noContent":false,"badRequest":false,"unauthorized":false,"notAcceptable":false,"notFound":false,"forbidden":false,"headers":{"content-type":null},"header":{"content-type":null},"type":"","body":null}				
-				return
+			url = response.url
+			return APIManager.directUpload(file, response.signedRequest)
+		})
+		.then(response => {
+			attachment['address'] = url
+			attachments.push(attachment)
+			updated['attachments'] = attachments
+			this.setState({
+				loading: false,
+				milestone: updated
 			})
 
+			return response
 		})
 		.catch(err => {
 			console.log('ERROR: '+err)
