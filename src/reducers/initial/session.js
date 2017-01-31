@@ -66,23 +66,25 @@ export default {
 					showEdit: false,
 					showCreateTeam: false,
 					showCreateProject: false,
+					selected: 'Profile',
+					menu: ['Profile', 'Projects']
+				},
+				team: {
 					selected: ''
 				},
-			team: {
-				selected: ''
-			},
-			feed: {
-				selected: ''
-			},
-			post: {
-				selected: ''
-			},
-			profile: {
-				selected: ''
-			},
-			project: {
-				selected: ''
-			}
+				feed: {
+					selected: 'Recent Activity',
+					menu: ['Recent Activity', 'Projects', 'Notifications']
+				},
+				post: {
+					selected: ''
+				},
+				profile: {
+					selected: ''
+				},
+				project: {
+					selected: ''
+				}
 			},
 			currentLocation: { // default to nyc
 				lat: 40.73008847828741,
