@@ -10,7 +10,7 @@ class Feed extends Component {
 	constructor(){
 		super()
 		this.state = {
-			
+
 		}
 	}
 
@@ -38,7 +38,8 @@ class Feed extends Component {
 
 	componentDidUpdate(){
 		const user = this.props.user
-		const selected = this.props.selected
+//		const selected = this.props.selected
+		const selected = this.props.session.pages['feed'].selected
 		if (selected == 'Projects'){
 			if (user == null)
 				return
@@ -51,7 +52,8 @@ class Feed extends Component {
 	render(){
 		const style = styles.post
 		const user = this.props.user
-		const selected = this.props.selected
+//		const selected = this.props.selected
+		const selected = this.props.session.pages['feed'].selected
 		const teams = this.props.teams[user.id] // can be null
 
 		let content = null
@@ -141,12 +143,12 @@ class Feed extends Component {
 								<hr />
 								<nav>
 									<ul style={{listStyleType:'none'}}>
-										{ this.props.menu.map((item, i) => {
+										{ this.props.session.pages['feed'].menu.map((item, i) => {
 												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
 												return (
 													<li style={{marginTop:0}} key={item}>
 														<div style={itemStyle}>
-															<a onClick={this.props.onSelectItem.bind(this, item)} href="#"><div>{item}</div></a>
+															<a onClick={this.props.onSelectItem.bind(this, item, 'feed')} href="#"><div>{item}</div></a>
 														</div>
 													</li>
 												)

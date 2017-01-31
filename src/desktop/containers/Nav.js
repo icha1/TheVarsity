@@ -288,6 +288,7 @@ const localStyle = {
 
 const stateToProps = (state) => {
 	return {
+		session: state.session,
 		account: state.account,
 		user: state.account.currentUser
 	}

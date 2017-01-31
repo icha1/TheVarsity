@@ -10,23 +10,8 @@ const BaseContainer = (Container, configuration) => {
 	class Base extends Component {
 		constructor(){
 			super()
-			// console.log('constructor: ' + configuration) // feed, account, postDetail, projectDetail
-			let menu = []
-			let selected = ''
-			if (configuration == 'feed'){
-				menu = ['Recent Activity', 'Projects', 'Notifications']
-				selected = 'Recent Activity'
-			}
-
-			if (configuration == 'account'){
-				menu = ['Profile', 'Projects']
-				selected = 'Profile'
-			}
-
 			this.state = {
-				selected: selected,
-				menuItems: menu,
-				notifications: null
+				
 			}
 		}
 
@@ -54,12 +39,13 @@ const BaseContainer = (Container, configuration) => {
 
 		}
 
-		selectItem(item, event){
+		selectItem(item, page, event){
 			event.preventDefault()
 			window.scrollTo(0, 0)
 
 			const selected = (item.length == 0) ? event.target.value : item
-			this.setState({
+			this.props.selectedFeedChanged({
+				page: page,
 				selected: selected
 			})
 		}
@@ -291,8 +277,8 @@ const BaseContainer = (Container, configuration) => {
 			return (
 				<div>
 					<Container
+						session={this.props.session}
 						user={this.props.account.currentUser}
-						menu={this.state.menuItems}
 						onSelectItem={this.selectItem.bind(this)}
 						selected={this.state.selected}
 						fetchData={this.fetchData.bind(this)}
@@ -324,7 +310,8 @@ const BaseContainer = (Container, configuration) => {
 			updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
 			updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 			redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation)),
-			receivedNotifications: (notifications) => dispatch(actions.receivedNotifications(notifications))
+			receivedNotifications: (notifications) => dispatch(actions.receivedNotifications(notifications)),
+			selectedFeedChanged: (feedAndPage) => dispatch(actions.selectedFeedChanged(feedAndPage))
 		}
 	}
 

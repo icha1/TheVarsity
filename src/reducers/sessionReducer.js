@@ -13,12 +13,17 @@ export default (state = initialState, action) => {
 		// 	console.log('LOCATION_CHANGED: '+JSON.stringify(action.location))
 		// 	newState['currentLocation'] = action.location
 
-		// 	return newState
-
 		case constants.SELECTED_FEED_CHANGED:
+			// TODO: get rid of this:
 			let selected = Object.assign({}, state.selected)
 			selected[action.page] = action.selected
 			newState['selected'] = selected
+
+			let page = Object.assign({}, pages[action.page])
+			page['selected'] = action.selected
+			pages[action.page] = page
+			newState['pages'] = pages
+
 			return newState
 
 		case constants.SET_CURRENT_TEAM:

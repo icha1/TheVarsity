@@ -117,7 +117,7 @@ class Account extends Component {
 		if (user == null)
 			return
 
-		const selected = this.props.selected
+		const selected = this.props.session.pages['account'].selected
 		if (selected == 'Hiring'){
 			if (this.props.posts[user.id] == null)
 				this.props.fetchData('post', {'author.id': user.id})
@@ -132,7 +132,7 @@ class Account extends Component {
 
 	render(){
 		const style = styles.account
-		const selected = this.props.selected
+		const selected = this.props.session.pages['account'].selected
 		
 		const user = this.props.user
 		const teams = this.props.teams[user.id] // can be null
@@ -149,7 +149,7 @@ class Account extends Component {
 
 		let content = null
 		let cta = null
-		const page = this.props.page
+		const page = this.props.session.pages['account']
 
 		if (selected == 'Profile'){
 			content = (
@@ -236,12 +236,12 @@ class Account extends Component {
 								<hr />
 								<nav>
 									<ul style={{listStyleType:'none'}}>
-										{ this.props.menu.map((item, i) => {
+										{ this.props.session.pages['account'].menu.map((item, i) => {
 												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
 												return (
 													<li style={{marginTop:0}} key={item}>
 														<div style={itemStyle}>
-															<a onClick={this.props.onSelectItem.bind(this, item)} href="#"><div>{item}</div></a>
+															<a onClick={this.props.onSelectItem.bind(this, item, 'account')} href="#"><div>{item}</div></a>
 														</div>
 													</li>
 												)
@@ -260,7 +260,7 @@ class Account extends Component {
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
 										{ cta }
-										<h2 style={styles.team.title}>{this.props.selected}</h2>
+										<h2 style={styles.team.title}>{selected}</h2>
 										<hr />
 										{ content }
 									</div>
@@ -410,7 +410,6 @@ const localStyle = {
 
 const stateToProps = (state) => {
 	return {
-		page: state.session.pages.account,
 		posts: state.post,
 		projects: state.project,
 		teams: state.team

@@ -18,13 +18,15 @@ export default {
 				showEdit: false,
 				showCreateTeam: false,
 				showCreateProject: false,
-				selected: ''
+				selected: 'Profile',
+				menu: ['Profile', 'Projects']
 			},
 			team: {
 				selected: ''
 			},
 			feed: {
-				selected: ''
+				selected: 'Recent Activity',
+				menu: ['Recent Activity', 'Projects', 'Notifications']
 			},
 			post: {
 				selected: ''
