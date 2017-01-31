@@ -32,7 +32,8 @@ export default {
 				selected: ''
 			},
 			profile: {
-				selected: ''
+				selected: 'Profile',
+				menu: ['Profile', 'Projects']
 			},
 			project: {
 				selected: ''
@@ -45,7 +46,6 @@ export default {
 	},
 
 	populate: (prestate) => {
-//		console.log('TEST POPULATE')
 		if (prestate == null)
 			return null
 
@@ -80,7 +80,8 @@ export default {
 					selected: ''
 				},
 				profile: {
-					selected: ''
+					selected: 'Profile',
+					menu: ['Profile', 'Projects']
 				},
 				project: {
 					selected: ''

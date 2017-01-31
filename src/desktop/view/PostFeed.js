@@ -22,7 +22,6 @@ class PostFeed extends Component {
 	}
 
 	onVote(post, upOrDown){
-//		console.log('onVote: '+post.title+' == '+upOrDown)
 		this.props.vote(post, upOrDown)
 
 	}
@@ -30,11 +29,12 @@ class PostFeed extends Component {
 	render(){
 		const listClass = 'commentlist noborder nomargin nopadding clearfix'
 		const listItemClass = 'comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1'
+		const posts = this.props.posts
 
-		return (
+		return (posts==null) ? null : (
 			<ol className={listClass}>
 				{
-					this.props.posts.map((post, i) => {
+					posts.map((post, i) => {
 						if (post.status == 'live'){
 							return (
 								<li key={post.id} className={listItemClass} id="li-comment-2">
@@ -46,7 +46,7 @@ class PostFeed extends Component {
 										post={post}
 										user={this.props.user} />
 								</li>
-							)							
+							)
 						}
 					})
 				}

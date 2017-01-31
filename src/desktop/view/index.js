@@ -5,6 +5,7 @@ import Chat from './Chat'
 import Comment from './Comment'
 import Comments from './Comments'
 import CreateComment from './CreateComment'
+import Teams from './Teams'
 import TeamFeed from './TeamFeed'
 import TeamPreview from './TeamPreview'
 import TeamInfo from './TeamInfo'
@@ -31,6 +32,7 @@ export {
 	Comment,
 	Comments,
 	CreateComment,
+	Teams,
 	TeamFeed,
 	TeamPreview,
 	TeamInfo,

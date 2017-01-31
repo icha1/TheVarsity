@@ -101,47 +101,62 @@ const BaseContainer = (Container, configuration) => {
 			return post
 		}		
 
-		fetchData(req, params){
+		fetchData(req, params, asPromise){
 			console.log('fetchData: '+req+' == '+JSON.stringify(params))
-
+			const returnPromise = (asPromise) ? asPromise : false // default to false
 			if (req == 'post'){
+				if (returnPromise)
+					return this.props.fetchPosts(params)
+
 				this.props.fetchPosts(params)
 				.then(response => {
 					return response
 				})
-				.catch(err => {
-
-				})
+				.catch(err => {})
 			}
 
 			if (req == 'project'){
+				if (returnPromise)
+					return this.props.fetchProjects(params)
+
 				this.props.fetchProjects(params)
 				.then(response => {
 					return response
 				})
-				.catch(err => {
-
-				})
+				.catch(err => {})
 			}
 
 			if (req == 'team'){
+				if (returnPromise)
+					return this.props.fetchTeams(params)
+
 				this.props.fetchTeams(params)
 				.then(response => {
 					return response
 				})
-				.catch(err => {
-
-				})
+				.catch(err => {})
 			}
 
 			if (req == 'milestone'){
+				if (returnPromise)
+					return this.props.fetchMilestones(params)
+
 				this.props.fetchMilestones(params)
 				.then(response => {
 					return response
 				})
-				.catch(err => {
+				.catch(err => {})
+			}
 
+			if (req == 'profile'){
+				if (returnPromise)
+					return this.props.fetchProfiles(params)
+
+				this.props.fetchProfiles(params)
+				.then(response => {
+					return response
 				})
+				.catch(err => {})
 			}
 		}
 
@@ -301,6 +316,7 @@ const BaseContainer = (Container, configuration) => {
 
 	const dispatchToProps = (dispatch) => {
 		return {
+			fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
 			fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 			createPost: (params) => dispatch(actions.createPost(params)),
 			fetchProjects: (params) => dispatch(actions.fetchProjects(params)),

@@ -2,32 +2,36 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import actions from '../../actions/actions'
-import { APIManager, FirebaseManager, TextUtils } from '../../utils'
-import { PostFeed, TeamFeed, Comment, CreateComment, EditProfile } from '../view'
+import { FirebaseManager, TextUtils } from '../../utils'
+import { PostFeed, TeamFeed, Comment, CreateComment, EditProfile, Teams } from '../view'
 import styles from './styles'
+import BaseContainer from './BaseContainer'
 
 class ProfileDetail extends Component {
 	constructor(){
 		super()
 		this.state = {
 			showEdit: false,
-			selected: 'Overview',
-			comments: null,
-			menuItems: [
-				'Overview',
-//				'Teams',
-				'Feed'
-			]
+			comments: null
 		}
 	}
 
 	componentDidMount(){
-//		console.log('componentDidMount: ')
 		window.scrollTo(0, 0)
 
 		const profile = this.props.profiles[this.props.slug]
 		if (profile == null){
-			this.props.fetchProfiles({slug: this.props.slug})
+			this.props.fetchData('profile', {slug: this.props.slug}, true)
+			.then(response => {
+				const p = this.props.profiles[this.props.slug]
+				if (this.props.teams[p.id] == null)
+					this.props.fetchData('team', {'members.id': p.id})
+
+				return response
+			})
+			.catch(err => {
+				console.log('ERROR '+err)
+			})
 			return
 		}
 
@@ -35,7 +39,7 @@ class ProfileDetail extends Component {
 		if (this.props.teams[profile.id])
 			return
 
-		this.props.fetchTeams({'members.id':profile.id})
+		this.props.fetchData('team', {'members.id': profile.id})
 	}
 
 	componentDidUpdate(){
@@ -43,51 +47,11 @@ class ProfileDetail extends Component {
 		if (profile == null)
 			return
 
-		if (this.props.teams[profile.id]==null)
-			this.props.fetchTeams({'members.id':profile.id})
-
-		const selected = this.state.selected
-		if (selected == 'Feed'){
-			if (this.props.posts[profile.id])
-				return
-
-			this.props.fetchPosts({'author.id':profile.id})
+		const selected = this.props.session.pages['profile'].selected
+		if (selected == 'Projects'){
+			if (this.props.projects[profile.id] == null)
+				this.props.fetchData('project', {'collaborators.id': profile.id})
 		}
-
-		// if (selected == 'Teams'){
-		// 	if (this.props.teams[profile.id])
-		// 		return
-
-		// 	this.props.fetchTeams({'members.id':profile.id})
-		// }
-
-		// if (selected == 'Direct Message'){
-		// 	if (this.props.user == null){
-		// 		alert('Please log in or register to send a direct message.')
-		// 		return
-		// 	}
-
-		// 	if (this.state.comments) // comments already loaded
-		// 		return
-
-		// 	let profileIds = [profile.id, this.props.user.id].sort()
-		// 	let threadId = profileIds.join().replace(',', '') // alphabetize so the ID is the same for both participants
-		// 	FirebaseManager.register('/'+threadId+'/comments', (err, currentComments) => {
-		// 		let comments = (err) ? [] : currentComments.reverse()
-		// 		this.setState({
-		// 			comments: comments
-		// 		})
-		// 	})
-		// }
-	}
-
-	selectItem(item, event){
-		event.preventDefault()
-		window.scrollTo(0, 0)
-		this.setState({
-			showEdit: false,
-			selected: (event.target.id == 'select') ? event.target.value : item
-		})
 	}
 
 	submitComment(comment){
@@ -131,7 +95,6 @@ class ProfileDetail extends Component {
 		if (profile == null)
 			return
 
-//		console.log('UPDATE: '+JSON.stringify(updated))
 		this.props.updateProfile(profile, updated)
 		this.setState({
 			showEdit: !this.state.showEdit
@@ -143,7 +106,7 @@ class ProfileDetail extends Component {
 		const style = styles.post
 		const profile = this.props.profiles[this.props.slug] // can be null
 
-		const selected = this.state.selected
+		const selected = this.props.session.pages['profile'].selected
 
 		let username = null
 		let image = null
@@ -155,7 +118,7 @@ class ProfileDetail extends Component {
 		let content = null
 		const currentUser = this.props.user // can be null
 		
-		if (selected == 'Overview' && profile != null){
+		if (selected == 'Profile' && profile != null){
 			let location = ''
 			if (profile != null){
 				if (profile.location.city != null)
@@ -184,17 +147,16 @@ class ProfileDetail extends Component {
 			)
 		}
 
-		else if (selected == 'Feed' && profile != null){
-			let feed = (this.props.posts[profile.id]) ? <PostFeed posts={this.props.posts[profile.id]} user={currentUser} /> : null
+		else if (selected == 'Projects' && profile != null){
 			content = (
 				<div style={{textAlign:'left', marginTop:24}}>
 					<div className="hidden-xs">
-						{feed}
+						<PostFeed posts={this.props.projects[profile.id]} user={currentUser} />
 					</div>
 
 					{ /* mobile UI*/ }
 					<div className="visible-xs" style={{padding:0}}>
-						{feed}
+						<PostFeed posts={this.props.projects[profile.id]} user={currentUser} />
 					</div>
 				</div>
 			)
@@ -250,12 +212,12 @@ class ProfileDetail extends Component {
 								<hr />
 								<nav>
 									<ul style={{listStyleType:'none'}}>
-										{ this.state.menuItems.map((item, i) => {
+										{ this.props.session.pages['profile'].menu.map((item, i) => {
 												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
 												return (
 													<li style={{marginTop:0}} key={item}>
 														<div style={itemStyle}>
-															<a onClick={this.selectItem.bind(this, item)} href="#"><div>{item}</div></a>
+															<a onClick={this.props.onSelectItem.bind(this, item, 'profile')} href="#"><div>{item}</div></a>
 														</div>
 													</li>
 												)
@@ -272,7 +234,7 @@ class ProfileDetail extends Component {
 							<div className="col_two_third">
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
-										<h2 style={styles.team.title}>{this.state.selected}</h2>
+										<h2 style={styles.team.title}>{selected}</h2>
 										<hr />
 										{ content }
 									</div>
@@ -281,27 +243,9 @@ class ProfileDetail extends Component {
 							</div>
 
 							<div className="col_one_third col_last">
-								<h2 style={styles.title}>Teams</h2>
-								<hr />
-								<nav id="primary-menu">
-									{ (teams == null) ? null : teams.map((team, i) => {
-											return (
-												<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
-													<Link to={'/team/'+team.slug}>
-														<img style={localStyle.image} src={team.image+'=s44-c'} />
-													</Link>
-													<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
-														{team.name}
-													</Link>
-													<br />
-													<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
-												</div>
-											)
-										})
-									}
-								</nav>
-							
+								<Teams teams={teams} />
 							</div>
+
 						</div>
 					</section>
 				</div>
@@ -310,9 +254,9 @@ class ProfileDetail extends Component {
 				<div className="clearfix visible-xs">
 					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
 						<div className="col-xs-6">
-							<select onChange={this.selectItem.bind(this, '')} style={localStyle.select} id="select">
-								<option value="Overview">Overview</option>
-								<option value="Feed">Feed</option>
+							<select onChange={this.props.onSelectItem.bind(this, '', 'profile')} style={localStyle.select} id="select">
+								<option value="Profile">Profile</option>
+								<option value="Projects">Projects</option>
 								<option value="Teams">Teams</option>
 								<option value="Direct Message">Direct Message</option>
 							</select>
@@ -343,24 +287,6 @@ const localStyle = {
 		background:'#fff',
 		marginTop:6
 	},
-	image: {
-		float:'left',
-		marginRight:12,
-		borderRadius:22,
-		width:44
-	},
-	detailHeader: {
-		color:'#333',
-		fontFamily:'Pathway Gothic One',
-		fontWeight: 100,
-		fontSize: 18,
-		lineHeight: 10+'px'
-	},
-	subtext: {
-		fontWeight:100,
-		fontSize:14,
-		lineHeight:14+'px'
-	},	
 	input: {
 		color:'#333',
 		background: '#f9f9f9',
@@ -410,18 +336,16 @@ const stateToProps = (state) => {
 		user: state.account.currentUser,
 		profiles: state.profile,
 		posts: state.post,
+		projects: state.project,
 		teams: state.team,
 		session: state.session
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const dispatchToProps = (dispatch) => {
 	return {
-		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
-		fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
-		fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params))
 	}
 }
 
-export default connect(stateToProps, mapDispatchToProps)(ProfileDetail)
+export default connect(stateToProps, dispatchToProps)(BaseContainer(ProfileDetail, 'profile'))
