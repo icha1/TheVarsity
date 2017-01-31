@@ -344,7 +344,7 @@ class ProjectDetail extends Component {
 
 		this.props.createMilestone(updated)
 		.then(response => {
-			console.log('Milestone Created: '+JSON.stringify(response))
+//			console.log('Milestone Created: '+JSON.stringify(response))
 			this.setState({
 				milestone: {
 					title: '',
