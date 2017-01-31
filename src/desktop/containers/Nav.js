@@ -76,7 +76,6 @@ class Nav extends Component {
 
 	sendFeedback(event){
 		event.preventDefault()
-//		console.log('sendFeedback: '+window.location.pathname)
 		let updated = Object.assign({}, this.state.feedback)
 		updated['path'] = window.location.pathname
 		if (this.props.user != null){
@@ -171,13 +170,29 @@ class Nav extends Component {
 		const style = styles.nav
 
 		const user = this.props.user 
-		let accountLink, joinLink, loginLink = null
+		let accountLink, joinLink, loginLink, notifications = null
 		if (user == null){
 			joinLink = <li><a onClick={this.toggleRegister.bind(this)} href="#"><div>Join</div></a></li>
 			loginLink = <li><a onClick={this.toggleLogin.bind(this)} href="#"><div>Login</div></a></li>
 		}
 		else {
-			accountLink = <li><Link to="/account"><div>{this.props.user.username}</div></Link></li>
+			accountLink = (
+				<li>
+					<Link style={{display:'inline-block'}} to="/account">
+						<span>{user.username}</span>
+					</Link>
+				</li>
+			)
+		}
+
+		if (this.props.account.notifications.length > 0){
+			notifications = (
+				<li>
+					<a onClick={this.toggleLogin.bind(this)} href="#">
+						<div style={localStyle.badge}>{this.props.account.notifications.length}</div>
+					</a>
+				</li>
+			)
 		}
 
 		return (
@@ -196,6 +211,7 @@ class Nav extends Component {
 								<li><a onClick={this.toggleFeedback.bind(this)} href="#"><div>Feedback</div></a></li>
 								{ loginLink }
 								{ accountLink }
+								{ notifications }
 							</ul>
 						</nav>
 						<div id="page-submenu-trigger"><i className="icon-reorder"></i></div>
@@ -258,11 +274,21 @@ const localStyle = {
 	textarea: {
 		border: '1px solid #ddd',
 		minHeight: 160
+	},
+	badge: {
+		color: '#fff',
+		background: '#FF6565',
+		width: 26,
+		height: 26,
+		borderRadius: 13,
+		fontSize: 12+'px',
+		textAlign: 'center'
 	}
 }
 
 const stateToProps = (state) => {
 	return {
+		account: state.account,
 		user: state.account.currentUser
 	}
 }

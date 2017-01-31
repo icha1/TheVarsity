@@ -10,8 +10,7 @@ class Feed extends Component {
 	constructor(){
 		super()
 		this.state = {
-			firebaseConnected: false,
-			notifications: null
+			
 		}
 	}
 
@@ -46,29 +45,6 @@ class Feed extends Component {
 
 			if (this.props.projects[user.id] == null)
 				this.props.fetchData('project', {'collaborators.id':user.id})
-		}
-
-		if (selected == 'Notifications'){
-			if (user == null)
-				return
-
-			if (this.state.firebaseConnected)
-				return
-
-			FirebaseManager.register('/'+user.id+'/notifications', (err, notifications) => {
-				if (err){
-					return
-				}
-
-				if (notifications == null)
-					return
-
-//				console.log('Notification RECEVIED: '+JSON.stringify(notifications))
-				this.setState({
-					notifications: notifications,
-					firebaseConnected: true
-				})
-			})
 		}
 	}
 
@@ -105,7 +81,7 @@ class Feed extends Component {
 			)
 		}
 		else if (selected == 'Notifications'){
-			const notifications = this.state.notifications
+			const notifications = this.props.account.notifications
 			let list = null
 			if (notifications != null)
 				list = Object.keys(notifications).map(key => notifications[key])
@@ -312,6 +288,7 @@ const localStyle = {
 
 const stateToProps = (state) => {
 	return {
+		account: state.account,
 		page: state.session.pages.feed,
 		posts: state.post,
 		projects: state.project,

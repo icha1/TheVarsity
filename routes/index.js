@@ -67,7 +67,7 @@ router.get('/', function(req, res, next) {
 			return
 		}
 
-		reducers['account'] = {currentUser: user, teams:[]} // can be null
+		reducers['account'] = {currentUser: user, teams:[], notifications:[]} // can be null
 		var session = {template: template}
 		if (req.cookies.lastsearch) {
 			var parts = req.cookies.lastsearch.split(',')
@@ -124,7 +124,7 @@ router.get('/:page', function(req, res, next) {
 	controllers.account
 	.checkCurrentUser(req)
 	.then(function(user){
-		reducers['account'] = {currentUser: user, teams:[]} // can be null		
+		reducers['account'] = {currentUser: user, teams:[], notifications:[]} // can be null		
 		initialStore = store.configureStore(reducers)
 		var routes = {
 			path: '/'+page,
@@ -168,7 +168,7 @@ router.get('/:page/:slug', function(req, res, next) {
 	controllers.account
 	.checkCurrentUser(req)
 	.then(function(user){
-		reducers['account'] = {currentUser: user, teams:[]} // can be null
+		reducers['account'] = {currentUser: user, teams:[], notifications:[]} // can be null
 		var controller = controllers[page]
 		return controller.get({slug:slug}, false)
 	})

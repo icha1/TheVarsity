@@ -26,9 +26,32 @@ const BaseContainer = (Container, configuration) => {
 			this.state = {
 				selected: selected,
 				menuItems: menu,
-				firebaseConnected: false,
 				notifications: null
 			}
+		}
+
+		componentDidMount(){
+			const user = this.props.account.currentUser
+			if (user == null)
+				return
+
+			if (this.props.account.firebaseConnected == true)
+				return
+
+			FirebaseManager.register('/'+user.id+'/notifications', (err, notifications) => {
+				if (err){
+					return
+				}
+
+				if (notifications == null)
+					return
+
+				this.props.receivedNotifications(notifications)
+			})
+		}
+
+		componentDidUpdate(){
+
 		}
 
 		selectItem(item, event){
@@ -41,10 +64,6 @@ const BaseContainer = (Container, configuration) => {
 			})
 		}
 
-		componentDidUpdate(){
-//			console.log('BASE CONTAINER - componentDidUpdate')
-
-		}
 
 		acceptInvitation(invitation){
 			console.log('BASE CONTAINER - acceptInvitation')
@@ -280,6 +299,7 @@ const BaseContainer = (Container, configuration) => {
 						updateData={this.updateData.bind(this)}
 						postData={this.postData.bind(this)}
 						redeem={this.acceptInvitation.bind(this)}
+						receivedNotifications={this.props.receivedNotifications.bind(this)}
 						{...this.props} />
 				</div>
 			)
@@ -303,7 +323,8 @@ const BaseContainer = (Container, configuration) => {
 			createMilestone: (params) => dispatch(actions.createMilestone(params)),
 			updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
 			updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
-			redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
+			redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation)),
+			receivedNotifications: (notifications) => dispatch(actions.receivedNotifications(notifications))
 		}
 	}
 

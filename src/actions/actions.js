@@ -308,7 +308,13 @@ export default {
 	toggleShowCreateProject: () => {
 		return {
 			type: constants.TOGGLE_SHOW_CREATE_PROJECT
-		}		
-	}
-	
+		}
+	},
+
+	receivedNotifications: (notifications) => {
+		return {
+			type: constants.RECEIVED_NOTIFICATIONS,
+			notifications: notifications
+		}
+	}	
 }

@@ -1,8 +1,11 @@
 import constants from '../constants/constants'
+import { FirebaseManager } from '../utils'
 
 var initialState = {
 	currentUser: null,
-	teams: []
+	teams: [],
+	notifications: [],
+	firebaseConnected: false
 }
 
 export default (state = initialState, action) => {
@@ -11,6 +14,16 @@ export default (state = initialState, action) => {
 	let currentUser = Object.assign([], newState.currentUser)
 
 	switch (action.type) {
+		case constants.RECEIVED_NOTIFICATIONS:
+			let notificationsArray = []
+			Object.keys(action.notifications).map((key, i) => {
+				notificationsArray.push(action.notifications[key])
+
+			})
+			
+			newState['notifications'] = notificationsArray
+			newState['firebaseConnected'] = true
+			return newState
 
 		case constants.CURRENT_USER_RECIEVED:
 			newState['currentUser'] = action.user
