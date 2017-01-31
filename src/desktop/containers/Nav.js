@@ -167,6 +167,11 @@ class Nav extends Component {
 			this.login()
 	}
 
+	checkNotifications(event){
+		this.props.onSelectItem('Notifications', 'feed', event)
+		browserHistory.push('/feed')
+	}
+
 	render(){
 		const style = styles.nav
 
@@ -189,7 +194,7 @@ class Nav extends Component {
 		if (this.props.account.notifications.length > 0){
 			notifications = (
 				<li>
-					<a onClick={this.props.onSelectItem.bind(this, 'Notifications', 'feed')} href="#">
+					<a onClick={this.checkNotifications.bind(this)} href="#">
 						<div style={localStyle.badge}>{this.props.account.notifications.length}</div>
 					</a>
 				</li>
