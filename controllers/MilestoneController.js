@@ -104,13 +104,12 @@ module.exports = {
 					html = html.replace('{{ project }}', milestone.project.title)
 					html = html.replace('{{ image }}', milestone.project.image)
 					html = html.replace('{{ slug }}', milestone.project.slug)
-					return ProfileController.get({projects: milestone.project.id}, false)
+//					return ProfileController.get({projects: milestone.project.id}, false)
+					return ProfileController.getById(project.author.id)
 				})
-				.then(function(profiles){
+				.then(function(profile){
 					var subject = milestone.title
-					profiles.forEach(function(profile, i){
-						utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, profile.email, 'New Milestone: '+subject, html)
-					})
+					utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, profile.email, 'New Project Activity: '+subject, html)
 				})
 				.catch(function(err){
 

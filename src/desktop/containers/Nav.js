@@ -176,17 +176,21 @@ class Nav extends Component {
 		const style = styles.nav
 
 		const user = this.props.user 
-		let accountLink, joinLink, loginLink, notifications = null
+		let accountLink, joinLink, loginLink, notifications, main = null
 		if (user == null){
+			main = <li><a href="/"><div>About</div></a></li>
 			joinLink = <li><a onClick={this.toggleRegister.bind(this)} href="#"><div>Join</div></a></li>
 			loginLink = <li><a onClick={this.toggleLogin.bind(this)} href="#"><div>Login</div></a></li>
 		}
 		else {
+			main = <li><Link to="/feed">Dashboard</Link></li>
 			accountLink = (
 				<li>
-					<Link style={{display:'inline-block'}} to="/account">
-						<span>{user.username}</span>
-					</Link>
+					<Link style={{display:'inline-block'}} to="/account"><span>{user.username}</span></Link>
+					<ul className="dropdown-menu dropdown-menu-left" style={{top:38}} aria-labelledby="dropdownMenu1">
+						<li><a href="#">Edit Profile</a></li>
+						<li><a href="/account/logout">Log Out</a></li>
+					</ul>
 				</li>
 			)
 		}
@@ -206,19 +210,19 @@ class Nav extends Component {
 				<div id="page-menu-wrap">
 					<div className="container clearfix">
 						<div className="menu-title">
-							{ (user == null) ? <a href="/"><img src='/images/logo_white.png' /></a> :
-								<Link to="/feed"><img src='/images/logo_white.png' /></Link>
-							}
-
+							{ (user == null) ? <a href="/"><img src='/images/logo_white.png' /></a> : <Link to="/feed"><img src='/images/logo_white.png' /></Link> }
 						</div>
 						<nav className="one-page-menu">
 							<ul style={style.ul}>
-								<li><a href="/"><div>About</div></a></li>
+								{ main }
 								<li><a onClick={this.toggleFeedback.bind(this)} href="#"><div>Feedback</div></a></li>
 								{ loginLink }
 								{ accountLink }
 								{ notifications }
+								<li>
+								</li>
 							</ul>
+
 						</nav>
 						<div id="page-submenu-trigger"><i className="icon-reorder"></i></div>
 					</div>

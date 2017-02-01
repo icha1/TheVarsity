@@ -26,7 +26,7 @@ export default {
 			},
 			feed: {
 				selected: 'Recent Activity',
-				menu: ['Recent Activity', 'Projects', 'Notifications']
+				menu: ['Recent Activity', 'Projects', 'Account', 'Notifications']
 			},
 			post: {
 				selected: ''

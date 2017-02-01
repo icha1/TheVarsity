@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { TextUtils, FirebaseManager } from '../../utils'
-import { PostFeed, Notification, Milestone } from '../view'
+import { PostFeed, Notification, Milestone, Teams, EditProfile } from '../view'
 import styles from './styles'
 import { Link } from 'react-router'
 import BaseContainer from './BaseContainer'
@@ -10,6 +10,7 @@ class Feed extends Component {
 	constructor(){
 		super()
 		this.state = {
+			showEdit: false
 
 		}
 	}
@@ -38,7 +39,6 @@ class Feed extends Component {
 
 	componentDidUpdate(){
 		const user = this.props.user
-//		const selected = this.props.selected
 		const selected = this.props.session.pages['feed'].selected
 		if (selected == 'Projects'){
 			if (user == null)
@@ -49,10 +49,15 @@ class Feed extends Component {
 		}
 	}
 
+	toggleShowEdit(){
+		this.setState({
+			showEdit: !this.state.showEdit
+		})
+	}
+
 	render(){
 		const style = styles.post
 		const user = this.props.user
-//		const selected = this.props.selected
 		const selected = this.props.session.pages['feed'].selected
 		const teams = this.props.teams[user.id] // can be null
 
@@ -82,6 +87,38 @@ class Feed extends Component {
 				</div>
 			)
 		}
+		else if (selected == 'Account'){
+			const city = user.location.city || ''
+			const state = user.location.state || ''
+			content = (
+				<div>
+					<div className="hidden-xs" style={{textAlign:'left', marginTop:48}}>
+						{ (this.state.showEdit) ? null : <button onClick={this.toggleShowEdit.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
+						{ (this.state.showEdit) ? <EditProfile update={this.props.updateData.bind(this)} profile={user} close={this.toggleShowEdit.bind(this)} /> : (
+								<div>
+									<h4 style={styles.header}>{ user.username }</h4>
+									<h4 style={styles.header}>{ user.title }</h4>
+									<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
+									<p className="lead" style={{fontSize:16, color:'#555', marginTop:12, marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+									<img src={user.image+'=s220-c'} />
+								</div>
+							)
+						}
+					</div>
+
+					<div className="visible-xs" style={{padding:'0px 16px 0px 16px'}}>
+						<div>
+							<h4 style={styles.header}>{ user.username }</h4>
+							<h4 style={styles.header}>{ user.title }</h4>
+							<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
+							<p className="lead" style={{fontSize:16, color:'#555', marginTop:12, marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
+							<img src={user.image+'=s220-c'} />
+						</div>
+					</div>
+				</div>
+			)
+
+		}
 		else if (selected == 'Notifications'){
 			const notifications = this.props.account.notifications
 			let list = null
@@ -102,21 +139,7 @@ class Feed extends Component {
 			content = (
 				<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
 					<div style={{padding:'0px 24px 0px 24px'}}>
-						{ (teams == null) ? null : teams.map((team, i) => {
-								return (
-									<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
-										<Link to={'/team/'+team.slug}>
-											<img style={localStyle.image} src={team.image+'=s44-c'} />
-										</Link>
-										<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
-											{team.name}
-										</Link>
-										<br />
-										<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
-									</div>
-								)
-							})
-						}
+						<Teams teams={teams} />
 					</div>
 				</div>
 			)
@@ -135,8 +158,6 @@ class Feed extends Component {
 											<Link to={'/profile/'+user.slug}>{ user.username }</Link>
 										</h2>
 										<span style={styles.paragraph}>{ user.title }</span><br />
-										<br />
-										<Link to="/account"  href="#" className="button button-mini button-border button-border-thin button-blue" style={{marginLeft:0}}>Account</Link>
 									</div>
 								}
 
@@ -168,26 +189,7 @@ class Feed extends Component {
 							</div>
 
 							<div className="col_one_third col_last">
-								<h2 style={styles.title}>Your Teams</h2>
-								<hr />
-								<nav id="primary-menu">
-									{ (teams == null) ? null : teams.map((team, i) => {
-											return (
-												<div key={team.id} style={{padding:'16px 16px 16px 0px'}}>
-													<Link to={'/team/'+team.slug}>
-														<img style={localStyle.image} src={team.image+'=s44-c'} />
-													</Link>
-													<Link style={localStyle.detailHeader} to={'/team/'+team.slug}>
-														{team.name}
-													</Link>
-													<br />
-													<span style={localStyle.subtext}>{ TextUtils.capitalize(team.type) }</span>
-												</div>
-											)
-										})
-									}
-								</nav>
-
+								<Teams teams={teams} />
 							</div>
 						</div>
 					</section>
@@ -228,24 +230,6 @@ const localStyle = {
 		border:'1px solid #ddd',
 		background:'#fff',
 		marginTop:6
-	},
-	image: {
-		float:'left',
-		marginRight:12,
-		borderRadius:22,
-		width:44
-	},
-	detailHeader: {
-		color:'#333',
-		fontFamily:'Pathway Gothic One',
-		fontWeight: 100,
-		fontSize: 18,
-		lineHeight: 10+'px'
-	},
-	subtext: {
-		fontWeight:100,
-		fontSize:14,
-		lineHeight:14+'px'
 	},
 	selected: {
 		padding: '6px 6px 6px 16px',
