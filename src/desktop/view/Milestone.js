@@ -29,8 +29,8 @@ export default (props) => {
 					<div className="panel-body">
 						<Link to={'/project/'+milestone.project.slug}>
 							<h3 style={localStyle.title}>{milestone.title}</h3>
+							<p style={{marginTop:0, marginBottom:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(milestone.description)}}></p>
 						</Link>
-						<p style={{marginTop:0, marginBottom:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(milestone.description)}}></p>
 						{ milestone.attachments.map((file, i) => {
 								if (file.mime == 'video'){
 									return (
