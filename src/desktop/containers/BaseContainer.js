@@ -319,6 +319,7 @@ const BaseContainer = (Container, configuration) => {
 			fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
 			fetchPosts: (params) => dispatch(actions.fetchPosts(params)),
 			createPost: (params) => dispatch(actions.createPost(params)),
+			createTeam: (params) => dispatch(actions.createTeam(params)),
 			fetchProjects: (params) => dispatch(actions.fetchProjects(params)),
 			fetchTeams: (params) => dispatch(actions.fetchTeams(params)),
 			fetchMilestones: (params) => dispatch(actions.fetchMilestones(params)),
