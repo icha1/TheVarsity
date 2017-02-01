@@ -48,7 +48,8 @@ class Post extends Component {
 		}
 
 		const path = (post.type == 'project') ? '/project/'+post.slug : '/post/'+post.slug
-		const title = (post.url.length == 0) ? <Link to={path} style={style.title}>{ TextUtils.truncateText(post.title, 50) }</Link> : <a target='_blank' style={style.title} href={post.url}>{TextUtils.truncateText(post.title, 50) }</a>
+//		const title = (post.url.length == 0) ? <Link to={path} style={style.title}>{ TextUtils.truncateText(post.title, 50) }</Link> : <a target='_blank' style={style.title} href={post.url}>{TextUtils.truncateText(post.title, 50) }</a>
+		const title = <Link to={path} style={style.title}>{ TextUtils.truncateText(post.title, 50) }</Link>
 		const numCommentsBadge = (post.numComments == 0) ? null : <span style={{float:'right'}} className="badge">{post.numComments}</span>
 
 		const btnClass = (post.type == 'news') ? 'button button-mini button-circle button-red' : 'button button-mini button-circle button-green'
