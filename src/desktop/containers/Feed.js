@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { TextUtils, FirebaseManager } from '../../utils'
-import { PostFeed, Notification, Milestone, Teams, EditProfile } from '../view'
+import { PostFeed, Notification, Milestone, Teams } from '../view'
 import styles from './styles'
 import { Link } from 'react-router'
 import BaseContainer from './BaseContainer'
@@ -10,7 +10,6 @@ class Feed extends Component {
 	constructor(){
 		super()
 		this.state = {
-			showEdit: false
 
 		}
 	}
@@ -49,12 +48,6 @@ class Feed extends Component {
 		}
 	}
 
-	toggleShowEdit(){
-		this.setState({
-			showEdit: !this.state.showEdit
-		})
-	}
-
 	render(){
 		const style = styles.post
 		const user = this.props.user
@@ -86,38 +79,6 @@ class Feed extends Component {
 					<PostFeed posts={projects} deletePost={null} vote={null} user={user} />
 				</div>
 			)
-		}
-		else if (selected == 'Account'){
-			const city = user.location.city || ''
-			const state = user.location.state || ''
-			content = (
-				<div>
-					<div className="hidden-xs" style={{textAlign:'left', marginTop:48}}>
-						{ (this.state.showEdit) ? null : <button onClick={this.toggleShowEdit.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
-						{ (this.state.showEdit) ? <EditProfile update={this.props.updateData.bind(this)} profile={user} close={this.toggleShowEdit.bind(this)} /> : (
-								<div>
-									<h4 style={styles.header}>{ user.username }</h4>
-									<h4 style={styles.header}>{ user.title }</h4>
-									<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
-									<p className="lead" style={{fontSize:16, color:'#555', marginTop:12, marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
-									<img src={user.image+'=s220-c'} />
-								</div>
-							)
-						}
-					</div>
-
-					<div className="visible-xs" style={{padding:'0px 16px 0px 16px'}}>
-						<div>
-							<h4 style={styles.header}>{ user.username }</h4>
-							<h4 style={styles.header}>{ user.title }</h4>
-							<h4 style={styles.header}>{ TextUtils.capitalize(city)+', '+state.toUpperCase() }</h4>
-							<p className="lead" style={{fontSize:16, color:'#555', marginTop:12, marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(user.bio)}}></p>
-							<img src={user.image+'=s220-c'} />
-						</div>
-					</div>
-				</div>
-			)
-
 		}
 		else if (selected == 'Notifications'){
 			const notifications = this.props.account.notifications

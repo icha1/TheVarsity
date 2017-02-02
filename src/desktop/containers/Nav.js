@@ -187,9 +187,9 @@ class Nav extends Component {
 			accountLink = (
 				<li>
 					<Link style={{display:'inline-block'}} to="/account"><span>{user.username}</span></Link>
-					<ul className="dropdown-menu dropdown-menu-left" style={{top:38}} aria-labelledby="dropdownMenu1">
-						<li><a href="#">Edit Profile</a></li>
-						<li><a href="/account/logout">Log Out</a></li>
+					<ul className="dropdown-menu dropdown-menu-left" style={{top:42, backgroundColor:'#f9f9f9', border:'1px solid #ddd'}} aria-labelledby="dropdownMenu1">
+						<li><Link style={{color:'#333', backgroundColor:'#f9f9f9 !important'}} to="/account">Manage Account</Link></li>
+						<li><a style={{color:'#333', backgroundColor:'#f9f9f9 !important'}} href="/account/logout">Log Out</a></li>
 					</ul>
 				</li>
 			)
