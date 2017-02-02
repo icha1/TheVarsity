@@ -351,66 +351,79 @@ router.post('/:action', function(req, res, next){
 		})
 		.then(function(profile){
 			var type = (invitation.context.type == null) ? 'team' : invitation.context.type
+			var changed = false
 
 			if (type == 'team'){
-				var members = host.members
-				members.push({
-					id: profile.id,
-					username: profile.username,
-					image: profile.image,
-					slug: profile.slug,
-					title: profile.title
-				})
+				if (profile.teams.indexOf(host._id.toString()) == -1){
+					var teamsArray = profile.teams
+					teamsArray.push(host._id.toString())
+					profile['teams'] = teamsArray
+					profile.markModified('teams')
 
-				host['members'] = members
-				host.markModified('members')
+					var members = host.members
+					members.push({
+						id: profile.id,
+						username: profile.username,
+						image: profile.image,
+						slug: profile.slug,
+						title: profile.title
+					})
 
-				var teamsArray = profile.teams
-				teamsArray.push(host._id.toString())
-				profile['teams'] = teamsArray
-				profile.markModified('teams')
+					host['members'] = members
+					host.markModified('members')
+					changed = true
+				}
 			}
 
 			if (type == 'project'){
-				var collaborators = host.collaborators
-				collaborators.push({
-					id: profile.id,
-					username: profile.username,
-					image: profile.image,
-					slug: profile.slug,
-					title: profile.title
-				})
+				if (profile.projects.indexOf(host._id.toString()) == -1){
+					var projectsArray = profile.projects
+					projectsArray.push(host._id.toString())
+					profile['projects'] = projectsArray
+					profile.markModified('projects')
 
-				host['collaborators'] = collaborators
-				host.markModified('collaborators')
-
-				var projectsArray = profile.projects
-				projectsArray.push(host._id.toString())
-				profile['projects'] = projectsArray
-				profile.markModified('projects')
-
-				// create corresponding milestone:
-				controllers.milestone.post({
-					title: profile.username+' joined a project!',
-					description: profile.username+' joined the '+host.title+' project.',
-					profile: {
+					var collaborators = host.collaborators
+					collaborators.push({
+						id: profile.id,
+						username: profile.username,
 						image: profile.image,
 						slug: profile.slug,
-						username: profile.username,
-						id: profile.id
-					},
-					project: {
-						image: host.image,
-						slug: host.slug,
-						title: host.title,
-						id: host.id
-					},
-					teams: profile.teams
-				})
+						title: profile.title
+					})
+
+					host['collaborators'] = collaborators
+					host.markModified('collaborators')
+
+					// create corresponding milestone:
+					controllers.milestone.post({
+						title: profile.username+' joined a project!',
+						description: profile.username+' joined the '+host.title+' project.',
+						profile: {
+							image: profile.image,
+							slug: profile.slug,
+							username: profile.username,
+							id: profile.id
+						},
+						project: {
+							image: host.image,
+							slug: host.slug,
+							title: host.title,
+							id: host.id
+						},
+						teams: profile.teams
+					})					
+
+					changed = true
+				}
 			}
 
-			var content = profile.email+' just signed up for the Varsity.'
-			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
+			if (changed == true){
+				var content = profile.email+' just signed up for the Varsity.'
+				utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
+
+				host.save()
+				profile.save()
+			}
 
 			var token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
 			req.session.token = token
@@ -423,9 +436,6 @@ router.post('/:action', function(req, res, next){
 				user: profile.summary(),
 				token: token
 			})
-
-			host.save()
-			profile.save()
 		})
 		.catch(function(err){
 			console.log('Account Router - Error: '+JSON.stringify(err))
