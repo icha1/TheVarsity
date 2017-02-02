@@ -17,7 +17,7 @@ export default (props) => {
 	return (
 		<div className="entry clearfix" style={{border:'none', marginBottom:12, paddingBottom:12, maxWidth:maxWidth}}>
 			<div className="entry-timeline" style={ (withIcon) ? {backgroundSize:'cover', background:'url("'+milestone.project.image+'=s72-c") no-repeat center'} : null}>
-				{ (withIcon) ? null : 
+				{ (withIcon) ? <div className="timeline-divider"></div> : 
 					<div>
 						{ months[parseInt(month)] }<span>{ day }</span>
 						<div className="timeline-divider"></div>

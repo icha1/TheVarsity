@@ -61,21 +61,44 @@ class Feed extends Component {
 			const teamOrProjectsString = (user.teams.length == 0) ? user.projects.join(',') : user.teams.join(',')
 			const milestones = this.props.milestones[teamOrProjectsString] || []
 			content = (
-				<div className="postcontent nobottommargin clearfix">
-					<div id="posts" className="post-timeline clearfix" style={{textAlign:'left'}}>
-						<div className="timeline-border"></div>
-						{ milestones.map((milestone, i) => {
-								return <Milestone key={milestone.id} withIcon={true} maxWidth={505} {...milestone} />
-							})
-						}
-					</div>
+				<div>
+					{ milestones.map((milestone, i) => {
+							return (
+								<div key={milestone.id} style={{borderBottom:'1px dotted #ddd', marginBottom:16}}>
+									<Link to={'/project/'+milestone.project.slug}>
+										<h4 style={localStyle.title}>{milestone.title}</h4>
+										<div className="col_three_fourth" style={{paddingBottom:0, marginBottom:12}}>
+											<p style={localStyle.paragraph}>
+												{milestone.description}
+											</p>
+										</div>
+										<div className="col_one_fourth col_last" style={{paddingBottom:0, marginBottom:12, textAlign:'right'}}>
+											<img style={{width:72, background:'#fff', padding:3, border:'1px solid #ddd'}} src={milestone.project.image+'=s140-c'} />
+										</div>
+									</Link>
+
+									<div style={{textAlign:'right', marginBottom:12, marginTop:24}}>
+										<span style={localStyle.detail}>
+											<Link style={{color:'#005999'}} to={'/profile/'+milestone.profile.slug}>{ milestone.profile.username }</Link>
+										</span>
+										<span style={localStyle.detail}>|</span>
+										<span style={localStyle.detail}>
+											<Link style={{color:'#009959'}} to={'/project/'+milestone.project.slug}>{ milestone.project.title }</Link>
+										</span>
+										<span style={localStyle.detail}>|</span>
+										<span style={localStyle.detail}>Feb 1</span>
+									</div>
+								</div>
+							)
+						})
+					}
 				</div>
 			)
 		}
 		else if (selected == 'Projects'){
 			const projects = this.props.projects[user.id] // can be bull
 			content = (projects == null) ? null : (
-				<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
+				<div>
 					<PostFeed posts={projects} deletePost={null} vote={null} user={user} />
 				</div>
 			)
@@ -87,21 +110,18 @@ class Feed extends Component {
 				list = Object.keys(notifications).map(key => notifications[key])
 			
 			content = (
-				<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
+				<div>
 					{ (list==null) ? null : list.map((notification, i) => {
 							return <Notification onAccept={this.props.redeem.bind(this)} key={notification.id} {...notification} />
 						})
-					}
-					
+					}					
 				</div>
 			)
 		}
 		else if (selected == 'Teams'){ // mobile UI Only
 			content = (
-				<div className="feature-box center media-box fbox-bg" style={{padding:24, textAlign:'left'}}>
-					<div style={{padding:'0px 24px 0px 24px'}}>
-						<Teams teams={teams} />
-					</div>
+				<div style={{padding:'0px 24px 0px 24px'}}>
+					<Teams teams={teams} />
 				</div>
 			)
 		}
@@ -146,7 +166,13 @@ class Feed extends Component {
 					<section id="content" style={style.content}>
 						<div className="content-wrap container clearfix">
 							<div className="col_two_third">
-								{ content }
+								<div className="feature-box center media-box fbox-bg" style={{padding:'0px 16px 0px 16px', textAlign:'left'}}>
+									<div style={styles.main}>
+										<h2 style={styles.title}>{selected}</h2>
+										<hr />
+										{ content }
+									</div>
+								</div>
 							</div>
 
 							<div className="col_one_third col_last">
@@ -192,6 +218,10 @@ const localStyle = {
 		background:'#fff',
 		marginTop:6
 	},
+	detail: {
+		marginLeft:12,
+		fontWeight:100
+	},
 	selected: {
 		padding: '6px 6px 6px 16px',
 		background: '#fff',
@@ -230,6 +260,11 @@ const localStyle = {
 		fontFamily:'Pathway Gothic One',
 		fontWeight: 100,
 		marginBottom: 0
+	},
+	paragraph: {
+		color:'#333',
+		fontWeight: 100,
+		marginTop: 0		
 	}
 }
 
