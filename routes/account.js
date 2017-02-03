@@ -116,7 +116,7 @@ router.post('/:action', function(req, res, next){
 			token = utils.JWT.sign({id:profile.id}, process.env.TOKEN_SECRET, {expiresIn:4000})
 			req.session.token = token
 
-			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', content)
+			utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, 'dkwon@velocity360.io', 'The Varsity: New User', profile.email+' just signed up.')
 			return utils.EmailUtils.sendEmail(process.env.DEFAULT_EMAIL, profile.email, 'The Varsity', 'Welcome to the Varsity')
 		})
 		.then(function(response){
@@ -129,6 +129,7 @@ router.post('/:action', function(req, res, next){
 			return response
 		})
 		.catch(function(err){
+			console.log('TEST: '+err)
 			res.json({
 				confirmation:'fail',
 				message: err.message || err

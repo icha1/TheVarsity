@@ -2,13 +2,19 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { Redeem } from '../view'
+import { APIManager, TextUtils, Alert } from '../../utils'
+import { browserHistory } from 'react-router'
 
 class Section extends Component {
 
 	constructor(){
 		super()
 		this.state = {
-			error: null
+			error: null,
+			credentials: {
+				email: '',
+				name: ''
+			}
 		}
 	}
 
@@ -51,6 +57,62 @@ class Section extends Component {
 		}
 
 		return this.props.requestInvitation(invitation)
+	}
+
+	updateCredentials(event){
+		var updatedCredentials = Object.assign({}, this.state.credentials)
+		updatedCredentials[event.target.id] = event.target.value
+
+		this.setState({
+			credentials: updatedCredentials
+		})
+	}
+
+	register(event){
+		if (event)
+			event.preventDefault()
+
+		const credentials = this.state.credentials
+		// validate fields
+		if (credentials.name.length == 0){
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please enter your full name'
+			})
+			return
+		}		
+		if (credentials.email.length == 0){
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please enter your email'
+			})
+			return
+		}
+		if (TextUtils.validateEmail(credentials.email) == false){
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please enter a valid email'
+			})
+			return
+		}
+
+		this.sendCredentials('/account/register')
+	}
+
+	sendCredentials(endpoint){
+		let credentials = Object.assign({}, this.state.credentials)
+		credentials['username'] = credentials.name.replace(' ', '_')
+
+		APIManager
+		.handlePost(endpoint, credentials)
+		.then(result => {
+//			console.log('RESULT: '+JSON.stringify(result))
+			this.props.currentUserReceived(result.user)
+			browserHistory.push('/account')
+		})
+		.catch((err) => {
+			alert(err.message)
+		})
 	}
 
 	render(){
@@ -139,7 +201,11 @@ class Section extends Component {
 						</div>
 
 						<div className="col_half col_last">
-							<Redeem type="redeem" error={this.state.error} submitInvite={this.redeemInvitation.bind(this)} />
+							<input onChange={this.updateCredentials.bind(this)} id="name" style={localStyle.input} type="text" placeholder="Name" />
+							<input onChange={this.updateCredentials.bind(this)} id="email" style={localStyle.input} type="text" placeholder="Email" />
+				            <div style={{textAlign:'right'}}>
+					            <a href="#" onClick={this.register.bind(this)} className="button button-circle" style={localStyle.btnBlue}>Join</a>
+				            </div>
 						</div>
 					</div>
 				</section>
@@ -210,6 +276,18 @@ const localStyle = {
 	},
 	error: {
 		color: 'red'
+	},
+	input: {
+		color:'#333',
+		background: '#f9f9f9',
+		marginBottom: 12,
+		padding: 6,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 20,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%'
 	}
 }
 
@@ -221,6 +299,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
+		currentUserReceived: (user) => dispatch(actions.currentUserReceived(user)),
 		requestInvitation: (invitation) => dispatch(actions.requestInvitation(invitation)),
 		redeemInvitation: (invitation) => dispatch(actions.redeemInvitation(invitation))
 	}

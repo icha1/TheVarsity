@@ -63,18 +63,18 @@ export default {
 			pages: {
 				account: {
 					showModal: false,
-					showEdit: false,
+					showEdit: true,
 					showCreateTeam: false,
 					showCreateProject: false,
-					selected: 'Profile',
-					menu: ['Profile', 'Projects']
+					selected: 'Account',
+					menu: ['Account', 'Projects', 'Notifications']
 				},
 				team: {
 					selected: ''
 				},
 				feed: {
 					selected: 'Recent Activity',
-					menu: ['Recent Activity', 'Projects', 'Notifications']
+					menu: ['Recent Activity', 'Projects']
 				},
 				post: {
 					selected: ''
