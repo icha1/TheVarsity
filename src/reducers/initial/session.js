@@ -15,11 +15,11 @@ export default {
 		pages: {
 			account: {
 				showModal: false,
-				showEdit: false,
+				showEdit: true,
 				showCreateTeam: false,
 				showCreateProject: false,
-				selected: 'Profile',
-				menu: ['Profile', 'Notifications']
+				selected: 'Account',
+				menu: ['Account', 'Notifications']
 			},
 			team: {
 				selected: ''
