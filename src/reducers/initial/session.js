@@ -19,7 +19,7 @@ export default {
 				showCreateTeam: false,
 				showCreateProject: false,
 				selected: 'Profile',
-				menu: ['Profile', 'Projects']
+				menu: ['Profile', 'Notifications']
 			},
 			team: {
 				selected: ''
