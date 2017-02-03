@@ -57,7 +57,12 @@ router.get('/', function(req, res, next) {
 
 	var initialStore = null
 	var reducers = {}
-	var tags = {title: 'Home'}
+	var tags = {
+		title: 'Home',
+		url: 'http://www.thevarsity.co',
+		image: 'http://www.thevarsity.co/images/office-3.jpg',
+		description: 'The Varsity is a collection of online communities organized into groups by skill: designers, photographers, software engineers, real estate etc. Users can tap into these groups when seeking collaborators for their next project, referrals, or employees.'
+	}
 
 	controllers.account
 	.checkCurrentUser(req)
