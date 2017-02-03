@@ -8,14 +8,16 @@ export default (props) => {
 	const selected = (align=='left') ? localStyle.selected : localStyle.selectedRight
 	const menuItem = (align=='left') ? localStyle.menuItem : localStyle.menuItemRight
 
+	const subtitle = (props.name) ? props.type : props.title
+
 	return (
         <div id="header-wrap">
 			<div className="container clearfix">
 				{ (props.padding == true) ? <div style={{paddingTop:96}}></div> : null }
 				<div>
 					<div style={{textAlign: align}}>
-						<h2 style={localStyle.title}>{ props.name }</h2>
-						<span style={styles.paragraph}>{ TextUtils.capitalize(props.type) }</span>
+						<h2 style={localStyle.title}>{ props.name || props.username }</h2>
+						<span style={styles.paragraph}>{ TextUtils.capitalize(subtitle) }</span>
 					</div>
 					<hr />
 
