@@ -63,33 +63,7 @@ class Feed extends Component {
 			content = (
 				<div>
 					{ milestones.map((milestone, i) => {
-							return (
-								<div key={milestone.id} style={{borderBottom:'1px dotted #ddd', marginBottom:16}}>
-									<Link to={'/project/'+milestone.project.slug}>
-										<h4 style={localStyle.title}>{milestone.title}</h4>
-										<div className="col_three_fourth" style={{paddingBottom:0, marginBottom:12}}>
-											<p style={localStyle.paragraph}>
-												{TextUtils.truncateText(milestone.description, 100)}
-											</p>
-										</div>
-										<div className="col_one_fourth col_last" style={{paddingBottom:0, marginBottom:12, textAlign:'right'}}>
-											<img style={{width:72, background:'#fff', padding:3, border:'1px solid #ddd'}} src={milestone.project.image+'=s140-c'} />
-										</div>
-									</Link>
-
-									<div style={{textAlign:'right', marginBottom:12, marginTop:24}}>
-										<span style={localStyle.detail}>
-											<Link style={{color:'#005999'}} to={'/profile/'+milestone.profile.slug}>{ milestone.profile.username }</Link>
-										</span>
-										<span style={localStyle.detail}>|</span>
-										<span style={localStyle.detail}>
-											<Link style={{color:'#009959'}} to={'/project/'+milestone.project.slug}>{ milestone.project.title }</Link>
-										</span>
-										<span style={localStyle.detail}>|</span>
-										<span style={localStyle.detail}>Feb 1</span>
-									</div>
-								</div>
-							)
+							return <Milestone key={milestone.id} mode="feed" {...milestone} />
 						})
 					}
 				</div>
@@ -166,7 +140,7 @@ class Feed extends Component {
 					<section id="content" style={style.content}>
 						<div className="content-wrap container clearfix">
 							<div className="col_two_third">
-								<div className="feature-box center media-box fbox-bg" style={{padding:'0px 16px 0px 16px', textAlign:'left'}}>
+								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
 										<h2 style={styles.title}>{selected}</h2>
 										<hr />

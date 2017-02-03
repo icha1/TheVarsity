@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import actions from '../../actions/actions'
-import { FirebaseManager, TextUtils } from '../../utils'
-import { PostFeed, TeamFeed, Teams } from '../view'
+import { TextUtils } from '../../utils'
+import { PostFeed, TeamFeed, Teams, Milestone } from '../view'
 import styles from './styles'
 import BaseContainer from './BaseContainer'
 
@@ -34,6 +34,10 @@ class ProfileDetail extends Component {
 			return
 		}
 
+		// check milestones:
+		if (this.props.milestones[profile.id] == null)
+			this.props.fetchData('milestone', {'profile.id': profile.id})
+
 		document.title = 'The Varsity | '+profile.username
 		if (this.props.teams[profile.id])
 			return
@@ -47,6 +51,11 @@ class ProfileDetail extends Component {
 			return
 
 		const selected = this.props.session.pages['profile'].selected
+		if (selected == 'Profile'){ // check milestones
+			if (this.props.milestones[profile.id] == null)
+				this.props.fetchData('milestone', {'profile.id': profile.id})
+		}
+
 		if (selected == 'Projects'){
 			if (this.props.projects[profile.id] == null)
 				this.props.fetchData('project', {'collaborators.id': profile.id})
@@ -77,8 +86,7 @@ class ProfileDetail extends Component {
 					location = TextUtils.capitalize(profile.location.city)
 
 				if (profile.location.state != null)
-					location += (location.length == 0) ? profile.location.state.toUpperCase() : ', '+profile.location.state.toUpperCase()
-				
+					location += (location.length == 0) ? profile.location.state.toUpperCase() : ', '+profile.location.state.toUpperCase()	
 			}
 
 			content = (
@@ -86,7 +94,15 @@ class ProfileDetail extends Component {
 					<div className="hidden-xs">
 						<h4 style={styles.header}>{ profile.title }</h4>
 						<h4 style={styles.header}>{ location }</h4>
-						<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
+						<p className="lead" style={{fontSize:16, color:'#555', marginBottom:72}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(profile.bio)}}></p>
+						
+						<h2 style={styles.title}>Activity</h2>
+						<hr />
+						{ (this.props.milestones[profile.id] == null) ? null : 
+							this.props.milestones[profile.id].map((milestone, i) => {
+								return <Milestone key={milestone.id} mode="feed" {...milestone} />
+							})
+						}						
 					</div>
 
 					{ /* mobile UI*/ }
@@ -174,12 +190,11 @@ class ProfileDetail extends Component {
 							<div className="col_two_third">
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
-										<h2 style={styles.team.title}>{selected}</h2>
+										<h2 style={styles.title}>{selected}</h2>
 										<hr />
 										{ content }
 									</div>
 								</div>
-
 							</div>
 
 							<div className="col_one_third col_last">
@@ -265,6 +280,16 @@ const localStyle = {
 		borderLeft: '3px solid #ddd',
 		fontSize: 16,
 		fontWeight: 100
+	},
+	title: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		marginBottom: 0
+	},
+	detail: {
+		marginLeft:12,
+		fontWeight:100
 	}
 }
 
@@ -273,7 +298,8 @@ const stateToProps = (state) => {
 		profiles: state.profile,
 		posts: state.post,
 		projects: state.project,
-		teams: state.team
+		teams: state.team,
+		milestones: state.milestone
 	}
 }
 
