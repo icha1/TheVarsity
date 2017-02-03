@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import actions from '../../actions/actions'
 import { FirebaseManager, TextUtils } from '../../utils'
-import { PostFeed, TeamFeed, Comment, CreateComment, EditProfile, Teams } from '../view'
+import { PostFeed, TeamFeed, Teams } from '../view'
 import styles from './styles'
 import BaseContainer from './BaseContainer'
 
@@ -11,8 +11,7 @@ class ProfileDetail extends Component {
 	constructor(){
 		super()
 		this.state = {
-			showEdit: false,
-			comments: null
+			showEdit: false
 		}
 	}
 
@@ -54,53 +53,6 @@ class ProfileDetail extends Component {
 		}
 	}
 
-	submitComment(comment){
-		if (this.props.user == null){
-			alert('Please log in or register to post a comment.')
-			return
-		}
-
-		let updated = Object.assign({}, comment)
-		updated['timestamp'] = new Date().getTime()
-		updated['profile'] = {
-			id: this.props.user.id,
-			username: this.props.user.username,
-			image: this.props.user.image
-		}
-
-		const profile = this.props.profiles[this.props.slug]
-		if (profile == null)
-			return
-
-		let profileIds = [profile.id, this.props.user.id].sort()
-		let threadId = profileIds.join().replace(',', '') // alphabetize so the ID is the same for both participants
-
-		const path = '/'+threadId+'/comments/'+this.state.comments.length
-		FirebaseManager.post(path, updated, () => {
-//			this.props.updatePost(post, {numComments: this.state.comments.length})
-		})		
-	}
-
-	editProfile(event){
-		if (event)
-			event.preventDefault()
-
-		this.setState({
-			showEdit: !this.state.showEdit
-		})
-	}
-
-	updateProfile(updated){
-		const profile = this.props.profiles[this.props.slug] // can be null
-		if (profile == null)
-			return
-
-		this.props.updateProfile(profile, updated)
-		this.setState({
-			showEdit: !this.state.showEdit
-		})
-
-	}
 
 	render(){
 		const style = styles.post
@@ -178,18 +130,6 @@ class ProfileDetail extends Component {
 			)
 		}
 		
-		else if (selected == 'Direct Message' && profile != null){
-			content = (
-				<div style={{overflowY:'scroll', borderRight:'1px solid #ddd', borderLeft:'1px solid #ddd', borderBottom:'1px solid #ddd'}}>
-					<CreateComment onCreate={this.submitComment.bind(this)} />
-					{ (this.state.comments) ? this.state.comments.map((comment, i) => {
-							return <Comment comment={comment} key={i} />
-						}) : null
-					}
-				</div>
-			)
-		}
-
 		const teams = (profile) ? this.props.teams[profile.id] : []
 
 		return (
@@ -325,26 +265,21 @@ const localStyle = {
 		borderLeft: '3px solid #ddd',
 		fontSize: 16,
 		fontWeight: 100
-	},	
-	btnBlue: {
-		backgroundColor:'rgb(91, 192, 222)'
 	}
 }
 
 const stateToProps = (state) => {
 	return {
-		user: state.account.currentUser,
 		profiles: state.profile,
 		posts: state.post,
 		projects: state.project,
-		teams: state.team,
-		session: state.session
+		teams: state.team
 	}
 }
 
 const dispatchToProps = (dispatch) => {
 	return {
-		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params))
+
 	}
 }
 
