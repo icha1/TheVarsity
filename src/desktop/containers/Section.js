@@ -108,10 +108,17 @@ class Section extends Component {
 				<section id="section-about" style={{background:'#fff', paddingTop:32, borderTop:'1px solid #ddd'}} className="page-section">
 					<div className="content-wrap container clearfix">
 						<div className="col_half" style={localStyle.paragraph}>
-							<img style={localStyle.image} src="/images/girls.jpg" />
+							<img src="/images/projects.jpg" />
 						</div>
 
 						<div className="col_half col_last" style={localStyle.paragraph}>
+		                	<h2 style={localStyle.title}>Grow Your Project</h2>
+		                	Every project requires a wide variety of skills and talents. On The Varsity, there is a team 
+		                	for that. Need a new logo for your business? Check with the Graphic Design Team. Looking 
+		                	for help setting up website with mobile responsiveness? Try the Hack Exchange technical team.
+
+		                	<br /><br />
+
 		                	<h2 style={localStyle.title}>The Perfect Team</h2>
 		                	Every project requires a wide variety of skills and talents. On The Varsity, there is a team 
 		                	for that. Need a new logo for your business? Check with the Graphic Design Team. Looking 
@@ -125,7 +132,7 @@ class Section extends Component {
 			content = (
 				<section style={localStyle.container}>
 					<div className="content-wrap container clearfix">
-		                <h2 style={localStyle.title}>Accept Invitation</h2>
+		                <h2 style={localStyle.title}>Join The Varsity</h2>
 						<div className="col_half" style={localStyle.paragraph}>
 							Did you receive an invitation to a team on The Varsity? Submit your email and invite 
 							code to accept the invitation and get started on the platform.
@@ -176,7 +183,8 @@ const localStyle = {
 	title: {
 		color:'#333',
 		fontFamily:'Pathway Gothic One',
-		fontWeight: 100
+		fontWeight: 100,
+		marginBottom: 4
 	},
 	titleWhite: {
 		color:'#fff',
