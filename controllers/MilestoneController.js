@@ -1,5 +1,6 @@
 var Milestone = require('../models/Milestone')
 var ProfileController = require('./ProfileController')
+var ProjectController = require('./ProjectController')
 var utils = require('../utils')
 var Promise = require('bluebird')
 var fs = require('fs')
@@ -104,7 +105,10 @@ module.exports = {
 					html = html.replace('{{ project }}', milestone.project.title)
 					html = html.replace('{{ image }}', milestone.project.image)
 					html = html.replace('{{ slug }}', milestone.project.slug)
-//					return ProfileController.get({projects: milestone.project.id}, false)
+					// return ProfileController.get({projects: milestone.project.id}, false)
+					return ProjectController.getById(milestone.project.id)
+				})
+				.then(function(project){
 					return ProfileController.getById(project.author.id)
 				})
 				.then(function(profile){
