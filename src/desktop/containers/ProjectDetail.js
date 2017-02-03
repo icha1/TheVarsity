@@ -6,6 +6,7 @@ import { FirebaseManager, TextUtils, APIManager, Alert } from '../../utils'
 import styles from './styles'
 import { Link } from 'react-router'
 import Section from './Section'
+import BaseContainer from './BaseContainer'
 
 class ProjectDetail extends Component {
 	constructor(){
@@ -17,7 +18,7 @@ class ProjectDetail extends Component {
 			comments: null,
 			loading: false,
 			selected: 'Project',
-			menuItems: ['Project', 'Comments', 'Collaborators'],
+			menuItems: ['Project', 'Notes', 'Collaborators'],
 			invitation: {
 				name: '',
 				email: ''
@@ -89,7 +90,7 @@ class ProjectDetail extends Component {
 			})
 		}
 
-		if (selected == 'Comments'){
+		if (selected == 'Notes'){
 			if (this.state.comments != null)
 				return
 
@@ -561,14 +562,14 @@ class ProjectDetail extends Component {
 				</div>
 			)
 		}
-		else if (selected == 'Comments'){
+		else if (selected == 'Notes'){
 			const list = this.state.comments || []
 			content = (
 				<div>
 					<div className="col_two_third">
 						<div className="feature-box center media-box fbox-bg">
 							<div style={styles.main}>
-								<h2 style={styles.team.title}>Comments</h2>
+								<h2 style={styles.team.title}>Notes</h2>
 								<hr />
 								<Comments 
 									user={user}
@@ -614,7 +615,6 @@ class ProjectDetail extends Component {
 			)
 		}
 
-		// const team = (this.props.session.currentTeam) ? this.props.session.currentTeam : this.props.teams[project.teams[0]]
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
