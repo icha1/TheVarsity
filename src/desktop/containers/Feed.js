@@ -69,7 +69,7 @@ class Feed extends Component {
 										<h4 style={localStyle.title}>{milestone.title}</h4>
 										<div className="col_three_fourth" style={{paddingBottom:0, marginBottom:12}}>
 											<p style={localStyle.paragraph}>
-												{milestone.description}
+												{TextUtils.truncateText(milestone.description, 100)}
 											</p>
 										</div>
 										<div className="col_one_fourth col_last" style={{paddingBottom:0, marginBottom:12, textAlign:'right'}}>
