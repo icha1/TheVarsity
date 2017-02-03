@@ -115,6 +115,20 @@ class Nav extends Component {
 		this.sendCredentials('/account/login')
 	}
 
+	logout(event){
+		if (event)
+			event.preventDefault()
+
+		console.log('logout')
+		APIManager.handleGet('/account/logout')
+		.then(response => {
+			window.location.href = '/'
+		})
+		.catch(err => {
+
+		})
+	}
+
 	register(event){
 		if (event)
 			event.preventDefault()
@@ -189,7 +203,7 @@ class Nav extends Component {
 					<Link style={{display:'inline-block'}} to="/account"><span>{user.username}</span></Link>
 					<ul className="dropdown-menu dropdown-menu-left" style={{top:42, backgroundColor:'#f9f9f9', border:'1px solid #ddd'}} aria-labelledby="dropdownMenu1">
 						<li><Link style={{color:'#333', backgroundColor:'#f9f9f9 !important'}} to="/account">Manage Account</Link></li>
-						<li><a style={{color:'#333', backgroundColor:'#f9f9f9 !important'}} href="/account/logout">Log Out</a></li>
+						<li><a style={{color:'#333', backgroundColor:'#f9f9f9 !important'}} onClick={this.logout.bind(this)} href="#">Log Out</a></li>
 					</ul>
 				</li>
 			)
