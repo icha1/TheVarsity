@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { Link } from 'react-router'
-import { EditProfile, CreateProject, CreatePost, CreateTeam, PostFeed } from '../view'
+import { EditProfile, CreateProject, CreatePost, CreateTeam, PostFeed, Sidebar } from '../view'
 import { connect } from 'react-redux'
 import { TextUtils, Alert } from '../../utils'
 import actions from '../../actions/actions'
@@ -32,12 +32,6 @@ class Account extends Component {
 			}, 750)			
 		}
 
-		// if (user.type == 'admin'){
-		// 	this.setState({
-		// 		menuItems: ['Profile', 'Projects', 'Hiring']
-		// 	})
-		// }
-
 		if (this.props.teams[user.id]==null)
 			this.props.fetchData('team', {'members.id': user.id}) // fetch teams if necessary
 	}
@@ -64,7 +58,6 @@ class Account extends Component {
 
 	submitPassword(event){
 		event.preventDefault()
-//		console.log('submitPassword: '+JSON.stringify(this.state.passwords))
 		let alert = {
 			title: 'Oops'
 		}
@@ -112,6 +105,11 @@ class Account extends Component {
 		})
 	}
 
+	selectItem(item, event){
+		this.props.onSelectItem(item, 'account', event)
+
+	}
+
 	componentDidUpdate(){
 		const user = this.props.user
 		if (user == null)
@@ -151,11 +149,11 @@ class Account extends Component {
 		let cta = null
 		const page = this.props.session.pages['account']
 
-		if (selected == 'Profile'){
+		if (selected == 'Account'){
+			cta = (page.showEdit) ? null : <button onClick={this.props.toggleShowEdit.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">Edit Profile</button>
 			content = (
 				<div>
 					<div className="hidden-xs" style={{textAlign:'left', marginTop:48}}>
-						{ (page.showEdit) ? null : <button onClick={this.props.toggleShowEdit.bind(this)} style={{float:'right'}} className="button button-small button-circle button-blue">Edit</button> }
 						{ (page.showEdit) ? <EditProfile update={this.props.updateData.bind(this)} profile={user} close={this.props.toggleShowEdit.bind(this)} /> :
 							<div>
 								<h4 style={styles.header}>{ user.username }</h4>
@@ -197,61 +195,20 @@ class Account extends Component {
 				)
 			}
 		}
-		else if (selected == 'Hiring'){
-			content = null
-			cta = <button onClick={this.props.toggleShowCreateProject.bind(this)} style={{float:'right'}} className="button button-small button-border button-border-thin button-blue">{ (page.showCreateProject) ? 'Cancel' : 'Submit Post' }</button>
-			if (page.showCreateProject)
-				content = <CreatePost teams={teams} submit={this.props.postData.bind(this)} />
-			else {
-				const list = this.props.posts[user.id]
-				const sublist = (list == null) ? [] : list.filter((post, i) => {
-					return (post.type == 'hiring')
-				})
-
-				content = (
-					<div style={{textAlign:'left', marginTop:24}}>
-						<PostFeed deletePost={this.props.updateData.bind(this)} posts={sublist} user={user} />
-					</div>
-				)
-			}			
-		}
 
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
-					<header id="header" className="no-sticky" style={{background:'#f9f9f9', paddingTop:96}}>
-			            <div id="header-wrap">
-							<div className="container clearfix">
-								{ (user == null) ? null : 
-									<div>
-										<img style={localStyle.profileImage} src={user.image+'=s140-c'} />
-										<h2 style={ styles.team.title }>
-											<Link to={'/profile/'+user.slug}>{ user.username }</Link>
-										</h2>
-										<span style={styles.paragraph}>{ user.title }</span><br />
-										<span style={styles.paragraph}>{ user.location.city }</span><br />
-									</div>
-								}
-
-								<hr />
-								<nav>
-									<ul style={{listStyleType:'none'}}>
-										{ this.props.session.pages['account'].menu.map((item, i) => {
-												const itemStyle = (item == selected) ? localStyle.selected : localStyle.menuItem
-												return (
-													<li style={{marginTop:0}} key={item}>
-														<div style={itemStyle}>
-															<a onClick={this.props.onSelectItem.bind(this, item, 'account')} href="#"><div>{item}</div></a>
-														</div>
-													</li>
-												)
-											})
-										}
-									</ul>
-								</nav>
-				            </div>
-			            </div>
+					<header id="header" className="no-sticky" style={{background:'#fff', border:'none'}}>
+						<Sidebar 
+							badge={{chats: 1}}
+							padding={true}
+							menuItems={this.props.session.pages['account'].menu}
+							selectItem={this.selectItem.bind(this)}
+							selected={selected}
+							{...user} />
 					</header>
+
 
 					<section id="content" style={style.content}>
 						<div className="content-wrap container clearfix">
@@ -260,7 +217,7 @@ class Account extends Component {
 								<div className="feature-box center media-box fbox-bg">
 									<div style={styles.main}>
 										{ cta }
-										<h2 style={styles.team.title}>{selected}</h2>
+										<h2 style={styles.title}>{selected}</h2>
 										<hr />
 										{ content }
 									</div>
@@ -302,7 +259,7 @@ class Account extends Component {
 					<div className="row" style={{background:'#f9f9f9', padding:12, borderBottom:'1px solid #ddd', lineHeight:10+'px'}}>
 						<div className="col-xs-6">
 							<select onChange={this.props.onSelectItem.bind(this, '')} style={localStyle.select} id="select">
-								<option value="Profile">Profile</option>
+								<option value="Account">Account</option>
 								<option value="Projects">Projects</option>
 							</select>
 						</div>
@@ -384,9 +341,6 @@ const localStyle = {
 		borderLeft: '3px solid #ddd',
 		fontSize: 16,
 		fontWeight: 100
-	},	
-	btnBlue: {
-		backgroundColor:'rgb(91, 192, 222)'
 	},
 	subtext: {
 		fontWeight:100,
