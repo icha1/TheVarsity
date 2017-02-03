@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal } from 'react-bootstrap'
 import { Link } from 'react-router'
-import { EditProfile, CreateProject, CreatePost, CreateTeam, PostFeed, Sidebar } from '../view'
+import { EditProfile, CreateProject, CreatePost, CreateTeam, PostFeed, Sidebar, Notification } from '../view'
 import { connect } from 'react-redux'
 import { TextUtils, Alert } from '../../utils'
 import actions from '../../actions/actions'
@@ -195,6 +195,21 @@ class Account extends Component {
 				)
 			}
 		}
+		else if (selected == 'Notifications'){
+			const notifications = this.props.account.notifications
+			let list = null
+			if (notifications != null)
+				list = Object.keys(notifications).map(key => notifications[key])
+			
+			content = (
+				<div>
+					{ (list==null) ? null : list.map((notification, i) => {
+							return <Notification onAccept={this.props.redeem.bind(this)} key={notification.id} {...notification} />
+						})
+					}
+				</div>
+			)
+		}
 
 		return (
 			<div>
@@ -364,6 +379,7 @@ const localStyle = {
 
 const stateToProps = (state) => {
 	return {
+		account: state.account,
 		posts: state.post,
 		projects: state.project,
 		teams: state.team

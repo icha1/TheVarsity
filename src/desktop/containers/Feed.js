@@ -77,21 +77,6 @@ class Feed extends Component {
 				</div>
 			)
 		}
-		else if (selected == 'Notifications'){
-			const notifications = this.props.account.notifications
-			let list = null
-			if (notifications != null)
-				list = Object.keys(notifications).map(key => notifications[key])
-			
-			content = (
-				<div>
-					{ (list==null) ? null : list.map((notification, i) => {
-							return <Notification onAccept={this.props.redeem.bind(this)} key={notification.id} {...notification} />
-						})
-					}					
-				</div>
-			)
-		}
 		else if (selected == 'Teams'){ // mobile UI Only
 			content = (
 				<div style={{padding:'0px 24px 0px 24px'}}>

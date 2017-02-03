@@ -36,7 +36,8 @@ const localStyle = {
 		background: '#f9f9f9',
 		border: '1px solid #ddd',
 		padding: 16,
-		marginBottom: 24
+		marginBottom: 24,
+		marginLeft: 0
 	},
 	btnSmall: {
 		marginTop: 24,
