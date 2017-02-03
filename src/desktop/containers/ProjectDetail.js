@@ -614,7 +614,7 @@ class ProjectDetail extends Component {
 			)
 		}
 
-		const team = (this.props.session.currentTeam) ? this.props.session.currentTeam : this.props.teams[project.teams[0]]
+		// const team = (this.props.session.currentTeam) ? this.props.session.currentTeam : this.props.teams[project.teams[0]]
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
