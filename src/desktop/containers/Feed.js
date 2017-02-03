@@ -95,7 +95,7 @@ class Feed extends Component {
 									<div>
 										<img style={localStyle.profileImage} src={user.image+'=s140'} />
 										<h2 style={ style.title }>
-											<Link to={'/profile/'+user.slug}>{ user.username }</Link>
+											<Link to="/account">{ user.username }</Link>
 										</h2>
 										<span style={styles.paragraph}>{ user.title }</span><br />
 									</div>
