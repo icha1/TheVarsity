@@ -108,7 +108,7 @@ class EditProfile extends Component {
                 </div>
 
 				<textarea id="bio" placeholder="Bio" onChange={this.updateProfile.bind(this)} style={localStyle.textarea} defaultValue={profile.bio}></textarea>
-	            <a href="#" onClick={this.btnCloseClicked.bind(this)} className="button button-circle button-green" style={localStyle.btnBlue}>Done</a>
+	            <a href="#" onClick={this.btnCloseClicked.bind(this)} className="button button-circle button-green" style={localStyle.btnBlue}>Update</a>
 			</div>
 		)
 	}
