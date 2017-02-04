@@ -15,12 +15,12 @@ class FeaturedProjects extends Component {
 	}
 
 	componentDidMount(){
-		this.props.fetchData('project', {status:'live', limit:10}, false)
+		this.props.fetchData('project', {status:'featured', limit:10}, false)
 	}
 
 
 	render(){
-		const projects = this.props.projects['live']
+		const projects = this.props.projects['featured']
 
 		return (
 			<div>
@@ -70,9 +70,9 @@ const localStyle = {
 		width:44
 	},
 	subtext: {
-		fontWeight:100,
-		fontSize:14,
-		lineHeight:14+'px'
+		fontWeight: 100,
+		fontSize: 12,
+		lineHeight: 12+'px'
 	}
 }
 
