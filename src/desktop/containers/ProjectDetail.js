@@ -18,7 +18,7 @@ class ProjectDetail extends Component {
 			comments: null,
 			loading: false,
 			selected: 'Project',
-			menuItems: ['Project', 'Notes', 'Collaborators'],
+			menuItems: ['Project', 'Collaborators'],
 			invitation: {
 				name: '',
 				email: ''
@@ -115,7 +115,7 @@ class ProjectDetail extends Component {
 
 	selectItem(item, event){
 		event.preventDefault()
-		window.scrollTo(0, 0)
+//		window.scrollTo(0, 0)
 		this.setState({
 			selected: (item.length == 0) ? event.target.value : item
 		})
@@ -500,11 +500,10 @@ class ProjectDetail extends Component {
 			)
 		}
 		else if (selected == 'Project'){
-
 			content = (
 				<div className="postcontent nobottommargin col_last clearfix">
-					<div id="posts" className="post-timeline clearfix">
-						<div className="timeline-border"></div>
+					<div id="posts" className="post-timeline clearfix" style={{paddingLeft:40}}>
+						<div style={{left:-28}} className="timeline-border"></div>
 						{ (isCollaborator==false) ? null : 
 							<CreateMilestone 
 								loading={this.state.loading} 
@@ -520,33 +519,18 @@ class ProjectDetail extends Component {
 							})
 						}
 					</div>
+
 				</div>
 			)
 		}
 		else if (selected == 'Notes'){
 			const list = this.state.comments || []
 			content = (
-				<div>
-					<div className="col_two_third">
-						<div className="feature-box center media-box fbox-bg">
-							<div style={styles.main}>
-								<h2 style={styles.team.title}>Notes</h2>
-								<hr />
-								<Comments 
-									user={user}
-									comments={list}
-									submitComment={this.submitComment.bind(this)} />
-							</div>
-						</div>
-					</div>
-
-					{ (isCollaborator) ? null : 
-						<div className="col_one_third col_last">
-							<h2 style={style.title}>Join This Project</h2>
-							<hr />
-							<Redeem type="request" requestInvite={this.requestInvite.bind(this)} />
-						</div>
-					}
+				<div className="col_two_third">
+					<Comments 
+						user={user}
+						comments={list}
+						submitComment={this.submitComment.bind(this)} />
 				</div>
 			)
 		}
@@ -652,9 +636,11 @@ class ProjectDetail extends Component {
 						</div>
 					</section>
 
-					<section className="page-section" style={{background:'#ffffe6', borderTop:'1px solid #ddd', paddingTop:48}}>
+					<section className="page-section" style={{background:'#fffff8', borderTop:'1px solid #ddd', paddingTop:48}}>
 						<div className="content-wrap container clearfix">
-							<h2 style={styles.title}>Recent Activity</h2>
+							<a onClick={this.selectItem.bind(this, 'Project')} href="#"><span style={(selected=='Project') ? localStyle.tabSelected : localStyle.tab}>Activity</span></a>
+							<a onClick={this.selectItem.bind(this, 'Notes')} href="#"><span style={(selected=='Notes') ? localStyle.tabSelected : localStyle.tab}>Notes</span></a>
+							<hr style={{marginBottom: 48}} />
 							{ content }
 						</div>
 					</section>
@@ -743,7 +729,38 @@ const localStyle = {
 		float: 'right',
 		marginTop: 0,
 		className: 'button button-small button-border button-border-thin button-blue'
-	}	
+	},
+	icon: {
+		fontSize: 20,
+		marginLeft: 4
+	},
+	iconContainer: {
+		width:46,
+		height:46,
+		borderRadius:23,
+		border:'1px solid #ddd',
+		textAlign:'center',
+		marginTop: 16
+	},
+	tab: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		fontSize: 24,
+		marginRight: 24,
+		padding: 12,
+		border: '1px solid #fffff8'
+	},
+	tabSelected: {
+		color:'#333',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100,
+		fontSize: 24,
+		marginRight: 24,
+		background: '#f9f9f9',
+		padding: 12,
+		border: '1px solid #ddd'
+	}
 }
 
 const stateToProps = (state) => {
