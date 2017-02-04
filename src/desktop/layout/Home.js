@@ -12,7 +12,6 @@ export default (props) => {
 					<div className="container clearfix">
 						<div style={{paddingTop:96}}></div>
 						<FeaturedTeams />
-
 		            </div>
 
 	            </div>
