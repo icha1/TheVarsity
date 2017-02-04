@@ -36,7 +36,7 @@ class FeaturedProjects extends Component {
 									{project.title}
 								</Link>
 								<br />
-								<span style={localStyle.subtext}>TEST</span>
+								<span style={localStyle.subtext}>{project.collaborators.length} Collaborators</span>
 							</div>
 						)
 					})
