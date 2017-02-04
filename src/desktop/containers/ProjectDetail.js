@@ -17,8 +17,8 @@ class ProjectDetail extends Component {
 			isEditing: false,
 			comments: null,
 			loading: false,
-			selected: 'Project',
-			menuItems: ['Project', 'Collaborators'],
+			selected: 'Overview',
+			menuItems: ['Overview', 'Collaborators'],
 			invitation: {
 				name: '',
 				email: ''
@@ -65,7 +65,7 @@ class ProjectDetail extends Component {
 
 		const selected = this.state.selected
 
-		if (selected == 'Project'){
+		if (selected == 'Overview'){
 			if (this.props.milestones[project.id] != null)
 				return
 
@@ -638,7 +638,7 @@ class ProjectDetail extends Component {
 
 					<section className="page-section" style={{background:'#fffff8', borderTop:'1px solid #ddd', paddingTop:48}}>
 						<div className="content-wrap container clearfix">
-							<a onClick={this.selectItem.bind(this, 'Project')} href="#"><span style={(selected=='Project') ? localStyle.tabSelected : localStyle.tab}>Activity</span></a>
+							<a onClick={this.selectItem.bind(this, 'Overview')} href="#"><span style={(selected=='Overview') ? localStyle.tabSelected : localStyle.tab}>Activity</span></a>
 							<a onClick={this.selectItem.bind(this, 'Notes')} href="#"><span style={(selected=='Notes') ? localStyle.tabSelected : localStyle.tab}>Notes</span></a>
 							<hr style={{marginBottom: 48}} />
 							{ content }
