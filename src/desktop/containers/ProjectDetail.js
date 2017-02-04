@@ -496,68 +496,63 @@ class ProjectDetail extends Component {
 					btnEdit = <button onClick={this.toggleEditing.bind(this)} className={localStyle.btnSmall.className} style={{float:'right'}}>Edit</button>
 			}
 
+			let images = Object.assign([], project.images)
+			if (project.image.length > 0)
+				images.unshift(project.image)
+
 			content = (
-				<div className="postcontent nobottommargin col_last clearfix">
-					<div id="posts" className="post-timeline clearfix">
-						<div className="timeline-border"></div>
+				<div>
+					<div className="col_two_third">
+						<div className="feature-box center media-box fbox-bg">
+							<div style={styles.main}>
+								<h2 style={styles.team.title}>
+									{ btnEdit }
+									<h2 style={styles.team.title}>{project.title}</h2>
+								</h2>
+								<hr />
+											
+								<div className="hidden-xs" style={{lineHeight:18+'px', marginBottom:24}}>
+									<img style={{marginRight:10, borderRadius:22, float:'left'}} src={projectAuthor.image+'=s44-c'} />
+									<span><Link to={'/'+projectAuthor.type+'/'+projectAuthor.slug}>{ projectAuthor.name }</Link></span><br />
+									<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
+								</div>
 
-						<div className="entry clearfix" style={{border:'none', paddingBottom:0}}>
-							<div className="entry-timeline">
-								1<span>Intro</span>
-								<div className="timeline-divider"></div>
-							</div>
-							<div className="entry-image">
-								<a href={project.image+'=s1024'} data-lightbox="image">
-									<img style={{maxWidth:320, border:'1px solid #ddd', background:'#fff', padding:6}} className="image_fade" src={project.image} alt="The Varsity" />
-								</a>
-							</div>
-
-							<ul className="entry-meta clearfix">
-								{ project.images.map((image, i) => {
-										return (
-											<li key={image} style={{color:'#fff'}}>
-												<a href={image+'=s1024'} data-lightbox="image">
-													<img src={image+'=s72-c'} />
-												</a>
-											</li>
-										)
-									})
-								}
-							</ul>
-
-							<div className="clearfix"></div>
-							<div className="entry-title clearfix">
-								{ btnEdit }
-								<h2 style={styles.team.title}>{project.title}</h2>
-							</div>
-
-							<hr />
-							<div className="hidden-xs" style={{lineHeight:18+'px'}}>
-								<img style={{marginRight:10, borderRadius:22, float:'left'}} src={projectAuthor.image+'=s44-c'} />
-								<span><Link to={'/'+projectAuthor.type+'/'+projectAuthor.slug}>{ projectAuthor.name }</Link></span><br />
-								<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
-							</div>
-
-							<div className="entry-content" style={{marginTop:24}}>
-								<p className="lead" style={{fontSize:16, color:'#555'}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(project.text)}}></p>
+								<p className="lead" style={{fontSize:16, color:'#555', marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(project.text)}}></p>
+								<ul className="entry-meta clearfix">
+									{ images.map((image, i) => {
+											return (
+												<li key={image} style={{color:'#fff'}}>
+													<a href={image+'=s1024'} data-lightbox="image">
+														<img src={image+'=s72-c'} />
+													</a>
+												</li>
+											)
+										})
+									}
+								</ul>
 							</div>
 						</div>
+					</div>
 
-						{ (isCollaborator==false) ? null : 
-							<CreateMilestone 
-								loading={this.state.loading} 
-								milestone={this.state.milestone}
-								update={this.updateMilestone.bind(this)}
-								uploadFile={this.uploadFile.bind(this)}
-								submitMilestone={this.createMilestone.bind(this)} />
-						}
+					<div className="postcontent nobottommargin col_last clearfix">
+						<div id="posts" className="post-timeline clearfix">
+							<div className="timeline-border"></div>
+							{ (isCollaborator==false) ? null : 
+								<CreateMilestone 
+									loading={this.state.loading} 
+									milestone={this.state.milestone}
+									update={this.updateMilestone.bind(this)}
+									uploadFile={this.uploadFile.bind(this)}
+									submitMilestone={this.createMilestone.bind(this)} />
+							}
 
-						{ (this.props.milestones[project.id] == null) ? null : 
-							this.props.milestones[project.id].map((milestone, i) => {
-								return <Milestone key={milestone.id} {...milestone} />
-							})
-						}
-						
+							{ (this.props.milestones[project.id] == null) ? null : 
+								this.props.milestones[project.id].map((milestone, i) => {
+									return <Milestone key={milestone.id} {...milestone} />
+								})
+							}
+							
+						</div>
 					</div>
 				</div>
 			)
@@ -739,8 +734,8 @@ const localStyle = {
 		fontWeight: 400
 	},
 	btnSmall: {
-		float:'right',
-		marginTop:0,
+		float: 'right',
+		marginTop: 0,
 		className: 'button button-small button-border button-border-thin button-blue'
 	}	
 }
