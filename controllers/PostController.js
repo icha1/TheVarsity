@@ -15,8 +15,8 @@ module.exports = {
 			
 			delete params['limit']
 
-				var array = []
 			if (params['teams']){
+				var array = []
 				var parts = params.teams.split(',') // array of team ids
 				parts.forEach(function(teamId, i){
 					array.push({
@@ -24,24 +24,9 @@ module.exports = {
 					})
 				})
 
+				params = {$or: array}
 				delete params['teams']
 			}
-
-			if (params['status']){
-				var parts = params.status.split(',') // array of team ids
-//				var array = []
-				parts.forEach(function(statusFilter, i){
-					array.push({
-						status: statusFilter
-					})
-				})
-
-//				params = {$or: array}
-				delete params['status']
-			}
-			
-			if (array.length > 0)
-				params = {$or: array}
 
 			Post.find(params, null, {limit:parseInt(limit), sort:{timestamp: sortOrder}}, function(err, posts){
 				if (err){
