@@ -22,8 +22,8 @@ class TeamDetail extends Component {
 			},
 			menuItems: [
 				'Projects',
-				'Hiring',
-				'Chat',
+				// 'Hiring',
+				// 'Chat',
 				'Members'
 			],
 			comments: [],
