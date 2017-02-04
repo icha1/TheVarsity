@@ -535,29 +535,29 @@ class ProjectDetail extends Component {
 			)
 		}
 		else if (selected == 'Collaborators'){
-			const members = (project) ? this.props.profiles[project.id] : []
-			content = (
-				<div>
-					<div className="col_two_third">
-						<div className="feature-box center media-box fbox-bg">
-							<div style={styles.main}>
-								{ (isCollaborator) ? <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Collaborator</a> : null }
-								<h2 style={styles.team.title}>Collaborators</h2>
-								<hr />
-								<Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} user={user} />
-							</div>
-						</div>
-					</div>
+			// const members = (project) ? this.props.profiles[project.id] : []
+			// content = (
+			// 	<div>
+			// 		<div className="col_two_third">
+			// 			<div className="feature-box center media-box fbox-bg">
+			// 				<div style={styles.main}>
+			// 					{ (isCollaborator) ? <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Collaborator</a> : null }
+			// 					<h2 style={styles.team.title}>Collaborators</h2>
+			// 					<hr />
+			// 					<Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} user={user} />
+			// 				</div>
+			// 			</div>
+			// 		</div>
 
-					{ (isCollaborator) ? null : 
-						<div className="col_one_third col_last">
-							<h2 style={style.title}>Join This Project</h2>
-							<hr />
-							<Redeem type="request" requestInvite={this.requestInvite.bind(this)} />
-						</div>
-					}
-				</div>
-			)
+			// 		{ (isCollaborator) ? null : 
+			// 			<div className="col_one_third col_last">
+			// 				<h2 style={style.title}>Join This Project</h2>
+			// 				<hr />
+			// 				<Redeem type="request" requestInvite={this.requestInvite.bind(this)} />
+			// 			</div>
+			// 		}
+			// 	</div>
+			// )
 		}
 
 		return (
