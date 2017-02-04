@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import { Redeem } from '../view'
 import { APIManager, TextUtils, Alert } from '../../utils'
-import { browserHistory } from 'react-router'
+import { browserHistory, Link } from 'react-router'
 
 class Section extends Component {
 
@@ -150,12 +150,13 @@ class Section extends Component {
 					<div className="content-wrap container clearfix">
 		                <h2 style={localStyle.title}>What Is The Varsity</h2>
 						<div className="col_two_third" style={localStyle.paragraph}>
-							The Varsity is a collection of online communities organized into groups by skill: designers, 
-							photographers, software engineers, real estate etc. Groups are curated by members 
-							and maintained through an invite-only system.
+							The Varsity is a collection of online groups focused on building projects. Software engineers, 
+							graphic designers, photographers, copywriters, web developers and more come together to 
+							work on projects and find like-minded people.
 							<br /><br />
-							Users can tap into these groups when seeking collaborators for their next project, referrals, or 
-							employees.
+							The Varsity is not a spectator sport - it is a platforms for helping fellow creators push 
+							their ideas forward. If you have a project or are looking for interesting concepts to work 
+							on, The Varsity is for you.
 						</div>
 
 						<div className="col_one_third col_last" style={{textAlign:'right'}}>
@@ -177,14 +178,13 @@ class Section extends Component {
 		                	<h2 style={localStyle.title}>Grow Your Project</h2>
 		                	Every project requires a wide variety of skills and talents. On The Varsity, there is a team 
 		                	for that. Need a new logo for your business? Check with the Graphic Design Team. Looking 
-		                	for help setting up website with mobile responsiveness? Try the Hack Exchange technical team.
+		                	for help setting up website with mobile responsiveness? Try the <Link style={{color:'red'}} to="/team/hack-exchange-iar038vl">Hack Exchange</Link> software team.
 
 		                	<br /><br />
 
-		                	<h2 style={localStyle.title}>The Perfect Team</h2>
-		                	Every project requires a wide variety of skills and talents. On The Varsity, there is a team 
-		                	for that. Need a new logo for your business? Check with the Graphic Design Team. Looking 
-		                	for help setting up website with mobile responsiveness? Try the Hack Exchange technical team.
+		                	<h2 style={localStyle.title}>Better Collaboration</h2>
+		                	Find the perfect collaborators for your project or join a project that could benefit from 
+		                	your expertise. The Varsity matches people with different skills to create the right fit.
 						</div>
 					</div>
 				</section>
