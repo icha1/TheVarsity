@@ -505,9 +505,9 @@ class ProjectDetail extends Component {
 					<div className="col_two_third">
 						<div className="feature-box center media-box fbox-bg">
 							<div style={styles.main}>
+								{ btnEdit }
 								<h2 style={styles.team.title}>
-									{ btnEdit }
-									<h2 style={styles.team.title}>{project.title}</h2>
+									{project.title}
 								</h2>
 								<hr />
 											
@@ -551,7 +551,6 @@ class ProjectDetail extends Component {
 									return <Milestone key={milestone.id} {...milestone} />
 								})
 							}
-							
 						</div>
 					</div>
 				</div>
