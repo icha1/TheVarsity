@@ -120,7 +120,7 @@ class Section extends Component {
 
 		if (this.props.content == 'header'){
 			content = (
-			    <section className="page-section section parallax dark" style={{background: 'url("/images/office-3.jpg") center', overflow:'visible', margin:0, paddingTop:0}} data-height-lg="425" data-height-md="425" data-height-sm="450" data-height-xs="450" data-height-xxs="450">
+			    <section className="page-section section parallax dark" style={{background: 'url("/images/office-3.jpg") center', overflow:'visible', margin:0, paddingTop:0, minHeight:425}} data-height-lg="425" data-height-md="425" data-height-sm="450" data-height-xs="450" data-height-xxs="450">
 			        <div className="vertical-middle">
 			            <div className="heading-block center nobottomborder" style={{paddingTop:48}}>
 			                <h1 style={localStyle.titleWhite} data-animate="fadeInUp">The Varsity</h1>
