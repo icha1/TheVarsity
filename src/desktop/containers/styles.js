@@ -28,6 +28,11 @@ export default {
 		fontFamily:'Pathway Gothic One',
 		fontWeight: 100
 	},
+	titleWhite: {
+		color:'#fff',
+		fontFamily:'Pathway Gothic One',
+		fontWeight: 100
+	},
 	postImage: {
 		marginTop: 12
 	},
