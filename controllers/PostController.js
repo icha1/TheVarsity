@@ -40,6 +40,7 @@ module.exports = {
 				delete params['status']
 			}
 			
+			if (array.length > 0)
 				params = {$or: array}
 
 			Post.find(params, null, {limit:parseInt(limit), sort:{timestamp: sortOrder}}, function(err, posts){
