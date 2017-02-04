@@ -23,7 +23,7 @@ class TeamDetail extends Component {
 			menuItems: [
 				'Projects',
 				// 'Hiring',
-				// 'Chat',
+				'Chat',
 				'Members'
 			],
 			comments: [],
