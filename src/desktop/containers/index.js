@@ -3,6 +3,7 @@ import Nav from './Nav'
 import Feed from './Feed'
 import MapNavigation from './MapNavigation'
 import FeaturedTeams from './FeaturedTeams'
+import FeaturedProjects from './FeaturedProjects'
 import ApplicationDetail from './ApplicationDetail'
 import TeamDetail from './TeamDetail'
 import PostDetail from './PostDetail'
@@ -19,6 +20,7 @@ export {
 	Feed,
 	MapNavigation,
 	FeaturedTeams,
+	FeaturedProjects,
 	ApplicationDetail,
 	TeamDetail,
 	ProfileList,

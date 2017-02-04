@@ -5,7 +5,8 @@ var initialState = Object.assign({}, project.initialState)
 
 export default (state = initialState, action) => {
 	let newState = Object.assign({}, state)
-	const ignore = ['limit', 'slug', 'status']
+//	const ignore = ['limit', 'slug', 'status']
+	const ignore = ['limit', 'slug']
 
 	switch (action.type) {
 		case constants.PROJECTS_RECEIVED:
