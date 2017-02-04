@@ -13,7 +13,9 @@ export default (props) => {
 		    <div className="col-sm-6 col-md-6 hidden-xs">
 				<div className="thumbnail">
 				    <div className="caption">
-						<img style={localStyle.icon} src={image} />
+						<Link to={'/profile/'+profile.slug}>
+							<img style={localStyle.icon} src={image} />
+						</Link>
 		                <div className="heading-block fancy-title nobottomborder" style={localStyle.paragraph}>
 		                    <h4 style={styles.title}>
 								<Link style={{color:'#333'}} to={'/profile/'+profile.slug}>{ TextUtils.truncateText(profile.username, 13) }</Link>
