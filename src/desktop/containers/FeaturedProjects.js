@@ -29,12 +29,12 @@ class FeaturedProjects extends Component {
 				{ (projects == null) ? null : projects.map((project, i) => {
 						return (
 							<div key={project.id} style={localStyle.container}>
-								<Link to={'/project/'+project.slug}>
+								<a href={'/project/'+project.slug}>
 									<img style={localStyle.image} src={project.image+'=s44-c'} />
-								</Link>
-								<Link style={localStyle.detailHeader} to={'/project/'+project.slug}>
+								</a>
+								<a style={localStyle.detailHeader} href={'/project/'+project.slug}>
 									{project.title}
-								</Link>
+								</a>
 								<br />
 								<span style={localStyle.subtext}>{project.collaborators.length} Collaborators</span>
 							</div>
