@@ -85,6 +85,8 @@ export default {
 		params['type'] = 'project'
 		if (params['status'] == null)
 			params['status'] = 'live' // only fetch live projects
+		else
+			params['status'] = 'live,'+params.status
 
 		return dispatch => {
 			return dispatch(getData('/api/project', params, constants.PROJECTS_RECEIVED, 'projects'))

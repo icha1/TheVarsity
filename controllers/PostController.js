@@ -27,6 +27,19 @@ module.exports = {
 				params = {$or: array}
 				delete params['teams']
 			}
+
+			if (params['status']){
+				var parts = params.status.split(',') // array of team ids
+				var array = []
+				parts.forEach(function(statusFilter, i){
+					array.push({
+						status: statusFilter
+					})
+				})
+
+				params = {$or: array}
+				delete params['status']
+			}
 			
 			Post.find(params, null, {limit:parseInt(limit), sort:{timestamp: sortOrder}}, function(err, posts){
 				if (err){
