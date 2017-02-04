@@ -499,7 +499,7 @@ class ProjectDetail extends Component {
 				</div>
 			)
 		}
-		else if (selected == 'Project'){
+		else if (selected == 'Overview'){
 			content = (
 				<div className="postcontent nobottommargin col_last clearfix">
 					<div id="posts" className="post-timeline clearfix" style={{paddingLeft:40}}>
