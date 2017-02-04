@@ -73,14 +73,19 @@ export default {
 	},
 
 	fetchPosts: (params) => {
-		params['status'] = 'live' // only fetch live posts
+		if (params['status'] == null)
+			params['status'] = 'live' // only fetch live projects
+
 		return dispatch => {
 			return dispatch(getData('/api/post', params, constants.POSTS_RECEIVED, 'posts'))
 		}
 	},
 
 	fetchProjects: (params) => {
-		params['status'] = 'live' // only fetch live projects
+		params['type'] = 'project'
+		if (params['status'] == null)
+			params['status'] = 'live' // only fetch live projects
+
 		return dispatch => {
 			return dispatch(getData('/api/project', params, constants.PROJECTS_RECEIVED, 'projects'))
 		}
