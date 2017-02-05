@@ -60,16 +60,14 @@ class ProjectDetail extends Component {
 	}
 
 	componentDidUpdate(){
+		console.log('componentDidUpdate: '+this.state.subSelected)
 		const project = this.props.projects[this.props.slug]
 		if (project == null)
 			return
 
 		const selected = this.state.selected
 
-		if (selected == 'Overview'){
-			if (this.props.milestones[project.id] != null)
-				return
-
+		if (selected == 'Overview' && this.props.milestones[project.id] == null){
 			// fetch milestones
 			this.props.fetchMilestones({'project.id': project.id})
 			.then(results => {
@@ -80,10 +78,7 @@ class ProjectDetail extends Component {
 			})
 		}
 
-		if (selected == 'Collaborators'){
-			if (this.props.profiles[project.id] != null)
-				return
-
+		if (selected == 'Collaborators' && this.props.profiles[project.id] == null){
 			this.props.fetchProfiles({projects: project.id})
 			.then(response => {})
 			.catch(err => {
@@ -91,10 +86,7 @@ class ProjectDetail extends Component {
 			})
 		}
 
-		if (selected == 'Notes'){
-			if (this.state.comments != null)
-				return
-
+		if (this.state.subSelected == 'Notes' && this.state.comments == null){
 			this.props.fetchComments({'thread.id':project.id})
 			.then(results => {
 				this.setState({
@@ -551,12 +543,11 @@ class ProjectDetail extends Component {
 		}
 
 		if (this.state.subSelected == 'Notes'){
-			const list = this.state.comments || []
 			content = (
 				<div className="col_two_third">
 					<Comments 
 						user={user}
-						comments={list}
+						comments={this.state.comments}
 						submitComment={this.submitComment.bind(this)} />
 				</div>
 			)

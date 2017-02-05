@@ -6,14 +6,17 @@ import Comment from './Comment'
 
 export default (props) => {
 
+	const list = props.comments || []
 	return (
 		<div style={{border:'1px solid #ddd'}}>
-			{ (props.comments == null) ? null : props.comments.map((comment, i) => {
+			{ list.map((comment, i) => {
 					return <Comment key={comment.id} comment={comment} user={props.user} />
 				})
 			}
 
-			<div style={(props.comments.length==0) ? {borderTop:'1px solid #ddd'} : null}>
+			{ (list.length > 0) ? null : <div style={{height:300, background:'#f9f9f9'}}></div>}
+
+			<div style={(list.length==0) ? {borderTop:'1px solid #ddd'} : null}>
 				<input type="text" id="text" style={localStyle.input} onKeyPress={props.submitComment.bind(this)} placeholder="Enter Comment" />
 			</div>
 		</div>
