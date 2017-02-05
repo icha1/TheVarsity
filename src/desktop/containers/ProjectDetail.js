@@ -494,14 +494,11 @@ class ProjectDetail extends Component {
 		if (this.state.isEditing == true){
 			mainContent = (
 				<div>
-					<div className="col_two_third col_last">
-						<button onClick={this.toggleEditing.bind(this)} className={localStyle.btnSmall.className} style={{float:'right'}}>Cancel</button>
-						<div style={{marginBottom:24}} className="clearfix"></div>
-						<CreateProject project={project} onCreate={this.updateProject.bind(this)} />
-					</div>
+					<button onClick={this.toggleEditing.bind(this)} className={localStyle.btnSmall.className} style={{float:'right'}}>Cancel</button>
+					<div style={{marginBottom:24}} className="clearfix"></div>
+					<CreateProject project={project} onCreate={this.updateProject.bind(this)} />
 				</div>
 			)
-			
 		}
 		else if (selected == 'Overview'){
 			mainContent = (
