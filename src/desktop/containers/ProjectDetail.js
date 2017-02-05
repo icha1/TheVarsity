@@ -568,7 +568,7 @@ class ProjectDetail extends Component {
 
 						{ (this.props.milestones[project.id] == null) ? null : 
 							this.props.milestones[project.id].map((milestone, i) => {
-								return <Milestone key={milestone.id} {...milestone} />
+								return <Milestone renderHtml={true} key={milestone.id} {...milestone} />
 							})
 						}
 					</div>

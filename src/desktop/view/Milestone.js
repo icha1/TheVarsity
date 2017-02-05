@@ -16,6 +16,8 @@ export default (props) => {
 	const withIcon = props.withIcon || false
 	const mode = props.mode || 'standard'
 
+	const renderHtml = props.renderHtml || false
+
 	let content = null
 	if (mode == 'standard'){
 		content = (
@@ -33,8 +35,10 @@ export default (props) => {
 						<div className="panel-body">
 							<Link to={'/project/'+milestone.project.slug}>
 								<h3 style={localStyle.title}>{milestone.title}</h3>
-								<p style={{marginTop:0, marginBottom:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(milestone.description)}}></p>
+								{ (renderHtml) ? null : <p style={{marginTop:0, marginBottom:0}}>{milestone.description}</p> }
 							</Link>
+							{ (renderHtml) ? <p style={{marginTop:0, marginBottom:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(milestone.description)}}></p> : null }
+
 							{ milestone.attachments.map((file, i) => {
 									if (file.mime == 'video'){
 										return (
