@@ -115,7 +115,9 @@ class ProjectDetail extends Component {
 
 	selectItem(item, event){
 		event.preventDefault()
-//		window.scrollTo(0, 0)
+		if (item == 'Overview' || item == 'CreateMilestone')
+			window.scrollTo(0, 0)
+
 		this.setState({
 			selected: (item.length == 0) ? event.target.value : item
 		})
@@ -475,6 +477,7 @@ class ProjectDetail extends Component {
 		const isCollaborator = (project) ? this.memberFound(user, project.collaborators) : false
 
 		let content = null
+		let mainContent = null
 		const selected = this.state.selected
 
 		let btnEdit = null
@@ -489,7 +492,7 @@ class ProjectDetail extends Component {
 			images.unshift(project.image)
 
 		if (this.state.isEditing == true){
-			content = (
+			mainContent = (
 				<div>
 					<div className="col_two_third col_last">
 						<button onClick={this.toggleEditing.bind(this)} className={localStyle.btnSmall.className} style={{float:'right'}}>Cancel</button>
@@ -498,8 +501,39 @@ class ProjectDetail extends Component {
 					</div>
 				</div>
 			)
+			
 		}
 		else if (selected == 'Overview'){
+			mainContent = (
+				<div style={styles.main}>
+					{ btnEdit }
+					<h2 style={styles.team.title}>
+						{project.title}
+					</h2>
+					<hr />
+								
+					<div className="hidden-xs" style={{lineHeight:18+'px', marginBottom:24}}>
+						<img style={{marginRight:10, borderRadius:22, float:'left'}} src={projectAuthor.image+'=s44-c'} />
+						<span><Link to={'/'+projectAuthor.type+'/'+projectAuthor.slug}>{ projectAuthor.name }</Link></span><br />
+						<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
+					</div>
+
+					<p className="lead" style={{fontSize:16, color:'#555', marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(project.text)}}></p>
+					<ul className="entry-meta clearfix">
+						{ images.map((image, i) => {
+								return (
+									<li key={image} style={{color:'#fff'}}>
+										<a href={image+'=s1024'} data-lightbox="image">
+											<img src={image+'=s72-c'} />
+										</a>
+									</li>
+								)
+							})
+						}
+					</ul>
+				</div>
+			)
+
 			content = (
 				<div className="postcontent nobottommargin col_last clearfix">
 					<div id="posts" className="post-timeline clearfix" style={{paddingLeft:40}}>
@@ -535,29 +569,15 @@ class ProjectDetail extends Component {
 			)
 		}
 		else if (selected == 'Collaborators'){
-			// const members = (project) ? this.props.profiles[project.id] : []
-			// content = (
-			// 	<div>
-			// 		<div className="col_two_third">
-			// 			<div className="feature-box center media-box fbox-bg">
-			// 				<div style={styles.main}>
-			// 					{ (isCollaborator) ? <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Collaborator</a> : null }
-			// 					<h2 style={styles.team.title}>Collaborators</h2>
-			// 					<hr />
-			// 					<Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} user={user} />
-			// 				</div>
-			// 			</div>
-			// 		</div>
-
-			// 		{ (isCollaborator) ? null : 
-			// 			<div className="col_one_third col_last">
-			// 				<h2 style={style.title}>Join This Project</h2>
-			// 				<hr />
-			// 				<Redeem type="request" requestInvite={this.requestInvite.bind(this)} />
-			// 			</div>
-			// 		}
-			// 	</div>
-			// )
+			const members = (project) ? this.props.profiles[project.id] : []
+			mainContent = (
+				<div style={styles.main}>
+					{ (isCollaborator) ? <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Collaborator</a> : null }
+					<h2 style={styles.team.title}>Collaborators</h2>
+					<hr />
+					<Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} user={user} />
+				</div>
+			)
 		}
 
 		return (
@@ -600,37 +620,14 @@ class ProjectDetail extends Component {
 						<div className="content-wrap container clearfix">
 							<div className="col_two_third">
 								<div className="feature-box center media-box fbox-bg">
-									<div style={styles.main}>
-										{ btnEdit }
-										<h2 style={styles.team.title}>
-											{project.title}
-										</h2>
-										<hr />
-													
-										<div className="hidden-xs" style={{lineHeight:18+'px', marginBottom:24}}>
-											<img style={{marginRight:10, borderRadius:22, float:'left'}} src={projectAuthor.image+'=s44-c'} />
-											<span><Link to={'/'+projectAuthor.type+'/'+projectAuthor.slug}>{ projectAuthor.name }</Link></span><br />
-											<span style={{fontWeight:100, fontSize:11}}>{ this.state.timestamp }</span><br />
-										</div>
-
-										<p className="lead" style={{fontSize:16, color:'#555', marginBottom:24}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(project.text)}}></p>
-										<ul className="entry-meta clearfix">
-											{ images.map((image, i) => {
-													return (
-														<li key={image} style={{color:'#fff'}}>
-															<a href={image+'=s1024'} data-lightbox="image">
-																<img src={image+'=s72-c'} />
-															</a>
-														</li>
-													)
-												})
-											}
-										</ul>
-									</div>
+									{ mainContent }
 								</div>
 							</div>
 
 							<div className="col_one_third col_last">
+								<h2 style={style.title}>Join This Project</h2>
+								<hr />
+								<Redeem type="request" requestInvite={this.requestInvite.bind(this)} />
 							</div>
 
 						</div>
@@ -685,7 +682,6 @@ class ProjectDetail extends Component {
 					toggle={this.toggleInvite.bind(this)}
 					update={this.updateInvitation.bind(this)}
 					submit={this.inviteCollaborator.bind(this)} />
-
 			</div>
 		)
 	}
