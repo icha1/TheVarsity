@@ -15,13 +15,14 @@ export default (props) => {
 	const maxWidth = props.maxWidth || 560
 	const withIcon = props.withIcon || false
 	const mode = props.mode || 'standard'
-
+	
+	const path = '/project/'+milestone.project.slug
 	const renderHtml = props.renderHtml || false
 
 	let content = null
 	if (mode == 'standard'){
 		content = (
-			<div className="entry clearfix" style={{border:'none', marginBottom:12, paddingBottom:12, maxWidth:maxWidth}}>
+			<div id={milestone.id} className="entry clearfix" style={{border:'none', marginBottom:12, paddingBottom:12, maxWidth:maxWidth}}>
 				<div className="entry-timeline" style={ (withIcon) ? {backgroundSize:'cover', background:'url("'+milestone.project.image+'=s72-c") no-repeat center'} : null}>
 					{ (withIcon) ? <div className="timeline-divider"></div> : 
 						<div>
@@ -33,7 +34,7 @@ export default (props) => {
 				<div className="entry-image">
 					<div className="panel panel-default">
 						<div className="panel-body">
-							<Link to={'/project/'+milestone.project.slug}>
+							<Link to={path}>
 								<h3 style={localStyle.title}>{milestone.title}</h3>
 								{ (renderHtml) ? null : <p style={{marginTop:0, marginBottom:0}}>{milestone.description}</p> }
 							</Link>
@@ -65,7 +66,7 @@ export default (props) => {
 								}
 							</ol>
 
-							<Link to={'/profile/'+milestone.profile.slug}>
+							<Link to={path}>
 								<img style={localStyle.icon} src={milestone.profile.image+'=s72-c'} />
 								<div style={{lineHeight:14+'px', paddingTop:3}}>
 									<span style={{float:'right'}}>{ milestone.profile.username }</span><br />
@@ -81,7 +82,7 @@ export default (props) => {
 	else if (mode == 'feed') {
 		content = (
 			<div style={{borderBottom:'1px dotted #ddd', marginBottom:16}}>
-				<Link to={'/project/'+milestone.project.slug}>
+				<Link to={path}>
 					<h4 style={localStyle.title}>{milestone.title}</h4>
 					<div className="col_three_fourth" style={{paddingBottom:0, marginBottom:12}}>
 						<p style={localStyle.paragraph}>
