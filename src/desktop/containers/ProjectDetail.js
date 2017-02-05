@@ -19,6 +19,7 @@ class ProjectDetail extends Component {
 			loading: false,
 			selected: 'Overview',
 			menuItems: ['Overview', 'Collaborators'],
+			subSelected: 'Activity',
 			invitation: {
 				name: '',
 				email: ''
@@ -115,11 +116,17 @@ class ProjectDetail extends Component {
 
 	selectItem(item, event){
 		event.preventDefault()
-		if (item == 'Overview' || item == 'CreateMilestone')
-			window.scrollTo(0, 0)
+		window.scrollTo(0, 0)
 
 		this.setState({
 			selected: (item.length == 0) ? event.target.value : item
+		})
+	}
+
+	selectSubitem(item, event){
+		event.preventDefault()
+		this.setState({
+			subSelected: (item.length == 0) ? event.target.value : item
 		})
 	}
 
@@ -530,7 +537,31 @@ class ProjectDetail extends Component {
 					</ul>
 				</div>
 			)
+		}
+		else if (selected == 'Collaborators'){
+			const members = (project) ? this.props.profiles[project.id] : []
+			mainContent = (
+				<div style={styles.main}>
+					{ (isCollaborator) ? <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Collaborator</a> : null }
+					<h2 style={styles.team.title}>Collaborators</h2>
+					<hr />
+					<Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} user={user} />
+				</div>
+			)
+		}
 
+		if (this.state.subSelected == 'Notes'){
+			const list = this.state.comments || []
+			content = (
+				<div className="col_two_third">
+					<Comments 
+						user={user}
+						comments={list}
+						submitComment={this.submitComment.bind(this)} />
+				</div>
+			)
+		}
+		else if (this.state.subSelected == 'Activity'){
 			content = (
 				<div className="postcontent nobottommargin col_last clearfix">
 					<div id="posts" className="post-timeline clearfix" style={{paddingLeft:40}}>
@@ -551,28 +582,6 @@ class ProjectDetail extends Component {
 						}
 					</div>
 
-				</div>
-			)
-		}
-		else if (selected == 'Notes'){
-			const list = this.state.comments || []
-			content = (
-				<div className="col_two_third">
-					<Comments 
-						user={user}
-						comments={list}
-						submitComment={this.submitComment.bind(this)} />
-				</div>
-			)
-		}
-		else if (selected == 'Collaborators'){
-			const members = (project) ? this.props.profiles[project.id] : []
-			mainContent = (
-				<div style={styles.main}>
-					{ (isCollaborator) ? <a href="#" onClick={this.toggleInvite.bind(this)} style={{float:'right', marginTop:0}} className={localStyle.btnSmall.className}>Invite Collaborator</a> : null }
-					<h2 style={styles.team.title}>Collaborators</h2>
-					<hr />
-					<Profiles memberFound={this.memberFound.bind(this)} toggleInvite={this.toggleInvite.bind(this)} members={members} user={user} />
 				</div>
 			)
 		}
@@ -632,8 +641,8 @@ class ProjectDetail extends Component {
 
 					<section className="page-section" style={{background:'#fffff8', borderTop:'1px solid #ddd', paddingTop:48}}>
 						<div className="content-wrap container clearfix">
-							<a onClick={this.selectItem.bind(this, 'Overview')} href="#"><span style={(selected=='Overview') ? localStyle.tabSelected : localStyle.tab}>Activity</span></a>
-							<a onClick={this.selectItem.bind(this, 'Notes')} href="#"><span style={(selected=='Notes') ? localStyle.tabSelected : localStyle.tab}>Notes</span></a>
+							<a onClick={this.selectSubitem.bind(this, 'Activity')} href="#"><span style={(this.state.subSelected=='Activity') ? localStyle.tabSelected : localStyle.tab}>Activity</span></a>
+							<a onClick={this.selectSubitem.bind(this, 'Notes')} href="#"><span style={(this.state.subSelected=='Notes') ? localStyle.tabSelected : localStyle.tab}>Notes</span></a>
 							<hr style={{marginBottom: 48}} />
 							{ content }
 						</div>
