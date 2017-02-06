@@ -15,7 +15,7 @@ export default (props) => {
 	const maxWidth = props.maxWidth || 560
 	const withIcon = props.withIcon || false
 	const mode = props.mode || 'standard'
-	
+
 	const path = '/project/'+milestone.project.slug
 	const renderHtml = props.renderHtml || false
 
@@ -36,9 +36,15 @@ export default (props) => {
 						<div className="panel-body">
 							<Link to={path}>
 								<h3 style={localStyle.title}>{milestone.title}</h3>
-								{ (renderHtml) ? null : <p style={{marginTop:0, marginBottom:0}}>{milestone.description}</p> }
+								{ (renderHtml) ? null : <p style={{marginTop:0, marginBottom:6}}>{milestone.description}</p> }
 							</Link>
-							{ (renderHtml) ? <p style={{marginTop:0, marginBottom:0}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(milestone.description)}}></p> : null }
+							{ (renderHtml) ? <p style={{marginTop:0, marginBottom:6}} dangerouslySetInnerHTML={{__html:TextUtils.convertToHtml(milestone.description)}}></p> : null }
+
+							<div style={{textAlign:'right'}}>
+								<Link style={{fontWeight:100}} to={'/profile/'+milestone.profile.slug}>
+									{ milestone.profile.username }
+								</Link>
+							</div>
 
 							{ milestone.attachments.map((file, i) => {
 									if (file.mime == 'video'){
@@ -66,13 +72,20 @@ export default (props) => {
 								}
 							</ol>
 
-							<Link to={path}>
-								<img style={localStyle.icon} src={milestone.profile.image+'=s72-c'} />
-								<div style={{lineHeight:14+'px', paddingTop:3}}>
-									<span style={{float:'right'}}>{ milestone.profile.username }</span><br />
-									<span style={{float:'right'}}>{ TextUtils.capitalize(milestone.profile.title) }</span>
-								</div>
-							</Link>
+						</div>
+
+						<div style={{borderTop:'1px solid #ddd'}}>
+							{ milestone.comments.map((comment, i) => {
+									return (
+										<div key={i} style={localStyle.comment}>
+											{ comment.text }
+										</div>
+									)
+								})
+
+							}
+
+							<input onKeyPress={props.submitComment.bind(this, milestone)} style={localStyle.input} type="text" placeholder="Enter Comment" />
 						</div>
 					</div>
 				</div>
@@ -114,13 +127,22 @@ export default (props) => {
 
 const localStyle = {
 	icon: {
+		float: 'left',
 		width: 36,
 		borderRadius: 18,
-		marginLeft: 12,
-		float: 'right'
+		marginRight: 12
+	},
+	comment:{
+		background:'#f9f9f9', 
+		padding:12, 
+		fontWeight:100, 
+		borderBottom:'1px solid #ddd'
 	},
 	container: {
-		border:'none', marginBottom:12, paddingBottom:12, maxWidth:560
+		border:'none',
+		marginBottom:12,
+		paddingBottom:12,
+		maxWidth:560
 	},
 	title: {
 		color:'#333',
@@ -131,5 +153,17 @@ const localStyle = {
 	detail: {
 		marginLeft:12,
 		fontWeight:100
-	}
+	},
+	input: {
+		color:'#333',
+		background: '#fff',
+		marginBottom: 0,
+		padding: 12,
+		fontWeight: 100,
+	    lineHeight: 1.5,
+	    fontSize: 20,
+		fontFamily:'Pathway Gothic One',
+		border: 'none',
+		width: 100+'%'
+	}	
 }

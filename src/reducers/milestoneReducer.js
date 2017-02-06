@@ -37,6 +37,20 @@ export default (state = initialState, action) => {
 
 			return newState
 
+		case constants.MILESTONE_UPDATED:
+			newState[action.milestone.slug] = action.milestone
+			newState[action.milestone.id] = action.milestone
+
+			let a = (newState[action.milestone.project.id]) ? Object.assign([], newState[action.milestone.project.id]) : []
+			let updatedArray = []
+			a.forEach((milestone, i) => {
+				updatedArray.push((action.milestone.id == milestone.id) ? action.milestone : milestone)
+			})
+
+			newState[action.milestone.project.id] = updatedArray
+
+			return newState
+
 		default:
 			return state
 	}

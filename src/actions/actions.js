@@ -243,6 +243,12 @@ export default {
 		}
 	},
 
+	updateMilestone: (milestone, params) => {
+		return dispatch => {
+			return dispatch(putData('/api/milestone/'+milestone.id, params, constants.MILESTONE_UPDATED, 'milestone'))
+		}
+	},
+
 	fetchDistrict: (params) => {
 		return dispatch => {
 			return dispatch(getData('/api/district', params, constants.DISTRICT_CHANGED, 'districts'))

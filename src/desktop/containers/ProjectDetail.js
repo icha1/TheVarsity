@@ -465,6 +465,34 @@ class ProjectDetail extends Component {
 		})
 	}
 
+	submitMilestoneComment(milestone, event){
+		if (event.charCode != 13)
+			return
+
+		const user = this.props.user
+		if (user == null){
+			Alert.showAlert({
+				title: 'Oops',
+				text: 'Please log in or register to submit a comment.'
+			})			
+			return
+		}
+
+		let comments = Object.assign([], milestone.comments)
+		comments.push({
+			user: {
+				id: user.id,
+				username: user.username,
+				image: user.image
+			},
+			text: event.target.value,
+			timestamp: Math.floor(Date.now()/1000)
+		})
+
+		console.log('submitMilestoneComment: '+JSON.stringify(comments))
+		this.props.updateMilestone(milestone, {comments:comments})
+	}
+
 	render(){
 		const project = this.props.projects[this.props.slug]
 		if (project == null)
@@ -568,7 +596,7 @@ class ProjectDetail extends Component {
 
 						{ (this.props.milestones[project.id] == null) ? null : 
 							this.props.milestones[project.id].map((milestone, i) => {
-								return <Milestone renderHtml={true} key={milestone.id} {...milestone} />
+								return <Milestone submitComment={this.submitMilestoneComment.bind(this)} renderHtml={true} key={milestone.id} {...milestone} />
 							})
 						}
 					</div>
@@ -770,6 +798,7 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
 	return {
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
+		updateMilestone: (milestone, params) => dispatch(actions.updateMilestone(milestone, params)),
 		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
 		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
 		fetchProjects: (params) => dispatch(actions.fetchProjects(params)),
