@@ -501,6 +501,51 @@ class ProjectDetail extends Component {
 		})
 	}
 
+	joinProject(event){
+		const user = this.props.user // can be null
+		if (user == null)
+			return
+
+		const project = this.props.projects[this.props.slug]
+		if (project == null)
+			return
+
+		const collaborator = {
+			type: 'profile',
+			image: user.image,
+			slug: user.slug,
+			name: user.username,
+			id: user.id
+		}
+
+		let collaborators = Object.assign([], project.collaborators)
+		collaborators.push(collaborator)
+
+		this.props.updatePost(project, {collaborators: collaborators})
+		.then(response => {
+			let projects = Object.assign([], user.projects)
+			projects.push(project.id)
+			return this.props.updateProfile(user, {projects: projects})
+		})
+		.then(response => {
+			Alert.showConfirmation({
+				title: 'Success!',
+				text: 'You are now a collaborator on this project. Get started by adding your activity below.'
+			})
+
+			return this.props.fetchProfiles({projects: project.id}) // refetch collaborators
+		})
+		.then(response => {
+			return response
+		})
+		.catch(err => {
+			Alert.showAlert({
+				title: 'Oops!',
+				text: err
+			})
+		})
+	}
+
 	render(){
 		const project = this.props.projects[this.props.slug]
 		if (project == null)
@@ -613,6 +658,15 @@ class ProjectDetail extends Component {
 			)
 		}
 
+		// check to see if current user can join project:
+		const teamsArray = (user == null) ? [] : user.teams
+		let teamFound = false
+		teamsArray.forEach((team, i) => {
+			if (project.teams.indexOf(team) != -1){
+				teamFound = true
+			}
+		})
+
 		return (
 			<div>
 				<div className="clearfix hidden-xs">
@@ -660,7 +714,11 @@ class ProjectDetail extends Component {
 							<div className="col_one_third col_last">
 								<h2 style={style.title}>Join This Project</h2>
 								<hr />
-								<Redeem type="request" requestInvite={this.requestInvite.bind(this)} />
+								<p style={{marginBottom:12, fontWeight:100}}>
+									Want to help out on this project? Click below to join and begin contributing 
+									right away.
+								</p>
+								{ (teamFound) ? <button className={localStyle.btnSmall.className} onClick={this.joinProject.bind(this)}>Join</button> : <Redeem type="request" requestInvite={this.requestInvite.bind(this)} /> }
 							</div>
 
 						</div>
@@ -807,6 +865,7 @@ const dispatchToProps = (dispatch) => {
 	return {
 		updatePost: (post, params) => dispatch(actions.updatePost(post, params)),
 		updateMilestone: (milestone, params) => dispatch(actions.updateMilestone(milestone, params)),
+		updateProfile: (profile, params) => dispatch(actions.updateProfile(profile, params)),
 		fetchProfile: (id) => dispatch(actions.fetchProfile(id)),
 		fetchProfiles: (params) => dispatch(actions.fetchProfiles(params)),
 		fetchProjects: (params) => dispatch(actions.fetchProjects(params)),
