@@ -483,14 +483,22 @@ class ProjectDetail extends Component {
 			user: {
 				id: user.id,
 				username: user.username,
-				image: user.image
+				image: user.image,
+				slug: user.slug
 			},
 			text: event.target.value,
 			timestamp: Math.floor(Date.now()/1000)
 		})
 
 		console.log('submitMilestoneComment: '+JSON.stringify(comments))
+		event.persist()
 		this.props.updateMilestone(milestone, {comments:comments})
+		.then(response => {
+			event.target.value = ''
+		})
+		.catch(err => {
+
+		})
 	}
 
 	render(){

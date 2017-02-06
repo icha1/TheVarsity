@@ -62,9 +62,7 @@ export default (props) => {
 								})
 							}
 
-							<hr />
-
-							{ (milestone.attachments.length == 0) ? null : <h4 style={localStyle.title}>Attachments</h4>}
+							{ (milestone.attachments.length == 0) ? null : <div><hr /><h4 style={localStyle.title}>Attachments</h4></div>}
 							<ol style={{paddingLeft:16}}>
 								{ milestone.attachments.map((file, i) => {
 										return <li key={i}><a style={{color:'red', marginRight:6}} target="_blank" href={file.address}>{file.name}</a>({file.mime})</li>
@@ -79,6 +77,13 @@ export default (props) => {
 									return (
 										<div key={i} style={localStyle.comment}>
 											{ comment.text }
+
+											<div style={{textAlign:'right'}}>
+												<Link style={{fontWeight:100}} to={'/profile/'+comment.user.slug}>
+													{ comment.user.username }
+												</Link>
+											</div>
+
 										</div>
 									)
 								})
